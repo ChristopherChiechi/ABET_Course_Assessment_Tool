@@ -1,0 +1,229 @@
+{
+    "courses":[    
+        {
+            "code": "CSCE 1030", 
+            "section": ".001",
+            "name": "Computer Science I",
+            "department": ["Computer Science"],
+            "instructor": {
+                "name": "Thompson, Mark",
+                "id": "mmt1234"
+            },
+            "coordinator": {
+                "name": "Beep, Boop",
+                "id": "bbb4200"
+            },
+            "course-outcomes": [
+                "Course Outcome 1",
+                "I want to see how long this can go. So students are going to not be set up well in our CSCE courses. They will have to do everything on their own and fend for themselves." 
+            ],
+            "coordinator-comments" : "",
+            "formCompleted" : true,
+            "commentComplete" : false
+        },
+        {
+            "code": "CSCE 1040",
+            "section": ".007",
+            "name": "Computer Science II",
+            "department": ["Computer Science",
+            "Information Technology"],
+            "instructor": {
+                "name": "Beep, Boop",
+                "id": "bbb4200"
+            },
+            "coordinator": {
+                "name": "Beep, Boop",
+                "id": "bbb4200"
+            },
+            "course-outcomes": [
+                "Course Outcome 1",
+                "Course Outcome 2" 
+            ],
+            "coordinator-comments" : "",
+            "formCompleted" : true,
+            "commentComplete" : false
+        },
+        {
+            "code": "CSCE 2100",
+            "section": ".002",
+            "name": "Computing Foundations I",
+            "department": ["Computer Engineering"],
+            "instructor": {
+                "name": "Thompson, Mark",
+                "id": "test1234"
+            },
+            "coordinator": {
+                "name": "Beep, Boop",
+                "id": "bbb4200"
+            },
+            "course-outcomes": [
+            ],
+            "coordinator-comments" : "",
+            "formCompleted" : false,
+            "commentComplete" : false
+        },
+        {
+            "code": "CSCE 2110",
+            "section": ".002",
+            "name": "Computing Foundations II",
+            "department": ["Computer Science"],
+            "instructor": {
+                "name": "Ludi, Stephanie",
+                "id": "ssl1234"
+            },
+            "coordinator": {
+                "name": "Beep, Boop",
+                "id": "bbb4200"
+            },
+            "course-outcomes": [
+                "Gather and refine user functional requirements and other functional and non-functional requirements and constraints for a large-scale software system and create a software requirements specification document.",
+                "Perform software analysis and design tasks using recognized software methods to create a preliminary design specification for software based on a requirements specification.",
+                "Utilize project management principles, skills and tools in creating the requirements and preliminary design specifications.",
+                "Create a project managementplan, including a schedule and budget for a large-scale software project.",
+                "Utilize configuration management, project management and design tools in the course of the project."
+            ],
+            "coordinator-comments" : "",
+            "formCompleted" : true,
+            "commentComplete" : true
+        },
+        {
+            "code": "CSCE 2410",
+            "section": ".009",
+            "name": "Programming Laboratory",
+            "department": ["Computer Science"],
+            "instructor": {
+                "name": "Thompson, Mark",
+                "id": "test1234"
+            },
+            "coordinator": {
+                "name": "Beep, Boop",
+                "id": "bbb4200"
+            },
+            "course-outcomes": [
+                "Course outcome 1",
+                "Course outcome 2",
+                "Course outcome 3",
+                "Course outcome 4",
+                "Course outcome 5" 
+            ],
+            "coordinator-comments" : "",
+            "formCompleted" : false,
+            "commentComplete" : false
+        },
+        {
+            "code": "CSCE 2610",
+            "section": ".001",
+            "name": "Assembly Language and Computer Organization",
+            "department": ["Computer Science"],
+            "instructor": {
+                "name": "Garlic, Ryan",
+                "id": "rrg1234"
+            },
+            "coordinator": {
+                "name": "Beep, Boop",
+                "id": "bbb4200"
+            },
+            "course-outcomes": [
+                "Describe Internet structure and basic protocols, with an emphasis on the client-server paradigm.",
+                "Create a sample web page incorporating proper techniques for web-based design.",
+                "Incorporate client-side programming techniques for a web application."
+            ],
+            "coordinator-comments" : "",
+            "formCompleted" : false,
+            "commentComplete" : false
+        },
+        {
+            "code": "CSCE 2900",
+            "section": ".004",
+            "name": "Special Problems in Computer Science & Engineering",
+            "department": ["Computer Science",
+                            "Computer Engineering" ],
+            "instructor": {
+                "name": "Bhowmick, Sanjukta",
+                "id": "bbs1234"
+            },
+            "coordinator": {
+                "name": "Beep, Boop",
+                "id": "bbb4200"
+            },
+            "course-outcomes": [
+                "Be able to analyze the time and space complexity of a nontrivial algorithm, using mathematical, tools, and prove/justify the correctness.",
+                "Understand the Divide and Conquer, Greedy, and Dynamic Programming strategies for algorithmic design.",
+                "Be familiar with the algorithms for Matrix Multiplication (Strassen's), Activity Selection, Knapsack, Shortest Paths (single source, and all pairs), Minimum Spanning Tree , Matrix Chain, and Longest Common Subsequence problems.",
+                "Be exposed to approximation algorithms for solving NP-hard problems"
+            ],
+            "coordinator-comments" : "",
+            "formCompleted" : false,
+            "commentComplete" : true
+        },
+        {
+            "code": "CSCE 2996",
+            "section": ".005",
+            "name": "Honors College Mentored Research Experience",
+            "department": ["Computer Science",
+                            "Computer Engineering" ],
+            "instructor": "Beep, Boop",
+            "coordinator": {
+                "name": "Beep, Boop",
+                "id": "bbb4200"
+            },
+            "course-outcomes": [
+                "Course outcome 1",
+                "Course outcome 2",
+                "Course outcome 3",
+                "Course outcome 4"
+            ],
+            "coordinator-comments" : "",
+            "formCompleted" : false,
+            "commentComplete" : true
+        },
+        {
+            "code": "CSCE 3010",
+            "section": ".002",
+            "name": "Signals and Systems",
+            "department": ["Computer Science",
+                            "Computer Engineering",
+                        "Information Technology" ],
+            "instructor": {
+                "name": "Thompson, Mark",
+                "id": "test1234"
+            },
+            "coordinator": {
+                "name": "Beep, Boop",
+                "id": "bbb4200"
+            },
+            "course-outcomes": [
+                "Course outcome 1",
+                "Course outcome 2",
+                "Course outcome 3",
+                "Course outcome 4"
+            ],
+            "coordinator-comments" : "",
+            "formCompleted" : false,
+            "commentComplete" : false
+        },
+        {
+            "code": "CSCE 3020",
+            "section": ".006",
+            "name": "Communications Systems",
+            "department": ["Computer Science",
+                            "Computer Engineering",
+                        "Information Technology" ],
+            "instructor": {
+                "name": "Beep, Boop",
+                "id": "bbb4200"
+            },
+            "coordinator": {
+                "name": "Beep, Boop",
+                "id": "bbb4200"
+            },
+            "course-outcomes": [
+                "Course outcome 1"
+            ],
+            "coordinator-comments" : "",
+            "formCompleted" : false,
+            "commentComplete" : false
+        }
+    ]
+}
+

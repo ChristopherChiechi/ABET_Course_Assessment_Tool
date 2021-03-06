@@ -62,7 +62,7 @@ const instructorHome = () => {
             <VStack
                 mt="4em"                
             >
-                <TermSelect term={term} setTerm={setTerm}/>
+                <TermSelect parentTerm={term} setParentTerm={setTerm}/>
                 <FormsView instructorCourses={courses.instructorCourses} coordinatorCourses={courses.coordinatorCourses}/>
             </VStack>
         </div>

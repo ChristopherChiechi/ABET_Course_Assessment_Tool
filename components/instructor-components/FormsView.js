@@ -8,10 +8,11 @@ import {
     Td,
     TableCaption,
     VStack, 
-    Button
+    Button,
+    Box
   } from "@chakra-ui/react"
 
-const FormsView = ({term, instructorCourses, coordinatorCourses}) => {
+const FormsView = ({instructorCourses, coordinatorCourses}) => {
 
     instructorCourses.sort(
         (a, b) => (a.courseNumber + a.sectionNumber > b.courseNumber + b.sectionNumber)  ? 1 : -1
@@ -31,7 +32,7 @@ const FormsView = ({term, instructorCourses, coordinatorCourses}) => {
                 <Td>{course.displayName}</Td>
                 <Td>{course.courseNumber}.{course.sectionNumber}</Td>
                 <Td isNumeric>
-                    <Button  colorScheme="blue" mt="1em" size="sm" onClick={e => {
+                    <Button  colorScheme="blue" mt="1em" size="sm" variant="link" onClick={e => {
                         e.preventDefault();
                         handleClick(course.courseNumber, course.sectionNumber);
                         window.location.href = 'http://localhost:3000/formCompletion';
@@ -49,7 +50,7 @@ const FormsView = ({term, instructorCourses, coordinatorCourses}) => {
                 <Td>{course.displayName}</Td>
                 <Td>{course.courseNumber}.{course.sectionNumber}</Td>
                 <Td isNumeric>
-                    <Button  colorScheme="blue" mt="1em" size="sm" onClick={e => {
+                    <Button  colorScheme="blue" mt="1em" size="sm" variant="link" onClick={e => {
                         e.preventDefault();
                         handleClick(course.courseNumber, course.sectionNumber);
                         window.location.href = 'http://localhost:3000/coordinatorCommentInput';
@@ -61,47 +62,35 @@ const FormsView = ({term, instructorCourses, coordinatorCourses}) => {
         )
     })
     return(
-        <VStack w="95%">
-            <Table variant="striped" colorScheme="green" padding="1em">
-                <TableCaption placement="top">Instructor Forms</TableCaption>
-                <Thead>
-                    <Tr>
-                        <Th>Name</Th>
-                        <Th>Code</Th>
-                        <Th isNumeric>Form</Th>
-                    </Tr>
-                </Thead>
-                <Tbody>
-                    {renderInstructorCourses}
-                </Tbody>
-                <Tfoot>
-                    <Tr>
-                        <Th>Name</Th>
-                        <Th>Code</Th>
-                        <Th isNumeric>Form</Th>
-                    </Tr>
-                </Tfoot>
-            </Table>
-            <Table variant="striped" colorScheme="green" padding="1em">
-                <TableCaption placement="top">Coordinator Forms</TableCaption>
-                <Thead>
-                    <Tr>
-                        <Th>Name</Th>
-                        <Th>Code</Th>
-                        <Th isNumeric>Form</Th>
-                    </Tr>
-                </Thead>
-                <Tbody>
-                    {renderCoordinatorCourses}
-                </Tbody>
-                <Tfoot>
-                    <Tr>
-                        <Th>Name</Th>
-                        <Th>Code</Th>
-                        <Th isNumeric>Form</Th>
-                    </Tr>
-                </Tfoot>
-            </Table>
+        <VStack w="75%">
+            <Box bg="#edf2f7" w="100%" padding="1em">
+                <Table variant="striped" colorScheme="green" padding="1em">
+                    <TableCaption placement="top" fontWeight="bold" fontSize="xl">Instructor Forms</TableCaption>
+                    <Thead>
+                        <Tr>
+                            <Th>Name</Th>
+                            <Th>Code</Th>
+                        </Tr>
+                    </Thead>
+                    <Tbody>
+                        {renderInstructorCourses}
+                    </Tbody>
+                </Table>
+            </Box>
+            <Box bg="#edf2f7" w="100%" padding="1em">
+                <Table variant="striped" colorScheme="green" padding="1em">
+                    <TableCaption placement="top" fontWeight="bold" fontSize="xl">Coordinator Forms</TableCaption>
+                    <Thead>
+                        <Tr>
+                            <Th>Name</Th>
+                            <Th>Code</Th>
+                        </Tr>
+                    </Thead>
+                    <Tbody>
+                        {renderCoordinatorCourses}
+                    </Tbody>
+                </Table>
+            </Box>
         </VStack>
     )
 }
