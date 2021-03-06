@@ -11,7 +11,7 @@ import AdminMenu from '../components/admin-components/AdminMenu';
 // import EditCourseOutcomes from '../components/admin-components/EditCourseOutcomes/EditCourseOutcomes';
 import OutcomeMapping from "../components/admin-components/OutcomeMapping/OutcomeMapping";
 // import GenerateSimpleReport from '../components/admin-components/GenerateSimpleReport/GenerateSimpleReport';
-
+import GenerateStudentSurveys from "../components/admin-components/GenerateStudentSurveys";
 
 
 const adminHome = () => {
@@ -47,6 +47,8 @@ const adminHome = () => {
             //     return <EditCourseList/>;
             //   case "ECO":
             //     return <EditCourseOutcomes/>;
+            case "GSS":
+                return <GenerateStudentSurveys />;
             }
           })()}
         </div>
