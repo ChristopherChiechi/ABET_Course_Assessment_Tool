@@ -1,12 +1,5 @@
 import { useState, useEffect } from "react";
-import { VStack, Badge, Select } from '@chakra-ui/react';
-import {
-  RecoilRoot,
-  atom,
-  selector,
-  useRecoilState,
-  useRecoilValue,
-} from 'recoil';
+import { VStack, Text, Select } from '@chakra-ui/react';
 import StudentOutcomeList from "./StudentOutcomeList";
 import programData from "../../../fake-data/programs.json";
 import courseData from "../../../fake-data/course.json";
@@ -18,11 +11,6 @@ const OutcomeMapping = () => {
   const [option, setOption] = useState();
   const [studentOutcomes, setStudentOutcomes] = useState();
   const [outcomeMapping, setOutcomeMapping] = useState();
-
-  const test = atom({
-    key: 'test',
-    default: 'hello'
-  })
 
   useEffect(() => {
     document.getElementById("top").scrollIntoView();
@@ -62,11 +50,11 @@ const OutcomeMapping = () => {
   }) : <div></div>
 
   return (
-    <RecoilRoot>
+    <>
       <VStack id="top" w="80%" m="0 auto">
-          <Badge fontSize="2xl" mt="1em">
+          <Text fontSize="2xl" fontWeight="bold" mt="1em">
             Student Outcome Mapping
-          </Badge>
+          </Text>
           <Select
             mt="1em"
             w="80%"
@@ -91,7 +79,7 @@ const OutcomeMapping = () => {
           }
         </div>
       </VStack>
-    </RecoilRoot>
+    </>
   );
 };
 

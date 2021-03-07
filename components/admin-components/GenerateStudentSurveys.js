@@ -2,13 +2,10 @@ import React, { useState, useEffect } from "react";
 import {
   Box,
   Text,
-  Select,
   Button,
-  IconButton,
   List,
-  Input,
   ListItem,
-  Flex,
+  Link,
 } from "@chakra-ui/react";
 import { getCoursesByDepartment } from "../../api/APIHelper";
 import { listParser } from "@chakra-ui/styled-system";
@@ -41,7 +38,10 @@ const GenerateStudentSurveys = () => {
           {course.department} {course.courseNumber}.{course.sectionNumber}{" "}
           {course.displayName}{" "}
           <br></br>
-          <a href="https://www.unt.edu/">Student Survey Link</a>
+          <Text>
+            {course.coordinator.firstName} {course.coordinator.lastName}
+          </Text>
+          <Link color="teal" href="https://www.unt.edu/">Student Survey Link</Link>
         </ListItem>
         </>
       );
@@ -51,13 +51,18 @@ const GenerateStudentSurveys = () => {
     .concat(courseList.courses)
     .sort((a, b) => (a.lastName > b.lastName ? 1 : -1))
     .map((course, idx) => {
+      console.log(course)
       return (
         <>
         <ListItem key={idx}  bg={idx % 2 == 0 ? "gray.300" : "gray.100"}>
+          
           {course.department} {course.courseNumber}.{course.sectionNumber}{" "}
-          {course.displayName}{" "}
+          {course.displayName} {" "}
           <br></br>
-          <a href="https://www.unt.edu/">Student Survey Link</a>
+          <Text>
+            {course.coordinator.firstName} {course.coordinator.lastName}
+          </Text>
+          <Link color="teal" href="https://www.unt.edu/">Student Survey Link</Link>
         </ListItem>
         </>
       );
@@ -75,7 +80,7 @@ const GenerateStudentSurveys = () => {
             <Text fontWeight="bold" fontSize="lg" mb="1em">
               Generate Student Surveys
             </Text>
-            <Button onClick={toggleOn}>Sort by Course Number</Button>
+            <Button onClick={toggleOn} mb="1em">Sort by Course Number</Button>
             <List>{surveyCoursesByInstuctor}</List>
             
           </Box>
@@ -93,7 +98,7 @@ const GenerateStudentSurveys = () => {
             <Text fontWeight="bold" fontSize="lg" mb="1em">
               Generate Student Surveys
             </Text>
-            <Button onClick={toggleOn}>Sort by Instructors</Button>
+            <Button onClick={toggleOn} mb="1em">Sort by Instructors</Button>
             <List>{surveyCourses}</List>
           </Box>
         </div>
