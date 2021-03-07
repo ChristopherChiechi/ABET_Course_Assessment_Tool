@@ -1,37 +1,43 @@
-import React, { useState, useEffect, setState } from "react";
+import { useState } from "react";
 import {
   Box,
-  Select,
   Button,
   Text,
-  CheckboxGroup,
-  Checkbox,
-  SimpleGrid,
-  Divider,
   HStack,
   Table,
-  Thead,
   Tbody,
-  Tfoot,
   Tr,
-  Th,
   Td,
-  TableCaption
+  Center
 } from "@chakra-ui/react";
+import CheckBoxGroup from "./CheckboxGroup";
 
-const CourseOutcomeTable = ({ course, studentOutcomes }) => {
-  //console.log(useRecoilValue(test));
-  const numOfOutcomes = studentOutcomes.length;
-  var rows = [];
-  console.log(course.outcomes);
-  for (var i = 0; i <numOfOutcomes; i++) {
-    rows.push(
-      <Tr>
-        hi
-      </Tr>
-    );
+const CourseOutcomeTable = ({ course }) => {
+  const [outcomes, setOutcomes] = useState(course.outcomes);
+  console.log(outcomes);
+  
+  function handleCourseUpdate( courseIdx, studentIdx ){
+    var temp = outcomes;
+    const checkValue = temp[courseIdx].studentMap[studentIdx];
+    temp[courseIdx].studentMap[studentIdx] = (checkValue === 0) ? 1 : 0;
+    setOutcomes(temp);
+    console.log(outcomes);
   }
 
+  const rows = outcomes ? outcomes.map((outcome, courseIdx) => {
+    return (
+      <Tr>
+        <Td>
+          <Text>{courseIdx+1}. {outcome.outcome}</Text>
+          <br/>
+          <Center>
+            <Text mt="1em">Maps to: </Text>
+            <CheckBoxGroup studentMap={outcome.studentMap}/>
+          </Center>
+        </Td>
+      </Tr>
+    )
+  }) : <div></div>
 
   return( 
       <Box  m="0 auto" w="80rem" padding="2em" bg="#edf2f7" mt="2em">
@@ -40,12 +46,11 @@ const CourseOutcomeTable = ({ course, studentOutcomes }) => {
           <Text color="#38A169" fontWeight="bold">{course.code}</Text>
         </HStack>
         <Table  padding="1em" w="90%" bg="white" borderRadius="8px">
-                    <Thead textAlign="center">
-                      Student Oucomes
-                    </Thead>
-                    <Tbody>
-                    </Tbody>
-                </Table>
+          <Tbody>
+            {rows}
+          </Tbody>
+        </Table>
+        <Button size="sm" colorScheme="teal" mt="1em">Update Course Mapping</Button>
       </Box>
     );
 };

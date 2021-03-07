@@ -17,7 +17,6 @@ const OutcomeMapping = () => {
 
   const [option, setOption] = useState();
   const [studentOutcomes, setStudentOutcomes] = useState();
-  const [courses, setCourses] = useState();
   const [outcomeMapping, setOutcomeMapping] = useState();
 
   const test = atom({
@@ -27,14 +26,13 @@ const OutcomeMapping = () => {
 
   useEffect(() => {
     document.getElementById("top").scrollIntoView();
-    setCourses(courseData.courses)
     setStudentOutcomes(programs);
   },[]);
 
   useEffect(() => {
     if (option != null){
       const numOfStudentOutcomes = studentOutcomes.length;
-      const courseOutcomesArray = courses.map((course) => {
+      const courseOutcomesArray = courseData.courses.map((course) => {
         return {
           name :course.name, 
           code: course.code,
@@ -47,7 +45,7 @@ const OutcomeMapping = () => {
             })
         }
       });
-      setCourses(courseOutcomesArray);
+      setOutcomeMapping(courseOutcomesArray);
     }
   }, [option])
 
@@ -59,8 +57,8 @@ const OutcomeMapping = () => {
     return <option value={program.name}>{program.name}</option>;
   });
   const selectedProgram = programs.filter((program) => program.name == option)[0];
-  const renderMappingTable = courses ? courses.map((course) => {
-    return <CourseOutcomeTable course={course} studentOutcomes={studentOutcomes}/>
+  const renderMappingTable = outcomeMapping ? outcomeMapping.map((course) => {
+    return <CourseOutcomeTable course={course}/>
   }) : <div></div>
 
   return (
