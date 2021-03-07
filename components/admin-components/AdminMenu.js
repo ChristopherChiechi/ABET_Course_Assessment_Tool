@@ -17,7 +17,13 @@ const AdminMenu = ({setView}) => {
                             Generate Full Report
                         </AccordionButton>
                     </AccordionItem>
-                    
+                    <AccordionItem>
+                        <AccordionButton _expanded={{ bg: "#38A169", color: "white" }} flex="1" textAlign="left" onClick={()=>{
+                            setView("GSS");
+                        }}>
+                            Generate Student Surveys
+                        </AccordionButton>
+                    </AccordionItem>
                     <AccordionItem>
                         <AccordionButton _expanded={{ bg: "#38A169", color: "white" }} flex="1" textAlign="left" onClick={()=>{
                             setView("GSR");
