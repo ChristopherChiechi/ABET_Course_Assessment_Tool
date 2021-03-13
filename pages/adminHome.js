@@ -7,7 +7,7 @@ import AdminMenu from '../components/admin-components/AdminMenu';
 // import EditProgramList from '../components/admin-components/EditProgramList/EditProgramList';
 // import EditCourseAssignments from '../components/admin-components/EditCourseAssignments/EditCourseAssignments';
 // import EditFacultyList from '../components/admin-components/EditFacultyList/EditFacultyList';
-// import EditCourseList from '../components/admin-components/EditCourseList/EditCourseList';
+ import EditCourseList from '../components/admin-components/EditCourseList/EditCourseList';
 // import EditCourseOutcomes from '../components/admin-components/EditCourseOutcomes/EditCourseOutcomes';
 import OutcomeMapping from "../components/admin-components/OutcomeMapping/OutcomeMapping";
 // import GenerateSimpleReport from '../components/admin-components/GenerateSimpleReport/GenerateSimpleReport';
@@ -43,8 +43,8 @@ const adminHome = () => {
             //     return <EditFacultyList />;
             //   case "EPL":
             //     return <EditProgramList />;
-            //   case "ECL":
-            //     return <EditCourseList/>;
+               case "ECL":
+                 return <EditCourseList/>;
             //   case "ECO":
             //     return <EditCourseOutcomes/>;
             case "GSS":
