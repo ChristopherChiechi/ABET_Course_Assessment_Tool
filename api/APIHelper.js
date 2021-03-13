@@ -121,3 +121,18 @@ export async function addCourse(userid = "", firstName = "", lastName = "", year
     const success = await response;
     console.log(success);
 }
+export async function removeCourse(year, semester, courseNumber, department) {
+  let api_helper = new API();
+  let response = api_helper.removeCourse(
+    year,
+    semester,
+    courseNumber,
+    department
+  );
+  response.then(function (result) {
+    return result;
+  });
+  const success = await response;
+  console.log(success);
+  console.log(courseNumber);
+}
