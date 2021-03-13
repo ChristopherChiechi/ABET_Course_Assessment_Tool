@@ -2,8 +2,12 @@
 import cookieCutter from 'cookie-cutter';
 
 const root = "https://localhost:44372/api"; // The base URL for each request
-const OK = 200; //200 Ok status code
-var token = ""; //holds value of the token cookie
+const OK = 200;           //200 Ok status code
+const UNAUTHORIZED = 401; //401 Unauthorized status code
+const NOT_LOGGED_IN_MSG = "Error: Your session has expired. Please log in again.";
+const SERVER_ERROR_MSG = "Internal Server Error: Please try again later.";
+const BAD_REQUEST_MSG = "Error: Some of the provided parameters are invalid.";
+var token = "";           //holds value of the token cookie
 
 export default class API {
     /* This function is for getInitialProps.
@@ -17,9 +21,10 @@ export default class API {
     // generic function for sending POST requests
     //    Input: route and body
     //    Output: The JSON that is returned from the route
-    async sendPost(route = "", body = {}, returnRawResponse = false) {
+    async sendPost(route = "", body = {}) {
         const url = root + route; // Combine the root URL with the specified route
-        
+        var statusCode; //holds the status code of the response
+
         //if the request is not from getInitialProps, meaning cookieCutter is defined, retreive the cookie
         if (typeof cookieCutter.get == "function") {
             token = cookieCutter.get("token");
@@ -29,20 +34,33 @@ export default class API {
             method: "POST",
             cache: "no-cache",
             headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer " + token
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token
             },
             referrerPolicy: "no-referrer",
             body: JSON.stringify(body),
         })
             .then((response) => {
-                if (returnRawResponse)
-                    return response;
+                statusCode = response.status;
+
+                if (statusCode == UNAUTHORIZED) //this check has to be here for some reason ¯\_(ツ)_/¯
+                    return;
                 else
                     return response.json();
             })
-            .then((json) => { return json; })
-            .catch(() => { return; });
+            .then((json) => {
+                if (statusCode == OK)
+                    return json;
+                else if (statusCode == UNAUTHORIZED)
+                    return new ErrorObj(NOT_LOGGED_IN_MSG, false); //user's session has expired
+                else {
+                    if (json.hasOwnProperty("message"))
+                        return new ErrorObj(json["message"]); //custom error message from API
+                    else
+                        return new ErrorObj(BAD_REQUEST_MSG); //bad input parameters
+                }
+            })
+            .catch(() => { return new ErrorObj(SERVER_ERROR_MSG); });
     }
 
     //---login(userid, password)---
@@ -50,22 +68,18 @@ export default class API {
     //    Output: "Admin", "Instructor", "Student/TA" or boolean for failure
     async login(userid = "", password = "") {
         const body = { userid: userid, password: password };
-        console.log(body);
-        return await this.sendPost("/login", body, true).then((response) => {
-            if (response.status == OK) {
+        
+        return await this.sendPost("/login", body).then((json) => {
+            if (json.hasOwnProperty("token")) {
                 var expires = new Date();
-
+    
                 expires.setHours(expires.getHours() + 24); //expires in 24 hours
                 expires = expires.toUTCString();
                 
-                return response.json().then((json) => {
-                    cookieCutter.set("token", json["token"], { expires }); //set token cookie
-                    return json["role"]; //return the role
-                });
-            } else {
-                return false;
+                cookieCutter.set("token", json["token"], { expires }); //set token cookie
+                return json["role"]; //return the role
             }
-        })
+        });
         
         //To use this data you must do the following:
         //api.login(userid, password).then(role => {/*here is where the return value is accessible, it is either role string or a boolean indicating failure*/})
@@ -102,6 +116,20 @@ export default class API {
         //To use this data you must do the following:
         //api.getAllCourses(userid, semester, year).then(courses => {/*here is where the data is accessible, courses is an array of JSON objects*/})
     }
+    //---getCoursesBySemesterYear(semester, year)---  (Admin)
+    //    Input: Semester, Year
+    //    Output: All Courses for the corresponding semester and year 
+    async getCoursesBySemesterYear(semester = "", year = 0) 
+    {
+        const body = { 
+            semester: semester, 
+            year: year 
+        };
+
+        return await this.sendPost("/courses/get-by-year-semester", body);
+    }
+    //To use this data you must do the following:
+    //api.getCoursesBySemesterYear(semester, year).then(courses => {/*here is where the data is accessible, courses is an array of JSON objects*/})
 
     //---getFormsBySection(userid, year, semester, department, course, section)---
     //    Input: UserId, Year, Semester, Department, CourseNumber, SectionNumber
@@ -196,7 +224,7 @@ export default class API {
             }
         };
 
-        return await this.sendPost("/forms/post-form", body, true).then((response) => { return response.status == OK; });
+        return await this.sendPost("/forms/post-form", body);
     }
 
     //---postComment(userId, year, semester, department, courseNumber, coordinatorComment, isCourseCompleted)---
@@ -217,7 +245,7 @@ export default class API {
             }
         };
 
-        return await this.sendPost("/courses/post-comment", body, true).then((response) => { return response.status == OK; })
+        return await this.sendPost("/courses/post-comment", body);
     }
 
     //---getBlankForm(userid)---
@@ -284,7 +312,7 @@ export default class API {
             
         };
 
-        return await this.sendPost("/sections/add-section", body, true).then((response) => { return response.status == OK; });
+        return await this.sendPost("/sections/add-section", body);
     }
 
     //---getFacultyList()--- (Admin)
@@ -310,7 +338,7 @@ export default class API {
             facultyType: facultyType
         };
 
-        return await this.sendPost("/faculty/add-member", body, true).then ((response) => {return response.status == OK; });
+        return await this.sendPost("/faculty/add-member", body);
     }
     
     //---getCoursesByDepartment(department)--- (Admin)
@@ -344,7 +372,7 @@ export default class API {
             }
         };
         
-        return await this.sendPost("/courses/add-course", body, true).then((response) => { return response.status == OK; });
+        return await this.sendPost("/courses/add-course", body);
     }
     
     //---removeCourse(year, semester, courseNumber, department)--- (Admin)
@@ -361,7 +389,7 @@ export default class API {
             }
         };
         
-        return await this.sendPost("/courses/remove-course", body, true).then((response) => { return response.status == OK; });
+        return await this.sendPost("/courses/remove-course", body);
     }
 
     //---getCourseOutcomesByCourse(year, semester, courseNumber, department)--- (Admin)
@@ -397,6 +425,14 @@ export default class API {
             courseOutcomesList: outcomes
         };
     
-        return await this.sendPost("/course-outcomes/post-outcomes", body, true).then((response) => { return response.status == OK; });;
+        return await this.sendPost("/course-outcomes/post-outcomes", body);
+    }
+}
+
+class ErrorObj {
+    constructor(message = "", isLoggedIn = true) {
+        this.failure = true;
+        this.message = message;
+        this.isLoggedIn = isLoggedIn;
     }
 }
