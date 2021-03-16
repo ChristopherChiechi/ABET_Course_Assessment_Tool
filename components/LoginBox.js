@@ -2,7 +2,6 @@ import {Box, FormControl, FormLabel, Input, Button, Text, useToast} from '@chakr
 import useInputState from '../hooks/useInputState';
 import Link from 'next/link';
 import { login } from '../api/APIHelper';
-import FileUpload from '../components/FileUpload';
 
 const LoginBox = () => {
 
@@ -66,11 +65,8 @@ const LoginBox = () => {
                 <Link href="/adminHome">
                     <Button colorScheme="blue" margin = "1rem">Admin Home</Button>
                 </Link>
-                <FileUpload />
             </form>
-            
       </Box>
-      
     )
 }
 

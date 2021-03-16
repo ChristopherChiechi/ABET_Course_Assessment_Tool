@@ -1,6 +1,5 @@
 import React from 'react';
 import API from '../api/api';
-import * as FormData from "form-data";
 
 const FileUpload = () => {
     const uploadfunction = () => {

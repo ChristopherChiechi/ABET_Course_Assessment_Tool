@@ -427,22 +427,18 @@ export default class API {
     
         return await this.sendPost("/course-outcomes/post-outcomes", body);
     }
+
     async uploadAccessDb(file = new FormData()) 
     {
-        //const fileInput = document.querySelector('#your-file-input') ;
-        //const formData = new FormData();
+        const options = {
+            method: 'POST',
+            body: file,
+            headers: {
+            "Authorization": "Bearer " + token
+            } 
+        };
         
-        //formData.append("file", fileInput.files[0]);
-        
-            const options = {
-              method: 'POST',
-              body: file[0],
-              headers: {
-                "Authorization": "Bearer " + token
-                } 
-            };
-            
-            fetch('https://localhost:44372/api/upload-access-db', options).then(r => r.json()).then(json => {console.log(json);});
+        fetch('https://localhost:44372/api/upload-access-db', options);
         
     }
 }
