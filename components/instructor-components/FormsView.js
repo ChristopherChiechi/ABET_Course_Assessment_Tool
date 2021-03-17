@@ -32,7 +32,7 @@ const FormsView = ({instructorCourses, coordinatorCourses}) => {
                 <Td>{course.displayName}</Td>
                 <Td>{course.courseNumber}.{course.sectionNumber}</Td>
                 <Td isNumeric>
-                    <Button  colorScheme="blue" mt="1em" size="sm" variant="link" onClick={e => {
+                    <Button  colorScheme="blue" mt="1em" size="lg" variant="link" onClick={e => {
                         e.preventDefault();
                         handleClick(course.courseNumber, course.sectionNumber);
                         window.location.href = 'http://localhost:3000/formCompletion';
@@ -50,7 +50,7 @@ const FormsView = ({instructorCourses, coordinatorCourses}) => {
                 <Td>{course.displayName}</Td>
                 <Td>{course.courseNumber}.{course.sectionNumber}</Td>
                 <Td isNumeric>
-                    <Button  colorScheme="blue" mt="1em" size="sm" variant="link" onClick={e => {
+                    <Button  colorScheme="blue" mt="1em" size="lg" variant="link" onClick={e => {
                         e.preventDefault();
                         handleClick(course.courseNumber, course.sectionNumber);
                         window.location.href = 'http://localhost:3000/coordinatorCommentInput';

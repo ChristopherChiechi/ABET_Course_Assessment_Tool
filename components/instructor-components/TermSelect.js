@@ -51,16 +51,29 @@ const TermSelect = ({parentTerm, setParentTerm}) => {
         <>
             <HStack>
                     <Text>Showing forms for</Text>
-                    <Badge colorScheme="teal">{parentTerm.semester} {parentTerm.year}</Badge>
-                </HStack>
-            <Popover>
-                {({ onClose }) => (
+                    <Badge colorScheme="teal" fontSize="lg">{parentTerm.semester} {parentTerm.year}</Badge>
+                    
+
+                    <Popover>
+                        {({ onClose }) => (
                 <>
                     <PopoverTrigger>
-                        <Button mb="3em" colorScheme="teal">
+                        <Button mb="0em" colorScheme="teal" size="lg">
                             Change Term
                         </Button>
                     </PopoverTrigger>
+                </>
+                )}
+                    </Popover>
+            </HStack>
+            <Popover>
+                {({ onClose }) => (
+                <>
+                    {/*<PopoverTrigger>
+                        {<Button mb="3em" colorScheme="teal" size="lg">
+                            Change Term
+                </Button>}
+                    </PopoverTrigger>*/}
                     <PopoverContent>
                         <PopoverArrow />
                         <PopoverCloseButton />
