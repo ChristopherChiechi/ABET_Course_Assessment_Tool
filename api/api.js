@@ -427,7 +427,32 @@ export default class API {
     
         return await this.sendPost("/course-outcomes/post-outcomes", body);
     }
+    
+    //---postSection(userid, firstName, lastName, year, semester, courseNumber, sectionNumber, department, numberOfStudents)--- (Instructor)
+    //   Input: Section object
+    //   Output: success or failure
+    async postSection(userid = "", year = 0, semester = "", courseNumber = "", sectionNumber = "", department = "", firstName = "", lastName = "", numberOfStudents = 0) {
+        const body = {
+            section: {
+                instructor: {
+                    id: userid,
+                    firstName,
+                    lastName
+                },
+                year,
+                semester,
+                courseNumber,
+                sectionNumber,
+                department,
+                isSectionCompleted: false,
+                NumberOfStudents
+            }
 
+        };
+
+        return await this.sendPost("/sections/post-section", body, true).then((response) => { return response.status == OK; });
+    }
+    
     async uploadAccessDb(file = new FormData()) 
     {
         const options = {
