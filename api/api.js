@@ -249,10 +249,17 @@ export default class API {
     }
 
     //---getBlankForm(userid)---
-    //    Input: UserId
+    //    Input: Section object containing: CourseNumber, SectionNumber, and Id
     //    Output: Blank Form
-    async getBlankForm(userid) {
-        const body = { userid: userid };
+    //async getBlankForm(userid) {
+    async getBlankForm(courseNumber = "", sectionNumber = "", sectionId = 0) {
+        const body = { 
+            Section: {
+                CourseNumber: courseNumber,
+                SectionNumber: sectionNumber,
+                Id: sectionId
+            }
+        };
 
         return await this.sendPost("/forms/new-blank", body);
 
