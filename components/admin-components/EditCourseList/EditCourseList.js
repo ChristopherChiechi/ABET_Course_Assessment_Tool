@@ -135,7 +135,7 @@ const EditCourseList = () => {
       //         }}></IconButton>
       //     </div>
       // </Box>
-      <ListItem>
+      <ListItem display="inline" justifyContent="center" alignItems="center">
         <Courses
           member={
             cours.department +
@@ -157,31 +157,36 @@ const EditCourseList = () => {
 
   return (
     <div id="top">
-      <Text fontWeight="bold">Edit Course List</Text>
-      <Box alignItems="center" m="1em" p="3em">
-        <div>
-          <Text fontWeight="bold" mt="1em" mb="1em" fontSize="lg">
-            Select Department
-          </Text>
-          <Flex mb="2em">
-            <Select mr="1em" width="80%" onChange={dropDownHandler}>
-              <option value="CSCE">Computer Science</option>
-              <option value="EENG">Engineering</option>
-              <option value="IT">Information Technology</option>
-            </Select>
-            <Button
-              variantColor="green"
-              variant="outline"
-              onClick={getNewCourses}
-            >
-              Submit
-            </Button>
-          </Flex>
-          <Text fontWeight="bold" mt="1em" mb="1em" fontSize="lg">
-            Courses
-          </Text>
+      <Box fontWeight="bold" marginTop="1em" marginBottom="1em">
+        <Text align="center" fontSize="20px">
+          Edit Course List
+        </Text>
+      </Box>
+      <Box m="1em" p="3em">
+        <Text align="center" fontWeight="bold" mt="1em" mb="1em" fontSize="lg">
+          Select Department
+        </Text>
+        <Flex justifyContent="center">
+          <Select mr="1em" alignSelf="c" width="80%" onChange={dropDownHandler}>
+            <option value="CSCE">Computer Science</option>
+            <option value="EENG">Engineering</option>
+            <option value="IT">Information Technology</option>
+          </Select>
+          <Button
+            variantColor="green"
+            variant="outline"
+            display="inline"
+            onClick={getNewCourses}
+          >
+            Submit
+          </Button>
+        </Flex>
+        <Text fontWeight="bold" mt="1em" mb="1em" fontSize="lg" align="center">
+          Courses
+        </Text>
+        <Flex justifyContent="center">
           <List w="70%">{renderCourse}</List>
-        </div>
+        </Flex>
         {/* <div className="course-list-input">
           <form>
             <Input
@@ -208,6 +213,7 @@ const EditCourseList = () => {
         {/* <Button variantColor="green" variant="outline" onClick={handleSubmit}>
           Submit
         </Button> */}
+
         <AddCourse addNewCourse={addNewCourse}></AddCourse>
       </Box>
     </div>

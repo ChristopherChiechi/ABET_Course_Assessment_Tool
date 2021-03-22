@@ -134,9 +134,11 @@ const AddCourse = ({ addNewCourse }) => {
           </Button>
         </Flex>
       ) : (
-        <Button variantColor="green" mt="2em" onClick={toggleEdditing}>
-          Add Course
-        </Button>
+        <Flex justifyContent="center">
+          <Button variantColor="green" mt="2em" onClick={toggleEdditing}>
+            Add Course
+          </Button>
+        </Flex>
       )}
     </>
   );
