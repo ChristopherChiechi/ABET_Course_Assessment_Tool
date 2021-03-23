@@ -22,7 +22,7 @@ const EditCourseAssignments = () => {
   return (
     <div id="top">
       <Box fontWeight="bold" marginTop="1em" marginBottom="1em">
-        <Text align="center" fontSize="20px">
+        <Text fontSize="2xl" fontWeight="bold" mt="1em" align="center">
           Edit Assigned Courses
         </Text>
       </Box>

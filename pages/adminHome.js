@@ -10,7 +10,7 @@ import EditFacultyList from "../components/admin-components/EditFacultyList/Edit
 import EditCourseList from "../components/admin-components/EditCourseList/EditCourseList";
 import EditCourseOutcomes from "../components/admin-components/EditCourseOutcomes/EditCourseOutcomes";
 import OutcomeMapping from "../components/admin-components/OutcomeMapping/OutcomeMapping";
-// import GenerateSimpleReport from '../components/admin-components/GenerateSimpleReport/GenerateSimpleReport';
+import GenerateSectionReport from "../components/admin-components/GenerateSectionReport/GenerateSectionReport";
 import GenerateStudentSurveys from "../components/admin-components/GenerateStudentSurveys";
 
 const adminHome = () => {
@@ -31,8 +31,8 @@ const adminHome = () => {
             switch (view) {
               // case "GFR":
               //     return <FullReport />;
-              //   case "GSR":
-              //     return <GenerateSimpleReport user={user}/>;
+              case "GSR":
+                return <GenerateSectionReport user={user} />;
               case "OM":
                 return <OutcomeMapping />;
               case "CNS":
