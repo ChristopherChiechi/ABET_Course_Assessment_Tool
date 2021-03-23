@@ -12,16 +12,18 @@ const Courses = ({
   department,
 }) => {
   return (
-    <Grid templateColumns="repeat(2, 1fr)" bg={color} padding=".5em">
+    <Grid templateColumns="repeat(5, 1fr)" bg={color} padding=".5em">
       <>
-        <GridItem rowSpan={2}>
-          <Text>{member}</Text>
+        <GridItem colSpan={2}>
+          <Text align="center" fontSize="20px">
+            {member}
+          </Text>
         </GridItem>
-        <GridItem>
+        <GridItem colStart={5} colEnd={6}>
           <Button
             variant="ghost"
             onClick={() => {
-              removeCourse(year, semester, courseNumber, department)
+              removeCourse(year, semester, courseNumber, department);
               alert("This will remove your entry");
             }}
           >
@@ -33,4 +35,4 @@ const Courses = ({
   );
 };
 
-export default Courses; ;
+export default Courses;

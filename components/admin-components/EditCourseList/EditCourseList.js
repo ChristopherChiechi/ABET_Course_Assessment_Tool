@@ -9,6 +9,7 @@ import {
   Input,
   ListItem,
   Flex,
+  VStack,
 } from "@chakra-ui/react";
 import useInputState from "../../../hooks/useInputState";
 import fakeData from "../../../fake-data/course.json";
@@ -157,37 +158,54 @@ const EditCourseList = () => {
 
   return (
     <div id="top">
-      <Box fontWeight="bold" marginTop="1em" marginBottom="1em">
-        <Text align="center" fontSize="20px">
+      <VStack id="top" w="90%" m="0 auto">
+        <Text fontSize="2xl" fontWeight="bold" mt="1em">
           Edit Course List
         </Text>
-      </Box>
-      <Box m="1em" p="3em">
-        <Text align="center" fontWeight="bold" mt="1em" mb="1em" fontSize="lg">
-          Select Department
-        </Text>
-        <Flex justifyContent="center">
-          <Select mr="1em" alignSelf="c" width="80%" onChange={dropDownHandler}>
-            <option value="CSCE">Computer Science</option>
-            <option value="EENG">Engineering</option>
-            <option value="IT">Information Technology</option>
-          </Select>
-          <Button
-            variantColor="green"
-            variant="outline"
-            display="inline"
-            onClick={getNewCourses}
+
+        <Box m="1em" p="3em">
+          <Text
+            align="center"
+            fontWeight="bold"
+            mt="1em"
+            mb="1em"
+            fontSize="lg"
           >
-            Submit
-          </Button>
-        </Flex>
-        <Text fontWeight="bold" mt="1em" mb="1em" fontSize="lg" align="center">
-          Courses
-        </Text>
-        <Flex justifyContent="center">
-          <List w="70%">{renderCourse}</List>
-        </Flex>
-        {/* <div className="course-list-input">
+            Select Department
+          </Text>
+          <Flex justifyContent="center">
+            <Select
+              mr="1em"
+              alignSelf="c"
+              width="80%"
+              onChange={dropDownHandler}
+            >
+              <option value="CSCE">Computer Science</option>
+              <option value="EENG">Engineering</option>
+              <option value="IT">Information Technology</option>
+            </Select>
+            <Button
+              variantColor="green"
+              variant="outline"
+              display="inline"
+              onClick={getNewCourses}
+            >
+              Submit
+            </Button>
+          </Flex>
+          <Text
+            fontWeight="bold"
+            mt="1em"
+            mb="1em"
+            fontSize="lg"
+            align="center"
+          >
+            Courses
+          </Text>
+          <Flex justifyContent="center">
+            <List w="80%">{renderCourse}</List>
+          </Flex>
+          {/* <div className="course-list-input">
           <form>
             <Input
               mt="1rem"
@@ -210,12 +228,13 @@ const EditCourseList = () => {
             // onClick={addCourse}
           ></IconButton>
         </div> */}
-        {/* <Button variantColor="green" variant="outline" onClick={handleSubmit}>
+          {/* <Button variantColor="green" variant="outline" onClick={handleSubmit}>
           Submit
         </Button> */}
 
-        <AddCourse addNewCourse={addNewCourse}></AddCourse>
-      </Box>
+          <AddCourse addNewCourse={addNewCourse}></AddCourse>
+        </Box>
+      </VStack>
     </div>
   );
 };

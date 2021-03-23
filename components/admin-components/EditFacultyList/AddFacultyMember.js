@@ -35,7 +35,7 @@ const AddFacultyMember = ({ setNewFaculty }) => {
   return (
     <>
       {isEdditing ? (
-        <Flex direction="column" align="center">
+        <>
           <FormLabel>Faculty Type</FormLabel>
           <Select
             onChange={(e) => {
@@ -77,29 +77,27 @@ const AddFacultyMember = ({ setNewFaculty }) => {
           <Button v ariantColor="green" mt="1em" onClick={addFaculty}>
             Add New Faculty
           </Button>
-        </Flex>
+        </>
       ) : (
         <>
-          <Flex>
-            <Box
-              w="50%px"
-              h="10"
-              bg=""
-              fontWeight="bold"
-              marginTop="1em"
-              marginBottom="1em"
-            />
-            <Spacer />
-            <Button
-              variantColor="green"
-              display="inline"
-              onClick={toggleEdditing}
-            >
-              Add Faculty Member
-            </Button>
-            <Spacer />
-            <Box w="50%px" h="10" bg="" />
-          </Flex>
+          <Box
+            w="100%px"
+            h="10"
+            bg=""
+            fontWeight="bold"
+            marginTop="1em"
+            marginBottom="1em"
+          />
+          <Spacer />
+          <Button
+            variantColor="green"
+            display="inline"
+            onClick={toggleEdditing}
+          >
+            Add Faculty Member
+          </Button>
+          <Spacer />
+          <Box w="100%px" h="10" bg="" />
         </>
       )}
     </>

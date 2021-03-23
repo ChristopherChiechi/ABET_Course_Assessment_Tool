@@ -7,6 +7,7 @@ import {
   List,
   Input,
   ListItem,
+  VStack,
 } from "@chakra-ui/react";
 import useInputState from "../../../hooks/useInputState";
 import FacultyMember from "../../admin-components/FacultyMember";
@@ -172,71 +173,44 @@ const EditFacultyList = () => {
 
   return (
     <div id="top">
-      <Box fontWeight="bold" marginTop="1em" marginBottom="1em">
-        <Text fontWeight="bold" fontSize="20px" align="center" marginTop="1em">
+      <VStack id="top" w="80%" m="0 auto" marginBottom="10em">
+        <Text fontSize="2xl" fontWeight="bold" mt="1em">
           Edit Faculty List
         </Text>
-      </Box>
-      <Box borderWidth="2px" rounded="lg" alignItems="center" m="1em" p="3em">
-        <div
-          display="flex"
-          flexDirection="column"
+        <Text fontWeight="bold" mt="1em" mb="1em" fontSize="lg" align="center">
+          Instructors/Coordinators
+        </Text>
+
+        <List
+          marginLeft="5em"
           justifyContent="center"
           alignItems="center"
+          w="80%"
         >
-          <Text
-            fontWeight="bold"
-            mt="1em"
-            mb="1em"
-            fontSize="lg"
-            align="center"
-          >
-            Instructors/Coordinators
-          </Text>
-
-          <List
-            marginLeft="5em"
-            justifyContent="center"
-            alignItems="center"
-            w="80%"
-          >
-            {renderFaculty}
-          </List>
-          <Text
-            fontWeight="bold"
-            mt="1em"
-            mb="1em"
-            fontSize="lg"
-            align="center"
-          >
-            Adjunct Faculty
-          </Text>
-          <List
-            marginLeft="5em"
-            justifyContent="center"
-            alignItems="center"
-            w="80%"
-          >
-            {renderAdjunct}
-          </List>
-          <Text
-            fontWeight="bold"
-            mt="1em"
-            mb="1em"
-            fontSize="lg"
-            align="center"
-          >
-            Teaching Fellows
-          </Text>
-          <List
-            marginLeft="5em"
-            justifyContent="center"
-            alignItems="center"
-            w="80%"
-          >
-            {renderFellows}
-          </List>
-        </div>
+          {renderFaculty}
+        </List>
+        <Text fontWeight="bold" mt="1em" mb="1em" fontSize="lg" align="center">
+          Adjunct Faculty
+        </Text>
+        <List
+          marginLeft="5em"
+          justifyContent="center"
+          alignItems="center"
+          w="80%"
+        >
+          {renderAdjunct}
+        </List>
+        <Text fontWeight="bold" mt="1em" mb="1em" fontSize="lg" align="center">
+          Teaching Fellows
+        </Text>
+        <List
+          marginLeft="5em"
+          justifyContent="center"
+          alignItems="center"
+          w="80%"
+        >
+          {renderFellows}
+        </List>
         <AddFacultyMember setNewFaculty={setNewFaculty} />
         {/* <div className="fac-input">
                         <form onSubmit = {addFaculty}>
@@ -263,7 +237,7 @@ const EditFacultyList = () => {
         {/* <Button variantColor="green" variant="outline" onClick={handleSubmit}>
                         Submit
                     </Button> */}
-      </Box>
+      </VStack>
     </div>
   );
 };
