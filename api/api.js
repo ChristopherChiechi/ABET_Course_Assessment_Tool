@@ -30,7 +30,7 @@ export default class API {
             token = cookieCutter.get("token");
         }
 
-        return fetch(url, {
+        return await fetch(url, {
             method: "POST",
             cache: "no-cache",
             headers: {
@@ -39,6 +39,40 @@ export default class API {
             },
             referrerPolicy: "no-referrer",
             body: JSON.stringify(body),
+        })
+            .then((response) => {
+                statusCode = response.status;
+
+                if (statusCode == UNAUTHORIZED) //this check has to be here for some reason ¯\_(ツ)_/¯
+                    return;
+                else
+                    return response.json();
+            })
+            .then((json) => {
+                if (statusCode == OK)
+                    return json;
+                else if (statusCode == UNAUTHORIZED)
+                    return new ErrorObj(NOT_LOGGED_IN_MSG, false); //user's session has expired
+                else {
+                    if (json.hasOwnProperty("message"))
+                        return new ErrorObj(json["message"]); //custom error message from API
+                    else
+                        return new ErrorObj(BAD_REQUEST_MSG); //bad input parameters
+                }
+            })
+            .catch(() => { return new ErrorObj(SERVER_ERROR_MSG); });
+    }
+
+    async sendFile(route = "", formData = new FormData()) {
+        const url = root + route; // Combine the root URL with the specified route
+        var statusCode; //holds the status code of the response
+
+        return await fetch(url, {
+            method: 'POST',
+            body: formData,
+            headers: {
+            "Authorization": "Bearer " + token
+            }
         })
             .then((response) => {
                 statusCode = response.status;
@@ -457,21 +491,20 @@ export default class API {
 
         };
 
-        return await this.sendPost("/sections/post-section", body, true).then((response) => { return response.status == OK; });
+        return await this.sendPost("/sections/post-section", body);
     }
     
-    async uploadAccessDb(file = new FormData()) 
+    async uploadAccessDb(formData = new FormData()) 
     {
-        const options = {
-            method: 'POST',
-            body: file,
-            headers: {
-            "Authorization": "Bearer " + token
-            } 
-        };
-        
-        fetch('https://localhost:44372/api/upload-access-db', options);
-        
+        return await this.sendFile('/upload-access-db', formData);
+    }
+    
+    async uploadFormAttachment(formData = new FormData(), outcomeId = 0) 
+    {
+        //outcomeId is a unique id that identifies a certain outcome in the DB
+        //it will come from the DB when the instructor form page is loaded
+        formData.append("outcomeId", outcomeId); 
+        return await this.sendFile('/upload-form-attachment', formData);
     }
 }
 
