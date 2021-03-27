@@ -65,6 +65,10 @@ const LoginBox = () => {
                 <Link href="/adminHome">
                     <Button colorScheme="blue" margin = "1rem">Admin Home</Button>
                 </Link>
+
+                <Link href="/studentSurvey">
+                    <Button colorScheme="blue" margin = "1rem">Student Survey</Button>
+                </Link>
             </form>
       </Box>
     )
