@@ -46,7 +46,7 @@ const studentSurvey = () => {
     text: "",
   });
 
-  const [isLoggedIn, toggleLogin] = useToggle();
+  const [isLoggedIn, toggleLogin] = useToggle(true);
 
   const testFunction = () => {
     console.log(studentInformationMajor.major);
@@ -92,7 +92,7 @@ const studentSurvey = () => {
               })}
             </Select>
           </HStack>
-          <HStack w="80%">
+          <HStack w="80%" mb="2em">
             <Text>What grade do you expect?</Text>
             <Select
               placeholder="grade"
@@ -106,6 +106,7 @@ const studentSurvey = () => {
               })}
             </Select>
           </HStack>
+
           <Text fontWeight="bold">
             For each of the course outcomes, rate each from 1 to 5 in terms of
         agreement with your level of agreement.{" "}

@@ -10,7 +10,7 @@ import {
 const AdminMenu = ({setView}) => {
     return (
                 <Accordion allowToggle>
-                    <AccordionItem>
+                    <AccordionItem >
                         <AccordionButton _expanded={{ bg: "#38A169", color: "white" }} flex="1" textAlign="left" onClick={()=>{
                             setView("GFR");
                         }}>

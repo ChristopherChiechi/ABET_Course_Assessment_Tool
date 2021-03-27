@@ -151,7 +151,6 @@ const EditFacultyList = () => {
         <FacultyMember
           member={fac.firstName + " " + fac.lastName}
           id={fac.id}
-          edit={editFaculty}
           color={idx % 2 == 0 ? "gray.300" : "gray.100"}
         />
       </ListItem>
@@ -164,7 +163,6 @@ const EditFacultyList = () => {
         <FacultyMember
           member={fac.firstName + " " + fac.lastName}
           id={fac.id}
-          edit={editFaculty}
           color={idx % 2 == 0 ? "gray.300" : "gray.100"}
         />
       </ListItem>
