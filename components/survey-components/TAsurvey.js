@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import {
     List,
     ListItem,
@@ -10,13 +11,21 @@ import {
     Divider,
 } from "@chakra-ui/react";
 
-import { PageContext } from './SurveyPageData';
-const TAsurvey = ({ TAquestions, setTAquestions }) => {
+
+const TAsurvey = ({ TAquestions, handleChange }) => {
+    useEffect(() => {
+        console.log('tas updated');
+    }, [TAquestions]);
+
+    const renderRadios = Array.from(Array(5), (x, index) => {
+        return <Radio key={index} value={index + 1}>{index + 1}</Radio>
+    });
+
     return (
         <>
             <Text fontWeight="bold">
-            TA evaluation. Have each rated 1-5, with 5 being very satisfied and 1
-        being very unsatisfied
+                TA evaluation. Have each rated 1-5, with 5 being very satisfied and 1
+                being very unsatisfied
             </Text>
             <Center
                 m="2em"
@@ -30,16 +39,15 @@ const TAsurvey = ({ TAquestions, setTAquestions }) => {
                             <ListItem mb="1em" key={idx}>
                                 { (idx > 0) ? <Divider /> : null}
                                 <VStack>
-                                    <Text mt="1em">{question.question.question}</Text>
+                                    <Text mt="1em">{question.question}</Text>
                                     <RadioGroup
                                         value={question.rating}
+                                        onChange={(e) =>
+                                            handleChange(e, idx, "TA")
+                                        }
                                     >
                                         <HStack spacing={10}>
-                                            <Radio bg="white">1</Radio>
-                                            <Radio bg="white">2</Radio>
-                                            <Radio bg="white">3</Radio>
-                                            <Radio bg="white">4</Radio>
-                                            <Radio bg="white">5</Radio>
+                                            {renderRadios}
                                         </HStack>
                                     </RadioGroup>
                                 </VStack>
@@ -50,7 +58,7 @@ const TAsurvey = ({ TAquestions, setTAquestions }) => {
             </Center>
 
         </>
-    )
+    );
 
 }
 

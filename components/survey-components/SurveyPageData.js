@@ -7,7 +7,7 @@ var course = courseData.courses[0];
 course['course-outcomes'] = course['course-outcomes'].map((outcome) => {
     return { 
         outcome: 
-        outcome, rating: 1 
+        outcome, rating: 0 
     };
 });
 export const pageData = {
@@ -23,8 +23,8 @@ export const pageData = {
     course: course,
     questions: questionData.TAquestions.map((question) => {
         return {
-            question: question,
-            rating: 1
+            question,
+            rating: 0
         }
     })
 };

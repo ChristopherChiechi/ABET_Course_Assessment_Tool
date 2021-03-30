@@ -1,16 +1,8 @@
 {
   "TAquestions": [
-    {
-      "question": "Was on-time for office hour appointments?"
-    },
-    {
-      "question": "Graded consistently and in a timely manner; worked with a clear grading scheme; gave sufficient feedback on papers?"
-    },
-    {
-      "question": "Developed rapport with students; presented additional concepts, new examples, and answered student questions; had good oral communication skills"
-    },
-    {
-      "question": "What overall evaluation would you give the TA?"
-    }
+    "Was on-time for office hour appointments?",
+    "Graded consistently and in a timely manner; worked with a clear grading scheme; gave sufficient feedback on papers?",
+    "Developed rapport with students; presented additional concepts, new examples, and answered student questions; had good oral communication skills",
+    "What overall evaluation would you give the TA?"
   ]
 }

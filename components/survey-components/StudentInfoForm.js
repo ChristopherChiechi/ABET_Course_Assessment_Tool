@@ -1,12 +1,11 @@
 import { useContext } from 'react';
-
 import {
     Select,
     Text,
     HStack,
 } from "@chakra-ui/react";
 
-import {PageContext, pageData} from './SurveyPageData';
+import {PageContext} from './SurveyPageData';
 
 const StudentInfoForm = ( {studentInformation, setStudentInformation} ) => {
     const context = useContext(PageContext);
@@ -44,7 +43,7 @@ const StudentInfoForm = ( {studentInformation, setStudentInformation} ) => {
                     w="70%"
                     placeholder="classifcation"
                     onChange={(e) =>
-                        handleChange(e, "year")
+                        handleChange(e, "classification")
                     }
                 >
                     {context.years.map((year, idx) => {

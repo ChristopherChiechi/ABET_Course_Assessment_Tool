@@ -1,7 +1,8 @@
 //imports
 import {
   useState,
-  useContext
+  useContext,
+  useEffect
 } from "react";
 import {
   Text,
@@ -23,7 +24,6 @@ const studentSurvey = () => {
   const context = useContext(PageContext);
   const course = context.course;
 
-
   //state
   const [isLoggedIn, toggleLogin] = useToggle(true);
   const [studentInformation, setStudentInformation] = useState({
@@ -38,10 +38,29 @@ const studentSurvey = () => {
     additionalFeedback: ""
   })
 
+  useEffect(() => {
+    console.log('ss updated');
+  }, [TAquestions]);
 
   const testFunction = () => {
     console.log(studentInformation, outcomeSurvey, TAquestions, studentInput);
   };
+
+  const handleChange = (rating, idx, type) => {
+    if(type == "TA"){
+      var temp = TAquestions;
+      temp[idx].rating = parseInt(rating);
+      setTAquestions([...temp]);
+      console.log(TAquestions[idx]);
+    }
+    else if(type == "Outcomes"){
+      var temp = outcomeSurvey;
+      outcomeSurvey[idx].rating = parseInt(rating);
+      setOutcomeSurvey([...temp]);
+      console.log(outcomeSurvey[idx]);
+    }
+  };
+
   return (
     <PageContext.Provider value={pageData}>
       {isLoggedIn
@@ -50,9 +69,9 @@ const studentSurvey = () => {
           <Text fontSize="2xl" fontWeight="bold">{course.code} {course.name}</Text>
 
           <StudentInfoForm studentInformation={studentInformation} setStudentInformation={setStudentInformation} />
-          <CourseOutcomesSurvey outcomeSurvey={outcomeSurvey} setOutcomeSurvey={setOutcomeSurvey}/>
-          <TAsurvey TAquestions={TAquestions} setTAquestions={setTAquestions}/>
-          <StudentFeedback studentInput={studentInput} setStudentInput={setStudentInput}/>
+          <CourseOutcomesSurvey outcomeSurvey={outcomeSurvey} handleChange={handleChange} />
+          <TAsurvey TAquestions={TAquestions} handleChange={handleChange} />
+          <StudentFeedback studentInput={studentInput} setStudentInput={setStudentInput} />
 
           <Button onClick={testFunction} mb="1em" colorScheme="green">Submit Survey</Button>
         </VStack>

@@ -12,8 +12,10 @@ import {
 } from "@chakra-ui/react";
 
 import { PageContext } from './SurveyPageData';
-const CourseOutcomesSurvey = ({ outcomeSurvey, setOutcomeSurvey }) => {
-    const context = useContext(PageContext);
+const CourseOutcomesSurvey = ({ outcomeSurvey, handleChange }) => {
+    const renderRadios = Array.from(Array(5), (x, index) => {
+        return <Radio key={index} value={index + 1}>{index + 1}</Radio>
+    });
     return (
         <>
             <Text fontWeight="bold">
@@ -35,13 +37,12 @@ const CourseOutcomesSurvey = ({ outcomeSurvey, setOutcomeSurvey }) => {
                                     <Text mt="1em">{outcome.outcome}</Text>
                                     <RadioGroup
                                         value={outcome.rating}
+                                        onChange={(e) =>
+                                            handleChange(e, idx, "Outcomes")
+                                        }
                                     >
                                         <HStack spacing={10}>
-                                            <Radio bg="white">1</Radio>
-                                            <Radio bg="white">2</Radio>
-                                            <Radio bg="white">3</Radio>
-                                            <Radio bg="white">4</Radio>
-                                            <Radio bg="white">5</Radio>
+                                            {renderRadios}
                                         </HStack>
                                     </RadioGroup>
                                 </VStack>
