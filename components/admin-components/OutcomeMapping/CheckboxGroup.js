@@ -10,10 +10,10 @@ const CheckBoxGroup = ( { studentMap } ) => {
         setCheckArray(temp);
         console.log(checkArray);
     }
-
+   
     return(
         <HStack w="90%" spacing={8} justify="center">
-            {checkArray.map((value, idx) => {
+            {studentMap.map((value, idx) => {
                 return(
                     <Checkbox
                         value={value}
@@ -21,6 +21,7 @@ const CheckBoxGroup = ( { studentMap } ) => {
                             e.preventDefault();
                             HandleCheck(idx)}
                         }
+                        
                     >
                         {idx+1}
                     </Checkbox>

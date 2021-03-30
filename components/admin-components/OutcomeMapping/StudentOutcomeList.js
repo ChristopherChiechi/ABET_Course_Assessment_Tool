@@ -5,6 +5,14 @@ import {
   SimpleGrid,
   Center,
 } from "@chakra-ui/react";
+import {
+  RecoilRoot,
+  atom,
+  selector,
+  useRecoilState,
+  useRecoilValue,
+} from 'recoil';
+
 
 import { List, ListItem, ListIcon, OrderedList, UnorderedList } from "@chakra-ui/react"
 import fakeData from "../../../fake-data/course.json";
@@ -16,8 +24,8 @@ const StudentOutcomeList = ({ selectedProgram }) => {
   const programName = selectedProgram.name;
   const outcomes = selectedProgram.outcomes; 
 
-  console.log(outcomes);
-
+  //console.log(outcomes);
+ 
   const handleSubmit = (event) => {
     event.preventDefault();
     if (
@@ -28,8 +36,8 @@ const StudentOutcomeList = ({ selectedProgram }) => {
     }
   };
 
-  const renderStudentOutcomes = outcomes.map((outcome) => {
-    return <ListItem><Text textAlign="left">{outcome}</Text></ListItem>
+  const renderStudentOutcomes = outcomes.map((outcome, idx) => {
+    return <ListItem key={idx}><Text textAlign="left">{outcome}</Text></ListItem>
   })
 
   return (
