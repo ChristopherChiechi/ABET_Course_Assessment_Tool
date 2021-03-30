@@ -1,5 +1,4 @@
 import { Grid, GridItem, Text } from "@chakra-ui/react";
-import { Button } from "@chakra-ui/react";
 import useToggle from "../../hooks/useToggle";
 import { removeCourse } from "../../api/APIHelper";
 
