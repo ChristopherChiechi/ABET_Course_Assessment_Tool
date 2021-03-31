@@ -393,7 +393,7 @@ export default class API {
         return await this.sendPost("/courses/get-by-department", body);
     }
     
-    //---addProgram(department)--- (Admin)
+    //---addProgram(program)--- (Admin)
     //    Input: program name
     //    Output: success or failure
     async addProgram(program = "") {
