@@ -62,7 +62,6 @@ const TAsurvey = ({ TAquestions, handleChange }) => {
             >
                 <Table padding="1em" bg="white">
                     <Thead>
-
                         <Tr>
                             <Th>Course Outcome</Th>
                             <Th>Rating</Th>

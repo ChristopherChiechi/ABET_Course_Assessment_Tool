@@ -1,7 +1,4 @@
-import { useContext } from 'react';
 import {
-    List,
-    ListItem,
     Text,
     Table,
     Thead,
@@ -9,13 +6,10 @@ import {
     Tr,
     Th,
     Td,
-    TableCaption,
-    VStack,
     HStack,
     RadioGroup,
     Radio,
     Center,
-    Divider,
 } from "@chakra-ui/react";
 
 import { PageContext } from './SurveyPageData';

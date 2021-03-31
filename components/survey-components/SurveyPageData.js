@@ -5,9 +5,9 @@ import courseData from "../../fake-data/course.json";
 
 var course = courseData.courses[0];
 course['course-outcomes'] = course['course-outcomes'].map((outcome) => {
-    return { 
-        outcome: 
-        outcome, rating: 0 
+    return {
+        outcome:
+            outcome, rating: 0
     };
 });
 export const pageData = {
@@ -21,6 +21,37 @@ export const pageData = {
     years: ["Freshman", "Sophomore", "Junior", "Senior"],
     grades: ["A", "B", "C", "D", "F"],
     course: course,
+    studentQuestions: [
+        { 
+            question: "What is your major?",
+            choices: [
+                "Computer Science",
+                "Software Engineering",
+                "Computer Engineering",
+                "Information Technology",
+                "Cyber Secuirity",
+            ] 
+        },
+        { 
+            question: "What is your classification?",
+            choices: [
+                "Freshman",
+                "Sophomore",
+                "Junior",
+                "Senior",
+            ] 
+        },
+        { 
+            question: "What grade do you expect?",
+            choices: [
+                "A",
+                "B",
+                "C",
+                "D",
+                "F"
+            ] 
+        }
+    ],
     questions: questionData.TAquestions.map((question) => {
         return {
             question,

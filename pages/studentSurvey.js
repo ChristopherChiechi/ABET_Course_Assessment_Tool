@@ -30,7 +30,7 @@ const studentSurvey = () => {
   const [studentInformation, setStudentInformation] = useState({
     major: "",
     classification: "",
-    expectedGrade: ""
+    grade: ""
   });
   const [outcomeSurvey, setOutcomeSurvey] = useState(context.course['course-outcomes']);
   const [TAquestions, setTAquestions] = useState(context.questions)
@@ -69,21 +69,19 @@ const studentSurvey = () => {
     <PageContext.Provider value={pageData}>
       {isLoggedIn
         ?
-        <>
-          <VStack mt="2em">
+        <VStack mt="2em">
 
           <Box w="80%">
             <Text fontSize="2xl" fontWeight="bold">{course.code} {course.name}</Text>
             <Text fontSize="xl" fontWeight="bold" color="green">Student Feedback Survey</Text>
           </Box>
-            <StudentInfoForm studentInformation={studentInformation} setStudentInformation={setStudentInformation} />
-            <CourseOutcomesSurvey outcomeSurvey={outcomeSurvey} handleChange={handleChange} />
-            <TAsurvey TAquestions={TAquestions} handleChange={handleChange} />
-            <StudentFeedback studentInput={studentInput} setStudentInput={setStudentInput} />
+          <StudentInfoForm studentInformation={studentInformation} setStudentInformation={setStudentInformation} />
+          <CourseOutcomesSurvey outcomeSurvey={outcomeSurvey} handleChange={handleChange} />
+          <TAsurvey TAquestions={TAquestions} handleChange={handleChange} />
+          <StudentFeedback studentInput={studentInput} setStudentInput={setStudentInput} />
 
-            <Button onClick={testFunction} mb="1em" colorScheme="green">Submit Survey</Button>
-          </VStack>
-        </>
+          <Button onClick={testFunction} mb="1em" colorScheme="green">Submit Survey</Button>
+        </VStack>
         :
         <StudentLoginBox toggleLoggin={toggleLogin} />
       }
