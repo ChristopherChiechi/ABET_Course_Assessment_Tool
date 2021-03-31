@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 import {
-    List,
-    ListItem,
     Text,
     Table,
     Thead,
@@ -9,13 +7,10 @@ import {
     Tr,
     Th,
     Td,
-    TableCaption,
-    VStack,
     HStack,
     RadioGroup,
     Radio,
     Center,
-    Divider,
 } from "@chakra-ui/react";
 
 
@@ -59,11 +54,12 @@ const TAsurvey = ({ TAquestions, handleChange }) => {
                 padding="1em"
                 bg="#edf2f7"
                 w="80%"
+                borderRadius="4px"
             >
                 <Table padding="1em" bg="white">
                     <Thead>
                         <Tr>
-                            <Th>Course Outcome</Th>
+                            <Th>Quality</Th>
                             <Th>Rating</Th>
                         </Tr>
                     </Thead>

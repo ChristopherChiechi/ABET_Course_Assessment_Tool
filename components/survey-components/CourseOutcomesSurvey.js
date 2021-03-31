@@ -36,19 +36,20 @@ const CourseOutcomesSurvey = ({ outcomeSurvey, handleChange }) => {
                 </Td>
             </Tr>
         )
-})
+    })
 
     return (
         <>
             <Text fontWeight="bold">
                 For each of the course outcomes, rate each from 1 to 5 in terms of
-        agreement with your level of agreement.
+                agreement with your level of agreement.
             </Text>
             <Center
                 m="2em"
                 padding="1em"
                 bg="#edf2f7"
                 w="80%"
+                borderRadius="4px"
             >
                 <Table padding="1em" bg="white">
                     <Thead>

@@ -4,6 +4,7 @@ import {
   useContext,
   useEffect
 } from "react";
+import Head from 'next/head';
 import {
   Text,
   VStack,
@@ -67,6 +68,9 @@ const studentSurvey = () => {
 
   return (
     <PageContext.Provider value={pageData}>
+      <Head>
+        <title>UNT Course Feedback Survey</title>
+      </Head>
       {isLoggedIn
         ?
         <VStack mt="2em">
