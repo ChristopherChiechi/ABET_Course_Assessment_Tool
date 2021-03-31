@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react";
 import useInputState from "../../../hooks/useInputState";
 import fakeData from "../../../fake-data/programs.json";
-import FacultyMember from "../FacultyMember";
+import Programs from "../Programs";
 
 const EditProgramList = () => {
   useEffect(() => {
@@ -61,51 +61,17 @@ const EditProgramList = () => {
     setPrograms(programs.filter((prog) => prog.id !== id));
   };
 
-  const renderProgram = programList.map((prog, idx) => {
+  const renderProgram = csePrograms.map((prog, idx) => {
     return (
-      // <Box display="flex" alignItems="center">
-      //     <div className="program">
-      //         <ListItem className="program-card">{prog.name}</ListItem>
-      //         <IconButton ml="1em" icon="delete" onClick={(e)=>{
-      //                 e.preventDefault();
-      //                 if (window.confirm('Are you sure you would like to delete '+prog.name+'?')){
-      //                     removeProgram(prog.id)
-      //                 }
-      //         }}></IconButton>
-      //     </div>
-      // </Box>
-      <div>
-        <Grid templateColumns="repeat(5, 1fr)" padding=".5em">
-          <>
-            <GridItem colSpan={4}>
-              <ListItem
-                className="outcome-list-card"
-                key={idx}
-                background="#edf2f7"
-                boxShadow="0px 4px 4px rgba(0, 0, 0, 0.25)"
-                borderRadius="5px"
-                padding="10px"
-                width="75%"
-                float="right"
-              >
-                {prog.name}
-              </ListItem>
-            </GridItem>
-            <GridItem colStart={5} colEnd={6}>
-              <Button
-                variant="ghost"
-                onClick={() => {
-                  alert(
-                    "This will change the name of the department everywhere it appears in the system. Are you sure you would like to change this? "
-                  );
-                }}
-              >
-                Edit
-              </Button>
-            </GridItem>
-          </>
-        </Grid>
-      </div>
+      <ListItem align="center">
+        <Programs      
+          program={prog.name.name}
+          color={idx %2 == 0 ? "gray.300" : "gray.100"}
+          key={idx}>
+    
+        </Programs>
+      </ListItem>
+      
     );
   });
 
