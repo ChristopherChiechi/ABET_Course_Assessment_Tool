@@ -394,11 +394,11 @@ export default class API {
     }
     
     //---addProgram(department)--- (Admin)
-    //    Input: department
+    //    Input: program name
     //    Output: success or failure
-    async addProgram(department = "") {
+    async addProgram(program = "") {
         const body = {
-            department
+            program
         };
         
         return await this.sendPost("/programs/add-program", body);
