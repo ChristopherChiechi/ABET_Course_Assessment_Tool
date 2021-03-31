@@ -393,6 +393,17 @@ export default class API {
         return await this.sendPost("/courses/get-by-department", body);
     }
     
+    //---addProgram(department)--- (Admin)
+    //    Input: department
+    //    Output: success or failure
+    async addProgram(department = "") {
+        const body = {
+            department
+        };
+        
+        return await this.sendPost("/programs/add-program", body);
+    }
+    
     //---addCourse(userid, firstName, lastName, year, semester, courseNumber, displayName, department)--- (Admin)
     //    Input: ^^^
     //    Output: success or failure
