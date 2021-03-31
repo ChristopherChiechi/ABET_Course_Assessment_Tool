@@ -3,6 +3,13 @@ import {
     List,
     ListItem,
     Text,
+    Table,
+    Thead,
+    Tbody,
+    Tr,
+    Th,
+    Td,
+    TableCaption,
     VStack,
     HStack,
     RadioGroup,
@@ -21,40 +28,50 @@ const TAsurvey = ({ TAquestions, handleChange }) => {
         return <Radio key={index} value={index + 1}>{index + 1}</Radio>
     });
 
+    const renderRows = TAquestions.map((question, idx) => {
+        return (
+            <Tr key={idx}>
+                <Td>{question.question}</Td>
+                <Td>
+                    <RadioGroup
+                        value={question.rating}
+                        onChange={(e) =>
+                            handleChange(e, idx, "TA")
+                        }
+                    >
+                        <HStack spacing={10}>
+                            {renderRadios}
+                        </HStack>
+                    </RadioGroup>
+                </Td>
+            </Tr>
+        )
+    });
+
     return (
         <>
             <Text fontWeight="bold">
                 TA evaluation. Have each rated 1-5, with 5 being very satisfied and 1
-                being very unsatisfied
+                being very unsatisfied.
             </Text>
             <Center
                 m="2em"
-                padding="2em"
+                padding="1em"
                 bg="#edf2f7"
                 w="80%"
             >
-                <List padding="1em" w="90%" bg="white" borderRadius="8px">
-                    {TAquestions.map((question, idx) => {
-                        return (
-                            <ListItem mb="1em" key={idx}>
-                                { (idx > 0) ? <Divider /> : null}
-                                <VStack>
-                                    <Text mt="1em">{question.question}</Text>
-                                    <RadioGroup
-                                        value={question.rating}
-                                        onChange={(e) =>
-                                            handleChange(e, idx, "TA")
-                                        }
-                                    >
-                                        <HStack spacing={10}>
-                                            {renderRadios}
-                                        </HStack>
-                                    </RadioGroup>
-                                </VStack>
-                            </ListItem>
-                        );
-                    })}
-                </List>
+                <Table padding="1em" bg="white">
+                    <Thead>
+
+                        <Tr>
+                            <Th>Course Outcome</Th>
+                            <Th>Rating</Th>
+                        </Tr>
+                    </Thead>
+                    <Tbody>
+                        {renderRows}
+                    </Tbody>
+                </Table>
             </Center>
 
         </>

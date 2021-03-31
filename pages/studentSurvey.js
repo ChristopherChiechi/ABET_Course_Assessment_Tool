@@ -8,6 +8,7 @@ import {
   Text,
   VStack,
   Button,
+  Box
 } from "@chakra-ui/react";
 //hooks
 import useToggle from "../hooks/useToggle"
@@ -16,9 +17,9 @@ import StudentLoginBox from "../components/survey-components/StudentLoginBox";
 import StudentInfoForm from "../components/survey-components/StudentInfoForm";
 import CourseOutcomesSurvey from "../components/survey-components/CourseOutcomesSurvey";
 import TAsurvey from "../components/survey-components/TAsurvey";
+import StudentFeedback from "../components/survey-components/StudentFeedback";
 //page data 
 import { PageContext, pageData } from '../components/survey-components/SurveyPageData';
-import StudentFeedback from "../components/survey-components/StudentFeedback";
 
 const studentSurvey = () => {
   const context = useContext(PageContext);
@@ -47,17 +48,20 @@ const studentSurvey = () => {
   };
 
   const handleChange = (rating, idx, type) => {
-    if(type == "TA"){
+    if (type == "TA") {
       var temp = TAquestions;
       temp[idx].rating = parseInt(rating);
       setTAquestions([...temp]);
       console.log(TAquestions[idx]);
     }
-    else if(type == "Outcomes"){
+    else if (type == "Outcomes") {
       var temp = outcomeSurvey;
       outcomeSurvey[idx].rating = parseInt(rating);
       setOutcomeSurvey([...temp]);
       console.log(outcomeSurvey[idx]);
+    }
+    else {
+      console.log("incorrect type");
     }
   };
 
@@ -65,16 +69,21 @@ const studentSurvey = () => {
     <PageContext.Provider value={pageData}>
       {isLoggedIn
         ?
-        <VStack mt="2em">
-          <Text fontSize="2xl" fontWeight="bold">{course.code} {course.name}</Text>
+        <>
+          <VStack mt="2em">
 
-          <StudentInfoForm studentInformation={studentInformation} setStudentInformation={setStudentInformation} />
-          <CourseOutcomesSurvey outcomeSurvey={outcomeSurvey} handleChange={handleChange} />
-          <TAsurvey TAquestions={TAquestions} handleChange={handleChange} />
-          <StudentFeedback studentInput={studentInput} setStudentInput={setStudentInput} />
+          <Box w="80%">
+            <Text fontSize="2xl" fontWeight="bold">{course.code} {course.name}</Text>
+            <Text fontSize="xl" fontWeight="bold" color="green">Student Feedback Survey</Text>
+          </Box>
+            <StudentInfoForm studentInformation={studentInformation} setStudentInformation={setStudentInformation} />
+            <CourseOutcomesSurvey outcomeSurvey={outcomeSurvey} handleChange={handleChange} />
+            <TAsurvey TAquestions={TAquestions} handleChange={handleChange} />
+            <StudentFeedback studentInput={studentInput} setStudentInput={setStudentInput} />
 
-          <Button onClick={testFunction} mb="1em" colorScheme="green">Submit Survey</Button>
-        </VStack>
+            <Button onClick={testFunction} mb="1em" colorScheme="green">Submit Survey</Button>
+          </VStack>
+        </>
         :
         <StudentLoginBox toggleLoggin={toggleLogin} />
       }

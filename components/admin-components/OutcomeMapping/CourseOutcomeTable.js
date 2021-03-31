@@ -47,6 +47,7 @@ const CourseOutcomeTable = ({ course, handleCheck }) => {
                             return (
                               <Checkbox
                                 value={value}
+                                key={studentIdx}
                                 onChange={e => {
                                     e.preventDefault();
                                     handleCheck(course, studentIdx, courseIdx)

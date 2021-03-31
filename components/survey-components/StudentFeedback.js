@@ -17,7 +17,7 @@ const StudentFeedback = ({ studentInput, setStudentInput }) => {
         <>
             <Container
                 m="2em"
-                padding="2em"
+                padding="1em"
                 bg="#edf2f7"
                 minW="80%"
             >
@@ -32,7 +32,7 @@ const StudentFeedback = ({ studentInput, setStudentInput }) => {
 
             <Container
                 m="2em"
-                padding="2em"
+                padding="1em"
                 bg="#edf2f7"
                 minW="80%"
             >

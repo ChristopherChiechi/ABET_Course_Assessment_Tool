@@ -3,6 +3,13 @@ import {
     List,
     ListItem,
     Text,
+    Table,
+    Thead,
+    Tbody,
+    Tr,
+    Th,
+    Td,
+    TableCaption,
     VStack,
     HStack,
     RadioGroup,
@@ -16,40 +23,51 @@ const CourseOutcomesSurvey = ({ outcomeSurvey, handleChange }) => {
     const renderRadios = Array.from(Array(5), (x, index) => {
         return <Radio key={index} value={index + 1}>{index + 1}</Radio>
     });
+
+    const renderRows = outcomeSurvey.map((outcome, idx) => {
+        return (
+            <Tr key={idx}>
+                <Td>{outcome.outcome}</Td>
+                <Td>
+                    <RadioGroup
+                        value={outcome.rating}
+                        onChange={(e) =>
+                            handleChange(e, idx, "Outcomes")
+                        }
+                    >
+                        <HStack spacing={10}>
+                            {renderRadios}
+                        </HStack>
+                    </RadioGroup>
+                </Td>
+            </Tr>
+        )
+})
+
     return (
         <>
             <Text fontWeight="bold">
                 For each of the course outcomes, rate each from 1 to 5 in terms of
-        agreement with your level of agreement.{" "}
+        agreement with your level of agreement.
             </Text>
             <Center
                 m="2em"
-                padding="2em"
+                padding="1em"
                 bg="#edf2f7"
                 w="80%"
             >
-                <List padding="1em" w="90%" bg="white" borderRadius="8px">
-                    {outcomeSurvey.map((outcome, idx) => {
-                        return (
-                            <ListItem mb="1em" key={idx}>
-                                { (idx > 0) ? <Divider /> : null}
-                                <VStack>
-                                    <Text mt="1em">{outcome.outcome}</Text>
-                                    <RadioGroup
-                                        value={outcome.rating}
-                                        onChange={(e) =>
-                                            handleChange(e, idx, "Outcomes")
-                                        }
-                                    >
-                                        <HStack spacing={10}>
-                                            {renderRadios}
-                                        </HStack>
-                                    </RadioGroup>
-                                </VStack>
-                            </ListItem>
-                        );
-                    })}
-                </List>
+                <Table padding="1em" bg="white">
+                    <Thead>
+
+                        <Tr>
+                            <Th>Course Outcome</Th>
+                            <Th>Rating</Th>
+                        </Tr>
+                    </Thead>
+                    <Tbody>
+                        {renderRows}
+                    </Tbody>
+                </Table>
             </Center>
 
         </>
