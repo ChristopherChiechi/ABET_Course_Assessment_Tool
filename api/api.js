@@ -21,7 +21,7 @@ export default class API {
     // generic function for sending POST requests
     //    Input: route and body
     //    Output: The JSON that is returned from the route
-    async sendPost(route = "", body = {}) {
+    async sendPost(route = "", body = {}, isFileDownload = false, fileName = "") {
         const url = root + route; // Combine the root URL with the specified route
         var statusCode; //holds the status code of the response
 
@@ -45,19 +45,31 @@ export default class API {
 
                 if (statusCode == UNAUTHORIZED) //this check has to be here for some reason ¯\_(ツ)_/¯
                     return;
+                else if (isFileDownload)
+                    return response.blob();
                 else
                     return response.json();
             })
             .then((json) => {
-                if (statusCode == OK)
-                    return json;
+                if (statusCode == OK) {
+                    if (isFileDownload) { //download the responded file
+                        var a = document.createElement("a");
+                    
+                        a.href = URL.createObjectURL(json);
+                        a.setAttribute("download", fileName);
+                        a.click();
+                        return;
+                    }
+                    else
+                        return json;
+                }
                 else if (statusCode == UNAUTHORIZED)
                     return new ErrorObj(NOT_LOGGED_IN_MSG, false); //user's session has expired
                 else {
                     if (json.hasOwnProperty("message"))
                         return new ErrorObj(json["message"]); //custom error message from API
                     else
-                        return new ErrorObj(BAD_REQUEST_MSG); //bad input parameters
+                        return new ErrorObj(BAD_REQUEST_MSG); //default bad input parameters message
                 }
             })
             .catch(() => { return new ErrorObj(SERVER_ERROR_MSG); });
@@ -91,7 +103,7 @@ export default class API {
                     if (json.hasOwnProperty("message"))
                         return new ErrorObj(json["message"]); //custom error message from API
                     else
-                        return new ErrorObj(BAD_REQUEST_MSG); //bad input parameters
+                        return new ErrorObj(BAD_REQUEST_MSG); //default bad input parameters message
                 }
             })
             .catch(() => { return new ErrorObj(SERVER_ERROR_MSG); });
@@ -510,12 +522,25 @@ export default class API {
         return await this.sendFile('/upload-access-db', formData);
     }
     
-    async uploadFormAttachment(formData = new FormData(), outcomeId = 0) 
+    async uploadStudentWork(formData = new FormData(), outcomeId = 0, courseNumber = "", sectionNumber = "", semester = "", year = 0) 
     {
         //outcomeId is a unique id that identifies a certain outcome in the DB
         //it will come from the DB when the instructor form page is loaded
-        formData.append("outcomeId", outcomeId); 
-        return await this.sendFile('/upload-form-attachment', formData);
+
+        formData.append("outcomeId", outcomeId);
+        formData.append("courseNumber", courseNumber);
+        formData.append("sectionNumber", sectionNumber);
+        formData.append("semester", semester);
+        formData.append("year", year);
+        return await this.sendFile('/student-work/upload', formData);
+    }
+
+    async downloadStudentWork(fileId = "", fileName = "") {
+        //fileId is the unique file name given to a file when it is uploaded
+        //fileName is the original file name the file had before it was uploaded
+        //both of these values will come from the DB when the instructor form page is loaded
+    
+        return await this.sendPost("/student-work/download", { fileId }, true, fileName);
     }
 }
 
