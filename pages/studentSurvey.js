@@ -47,7 +47,17 @@ const studentSurvey = () => {
       studentInformation.classification == "" ||
       studentInformation.grade === ""
     ) {
-      alert("Fill out the student information");
+      alert(" Please fill out the student information");
+    }
+    let i;
+    let counter = 0;
+    for (i = 0; i < outcomeSurvey.length; i++) {
+      if (outcomeSurvey[i].rating === 0) {
+        counter++;
+      }
+      if (counter > 0) {
+        alert("Please fill out course outcomes");
+      }
     }
   };
 
