@@ -56,8 +56,18 @@ const studentSurvey = () => {
         counter++;
       }
       if (counter > 0) {
-        alert("Please fill out course outcomes");
+        alert("Please fill out the course outcomes");
       }
+    }
+    let j;
+    let taCounter = 0;
+    for (j = 0; j < TAquestions.length; j++) {
+      if (TAquestions[i].rating === 0) {
+        taCounter++;
+      }
+    }
+    if (taCounter > 0) {
+      alert("Please fill out the Ta questions");
     }
   };
 
