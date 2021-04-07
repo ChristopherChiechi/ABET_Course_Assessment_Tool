@@ -50,6 +50,7 @@ const instructorHome = () => {
     
     useEffect(() => {
         getCourses();
+        console.log(term);
     }, [term]);
 
     
@@ -63,7 +64,7 @@ const instructorHome = () => {
                 mt="4em"                
             >
                 <TermSelect parentTerm={term} setParentTerm={setTerm}/>
-                <FormsView instructorCourses={courses.instructorCourses} coordinatorCourses={courses.coordinatorCourses}/>
+                <FormsView instructorCourses={courses.instructorCourses} coordinatorCourses={courses.coordinatorCourses} term={term}/>
             </VStack>
         </div>
     )

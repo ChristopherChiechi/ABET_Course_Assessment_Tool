@@ -29,7 +29,7 @@ export default class API {
         if (typeof cookieCutter.get == "function") {
             token = cookieCutter.get("token");
         }
-
+  
         return await fetch(url, {
             method: "POST",
             cache: "no-cache",

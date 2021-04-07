@@ -38,7 +38,6 @@ const StudentInfoForm = ({ studentInformation, setStudentInformation }) => {
             bg="#edf2f7"
             w="80%"
             borderRadius="4px"
-            dir="column"
         >
             {questions.map((question, idx) => {
                 return (
