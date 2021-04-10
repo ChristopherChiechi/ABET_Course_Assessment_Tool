@@ -2,6 +2,6 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/adminHome": "pages/adminHome.js",
-  "/formCompletion": "pages/formCompletion.js"
+  "/studentSurvey": "pages/studentSurvey.js",
+  "/instructorHome": "pages/instructorHome.js"
 }

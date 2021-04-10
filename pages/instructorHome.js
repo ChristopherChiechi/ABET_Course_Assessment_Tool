@@ -41,7 +41,7 @@ const instructorHome = () => {
             instructorCourses: instructor,
             coordinatorCourses: coordinator
         })
-    }
+    };
     
     useEffect(() => {
         getCourses();
@@ -50,7 +50,7 @@ const instructorHome = () => {
     
     useEffect(() => {
         getCourses();
-        console.log(term);
+        console.log(courses);
     }, [term]);
 
     

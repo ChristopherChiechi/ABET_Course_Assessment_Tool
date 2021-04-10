@@ -24,15 +24,15 @@
       "static/chunks/webpack.js",
       "static/chunks/pages/_error.js"
     ],
-    "/adminHome": [
+    "/instructorHome": [
       "static/chunks/main.js",
       "static/chunks/webpack.js",
-      "static/chunks/pages/adminHome.js"
+      "static/chunks/pages/instructorHome.js"
     ],
-    "/formCompletion": [
+    "/studentSurvey": [
       "static/chunks/main.js",
       "static/chunks/webpack.js",
-      "static/chunks/pages/formCompletion.js"
+      "static/chunks/pages/studentSurvey.js"
     ]
   },
   "ampFirstPages": []

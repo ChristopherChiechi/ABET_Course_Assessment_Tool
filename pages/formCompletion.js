@@ -19,7 +19,7 @@ import { getFormBySection } from '../api/APIHelper';
 
 const formCompletion = ({ number, section, semester, year, id }) => {
     console.log(number, section, semester, year, id);
-    const [form, setForm] = useState(); 
+    const [form, setForm] = useState();
     console.log(form);
     const getForm = async () => {
         const formData = await getFormBySection(id, 2020, "Fall", "CSCE", number.toString(), section);
@@ -32,8 +32,24 @@ const formCompletion = ({ number, section, semester, year, id }) => {
     }, []);
 
     return (
-        <Text>
-        </Text>
+        <>
+            <VStack mt="2em">
+                <Box w="80%">
+                    <Text fontSize="2xl" fontWeight="bold">
+                        CSCE {number}.{section}
+                    </Text>
+                    <Text fontSize="xl" fontWeight="bold" color="green">
+                        ABET Course Assesment 
+                    </Text>
+                </Box>
+                
+
+
+                <Button  mb="1em" colorScheme="green">
+                    Submit Report
+                </Button>
+            </VStack>
+        </>
     )
 }
 
