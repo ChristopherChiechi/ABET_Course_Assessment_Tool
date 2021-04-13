@@ -29,9 +29,9 @@ export async function getCoordinatorCourses(id, term){
     return(coordinatorCourses);
 };
 
-export async function getFormData(id, year, term, department, course, section){
+export async function getFormBySection(id, year, semester, department, course, section){
     let api_helper = new API();
-    let response = api_helper.getFormBySection(id, year, term, department, course, section);
+    let response = api_helper.getFormBySection(id, year, semester, department, course, section);
     response.then(function (result){
         return result
     });
@@ -135,4 +135,8 @@ export async function removeCourse(year, semester, courseNumber, department) {
   const success = await response;
   console.log(success);
   console.log(courseNumber);
+}
+
+export async function postCourseOutcomes() {
+
 }

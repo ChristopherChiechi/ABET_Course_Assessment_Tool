@@ -39,50 +39,31 @@ const TermSelect = ({parentTerm, setParentTerm}) => {
         })
     }
 
-    const updateTerm = (e) => {
-        e.preventDefault();
-        setParentTerm({
-            semester: term.semester,
-            year: term.year
-        });
-    }
-
     return(
         <>
             <HStack>
                     <Text>Showing forms for</Text>
                     <Badge colorScheme="teal" fontSize="lg">{parentTerm.semester} {parentTerm.year}</Badge>
-                    
-
-                    <Popover>
-                        {({ onClose }) => (
-                <>
-                    <PopoverTrigger>
-                        <Button mb="0em" colorScheme="teal" size="lg">
-                            Change Term
-                        </Button>
-                    </PopoverTrigger>
-                </>
-                )}
-                    </Popover>
             </HStack>
             <Popover>
                 {({ onClose }) => (
                 <>
-                    {/*<PopoverTrigger>
+                    <PopoverTrigger>
                         {<Button mb="3em" colorScheme="teal" size="lg">
                             Change Term
                 </Button>}
-                    </PopoverTrigger>*/}
+                    </PopoverTrigger>
                     <PopoverContent>
                         <PopoverArrow />
                         <PopoverCloseButton />
                         <PopoverBody padding="2em">
                             <Select placeholder="semester" variant="filled" value={term.semester} onChange={handleSemesterChange}>
-                                {terms.map(term => {return <option value={term}>{term}</option>})}
+                                {terms.map((term, idx) => {
+                                    return <option value={term} key={idx}>{term}</option>
+                                    })}
                             </Select>
                             <Select placeholder="year" mt="1em" variant="filled" value={term.year} onChange={handleYearChange}>
-                                {years.map(year => {return <option value={year}>{year}</option>})}
+                                {years.map((year, idx) => {return <option value={year} key={idx}>{year}</option>})}
                             </Select>
                             <Button 
                                 float="right" 

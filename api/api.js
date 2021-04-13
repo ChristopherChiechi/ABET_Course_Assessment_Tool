@@ -4,9 +4,11 @@ import cookieCutter from 'cookie-cutter';
 const root = "https://localhost:44372/api"; // The base URL for each request
 const OK = 200;           //200 Ok status code
 const UNAUTHORIZED = 401; //401 Unauthorized status code
+const FORBIDDEN = 403;    //403 Unauthorized status code
 const NOT_LOGGED_IN_MSG = "Error: Your session has expired. Please log in again.";
 const SERVER_ERROR_MSG = "Internal Server Error: Please try again later.";
 const BAD_REQUEST_MSG = "Error: Some of the provided parameters are invalid.";
+const FORBIDDEN_MSG = "Error: You are unauthorized to make this request.";
 var token = "";           //holds value of the token cookie
 
 export default class API {
@@ -45,7 +47,8 @@ export default class API {
 
                 if (statusCode == UNAUTHORIZED) //this check has to be here for some reason ¯\_(ツ)_/¯
                     return;
-                else if (isFileDownload)
+
+                if (isFileDownload)
                     return response.blob();
                 else
                     return response.json();
@@ -65,6 +68,8 @@ export default class API {
                 }
                 else if (statusCode == UNAUTHORIZED)
                     return new ErrorObj(NOT_LOGGED_IN_MSG, false); //user's session has expired
+                else if (statusCode == FORBIDDEN)
+                    return new ErrorObj(FORBIDDEN_MSG);
                 else {
                     if (json.hasOwnProperty("message"))
                         return new ErrorObj(json["message"]); //custom error message from API
@@ -72,7 +77,12 @@ export default class API {
                         return new ErrorObj(BAD_REQUEST_MSG); //default bad input parameters message
                 }
             })
-            .catch(() => { return new ErrorObj(SERVER_ERROR_MSG); });
+            .catch(() => {
+                if (statusCode == FORBIDDEN)
+                    return new ErrorObj(FORBIDDEN_MSG);
+                else
+                    return new ErrorObj(SERVER_ERROR_MSG);
+            });
     }
 
     async sendFile(route = "", formData = new FormData()) {
@@ -91,14 +101,16 @@ export default class API {
 
                 if (statusCode == UNAUTHORIZED) //this check has to be here for some reason ¯\_(ツ)_/¯
                     return;
-                else
-                    return response.json();
+                
+                return response.json();
             })
             .then((json) => {
                 if (statusCode == OK)
                     return json;
                 else if (statusCode == UNAUTHORIZED)
                     return new ErrorObj(NOT_LOGGED_IN_MSG, false); //user's session has expired
+                else if (statusCode == FORBIDDEN)
+                    return new ErrorObj(FORBIDDEN_MSG);
                 else {
                     if (json.hasOwnProperty("message"))
                         return new ErrorObj(json["message"]); //custom error message from API
@@ -106,7 +118,12 @@ export default class API {
                         return new ErrorObj(BAD_REQUEST_MSG); //default bad input parameters message
                 }
             })
-            .catch(() => { return new ErrorObj(SERVER_ERROR_MSG); });
+            .catch(() => {
+                if (statusCode == FORBIDDEN)
+                    return new ErrorObj(FORBIDDEN_MSG);
+                else
+                    return new ErrorObj(SERVER_ERROR_MSG);
+            });
     }
 
     //---login(userid, password)---
@@ -415,6 +432,13 @@ export default class API {
         
         return await this.sendPost("/programs/add-program", body);
     }
+
+    //---addProgram(program)--- (Admin)
+    //    Input: None
+    //    Output: List of program names
+    async getProgramNames() {
+        return await this.sendPost("/programs/get-program-names", {});
+    }
     
     //---addCourse(userid, firstName, lastName, year, semester, courseNumber, displayName, department)--- (Admin)
     //    Input: ^^^
@@ -541,6 +565,34 @@ export default class API {
         //both of these values will come from the DB when the instructor form page is loaded
     
         return await this.sendPost("/student-work/download", { fileId }, true, fileName);
+    }
+
+    //---postStudentSurvey(...)--- (Student)
+    //    Input: vvv
+    //    Output: success or failure
+    async postStudentSurvey(studentId = "", courseNumber = "", sectionNumber = "", year = 0, semester = "", program = "", classification = "", anticipatedGrade = "", outcomeRatings = [new Number], taRatings = [new Number], taComment = "", courseComment = "") {
+        //outcomeRatings and taRatings are arrays of numbers 1-5
+        
+        const body = {
+            studentSurvey: {
+                studentId,
+                section: {
+                    courseNumber,
+                    sectionNumber,
+                    year,
+                    semester
+                },
+                program,
+                classification,
+                anticipatedGrade,
+                outcomeRatings,
+                taRatings,
+                taComment,
+                courseComment
+            }
+        }
+
+        return await this.sendPost("/student-surveys/post-survey", body);
     }
 }
 
