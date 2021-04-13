@@ -15,11 +15,23 @@ import {
 import useInputState from "../../../hooks/useInputState";
 import fakeData from "../../../fake-data/programs.json";
 import Programs from "../Programs";
+import {addProgram,} from "../../../api/APIHelper";
+import AddProgram from "./AddProgram";
 
 const EditProgramList = () => {
   useEffect(() => {
     document.getElementById("top").scrollIntoView();
   });
+
+  const [theProgram, setNewProgram] = useState({
+    programs: [],
+  });
+
+  const [newProgram, addNewProgram] = useState({
+    program: "",
+  });
+
+  
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -41,20 +53,13 @@ const EditProgramList = () => {
     csePrograms.push(obj);
   }
 
-  const [program, setProgram, reset] = useInputState("");
-  const [programs, setPrograms] = useState(csePrograms);
-
-  const addProgram = (event) => {
-    event.preventDefault();
-    setPrograms([
-      ...programs,
-      {
-        id: programs.length,
-        name: program,
-      },
-    ]);
-    reset();
-  };
+  useEffect(() => {
+    if(newProgram.program !== ""){
+      addProgram(newProgram.program);
+      alert("New Program Added");
+    }
+  }, [newProgram]);
+  console.log(newProgram);
 
   const removeProgram = (id) => {
     event.preventDefault();
@@ -86,7 +91,8 @@ const EditProgramList = () => {
           Programs
         </Text>
         <List w="90%">{renderProgram}</List>
-        <form onSubmit={addProgram}>
+        <AddProgram addNewProgram={addNewProgram}></AddProgram>
+        {/* <form onSubmit={addProgram}>
           <Input
             mt="1rem"
             placeholder="enter a new program"
@@ -109,7 +115,7 @@ const EditProgramList = () => {
         ></IconButton>
         <Button variantColor="green" variant="outline" onClick={handleSubmit}>
           Submit
-        </Button>
+        </Button> */}
       </VStack>
     </div>
   );
