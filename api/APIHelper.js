@@ -140,3 +140,14 @@ export async function removeCourse(year, semester, courseNumber, department) {
 export async function postCourseOutcomes() {
 
 }
+
+export async function addProgram(program){
+    let api_helper = new API();
+    let response = api_helper.addProgram(program);
+    response.then(function (result) {
+        return result;
+    });
+
+    const success = await response;
+    console.log(success);
+}
