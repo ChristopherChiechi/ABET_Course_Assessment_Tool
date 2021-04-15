@@ -64,10 +64,19 @@ const FormsView = ({ instructorCourses, coordinatorCourses, term }) => {
                 <Td isNumeric>
                     <Button colorScheme="blue" mt="1em" size="sm" variant="link" onClick={e => {
                         e.preventDefault();
-                        handleClick(course.courseNumber, course.sectionNumber);
-                        window.location.href = 'http://localhost:3000/coordinatorCommentInput';
                     }}>
-                        Add Comment
+                        <Link
+                         href={{
+                            pathname: "/coordinatorForms",
+                            query: { 
+                                number: course.courseNumber, 
+                                section: course.sectionNumber,
+                                semester: term.semester,
+                                year: term.year
+                            },
+                          }}>
+                            Add comment
+                        </Link>
                     </Button>
                 </Td>
             </Tr>
