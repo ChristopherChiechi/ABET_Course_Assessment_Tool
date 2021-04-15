@@ -11,21 +11,21 @@ const AdminMenu = ({setView}) => {
     return (
                 <Accordion allowToggle>
                     <AccordionItem >
-                        <AccordionButton _expanded={{ bg: "#38A169", color: "white" }} flex="1" textAlign="left" onClick={()=>{
+                        <AccordionButton _expanded={{ bg: "#38A169", color: "white" }} flex="1" textAlign="left" height="14" onClick={()=>{
                             setView("GFR");
                         }}>
                             Generate Full Report
                         </AccordionButton>
                     </AccordionItem>
                     <AccordionItem>
-                        <AccordionButton _expanded={{ bg: "#38A169", color: "white" }} flex="1" textAlign="left" onClick={()=>{
+                        <AccordionButton _expanded={{ bg: "#38A169", color: "white" }} flex="1" textAlign="left" height="14" onClick={()=>{
                             setView("GSS");
                         }}>
                             Generate Student Surveys
                         </AccordionButton>
                     </AccordionItem>
                     <AccordionItem>
-                        <AccordionButton _expanded={{ bg: "#38A169", color: "white" }} flex="1" textAlign="left" onClick={()=>{
+                        <AccordionButton _expanded={{ bg: "#38A169", color: "white" }} flex="1" textAlign="left" height="14"onClick={()=>{
                             setView("GSR");
                         }}>
                             Generate Section Report
@@ -33,7 +33,7 @@ const AdminMenu = ({setView}) => {
                     </AccordionItem>
 
                     <AccordionItem>
-                        <AccordionButton _expanded={{ bg: "#38A169", color: "white" }} flex="1" textAlign="left" onClick={()=>{
+                        <AccordionButton _expanded={{ bg: "#38A169", color: "white" }} flex="1" textAlign="left" height="14"onClick={()=>{
                             setView("OM");
                         }}>
                             Student Outcome Mapping
@@ -41,11 +41,11 @@ const AdminMenu = ({setView}) => {
                     </AccordionItem>
 
                     <AccordionItem>
-                        <AccordionButton  flex="1" textAlign="left">
+                        <AccordionButton  flex="1" textAlign="left" height="14" >
                             Department Changes
                         </AccordionButton>
                         <AccordionIcon />
-                        <AccordionPanel pb={4}>
+                        <AccordionPanel pb={4} marginBottom="1em">
                             <Accordion allowToggle>
                                 <AccordionItem>
                                         <AccordionButton _expanded={{ bg: "#38A169", color: "white" }} flex="1" textAlign="left" onClick={()=>{
@@ -88,7 +88,7 @@ const AdminMenu = ({setView}) => {
                                 </AccordionItem>
 
                                 <AccordionItem>
-                                        <AccordionButton _expanded={{ bg: "#38A169", color: "white" }} flex="1" textAlign="left" onClick={()=>{
+                                        <AccordionButton _expanded={{ bg: "#38A169", color: "white" }} flex="1" textAlign="left"onClick={()=>{
                                             setView("ECO");
                                         }}>
                                             Edit Course Outcomes

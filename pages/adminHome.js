@@ -1,4 +1,15 @@
 import { useState } from "react";
+import {
+  Button,
+  Drawer,
+  DrawerBody,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  useDisclosure,
+} from "@chakra-ui/react"
 import Head from "next/head";
 import AdminNavigation from "../components/admin-components/AdminNavigation";
 import AdminMenu from "../components/admin-components/AdminMenu";
@@ -15,7 +26,8 @@ import GenerateStudentSurveys from "../components/admin-components/GenerateStude
 
 const adminHome = () => {
   const [user, setUser] = useState("MT2020");
-  const [view, setView] = useState("GFR");
+  const [view, setView] = useState("OM");
+  const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <div>
       <Head>
@@ -24,7 +36,19 @@ const adminHome = () => {
       <AdminNavigation user={user} />
       <div>
         <div>
-          <AdminMenu setView={setView} />
+          <Button colorScheme="green" onClick={onOpen} width="11%" height="50px" marginLeft="1%" position="fixed">
+        Admin Menu
+      </Button>
+      <Drawer placement="left" onClose={onClose} isOpen={isOpen} size="lg" closeOnEsc="true" colorScheme="green" preserveScrollBarGap="true">
+        <DrawerOverlay>
+          <DrawerContent>
+            <DrawerHeader borderBottomWidth="1px" textAlign="center">Admin Menu</DrawerHeader>
+            <DrawerBody>
+             <AdminMenu setView={setView} />
+            </DrawerBody>
+          </DrawerContent>
+        </DrawerOverlay>
+      </Drawer>
         </div>
         <div>
           {(() => {

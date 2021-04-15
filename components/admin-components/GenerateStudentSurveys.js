@@ -80,9 +80,9 @@ const GenerateStudentSurveys = () => {
   if (show) {
     return (
       <div id="top">
-        <Box borderWidth="2px" rounded="lg" alignItems="center" m="1em" p="3em">
+        <Box rounded="lg" alignItems="center" m="1em" p="3em">
         <Table variant="striped" colorScheme="green" padding="1em">
-        <TableCaption placement="top" fontWeight="bold" fontSize="xl">GenerateStudentSurveys</TableCaption>
+        <TableCaption placement="top" fontWeight="bold" fontSize="2xl" mt="1em">GenerateStudentSurveys</TableCaption>
               <Button onClick={toggleOn} mb="1em">
                 Sort by Course Number
               </Button>
@@ -95,9 +95,9 @@ const GenerateStudentSurveys = () => {
   if (!show) {
     return (
       <div id="top">
-        <Box borderWidth="2px" rounded="lg" alignItems="center" m="1em" p="3em">
+        <Box rounded="lg" alignItems="center" m="1em" p="3em">
         <Table variant="striped" colorScheme="green" padding="1em">
-        <TableCaption placement="top" fontWeight="bold" fontSize="xl">GenerateStudentSurveys</TableCaption>
+        <TableCaption placement="top" fontWeight="bold" fontSize="2xl" mt="1em" textColor="black">GenerateStudentSurveys</TableCaption>
               <Button onClick={toggleOn} mb="1em">
                 Sort by Course Number
               </Button>

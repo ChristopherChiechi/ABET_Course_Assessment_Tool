@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link, Box, Text } from "@chakra-ui/react";
 import API from "./../../api/api";
 
-const AdminNavigation = ({ link, user }) => {
+const AdminNavigation = ({ link, user}) => {
   const logout = () => {
     new API().logout();
   };
@@ -22,18 +22,6 @@ const AdminNavigation = ({ link, user }) => {
             padding="10px"
             marginBottom="20px"
           >
-            <div>
-              <Link
-                float="left"
-                marginLeft="auto"
-                textAlign="left"
-                display="flex"
-                paddingLeft="10px"
-                href="/adminHome"
-              >
-                Home
-              </Link>
-            </div>
             <div>
               <Link
                 href="/"

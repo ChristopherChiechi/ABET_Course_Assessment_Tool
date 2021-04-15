@@ -108,7 +108,7 @@ const EditOutcomeList = ({ prop }) => {
 
   return (
     <div>
-      <VStack id="top" w="100%" m="0 auto" marginBottom="3em">
+      <VStack w="100%" m="0 auto" marginBottom="3em">
         <Text fontWeight="bold" fontSize="20px" display="inline">
           Edit Course Outcome List for {shortName}{" "}
         </Text>

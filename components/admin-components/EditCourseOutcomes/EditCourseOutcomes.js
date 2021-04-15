@@ -8,9 +8,6 @@ const courses = fakeData.courses;
 console.log(courses);
 
 const EditCourseOutcomes = () => {
-  useEffect(() => {
-    document.getElementById("top").scrollIntoView();
-  });
 
   const [option, setOption] = useState();
   const handleSetOption = (e) => {
@@ -33,7 +30,7 @@ const EditCourseOutcomes = () => {
 
   return (
     <>
-      <VStack id="top" w="80%" m="0 auto" marginBottom="10em">
+      <VStack w="80%" m="0 auto" marginBottom="10em">
         <Text fontSize="2xl" fontWeight="bold" mt="1em">
           Edit Course Outcomes
         </Text>
