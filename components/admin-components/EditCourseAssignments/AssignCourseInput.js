@@ -46,7 +46,7 @@ const AssignCourseInput = ({ course }) => {
             {sect.name}
           </ListItem>
           <ListItem display="inline" marginLeft="2rem" width="4rem">
-            <Text display="inline" marginLeft="11rem" marginBottom="1em"></Text>
+            <Text display="inline" marginLeft="8rem" marginBottom="1em"></Text>
             <Autocomplete suggestions={faculty}/>
             </ListItem>
           <IconButton
@@ -93,7 +93,7 @@ const AssignCourseInput = ({ course }) => {
             flexDirection="row"
             justifyContent="left"
             textAlign="left"
-            marginLeft="9rem"
+            marginLeft="7rem"
             width="8rem"
             marginBottom=".2em"
           ></Text>
