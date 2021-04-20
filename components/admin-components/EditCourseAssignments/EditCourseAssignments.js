@@ -27,8 +27,8 @@ const EditCourseAssignments = () => {
         </Text>
       </Box>
       <Box borderWidth="2px" rounded="lg" alignItems="center" m="1em" p="3em">
-        <div className="course-input">
-          <div className="course">
+        <div display="flex" flexDirection="row" justifyContent="left" textAlign="left">
+          <div marginLeft="2rem" width="8rem" marginBottom=".2em">
             <Text
               fontSize="lg"
               fontWeight="bold"
@@ -64,7 +64,7 @@ const EditCourseAssignments = () => {
               flexDirection="row"
               justifyContent="left"
               textAlign="left"
-              marginLeft="2rem"
+              marginLeft="10rem"
               width="10rem"
               marginBottom=".2em"
             >
@@ -78,8 +78,8 @@ const EditCourseAssignments = () => {
               flexDirection="row"
               justifyContent="left"
               textAlign="left"
-              marginLeft="2rem"
-              width="15rem"
+              marginLeft="10rem"
+              width="8rem"
               marginBottom=".2em"
             >
               Instructor
@@ -96,14 +96,16 @@ const EditCourseAssignments = () => {
               flexDirection="row"
               justifyContent="left"
               textAlign="left"
-              marginLeft="2rem"
+              marginLeft="5rem"
               width="5rem"
               marginBottom=".2em"
             ></Text>
           </div>
         </div>
         <Divider mb="2rem" borderColor="black" />
+  
         {renderCourses}
+        
         <Button variantColor="green" variant="outline" onClick={handleSave}>
           Save
         </Button>
