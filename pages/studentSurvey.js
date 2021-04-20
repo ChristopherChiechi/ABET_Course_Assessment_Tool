@@ -15,6 +15,8 @@ import {
   PageContext,
   pageData,
 } from "../components/survey-components/SurveyPageData";
+//api
+import { postStudentSurvey } from '../api/APIHelper';
 
 const studentSurvey = () => {
   const context = useContext(PageContext);
@@ -47,29 +49,29 @@ const studentSurvey = () => {
       studentInformation.classification == "" ||
       studentInformation.grade === ""
     ) {
-      alert(" Please fill out the student information");
+      alert(" Please complete the student information");
     }
     let i;
     let counter = 0;
     for (i = 0; i < outcomeSurvey.length; i++) {
       if (outcomeSurvey[i].rating === 0) {
-        counter++;
-      }
-      if (counter > 0) {
-        alert("Please fill out the course outcomes");
+        alert("Please answer all course outcomes");
+        break;
       }
     }
     let j;
     let taCounter = 0;
     for (j = 0; j < TAquestions.length; j++) {
       if (TAquestions[i].rating === 0) {
-        taCounter++;
+        alert("Please answer the Ta questions");
+        break;
       }
     }
-    if (taCounter > 0) {
-      alert("Please fill out the Ta questions");
-    }
   };
+
+  const submitSurvey = () => {
+    
+  }
 
   const handleChange = (rating, idx, type) => {
     if (type == "TA") {

@@ -40,7 +40,7 @@ const StudentFeedback = ({ studentInput, setStudentInput }) => {
                 <Textarea
                     bg="white"
                     onChange={(e) =>
-                        handleChange(e, "additonalFeedback")
+                        handleChange(e, "additionalFeedback")
                     }
                 ></Textarea>
             </Container>

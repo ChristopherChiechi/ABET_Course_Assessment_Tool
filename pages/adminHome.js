@@ -36,19 +36,19 @@ const adminHome = () => {
       <AdminNavigation user={user} />
       <div>
         <div>
-          <Button colorScheme="green" onClick={onOpen} width="11%" height="50px" marginLeft="1%" position="fixed">
-        Admin Menu
-      </Button>
-      <Drawer placement="left" onClose={onClose} isOpen={isOpen} size="lg" closeOnEsc="true" colorScheme="green" preserveScrollBarGap="true">
-        <DrawerOverlay>
-          <DrawerContent>
-            <DrawerHeader borderBottomWidth="1px" textAlign="center">Admin Menu</DrawerHeader>
-            <DrawerBody>
-             <AdminMenu setView={setView} />
-            </DrawerBody>
-          </DrawerContent>
-        </DrawerOverlay>
-      </Drawer>
+          <Button colorScheme="green" onClick={onOpen} ml="1em">
+            Admin Menu
+          </Button>
+          <Drawer placement="left" onClose={onClose} isOpen={isOpen} size="lg" closeOnOverlayClick="true" closeOnEsc="true" colorScheme="green" preserveScrollBarGap="true">
+            <DrawerOverlay>
+              <DrawerContent>
+                <DrawerHeader borderBottomWidth="1px" textAlign="center">Admin Menu</DrawerHeader>
+                <DrawerBody onClick={onClose}>
+                  <AdminMenu setView={setView} />
+                </DrawerBody>
+              </DrawerContent>
+            </DrawerOverlay>
+          </Drawer>
         </div>
         <div>
           {(() => {

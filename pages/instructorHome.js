@@ -10,19 +10,6 @@ import {getInstructorCourses, getCoordinatorCourses} from '../api/APIHelper';
 
 const instructorHome = () => {
 
-    // const userState = atom({
-    //     key: 'userState',
-    //     default: 'MT2020'
-    // });
-
-    // const termState = atom({
-    //     key: 'termState',
-    //     default: {
-    //         semester: "Fall",
-    //         year: 2020
-    //     }
-    // });
-
     const [user, setUser] = useState("MT2020");
     const [term, setTerm] = useState({
         semester: "Fall",

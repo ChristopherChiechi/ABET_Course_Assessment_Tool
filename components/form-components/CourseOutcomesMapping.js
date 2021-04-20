@@ -14,8 +14,20 @@ import {
     Center,
     Button,
     Flex,
-    HStack
+    HStack,
+    Popover,
+    PopoverTrigger,
+    PopoverContent,
+    PopoverHeader,
+    PopoverBody,
+    PopoverFooter,
+    PopoverArrow,
+    PopoverCloseButton,
+    VStack,
+    Badge,
+    Input
 } from "@chakra-ui/react";
+
 
 const CourseOutcomesMapping = ({ courseOutcomes }) => {
     console.log(courseOutcomes);
@@ -24,14 +36,62 @@ const CourseOutcomesMapping = ({ courseOutcomes }) => {
             <Tr key={idx}>
                 <Td>{outcome.outcome}</Td>
                 <Td>
-                    {
-                        outcome.studentWorks.map((work, idx) => {
-                            return (
-                                <Text color="teal">{work.fileName}</Text>
-                            )
-                        })
-                    }
-                    <Button size="sm" colorScheme="blue">Add Student Work</Button>
+                    <Flex direction="column" align="start">
+                        {
+                            outcome.studentWorks.map((work, idx) => {
+                                return (
+                                    <Popover>
+                                        <PopoverTrigger>
+                                            <HStack>
+                                                <Button variant="link" color="teal" size="sm">{work.fileId}</Button>
+                                                {work.fileName ?
+                                                    <Badge colorScheme="green">File</Badge>
+                                                    :
+                                                    <Badge colorScheme="red">Nofile</Badge>
+                                                }
+                                            </HStack>
+                                        </PopoverTrigger>
+                                        <PopoverContent>
+                                            <PopoverArrow />
+                                            <PopoverCloseButton />
+                                            <PopoverHeader>{work.fileId}</PopoverHeader>
+                                            <PopoverBody>
+                                                <Flex direction="column" align="start">
+                                                    {work.fileName ?
+                                                        <HStack>
+                                                            <Text>{work.fileName}</Text>
+                                                            <Button size="sm">Remove File</Button>
+                                                        </HStack> :
+                                                        <Button>Add File</Button>
+                                                    }
+                                                </Flex>
+                                            </PopoverBody>
+                                        </PopoverContent>
+                                    </Popover>
+                                )
+                            })
+                        }
+                        <Popover>
+                            <PopoverTrigger>
+                                <Button variant="link" color="blue" size="sm">Add Student Work</Button>
+                            </PopoverTrigger>
+                            <PopoverContent>
+                                <PopoverArrow />
+                                <PopoverCloseButton />
+                                <PopoverHeader>Add a student work</PopoverHeader>
+                                <PopoverBody>
+                                    <Flex direction="column" align="start">
+                                        <HStack>
+                                            <Text>Work name</Text>
+                                            <Input size="sm"/>
+                                        </HStack>
+                                        <Button size="sm" mt=".5em">Add a file</Button>
+                                        <Button size="sm"  mt=".5em" colorScheme="blue">Add student work</Button>
+                                    </Flex>
+                                </PopoverBody>
+                            </PopoverContent>
+                        </Popover>
+                    </Flex>
                 </Td>
                 <Td>
                     <Flex dir="row">
@@ -86,7 +146,6 @@ const CourseOutcomesMapping = ({ courseOutcomes }) => {
             >
                 <Table padding="1em" bg="white">
                     <Thead>
-
                         <Tr>
                             <Th>Course Outcomes</Th>
                             <Th>Student Work Used</Th>

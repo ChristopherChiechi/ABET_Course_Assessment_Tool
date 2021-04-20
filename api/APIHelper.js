@@ -151,3 +151,14 @@ export async function addProgram(program){
     const success = await response;
     console.log(success);
 }
+
+export async function postStudentSurvey(studentId = "", courseNumber = "", sectionNumber = "", year = 0, semester = "", program = "", classification = "", anticipatedGrade = "", outcomeRatings = [new Number], taRatings = [new Number], taComment = "", courseComment = ""){
+    let api_helper = new API();
+    let response = api_helper.postStudentSurvey(studentId, courseNumber, sectionNumber, year, semester, program, classification, anticipatedGrade, outcomeRatings, taRatings, taComment, courseComment);
+    response.then(function (result) {
+        return result;
+    });
+
+    const success = await response;
+    console.log(success);
+}

@@ -21,7 +21,6 @@ const CheckBoxGroup = ( { studentMap } ) => {
                             e.preventDefault();
                             HandleCheck(idx)}
                         }
-                        
                     >
                         {idx+1}
                     </Checkbox>
