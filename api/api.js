@@ -566,6 +566,16 @@ export default class API {
     
         return await this.sendPost("/student-work/download", { fileId }, true, fileName);
     }
+    //---deleteStudentWork(...) --- (Instructor)
+    // Input: fileId
+    // Output: success or failure
+    async deleteStudentWork (fileId = "")
+    {
+        const body = {
+            fileId
+        }
+        return await this.sendPost("/student-work/delete", body);
+    }
 
     //---postStudentSurvey(...)--- (Student)
     //    Input: vvv
