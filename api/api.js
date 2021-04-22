@@ -566,11 +566,21 @@ export default class API {
     
         return await this.sendPost("/student-work/download", { fileId }, true, fileName);
     }
+    //---deleteStudentWork(...) --- (Instructor)
+    // Input: fileId
+    // Output: success or failure
+    async deleteStudentWork (fileId = "")
+    {
+        const body = {
+            fileId
+        }
+        return await this.sendPost("/student-work/delete", body);
+    }
 
     //---postStudentSurvey(...)--- (Student)
     //    Input: vvv
     //    Output: success or failure
-    async postStudentSurvey(studentId = "", courseNumber = "", sectionNumber = "", year = 0, semester = "", program = "", classification = "", anticipatedGrade = "", outcomeRatings = [new Number], taRatings = [new Number], taComment = "", courseComment = "") {
+    async postStudentSurvey(courseNumber = "", sectionNumber = "", year = 0, semester = "", program = "", classification = "", anticipatedGrade = "", outcomeRatings = [new Number], taRatings = [new Number], taComment = "", courseComment = "") {
         //outcomeRatings and taRatings are arrays of numbers 1-5
         
         const body = {

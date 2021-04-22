@@ -7,6 +7,7 @@ import {
   List,
   Input,
   ListItem,
+  useToast,
   VStack,
 } from "@chakra-ui/react";
 import useInputState from "../../../hooks/useInputState";
@@ -16,6 +17,7 @@ import { getFacultyList, addFacultyMember } from "../../../api/APIHelper";
 import AddFacultyMember from "./AddFacultyMember";
 
 const EditFacultyList = () => {
+  const toast = useToast();
   const [faculty, setFaculty] = useState({
     fullTime: [],
     adjuncts: [],
@@ -52,8 +54,14 @@ const EditFacultyList = () => {
         newFaculty.untID,
         newFaculty.type
       );
-      alert("New Faculty Added");
       getFaculty();
+      toast({
+        title: "Faculty Added",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      })
+
     }
   }, [newFaculty]);
 

@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button, Select, Text, VStack } from "@chakra-ui/react";
+import Link from "next/link";
 
 import { getAllCourses, getInstructorCourses } from "../../../api/APIHelper";
 import CourseList from "./CourseList";
@@ -36,6 +37,8 @@ const GenerateSectionReport = ({ user }) => {
     setCourses(coursesRes);
   };
 
+  
+
   return (
     <VStack id="top" w="80%" m="0 auto" marginBottom="5em">
       <Text fontSize="2xl" fontWeight="bold" mt="1em" marginBottom="2em">
@@ -67,7 +70,7 @@ const GenerateSectionReport = ({ user }) => {
           <Text fontSize="20px" fontWeight="bold" mt="1em" marginBottom="2em">
             {term.semester} {term.year}
           </Text>
-          <CourseList courses={courses} />
+          <CourseList courses={courses} term={term}/>
         </>
       )}
     </VStack>

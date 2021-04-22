@@ -1,22 +1,5 @@
-import {
-  Box,
-  Button,
-  Text,
-  SimpleGrid,
-  Center,
-} from "@chakra-ui/react";
-import {
-  RecoilRoot,
-  atom,
-  selector,
-  useRecoilState,
-  useRecoilValue,
-} from 'recoil';
-
-
-import { List, ListItem, ListIcon, OrderedList, UnorderedList } from "@chakra-ui/react"
-import fakeData from "../../../fake-data/course.json";
-import abetOutcomes from "../../../fake-data/abetStudentOutcomes.json";
+//imports
+import { Text, ListItem, Center, OrderedList } from "@chakra-ui/react"
 
 const StudentOutcomeList = ({ selectedProgram }) => {
   /* fill from db when integrated*/

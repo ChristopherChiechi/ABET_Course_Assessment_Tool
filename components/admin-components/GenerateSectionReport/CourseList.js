@@ -1,6 +1,8 @@
 //import CourseCard from "../../instructor-components/CourseCard";
 import { Text, Button, VStack, HStack, Box } from "@chakra-ui/react";
-const CourseList = ({ courses, idx }) => {
+import Link from "next/link";
+
+const CourseList = ({ courses, term }) => {
   console.log(courses);
   const renderCourses =
     courses != null ? (
@@ -39,22 +41,18 @@ const CourseList = ({ courses, idx }) => {
                         }>Work On ABET Form</Button>
                     }
                 </Link> */}
-                <Button
-                  size="sm"
-                  mt="1em"
-                  w="50%"
-                  textAlign="center"
-                  bgColor="#d5d9de"
-                  key={idx}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleClick(course.courseNumber, course.sectionNumber);
-                    window.open("http://localhost:3000/sectionReport");
-                    //window.location.href = 'http://localhost:3000/formCompletion';
-                  }}
-                >
-                  View ABET Report
-                </Button>
+                <Link
+                  href={{
+                    pathname: "/report",
+                    query: {
+                      number: course.courseNumber,
+                      section: course.sectionNumber,
+                      semester: term.semester,
+                      year: term.year
+                    },
+                  }}>
+                  View Report
+                </Link>
               </VStack>
             </Box>
           </>
