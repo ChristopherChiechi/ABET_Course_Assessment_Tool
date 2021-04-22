@@ -1,3 +1,4 @@
+//imports
 import {
     Text,
     Table,
@@ -20,17 +21,14 @@ import {
     PopoverContent,
     PopoverHeader,
     PopoverBody,
-    PopoverFooter,
     PopoverArrow,
     PopoverCloseButton,
-    VStack,
     Badge,
     Input
 } from "@chakra-ui/react";
 
 
-const CourseOutcomesMapping = ({ courseOutcomes }) => {
-    console.log(courseOutcomes);
+const CourseOutcomesMapping = ({ courseOutcomes, handleOutcomesChange }) => {
     const renderOutcomeRows = courseOutcomes.map((outcome, idx) => {
         return (
             <Tr key={idx}>
@@ -40,7 +38,7 @@ const CourseOutcomesMapping = ({ courseOutcomes }) => {
                         {
                             outcome.studentWorks.map((work, idx) => {
                                 return (
-                                    <Popover>
+                                    <Popover key={idx}>
                                         <PopoverTrigger>
                                             <HStack>
                                                 <Button variant="link" color="teal" size="sm">{work.fileId}</Button>
@@ -64,6 +62,7 @@ const CourseOutcomesMapping = ({ courseOutcomes }) => {
                                                         </HStack> :
                                                         <Button>Add File</Button>
                                                     }
+                                                    <Button size="sm" colorScheme="red" mt=".5em" alignSelf="flex-end">Remove Work</Button>
                                                 </Flex>
                                             </PopoverBody>
                                         </PopoverContent>
@@ -83,10 +82,10 @@ const CourseOutcomesMapping = ({ courseOutcomes }) => {
                                     <Flex direction="column" align="start">
                                         <HStack>
                                             <Text>Work name</Text>
-                                            <Input size="sm"/>
+                                            <Input size="sm" />
                                         </HStack>
                                         <Button size="sm" mt=".5em">Add a file</Button>
-                                        <Button size="sm"  mt=".5em" colorScheme="blue">Add student work</Button>
+                                        <Button size="sm" mt=".5em" colorScheme="blue" alignSelf="flex-end">Add student work</Button>
                                     </Flex>
                                 </PopoverBody>
                             </PopoverContent>
@@ -94,7 +93,7 @@ const CourseOutcomesMapping = ({ courseOutcomes }) => {
                     </Flex>
                 </Td>
                 <Td>
-                    <Flex dir="row">
+                    <Flex direction="row">
 
                         <HStack w="50%">
                             <Text>IT: </Text>

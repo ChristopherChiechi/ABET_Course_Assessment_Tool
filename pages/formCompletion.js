@@ -1,3 +1,4 @@
+//imports
 import { useEffect, useState } from 'react';
 import {
     VStack,
@@ -9,24 +10,36 @@ import {
     Textarea
 } from "@chakra-ui/react";
 
-
-import { getFormBySection } from '../api/APIHelper';
+//api
+import { getFormBySection, postInstructorForm } from '../api/APIHelper';
+//components
 import GradesInput from '../components/form-components/GradesInput';
 import CourseOutcomesMapping from '../components/form-components/CourseOutcomesMapping';
 
 const formCompletion = ({ number, section, semester, year, id }) => {
-    console.log(number, section, semester, year, id);
     const [form, setForm] = useState();
-    console.log(form);
     const getForm = async () => {
         const formData = await getFormBySection(id, 2020, "Fall", "CSCE", number.toString(), section);
         setForm(formData);
     };
 
+    const handleGradeChange = (major, grade, newValue) => {
+        let tempForm = form[major];
+        tempForm[grade] = newValue;
+        setForm({
+            ...form,
+            grade: tempForm
+        });
+        console.log(tempForm);
+    }
+
 
     useEffect(() => {
         getForm();
     }, []);
+
+    useEffect(() => {
+    }, [form]);
 
     return (
         <Center>
@@ -41,7 +54,7 @@ const formCompletion = ({ number, section, semester, year, id }) => {
                         </Text>
                     </Box>
 
-                    <GradesInput csGrades={form.csGrades} ceGrades={form.ceGrades} itGrades={form.itGrades} />
+                    <GradesInput csGrades={form.csGrades} ceGrades={form.ceGrades} itGrades={form.itGrades} handleGradeChange={handleGradeChange}/>
                     <CourseOutcomesMapping courseOutcomes={form.outcomes}/>
                     <Text fontSize="xl" fontWeight="bold" mb="1em">
                             Intructor Comments
