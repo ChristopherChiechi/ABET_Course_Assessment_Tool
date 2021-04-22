@@ -12,8 +12,8 @@ const instructorHome = () => {
 
     const [user, setUser] = useState("MT2020");
     const [term, setTerm] = useState({
-        semester: "Fall",
-        year: 2020
+        semester: "Spring",
+        year: 2021
     });
     const [courses, setCourses] = useState({
         instructorCourses: [],
