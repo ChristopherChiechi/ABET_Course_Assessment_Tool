@@ -23,10 +23,11 @@ import EditCourseOutcomes from "../components/admin-components/EditCourseOutcome
 import OutcomeMapping from "../components/admin-components/OutcomeMapping/OutcomeMapping";
 import GenerateSectionReport from "../components/admin-components/GenerateSectionReport/GenerateSectionReport";
 import GenerateStudentSurveys from "../components/admin-components/GenerateStudentSurveys";
+import EditAssignedCourses from "../components/admin-components/EditAssignedCourses/EditAssignedCourses";
 
 const adminHome = () => {
   const [user, setUser] = useState("MT2020");
-  const [view, setView] = useState("OM");
+  const [view, setView] = useState("GFR");
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <div>
@@ -54,7 +55,7 @@ const adminHome = () => {
           {(() => {
             switch (view) {
               // case "GFR":
-              //     return <FullReport />;
+              //     return <EditAssignedCourses/>;
               case "GSR":
                 return <GenerateSectionReport user={user} />;
               case "OM":
@@ -62,7 +63,7 @@ const adminHome = () => {
               case "CNS":
                 return <CreateNewSemester />;
               case "EAC":
-                return <EditCourseAssignments />;
+                return <EditAssignedCourses />;
               case "EFL":
                 return <EditFacultyList />;
               case "EPL":

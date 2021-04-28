@@ -30,9 +30,16 @@ const formCompletion = ({ number, section, semester, year, id }) => {
             ...form,
             grade: tempForm
         });
-        console.log(tempForm);
     }
 
+    const handleOutcomesChange = (major, grade, newValue) => {
+        let tempForm = form[major];
+        tempForm[grade] = newValue;
+        setForm({
+            ...form,
+            grade: tempForm
+        });
+    }
 
     useEffect(() => {
         getForm();
@@ -54,13 +61,12 @@ const formCompletion = ({ number, section, semester, year, id }) => {
                         </Text>
                     </Box>
 
-                    <GradesInput csGrades={form.csGrades} ceGrades={form.ceGrades} itGrades={form.itGrades} handleGradeChange={handleGradeChange}/>
-                    <CourseOutcomesMapping courseOutcomes={form.outcomes}/>
+                    <GradesInput csGrades={form.csGrades} ceGrades={form.ceGrades} itGrades={form.itGrades} handleGradeChange={handleGradeChange} />
+                    <CourseOutcomesMapping courseOutcomes={form.outcomes} handleOutcomesChange={handleOutcomesChange}/>
                     <Text fontSize="xl" fontWeight="bold" mb="1em">
-                            Intructor Comments
+                        Intructor Comments
                         </Text>
-                    <Textarea mb="1em"></Textarea>
-                    
+                    <Textarea mb="1em" size="lg"></Textarea>
 
                     <Box>
                         <Button mb="1em" colorScheme="teal" w="max-content" mr="1em">

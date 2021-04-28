@@ -70,7 +70,8 @@ export async function login(userid, password){
 
 export async function getAllCourses(userid, semester, year){
     let api_helper = new API();
-    let response = api_helper.getAllCourses(userid, semester, parseInt(year));
+    let response = api_helper.getCourses(userid, semester, year);
+
     response.then(function (result) {
         return result;
     });
