@@ -14,3 +14,35 @@ a {
 * {
   box-sizing: border-box;
 }
+  
+  .faculty-input {
+    border: 1px solid #999;
+    padding: 0.5rem;
+    height: 30px;
+    width: 225px;
+  }
+  
+  .suggestions {
+    border: 1px solid #999;
+    border-top-width: 0;
+    list-style: none;
+    max-height: 143px;
+    overflow-y: auto;
+    padding-left: 0;
+  }
+  
+  .suggestions li {
+    padding: 0.5rem;
+  }
+  
+  .suggestion-active,
+  .suggestions li:hover {
+    background-color: #38A169;
+    color: #ffffff;
+    cursor: pointer;
+    font-weight: 700;
+  }
+  
+  .suggestions li:not(:last-of-type) {
+    border-bottom: 1px solid #999;
+  }
