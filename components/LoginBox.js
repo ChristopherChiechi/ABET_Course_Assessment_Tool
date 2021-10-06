@@ -10,12 +10,13 @@ import {
 import useInputState from "../hooks/useInputState";
 import Link from "next/link";
 import { login } from "../api/APIHelper";
-
+import { useRouter } from "next/router";
+import { route } from "next/dist/next-server/server/router";
 const LoginBox = () => {
   const [username, setUsername, resetUsername] = useInputState("");
   const [password, setPassword, resetPassword] = useInputState("");
   const toast = useToast();
-
+  const router = useRouter();
   const handleSubmit = async (evt) => {
     evt.preventDefault();
 
@@ -32,6 +33,16 @@ const LoginBox = () => {
           isClosable: true,
         });
         console.log(response);
+        if (response == "Student") {
+          console.log("Found role as student, redirect to student page");
+          router.push("/studentSurvey");
+        } else if (response == "Admin") {
+          console.log("Found role as Admin, redirect to admin page");
+          router.push("/adminHome");
+        } else if (response == "Instructor") {
+          console.log("Found role as Instructor, redirect to Instructor page");
+          router.push("/instructorHome");
+        }
       } else
         toast({
           title: "Incorrect UserID or password",

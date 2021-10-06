@@ -17,7 +17,7 @@ function AuthProvider({ children }) {
     const token = cookieCutter.get("token");
     const json = jwt.decode(token);
     if (json == null) {
-      role = null;
+      role = "null";
     } else {
       role = json.role;
     }
@@ -30,8 +30,14 @@ function AuthProvider({ children }) {
   if (router.pathname.startsWith("/student") && role !== "Student") {
     allowed = false;
   }
-  if (router.pathname.startsWith("/instructor") && role !== "Instructor") {
+  if (
+    router.pathname.startsWith("/instructor") &&
+    role !== "Instructor" &&
+    router.pathname.startsWith("/instructor") &&
+    role !== "Admin"
+  ) {
     allowed = false;
+    console.log(allowed);
   }
   if (router.pathname.startsWith("/applicant") && role !== "applicant") {
     allowed = false;
@@ -60,10 +66,17 @@ function AuthProvider({ children }) {
           router.push("/studentSurvey");
         }
       }
-      if (router.pathname.startsWith("/instructor") && role !== "Instructor") {
+      if (
+        router.pathname.startsWith("/instructor") &&
+        role !== "Instructor" &&
+        router.pathname.startsWith("/instructor") &&
+        role !== "Admin"
+      ) {
         if (role) {
           router.push("/unAuthPage");
         } else {
+          console.log("have access");
+
           router.push("/instructorHome");
         }
       }
