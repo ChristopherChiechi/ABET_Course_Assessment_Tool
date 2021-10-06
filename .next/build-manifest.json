@@ -29,6 +29,16 @@
       "static/chunks/webpack.js",
       "static/chunks/pages/_error.js"
     ],
+    "/adminHome": [
+      "static/chunks/main.js",
+      "static/chunks/webpack.js",
+      "static/chunks/pages/adminHome.js"
+    ],
+    "/instructorHome": [
+      "static/chunks/main.js",
+      "static/chunks/webpack.js",
+      "static/chunks/pages/instructorHome.js"
+    ],
     "/next/dist/pages/_error": [
       "static/chunks/main.js",
       "static/chunks/webpack.js",
@@ -38,6 +48,11 @@
       "static/chunks/main.js",
       "static/chunks/webpack.js",
       "static/chunks/pages/studentSurvey.js"
+    ],
+    "/unAuthPage": [
+      "static/chunks/main.js",
+      "static/chunks/webpack.js",
+      "static/chunks/pages/unAuthPage.js"
     ]
   },
   "ampFirstPages": []
