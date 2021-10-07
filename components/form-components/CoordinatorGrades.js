@@ -15,7 +15,7 @@ import {
   HStack,
 } from "@chakra-ui/react";
 
-const GradesInput = ({ ceGrades, csGrades, itGrades }) => {
+const GradesInput = ({ ceGrades, csGrades, itGrades, cGrades }) => {
   const renderCeGrades = Object.keys(ceGrades).map((entry) => {
     return entry !== "totalStudents" ? (
       <Center>
