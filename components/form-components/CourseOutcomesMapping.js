@@ -128,6 +128,17 @@ const CourseOutcomesMapping = ({ courseOutcomes, handleOutcomesChange }) => {
                             </NumberInput>
                         </HStack>
 
+                        <HStack w="50%">
+                            <Text>C: </Text>
+                            <NumberInput defaultValue={outcome.numberOfCE} min={0} w="50%">
+                                <NumberInputField />
+                                <NumberInputStepper>
+                                    <NumberIncrementStepper />
+                                    <NumberDecrementStepper />
+                                </NumberInputStepper>
+                            </NumberInput>
+                        </HStack>
+
                     </Flex>
                 </Td>
             </Tr>

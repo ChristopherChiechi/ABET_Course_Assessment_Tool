@@ -50,6 +50,13 @@ const CourseOutcomesMapping = ({ courseOutcomes }) => {
                 <NumberInputField />
               </NumberInput>
             </HStack>
+
+            <HStack w="50%">
+              <Text>C: </Text>
+              <NumberInput defaultValue={outcome.numberOfCE} min={0} w="50%">
+                <NumberInputField />
+              </NumberInput>
+            </HStack>
           </Flex>
         </Td>
       </Tr>

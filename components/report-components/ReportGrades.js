@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 
 
-const ReportGrades = ({ ceGrades, csGrades, itGrades, handleGradeChange }) => {
+const ReportGrades = ({ ceGrades, csGrades, itGrades, cGrades, handleGradeChange }) => {
 
   const renderCeGrades = Object.keys(ceGrades).map((entry, idx) => {
     return entry !== "totalStudents" ? (
@@ -65,6 +65,23 @@ const ReportGrades = ({ ceGrades, csGrades, itGrades, handleGradeChange }) => {
       </Center>
       ;
   });
+  const renderCGrades = Object.keys(cGrades).map((entry, idx) => {
+    return entry !== "totalStudents" ? (
+      <Center key={idx}>
+        <Text fontWeight="bold" textTransform="uppercase" mr="1em">
+          {entry}
+        </Text>
+        <Text>{cGrades[entry]}</Text>
+      </Center>
+    ) :
+      <Center key={idx}>
+        <Text fontWeight="bold" textTransform="uppercase" mr="1em">
+          Total
+              </Text>
+        <Text>{cGrades[entry]}</Text>
+      </Center>
+      ;
+  });
   return (
     <>
       <Text fontSize="xl" fontWeight="bold">Grades</Text>
@@ -109,6 +126,16 @@ const ReportGrades = ({ ceGrades, csGrades, itGrades, handleGradeChange }) => {
               <Td>
                 <HStack spacing={10}>
                   {renderCsGrades}
+                </HStack>
+              </Td>
+            </Tr>
+            <Tr>
+              <Td>
+                <Text fontWeight="bold">C</Text>
+              </Td>
+              <Td>
+                <HStack spacing={10}>
+                  {renderCGrades}
                 </HStack>
               </Td>
             </Tr>

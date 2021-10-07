@@ -61,7 +61,7 @@ const formCompletion = ({ number, section, semester, year, id }) => {
                         </Text>
                     </Box>
 
-                    <GradesInput csGrades={form.csGrades} ceGrades={form.ceGrades} itGrades={form.itGrades} handleGradeChange={handleGradeChange} />
+                    <GradesInput csGrades={form.csGrades} ceGrades={form.ceGrades} itGrades={form.itGrades} cGrades={form.cGrades} handleGradeChange={handleGradeChange} />
                     <CourseOutcomesMapping courseOutcomes={form.outcomes} handleOutcomesChange={handleOutcomesChange}/>
                     <Text fontSize="xl" fontWeight="bold" mb="1em">
                         Intructor Comments

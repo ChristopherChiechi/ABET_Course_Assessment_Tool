@@ -55,6 +55,7 @@ const formCompletion = ({ number, section, semester, year, id }) => {
             csGrades={form.csGrades}
             ceGrades={form.ceGrades}
             itGrades={form.itGrades}
+            cGrades={form.cGrades}
           />
           <CoordinatorOutcomes courseOutcomes={form.outcomes} />
           <Text fontSize="xl" fontWeight="bold" mb="1em">

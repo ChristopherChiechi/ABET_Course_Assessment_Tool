@@ -255,7 +255,7 @@ export default class API {
     //---postForm(userId, year, semester, department, courseNumber, sectionNumber, isSectionCompleted, outcomes, ITGrades, CSGrades, CEGrades)---
     //    Input: ^^^   (will also have pdf here later as an additional parameter)
     //    Output: Success or Failure
-    async postForm(userId = "", year = 0, semester = "", department = "", courseNumber = "", sectionNumber = "", isSectionCompleted = false, outcomes = [], ITGrades = {}, CSGrades = {}, CEGrades = {}) {
+    async postForm(userId = "", year = 0, semester = "", department = "", courseNumber = "", sectionNumber = "", isSectionCompleted = false, outcomes = [], ITGrades = {}, CSGrades = {}, CEGrades = {}, CGrades = {}) {
         // the body will also include any pdf to post in the future
 
         //outcomes: an array of Course_Outcomes objects
@@ -283,7 +283,8 @@ export default class API {
                 outcomes,
                 ITGrades,
                 CSGrades,
-                CEGrades
+                CEGrades,
+                CGrades
             }
         };
 

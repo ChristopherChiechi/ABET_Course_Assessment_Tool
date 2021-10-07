@@ -52,6 +52,18 @@ const GradesInput = ({ ceGrades, csGrades, itGrades }) => {
       </Center>
     ) : null;
   });
+  const renderCGrades = Object.keys(cGrades).map((entry) => {
+    return entry !== "totalStudents" ? (
+      <Center>
+        <Text fontWeight="bold" textTransform="uppercase" mr="1em">
+          {entry}
+        </Text>
+        <NumberInput defaultValue={cGrades[entry]} min={0} max={30} w="50%">
+          <NumberInputField />
+        </NumberInput>
+      </Center>
+    ) : null;
+  });
   return (
     <>
       <Text fontSize="xl" fontWeight="bold">
@@ -88,6 +100,14 @@ const GradesInput = ({ ceGrades, csGrades, itGrades }) => {
               </Td>
               <Td>
                 <HStack>{renderCsGrades}</HStack>
+              </Td>
+            </Tr>
+            <Tr>
+              <Td>
+                <Text fontWeight="bold">C</Text>
+              </Td>
+              <Td>
+                <HStack>{renderCGrades}</HStack>
               </Td>
             </Tr>
           </Tbody>

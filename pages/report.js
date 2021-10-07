@@ -39,7 +39,7 @@ const report = ({ number, section, semester, year, id }) => {
                             ABET Course Assesment
                         </Text>
                     </Box>
-                    <ReportGrades csGrades={form.csGrades} ceGrades={form.ceGrades} itGrades={form.itGrades} />
+                    <ReportGrades csGrades={form.csGrades} ceGrades={form.ceGrades} itGrades={form.itGrades} cGrades={form.cGrades} />
                     <ReportOutcomesTable courseOutcomes={form.outcomes} />
                     <Text fontSize="xl" fontWeight="bold" mb="1em">
                         Intructor Comments

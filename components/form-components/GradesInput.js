@@ -17,7 +17,7 @@ import {
 } from "@chakra-ui/react";
 
 
-const GradesInput = ({ ceGrades, csGrades, itGrades, handleGradeChange }) => {
+const GradesInput = ({ ceGrades, csGrades, itGrades, cGrades, handleGradeChange }) => {
   
     const renderCeGrades = Object.keys(ceGrades).map((entry, idx) => {
         return entry !== "totalStudents" ? (
@@ -97,6 +97,33 @@ const GradesInput = ({ ceGrades, csGrades, itGrades, handleGradeChange }) => {
         ) : null
             ;
     });
+    const renderCGrades = Object.keys(cGrades).map((entry, idx) => {
+        return entry !== "totalStudents" ? (
+            <Center key={idx}>
+                <Text fontWeight="bold" textTransform="uppercase" mr="1em">
+                    {entry}
+                </Text>
+                <NumberInput
+                    value={cGrades[entry]}
+                    min={0}
+                    max={30}
+                    w="50%"
+                    onChange={e => {
+                        const newGrade = parseInt(e);
+                        handleGradeChange('cGrades', entry, newGrade);
+                    }}
+                >
+                    <NumberInputField />
+                    <NumberInputStepper>
+                        <NumberIncrementStepper />
+                        <NumberDecrementStepper />
+                    </NumberInputStepper>
+                </NumberInput>
+            </Center>
+        ) : null
+            ;
+    });
+    
     return (
         <>
             <Text fontSize="xl" fontWeight="bold">Grades</Text>
@@ -142,6 +169,16 @@ const GradesInput = ({ ceGrades, csGrades, itGrades, handleGradeChange }) => {
                             <Td>
                                 <HStack>
                                     {renderCsGrades}
+                                </HStack>
+                            </Td>
+                        </Tr>
+                        <Tr>
+                            <Td>
+                                <Text fontWeight="bold">C</Text>
+                            </Td>
+                            <Td>
+                                <HStack>
+                                    {renderCGrades}
                                 </HStack>
                             </Td>
                         </Tr>
