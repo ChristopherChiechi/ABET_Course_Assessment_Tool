@@ -64,6 +64,11 @@ const ReportOutcomesTable = ({ courseOutcomes }) => {
                             <Text>{outcome.numberOfCE}</Text>
                         </HStack>
 
+                        <HStack w="50%">
+                            <Text fontWeight="bold">CYS:</Text>
+                            <Text>{outcome.numberOfC}</Text>
+                        </HStack>
+
                     </Flex>
                 </Td>
             </Tr>

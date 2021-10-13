@@ -20,6 +20,7 @@ const ReportOutcome = ({ outcome }) => {
             <ListItem mb=".5em">CE: {outcome.numberOfIT}</ListItem>
             <ListItem mb=".5em">CS: {outcome.numberOfCS}</ListItem>
             <ListItem mb=".5em">IT: {outcome.numberOfCE}</ListItem>
+            <ListItem mb=".5em">CYS: {outcome.numberOfC}</ListItem>
           </List>
         </div>
       </Flex>

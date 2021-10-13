@@ -174,7 +174,7 @@ const GradesInput = ({ ceGrades, csGrades, itGrades, cGrades, handleGradeChange 
                         </Tr>
                         <Tr>
                             <Td>
-                                <Text fontWeight="bold">C</Text>
+                                <Text fontWeight="bold">CYS</Text>
                             </Td>
                             <Td>
                                 <HStack>
