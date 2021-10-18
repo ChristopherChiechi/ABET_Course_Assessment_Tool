@@ -57,13 +57,13 @@ function AuthProvider({ children }) {
       } else if (router.pathname == "/" && role == "Instructor") {
         router.push("/instructorHome");
       } else if (router.pathname == "/" && role == "Student") {
-        router.push("/studentSurvey");
+        router.push("/studentHome");
       }
       if (router.pathname.startsWith("/student") && role !== "Student") {
         if (role) {
           router.push("/unAuth");
         } else {
-          router.push("/studentSurvey");
+          router.push("/studentHome");
         }
       }
       if (
