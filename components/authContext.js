@@ -2,7 +2,7 @@ import React, { createContext, useContext, useMemo, useEffect } from "react";
 import { useRouter } from "next/router";
 import cookieCutter from "cookie-cutter";
 import jwt from "jsonwebtoken";
-import unAuthPage from "../pages/unAuthPage";
+import unAuth from "../pages/unAuth";
 const AuthStateContext = createContext();
 
 export function useAuth() {
@@ -61,7 +61,7 @@ function AuthProvider({ children }) {
       }
       if (router.pathname.startsWith("/student") && role !== "Student") {
         if (role) {
-          router.push("/unAuthPage");
+          router.push("/unAuth");
         } else {
           router.push("/studentSurvey");
         }
@@ -73,7 +73,7 @@ function AuthProvider({ children }) {
         role !== "Admin"
       ) {
         if (role) {
-          router.push("/unAuthPage");
+          router.push("/unAuth");
         } else {
           console.log("have access");
 
@@ -82,14 +82,14 @@ function AuthProvider({ children }) {
       }
       if (router.pathname.startsWith("/applicant") && role !== "applicant") {
         if (role) {
-          router.push("/unAuthPage");
+          router.push("/unAuth");
         } else {
           router.push("/");
         }
       }
       if (router.pathname.startsWith("/admin") && role !== "Admin") {
         if (role) {
-          router.push("/unAuthPage");
+          router.push("/unAuth");
         } else {
           router.push("/adminHome");
         }
@@ -98,7 +98,7 @@ function AuthProvider({ children }) {
   }, [role, router]);
 
   const contextValue = useMemo(() => [allowed, role], [allowed, role]);
-  const ComponentToRender = allowed ? children : unAuthPage;
+  const ComponentToRender = allowed ? children : unAuth;
 
   return (
     <AuthStateContext.Provider value={contextValue}>
