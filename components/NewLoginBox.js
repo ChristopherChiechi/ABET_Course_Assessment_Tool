@@ -53,7 +53,7 @@ const Newlogin = () => {
         } else if (response == "Instructor") {
           router.push("/instructorHome");
         } else if (response == "Student") {
-          router.push("/studentSurvey");
+          router.push("/studentHome");
         }
       } else
         toast({
