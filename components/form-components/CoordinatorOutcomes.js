@@ -68,7 +68,7 @@ const CourseOutcomesMapping = ({ courseOutcomes }) => {
       <Text fontSize="xl" fontWeight="bold">
         Course Outcomes Mapping
       </Text>
-      <Center m="2em" padding="1em" bg="#edf2f7" borderRadius="4px">
+      <Center mt="1em" mb="2em" padding="1em" bg="#edf2f7" borderRadius="4px">
         <Table padding="1em" bg="white">
           <Thead>
             <Tr>

@@ -42,7 +42,7 @@ const report = ({ number, section, semester, year, id }) => {
                     <ReportGrades csGrades={form.csGrades} ceGrades={form.ceGrades} itGrades={form.itGrades} cGrades={form.cGrades} />
                     <ReportOutcomesTable courseOutcomes={form.outcomes} />
                     <Text fontSize="xl" fontWeight="bold" mb="1em">
-                        Intructor Comments
+                        Instructor Comments
                     </Text>
                     <Box
                         m="2em"

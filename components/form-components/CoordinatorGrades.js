@@ -69,7 +69,7 @@ const GradesInput = ({ ceGrades, csGrades, itGrades, cGrades }) => {
       <Text fontSize="xl" fontWeight="bold">
         Grades
       </Text>
-      <Center m="2em" padding="1em" bg="#edf2f7" borderRadius="4px">
+      <Center mt="1em" mb="1em" padding="1em" bg="#edf2f7" borderRadius="4px">
         <Table padding="1em" bg="white">
           <Thead>
             <Tr>

@@ -63,6 +63,9 @@ const formCompletion = ({ number, section, semester, year, id }) => {
           </Text>
           <Textarea
             mb="1em"
+            size="lg"
+            bg="#edf2f7"
+            placeholder="// Write a comment"
             onChange={(event) => {
               setComment({ coordinatorComment: event.target.value });
             }}

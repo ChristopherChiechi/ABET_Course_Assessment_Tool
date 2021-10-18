@@ -128,7 +128,8 @@ const GradesInput = ({ ceGrades, csGrades, itGrades, cGrades, handleGradeChange 
         <>
             <Text fontSize="xl" fontWeight="bold">Grades</Text>
             <Center
-                m="2em"
+                mt="1em"
+                mb="2em"
                 padding="1em"
                 bg="#edf2f7"
                 borderRadius="4px"

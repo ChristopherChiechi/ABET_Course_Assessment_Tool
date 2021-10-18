@@ -64,9 +64,11 @@ const formCompletion = ({ number, section, semester, year, id }) => {
                     <GradesInput csGrades={form.csGrades} ceGrades={form.ceGrades} itGrades={form.itGrades} cGrades={form.cGrades} handleGradeChange={handleGradeChange} />
                     <CourseOutcomesMapping courseOutcomes={form.outcomes} handleOutcomesChange={handleOutcomesChange}/>
                     <Text fontSize="xl" fontWeight="bold" mb="1em">
-                        Intructor Comments
+                        Instructor Comments
                         </Text>
-                    <Textarea mb="1em" size="lg"></Textarea>
+                    <Textarea mb="1em" size="lg" bg="#edf2f7" placeholder="// Write a comment">
+
+                    </Textarea>
 
                     <Box>
                         <Button mb="1em" colorScheme="teal" w="max-content" mr="1em">
