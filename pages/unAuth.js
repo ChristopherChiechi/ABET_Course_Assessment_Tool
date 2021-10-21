@@ -14,7 +14,6 @@ import Navigation from "../components/Navigation";
 let theme = createTheme();
 theme = responsiveFontSizes(theme);
 export default function unAuthorized() {
-  //const [userID, setUserID] = useState("");
   const logout = () => {
     new API().logout();
   };

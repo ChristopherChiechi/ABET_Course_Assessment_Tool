@@ -58,6 +58,8 @@ function AuthProvider({ children }) {
         router.push("/instructorHome");
       } else if (router.pathname == "/" && role == "Student") {
         router.push("/studentHome");
+      } else if (router.pathname == "/") {
+        router.push("/Login");
       }
       if (router.pathname.startsWith("/student") && role !== "Student") {
         if (role) {

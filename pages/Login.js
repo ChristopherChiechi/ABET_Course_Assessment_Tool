@@ -39,7 +39,6 @@ const Newlogin = () => {
       );
       console.log("response" + response);
       if (response) {
-        alert("success");
         console.log("Reponse", response);
         toast({
           title: "Token created.",
@@ -58,7 +57,6 @@ const Newlogin = () => {
       } else
         toast({
           title: "Incorrect UserID or password",
-          description: "Here's your token 🪙",
           status: "error",
           duration: 9000,
           isClosable: true,

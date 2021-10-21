@@ -1,19 +1,55 @@
-import { Link, Flex, Text, Badge } from "@chakra-ui/react";
+import { Link, Flex, Box, Button } from "@chakra-ui/react";
 import API from "../api/api";
+import React, { useEffect, useState } from "react";
+import cookieCutter from "cookie-cutter";
+import jwt from "jsonwebtoken";
 
 const Navigation = ({ link, user }) => {
   const logout = () => {
     new API().logout();
   };
+  const [userID, setUser] = useState("");
+
+  const getUser = async () => {
+    const ISSERVER = typeof window === "undefined";
+    let isLoading = true;
+    if (!ISSERVER) {
+      const token = cookieCutter.get("token");
+      const json = jwt.decode(token);
+      if (json == null) {
+        setUser("");
+      } else {
+        setUser(json.unique_name);
+      }
+      isLoading = false;
+    }
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
 
   return (
     <Flex justifyContent="flex-end" mt="1em" mr="1em" dir="row">
-      <Badge mr="1em" colorScheme="green">
-        {user}
-      </Badge>
-      <Link href="/" onClick={logout}>
-        Sign Out
-      </Link>
+      <Box>
+        <Box
+          as="button"
+          mr="1em"
+          borderRadius="md"
+          fontWeight="semibold"
+          color="black"
+          fontSize="lg"
+          px={4}
+          h={10}
+        >
+          {userID}
+        </Box>
+        <Button colorScheme="teal">
+          <Link href="/" onClick={logout}>
+            Sign Out
+          </Link>
+        </Button>
+      </Box>
     </Flex>
   );
 

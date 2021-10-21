@@ -1,30 +1,45 @@
 import {
-  Box,
-  FormControl,
-  FormLabel,
-  Input,
   Button,
-  Text,
-  useToast,
-} from "@chakra-ui/react";
-import useInputState from "../hooks/useInputState";
-import Link from "next/link";
+  TextField,
+  Link as MaterialLink,
+  Card,
+  CardContent,
+  MuiThemeProvider,
+  createTheme,
+  Grid,
+} from "@material-ui/core";
+import { Form } from "react-bootstrap";
+import React, { useRef, useState, createContext, useContext } from "react";
 import { login } from "../api/APIHelper";
+import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { route } from "next/dist/next-server/server/router";
-const LoginBox = () => {
-  const [username, setUsername, resetUsername] = useInputState("");
-  const [password, setPassword, resetPassword] = useInputState("");
-  const toast = useToast();
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#016a31",
+    },
+  },
+});
+
+const Newlogin = () => {
   const router = useRouter();
-  const handleSubmit = async (evt) => {
-    evt.preventDefault();
-
+  const toast = useToast();
+  const euidRef = useRef();
+  const passwordRef = useRef();
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  //Function for the submit button
+  async function handleSubmit(e) {
+    e.preventDefault();
     try {
-      const response = await login(username, password);
-
+      const response = await login(
+        euidRef.current.value,
+        passwordRef.current.value
+      );
+      console.log("response" + response);
       if (response) {
-        //alert("success");
+        console.log("Reponse", response);
         toast({
           title: "Token created.",
           description: "Here's your token 🪙",
@@ -32,98 +47,112 @@ const LoginBox = () => {
           duration: 9000,
           isClosable: true,
         });
-        console.log(response);
-        if (response == "Student") {
-          console.log("Found role as student, redirect to student page");
-          router.push("/studentSurvey");
-        } else if (response == "Admin") {
-          console.log("Found role as Admin, redirect to admin page");
+        if (response == "Admin") {
           router.push("/adminHome");
         } else if (response == "Instructor") {
-          console.log("Found role as Instructor, redirect to Instructor page");
           router.push("/instructorHome");
+        } else if (response == "Student") {
+          router.push("/studentHome");
         }
       } else
         toast({
           title: "Incorrect UserID or password",
-          description: "Here's your token 🪙",
           status: "error",
           duration: 9000,
           isClosable: true,
         });
     } catch (error) {
+      console.log("Error: " + error);
       alert("try 'admin' & 'admin'");
-    } finally {
-      resetUsername();
-      resetPassword();
     }
-  };
+  }
 
   return (
-    <Box
-      mt="10%"
-      ml="auto"
-      mr="auto"
-      padding="2em"
-      bg="#edf2f7"
-      w="80%"
-      boxShadow="0px 4px 4px rgba(0, 0, 0, 0.25)"
-    >
-      <Text fontSize="xl" fontWeight="bold">
-        Login
-      </Text>
-      <form onSubmit={handleSubmit}>
-        <FormControl isRequired>
-          <FormLabel htmlFor="username" margin="1rem" mt="3rem">
-            Username
-          </FormLabel>
-          <Input
-            placeholder="EUID"
-            value={username}
-            onChange={setUsername}
-            bg="white"
-          />
-        </FormControl>
+    <MuiThemeProvider theme={theme}>
+      <Grid
+        container
+        spacing={0}
+        alignItems="center"
+        justifyContent="center"
+        style={{ minHeight: "90vh" }}
+      >
+        <Grid item xs={6}>
+          <Card>
+            <CardContent style={{ backgroundColor: "#EDF2F7" }}>
+              <h2 className="text-center mb-4">Welcome Back!</h2>
+              {error && (
+                <Alert variant="outlined" severity="error" className="mb-4">
+                  {error}
+                </Alert>
+              )}
+              <h6 className="text-center mb-4">
+                We're so excited to see you again.
+              </h6>
 
-        <FormControl isRequired>
-          <FormLabel htmlFor="password" margin="1rem">
-            Password
-          </FormLabel>
-          <Input
-            placeholder="Password"
-            type="password"
-            value={password}
-            onChange={setPassword}
-            bg="white"
-          />
-        </FormControl>
-
-        <Button
-          colorScheme="green"
-          margin="1rem"
-          onClick={handleSubmit}
-          type="submit"
-        >
-          Sign In
-        </Button>
-        <Link href="/instructorHome">
-          <Button colorScheme="blue">Instructor Home</Button>
-        </Link>
-
-        <Link href="/adminHome">
-          <Button colorScheme="blue" margin="1rem">
-            Admin Home
-          </Button>
-        </Link>
-
-        <Link href="/studentSurvey">
-          <Button colorScheme="blue" margin="1rem">
-            Student Survey
-          </Button>
-        </Link>
-      </form>
-    </Box>
+              <Form onSubmit={handleSubmit}>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginTop: "5px",
+                  }}
+                >
+                  <TextField
+                    required
+                    id="standard-required"
+                    label="EUID"
+                    defaultValue=""
+                    inputRef={euidRef}
+                    className="w-100 text-center mt-5"
+                    fullWidth
+                  />
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginTop: "5px",
+                  }}
+                >
+                  <TextField
+                    required
+                    id="standard-required"
+                    label="Password"
+                    defaultValue=""
+                    type="password"
+                    inputRef={passwordRef}
+                    className="w-100 text-center mt-5"
+                    fullWidth
+                  />
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginTop: "15px",
+                  }}
+                >
+                  <Button
+                    color="primary"
+                    size="large"
+                    type="submit"
+                    variant="contained"
+                    disabled={loading}
+                    className="w-100 text-center"
+                  >
+                    Log In
+                  </Button>
+                </div>
+              </Form>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
+    </MuiThemeProvider>
   );
 };
 
-export default LoginBox;
+export default Newlogin;
