@@ -13,7 +13,8 @@ import {
     Badge,
     HStack,
     Box,
-    Vst
+    Vst,
+    Center
   } from "@chakra-ui/react"
 import { useState } from "react";
 
@@ -43,7 +44,7 @@ const TermSelect = ({parentTerm, setParentTerm}) => {
     return(
         <>
             <HStack>
-                <Box as="Button" rounded="md" bg="teal" fontSize="lg" fontWeight="semibold" color="white" fontSize="lg" px={4} h={10}>{parentTerm.semester} {parentTerm.year}</Box>
+            <Badge ml="5"  as="button" rounded="md" bg="#016a31" fontSize="lg" fontWeight="semibold" color="white" fontSize="lg" px={4} h={10}>{parentTerm.semester} {parentTerm.year}</Badge>
             </HStack>
             
         </>
