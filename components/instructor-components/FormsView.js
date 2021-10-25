@@ -32,14 +32,20 @@ const FormsView = ({ instructorCourses, coordinatorCourses, term }) => {
             <Tr key={idx}>
                 <Td>{course.displayName}</Td>
                 <Td>{course.courseNumber}.{course.sectionNumber}</Td>
-                <Td isNumeric>
-                    <Button colorScheme="blue" mt="1em" size="sm" variant="link" onClick={e => {
+                <Td isNumeric><Box
+                    as ="button"
+                    color="white" 
+                    bg="#016a31"
+                    height="10"
+                    rounded="md"
+                    width="20"
+                    variant="link" onClick={e => {
                         e.preventDefault();
                         //handleClick(course.courseNumber, course.sectionNumber);
                         //window.location.href = 'http://localhost:3000/formCompletion';
                     }}>
-                        <Link
-                         href={{
+                    <Link
+                        href={{
                             pathname: "/formCompletion",
                             query: { 
                                 number: course.courseNumber, 
@@ -48,9 +54,9 @@ const FormsView = ({ instructorCourses, coordinatorCourses, term }) => {
                                 year: term.year
                             },
                           }}>
-                            Work on Form
+                            Start
                         </Link>
-                    </Button>
+                    </Box>
                 </Td>
             </Tr>
         )
@@ -61,8 +67,14 @@ const FormsView = ({ instructorCourses, coordinatorCourses, term }) => {
             <Tr key={idx}>
                 <Td>{course.displayName}</Td>
                 <Td>{course.courseNumber}.{course.sectionNumber}</Td>
-                <Td isNumeric>
-                    <Button colorScheme="blue" mt="1em" size="sm" variant="link" onClick={e => {
+                <Td isNumeric><Box
+                    as ="button"
+                    color="white" 
+                    bg="#016a31"
+                    height="10"
+                    rounded="md"
+                    width="20"
+                    variant="link" onClick={e => {
                         e.preventDefault();
                     }}>
                         <Link
@@ -75,9 +87,9 @@ const FormsView = ({ instructorCourses, coordinatorCourses, term }) => {
                                 year: term.year
                             },
                           }}>
-                            Add comment
+                            Comment
                         </Link>
-                    </Button>
+                    </Box>
                 </Td>
             </Tr>
         )

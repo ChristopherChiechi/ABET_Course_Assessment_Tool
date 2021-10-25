@@ -42,14 +42,14 @@ const TermSelect = ({parentTerm, setParentTerm}) => {
     return(
         <>
             <HStack>
-                    <Text>Showing forms for</Text>
-                    <Badge colorScheme="teal" fontSize="lg">{parentTerm.semester} {parentTerm.year}</Badge>
+                    <Text>Forms of</Text>
+                    <Badge colorScheme="green" color="darkgreen" fontSize="lg">{parentTerm.semester} {parentTerm.year}</Badge>
             </HStack>
             <Popover>
                 {({ onClose }) => (
                 <>
                     <PopoverTrigger>
-                        {<Button mb="3em" colorScheme="teal" size="lg">
+                        {<Button mb="3em" colorScheme="teal" size="lg" bg="#016a31">
                             Change Term
                 </Button>}
                     </PopoverTrigger>
