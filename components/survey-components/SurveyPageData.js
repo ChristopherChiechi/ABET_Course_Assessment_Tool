@@ -23,7 +23,7 @@ export const pageData = {
     course: course,
     studentQuestions: [
         { 
-            question: "What is your major?",
+            question: "What is your Major?",
             choices: [
                 "Computer Science",
                 "Software Engineering",
@@ -33,7 +33,7 @@ export const pageData = {
             ] 
         },
         { 
-            question: "What is your classification?",
+            question: "What is your Classification?",
             choices: [
                 "Freshman",
                 "Sophomore",

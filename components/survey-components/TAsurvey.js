@@ -46,8 +46,8 @@ const TAsurvey = ({ TAquestions, handleChange }) => {
     return (
         <>
             <Text fontWeight="bold">
-                TA evaluation. Have each rated 1-5, with 5 being very satisfied and 1
-                being very unsatisfied.
+                TA Evaluation Section: Please rate the following statements on a scale from 
+                1 - 5, with 1 being strongly disagree and 5 being strongly agree.
             </Text>
             <Center
                 m="2em"

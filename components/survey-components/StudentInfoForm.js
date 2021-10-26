@@ -12,7 +12,7 @@ import { PageContext } from './SurveyPageData';
 const StudentInfoForm = ({ studentInformation, setStudentInformation }) => {
     const context = useContext(PageContext);
     const questions = context.studentQuestions;
-    const attributes = ["major", "classification", "grade"]
+    const attributes = ["Major", "Classification", "Grade"]
 
     const handleChange = (e, idx) => {
         const type = attributes[idx];

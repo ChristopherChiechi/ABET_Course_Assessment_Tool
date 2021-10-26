@@ -14,8 +14,35 @@
                 "id": "bbb4200"
             },
             "course-outcomes": [
-                "Course Outcome 1",
-                "I want to see how long this can go. So students are going to not be set up well in our CSCE courses. They will have to do everything on their own and fend for themselves." 
+                "The lectures, readings, and assignments complemented each other.",
+                "The instructional materials (i.e., books, readings, handouts, study guides, lab manuals, multimedia, software) increased my knowledge and skills in the subject matter.",
+                "The text and assigned readings were valuable.",
+                "The workload consisted of less than two hours outside of the classroom for each hour in class.",
+                "The course workload and requirements were appropriate for the course level.",
+                "The course was organized in a manner that helped me understand underlying concepts.",
+                "The course assignments (readings, assigned problems, laboratory experiments, videos, etc.) facilitated my learning.",
+                "The assigned readings helped me understand the course material.",
+                "Graded assignments helped me understand the course material.",
+                "The tests/assessments accurately assess what I have learned in this course.",
+                "Exams and assignments were reflective of the course content.",
+                "The course was well organized.",
+                "The course followed the syllabus.",
+                "The instructor grades consistently with the evaluation criteria.",
+                "The course environment felt like a welcoming place to express my ideas.",
+                "This class has increased my interest in this field of study.",
+                "This course gave me confidence to do more advanced work in the subject.",
+                "I believe that what I am being asked to learn in this course is important.",
+                "The readings were appropriate to the goals of the course.",
+                "The written assignments contributed to my knowledge of the course material and understanding of the subject.",
+                "Expectations for student learning were clearly defined.",
+                "Student learning was fairly assessed (e.g., through quizzes, exams, projects, and other graded work).",
+                "Exams/assignments were a fair assessment of my knowledge of the course material.",
+                "The grading practices were clearly defined.",
+                "The grading practices were fair.",
+                "The examinations/projects measured my knowledge of the course material.",
+                "This course was challenging.",
+                "This course made me think.",
+                "Overall, I am very satisfied with this course"
             ],
             "coordinator-comments" : "",
             "formCompleted" : true,
@@ -226,4 +253,3 @@
         }
     ]
 }
-

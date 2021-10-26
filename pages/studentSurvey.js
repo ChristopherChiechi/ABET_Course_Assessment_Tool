@@ -49,13 +49,13 @@ const studentSurvey = () => {
       studentInformation.classification == "" ||
       studentInformation.grade === ""
     ) {
-      alert(" Please complete the student information");
+      alert("Please complete the Student Information at the top");
     }
     let i;
     let counter = 0;
     for (i = 0; i < outcomeSurvey.length; i++) {
       if (outcomeSurvey[i].rating === 0) {
-        alert("Please answer all course outcomes");
+        alert("Please complete the Course Outcome Section");
         break;
       }
     }
@@ -63,7 +63,7 @@ const studentSurvey = () => {
     let taCounter = 0;
     for (j = 0; j < TAquestions.length; j++) {
       if (TAquestions[i].rating === 0) {
-        alert("Please answer the Ta questions");
+        alert("Please complete the TA Evaluation Section");
         break;
       }
     }
@@ -112,7 +112,10 @@ const studentSurvey = () => {
             outcomeSurvey={outcomeSurvey}
             handleChange={handleChange}
           />
-          <TAsurvey TAquestions={TAquestions} handleChange={handleChange} />
+          <TAsurvey 
+            TAquestions={TAquestions} 
+            handleChange={handleChange} 
+          />
           <StudentFeedback
             studentInput={studentInput}
             setStudentInput={setStudentInput}

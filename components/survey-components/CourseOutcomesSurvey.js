@@ -41,8 +41,8 @@ const CourseOutcomesSurvey = ({ outcomeSurvey, handleChange }) => {
     return (
         <>
             <Text fontWeight="bold">
-                For each of the course outcomes, rate each from 1 to 5 in terms of
-                agreement with your level of agreement.
+                Course Outcome Section: Please rate the following statements on a scale 
+                from 1 - 5, with 1 being strongly disagree and 5 being strongly agree.
             </Text>
             <Center
                 m="2em"
