@@ -41,8 +41,8 @@ const Newlogin = () => {
       if (response) {
         console.log("Reponse", response);
         toast({
-          title: "Token created.",
-          description: "Here's your token 🪙",
+          title: "Login Successful",
+          description: "Please wait...",
           status: "success",
           duration: 9000,
           isClosable: true,
