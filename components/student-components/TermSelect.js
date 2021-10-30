@@ -44,7 +44,7 @@ const TermSelect = ({parentTerm, setParentTerm}) => {
     return(
         <>
             <HStack>
-            <Badge ml="5"  as="button" rounded="md" bg="#016a31" fontSize="lg" fontWeight="semibold" color="white" fontSize="lg" px={4} h={10}>{parentTerm.semester} {parentTerm.year}</Badge>
+            <Badge ml="5" paddingTop="1.5" rounded="md" bg="#016a31" fontSize="lg" fontWeight="semibold" color="white" fontSize="lg" px={4} h={10}>{parentTerm.semester} {parentTerm.year}</Badge>
             </HStack>
             
         </>

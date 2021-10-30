@@ -24,21 +24,21 @@ const FormsView = () => {
         <VStack w="75%">
             <Box bg="#edf2f7" w="100%" padding="1em">
                 <Table variant="striped" colorScheme="green" padding="1em">
-                    <TableCaption placement="top" fontWeight="bold" fontSize="xl">Course Survey</TableCaption>
+                    <TableCaption placement="top" fontWeight="bold" fontSize="x-large">Course Survey</TableCaption>
                     <Thead>
 
                         <Tr>
-                            <Th>Course Name</Th>
-                            <Th>Course Number</Th>
-                            <Th>Survey</Th>
+                            <Th fontSize="md">Course Name</Th>
+                            <Th fontSize="md"> Course Number</Th>
+                            <Th fontSize="md">Survey</Th>
                         </Tr>
                     </Thead>
                     <Tbody>
                         <Tr>
                             <Td>Computer Science 1</Td>
                             <Td>CSCE 1030</Td>
-                            <Td ><Box 
-                                    as="button"
+                            <Td ><Button 
+                                    
                                     color="white"
                                     bg="#016a31"
                                     height="10"
@@ -49,13 +49,13 @@ const FormsView = () => {
                                         color: "white",
                                       }}
                                     >
-                                    <Link href={{ pathname: "/studentSurvey",}}>Start</Link></Box></Td>
+                                    <Link href={{ pathname: "/studentSurvey",}}>Start</Link></Button></Td>
                         </Tr>
                         <Tr>
                             <Td>Computer Science 2</Td>
                             <Td>CSCE 1040</Td>
-                            <Td ><Box 
-                                    as="button"
+                            <Td ><Button 
+                                    
                                     color="white"
                                     bg="#016a31"
                                     height="10"
@@ -66,13 +66,13 @@ const FormsView = () => {
                                         color: "white",
                                       }}
                                     >
-                                    <Link href={{ pathname: "/",}}>Start</Link></Box></Td>
+                                    <Link href={{ pathname: "/",}}>Start</Link></Button></Td>
                         </Tr>
                         <Tr>
                             <Td>Capstone</Td>
                             <Td>CSCE 4901</Td>
-                            <Td ><Box 
-                                    as="button"
+                            <Td ><Button 
+                                    
                                     color="white"
                                     bg="#016a31"
                                     height="10"
@@ -83,13 +83,13 @@ const FormsView = () => {
                                         color: "white",
                                       }}
                                     >
-                                    <Link href={{ pathname: "/",}}>Start</Link></Box></Td>
+                                    <Link href={{ pathname: "/",}}>Start</Link></Button></Td>
                         </Tr>
                         <Tr>
                             <Td>Algorithms</Td>
                             <Td>CSCE 4110</Td>
-                            <Td ><Box 
-                                    as="button"
+                            <Td ><Button 
+                                    
                                     color="white"
                                     bg="#016a31"
                                     height="10"
@@ -100,7 +100,7 @@ const FormsView = () => {
                                         color: "white",
                                       }}
                                     >
-                                    <Link href={{ pathname: "/",}}>Start</Link></Box></Td>
+                                    <Link href={{ pathname: "/",}}>Start</Link></Button></Td>
                         </Tr>
                     </Tbody>
                 </Table>
