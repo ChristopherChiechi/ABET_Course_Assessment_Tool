@@ -9,7 +9,23 @@ import {
   DrawerContent,
   DrawerCloseButton,
   useDisclosure,
+  VStack,
+  Box,
+  Table,
+    Thead,
+    Tbody,
+    Tfoot,
+    Tr,
+    Th,
+    Td,
+    TableCaption,
+  Flex,
+  Accordion,
+    AccordionItem,
+    AccordionButton,
+    Link
 } from "@chakra-ui/react"
+
 import Head from "next/head";
 import AdminNavigation from "../components/admin-components/AdminNavigation";
 import AdminMenu from "../components/admin-components/AdminMenu";
@@ -25,6 +41,8 @@ import GenerateSectionReport from "../components/admin-components/GenerateSectio
 import GenerateStudentSurveys from "../components/admin-components/GenerateStudentSurveys";
 import EditAssignedCourses from "../components/admin-components/EditAssignedCourses/EditAssignedCourses";
 
+
+
 const adminHome = () => {
   const [user, setUser] = useState("MT2020");
   const [view, setView] = useState("GFR");
@@ -37,9 +55,19 @@ const adminHome = () => {
       <AdminNavigation user={user} />
       <div>
         <div>
-          <Button colorScheme="green" onClick={onOpen} ml="1em">
+        
+          <Button 
+            bg="#016a31" 
+            color="white" 
+            onClick={onOpen} 
+            ml="1em" 
+            _hover={{
+                background: "teal",
+                color: "white",
+            }}>
             Admin Menu
           </Button>
+          
           <Drawer placement="left" onClose={onClose} isOpen={isOpen} size="lg" closeOnOverlayClick="true" closeOnEsc="true" colorScheme="green" preserveScrollBarGap="true">
             <DrawerOverlay>
               <DrawerContent>
@@ -47,9 +75,61 @@ const adminHome = () => {
                 <DrawerBody onClick={onClose}>
                   <AdminMenu setView={setView} />
                 </DrawerBody>
+
               </DrawerContent>
             </DrawerOverlay>
           </Drawer>
+          <Flex justifyContent="center" >
+          <VStack paddingTop="15" paddingLeft="30" w="30%">
+            <Box bg="#edf2f7" w="100%" padding="1em">
+                <Table variant="striped" colorScheme="green" padding="1em">
+                    <TableCaption placement="top" fontWeight="bold" fontSize="x-large">Admin Menu</TableCaption>
+                    
+                    <Tbody>
+                        <Tr>
+                          <Link  onClick={() => {setView("GFR");}}>
+                            Generate Full Report
+                          </Link>
+                        </Tr>
+                        <Tr>
+                          <Link  href={{ pathname: "/components/admin-components/EditFacultyList/EditFacultyList",}}>
+                            Edit Faculty List
+                          </Link>
+                        </Tr>
+                        <Tr>
+                            
+                        </Tr>
+                        <Tr>
+                            
+                        </Tr>
+                    </Tbody>
+                </Table>
+            </Box>
+        </VStack>
+        <VStack paddingTop="15" paddingLeft="30" w="30%">
+            <Box bg="#edf2f7" w="100%" padding="1em">
+                <Table variant="striped" colorScheme="green" padding="1em">
+                    <TableCaption placement="top" fontWeight="bold" fontSize="x-large">Instructor Menu</TableCaption>
+                    
+                    <Tbody>
+                        <Tr>
+                            
+                        </Tr>
+                        <Tr>
+                            
+                        </Tr>
+                        <Tr>
+                            
+                        </Tr>
+                        <Tr>
+                            
+                        </Tr>
+                    </Tbody>
+                </Table>
+            </Box>
+        </VStack>
+        </Flex>
+          
         </div>
         <div>
           {(() => {
