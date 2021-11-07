@@ -21,7 +21,7 @@ function AuthProvider({ children }) {
     } else {
       role = json.role;
     }
-    console.log(role);
+    //console.log(role);
     isLoading = false;
   }
   const router = useRouter();
@@ -37,7 +37,7 @@ function AuthProvider({ children }) {
     role !== "Admin"
   ) {
     allowed = false;
-    console.log(allowed);
+    //console.log(allowed);
   }
   if (router.pathname.startsWith("/applicant") && role !== "applicant") {
     allowed = false;
@@ -50,7 +50,7 @@ function AuthProvider({ children }) {
     document.addEventListener("DOMContentLoaded", function () {
       isLoading = false;
     });
-    console.log(`LL: AuthProvider -> role`, role);
+    //console.log(`LL: AuthProvider -> role`, role);
     if (!isLoading) {
       if (router.pathname == "/" && role == "Admin") {
         router.push("/adminHome");
@@ -77,7 +77,7 @@ function AuthProvider({ children }) {
         if (role) {
           router.push("/unAuth");
         } else {
-          console.log("have access");
+          //console.log("have access");
 
           router.push("/instructorHome");
         }

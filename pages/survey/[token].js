@@ -42,7 +42,8 @@ const studentSurvey = () => {
     } else {
       relativeURL = router.pathname;
     }
-    console.log("Relative URL" + relativeURL);
+    //console.log("Survey Token " + surveyToken);
+    //console.log("Relative URL " + relativeURL);
     if (!token) {
       router.push({
         pathname: "/Login",
@@ -56,7 +57,7 @@ const studentSurvey = () => {
     } else {
       role = json.role;
     }
-    console.log("Role from survey:" + role);
+    //console.log("Role from survey:" + role);
     if (role == "null") {
       console.log("Push");
       router.push({
@@ -67,6 +68,14 @@ const studentSurvey = () => {
   }
 
   //state
+  const [courseInformation, setCourseInformation] = useState({
+    courseNumber: "",
+    courseSemester: "",
+    courseYear: "",
+    courseDisplayName: "",
+    courseDepartment: "",
+  });
+
   const [isLoggedIn, toggleLogin] = useToggle(true);
   const [studentInformation, setStudentInformation] = useState({
     major: "",
@@ -85,6 +94,41 @@ const studentSurvey = () => {
   useEffect(() => {
     console.log("ss updated");
   }, [TAquestions]);
+
+  useEffect(() => {
+    console.log("course updated");
+    getCourseInformation();
+  }, []);
+
+  const getCourseInformation = () => {
+    if (!ISSERVER) {
+      var surveyToken = router.query.token;
+      const courseJson = jwt.decode(surveyToken);
+      console.log(courseJson.departmentName);
+      if (
+        courseJson == null ||
+        courseJson.courseNumber == undefined ||
+        courseJson.courseSemester == undefined ||
+        courseJson.courseYear == undefined ||
+        courseJson.displayName == undefined ||
+        courseJson.departmentName == undefined
+      ) {
+        router.push({
+          pathname: "/wrongSurvey",
+        });
+      } else {
+        setCourseInformation({
+          courseNumber: courseJson.courseNumber,
+          courseSemester: courseJson.courseSemester,
+          courseYear: courseJson.courseYear,
+          courseDisplayName: courseJson.displayName,
+          courseDepartment: courseJson.departmentName,
+        });
+        console.log(courseJson.courseNumber);
+        console.log(courseJson.departmentName);
+      }
+    }
+  };
 
   const testFunction = () => {
     console.log(studentInformation, outcomeSurvey, TAquestions, studentInput);
@@ -140,7 +184,16 @@ const studentSurvey = () => {
         <VStack mt="2em">
           <Box w="80%">
             <Text fontSize="2xl" fontWeight="bold">
-              {course.code} {course.name}
+              {courseInformation.courseDepartment +
+                " " +
+                courseInformation.courseNumber +
+                " " +
+                courseInformation.courseDisplayName}
+            </Text>
+            <Text fontSize="2xl" fontWeight="bold">
+              {courseInformation.courseSemester +
+                " " +
+                courseInformation.courseYear}
             </Text>
             <Text fontSize="xl" fontWeight="bold" color="green">
               Student Feedback Survey
