@@ -32,18 +32,24 @@ const FormsView = ({ instructorCourses, coordinatorCourses, term }) => {
             <Tr key={idx}>
                 <Td>{course.displayName}</Td>
                 <Td>{course.courseNumber}.{course.sectionNumber}</Td>
-                <Td isNumeric><Box
-                    as ="button"
-                    color="white" 
+                <Td><Button           
+                    color="white"
                     bg="#016a31"
                     height="10"
                     rounded="md"
                     width="20"
+                        
+                    _hover={{
+                        background: "teal",
+                        color: "white",
+                        }}
+                        
                     variant="link" onClick={e => {
                         e.preventDefault();
                         //handleClick(course.courseNumber, course.sectionNumber);
                         //window.location.href = 'http://localhost:3000/formCompletion';
-                    }}>
+                    }}
+                    >
                     <Link
                         href={{
                             pathname: "/formCompletion",
@@ -53,10 +59,10 @@ const FormsView = ({ instructorCourses, coordinatorCourses, term }) => {
                                 semester: term.semester,
                                 year: term.year
                             },
-                          }}>
+                        }}>
                             Start
                         </Link>
-                    </Box>
+                    </Button>
                 </Td>
             </Tr>
         )
@@ -67,16 +73,22 @@ const FormsView = ({ instructorCourses, coordinatorCourses, term }) => {
             <Tr key={idx}>
                 <Td>{course.displayName}</Td>
                 <Td>{course.courseNumber}.{course.sectionNumber}</Td>
-                <Td isNumeric><Box
-                    as ="button"
-                    color="white" 
-                    bg="#016a31"
-                    height="10"
-                    rounded="md"
-                    width="20"
-                    variant="link" onClick={e => {
-                        e.preventDefault();
-                    }}>
+                <Td><Button           
+                        color="white"
+                        bg="#016a31"
+                        height="10"
+                        rounded="md"
+                        width="20"
+                        
+                        _hover={{
+                            background: "teal",
+                            color: "white",
+                            }}
+                        
+                        variant="link" onClick={e => {
+                            e.preventDefault();
+                        }}
+                        >
                         <Link
                          href={{
                             pathname: "/coordinatorForms",
@@ -89,7 +101,7 @@ const FormsView = ({ instructorCourses, coordinatorCourses, term }) => {
                           }}>
                             Comment
                         </Link>
-                    </Box>
+                    </Button>
                 </Td>
             </Tr>
         )
@@ -104,6 +116,7 @@ const FormsView = ({ instructorCourses, coordinatorCourses, term }) => {
                         <Tr>
                             <Th>Name</Th>
                             <Th>Code</Th>
+                            <Th>Form</Th>
                         </Tr>
                     </Thead>
                     <Tbody>
@@ -118,6 +131,7 @@ const FormsView = ({ instructorCourses, coordinatorCourses, term }) => {
                         <Tr>
                             <Th>Name</Th>
                             <Th>Code</Th>
+                            <Th>Form</Th>
                         </Tr>
                     </Thead>
                     <Tbody>

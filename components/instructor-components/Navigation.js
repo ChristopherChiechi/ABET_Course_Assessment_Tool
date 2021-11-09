@@ -1,4 +1,4 @@
-import { Link, Flex, Text, Badge } from "@chakra-ui/react";
+import { Link, Flex, Text, Badge, Button, Box } from "@chakra-ui/react";
 import API from "./../../api/api";
 
 const Navigation = ({ link, user}) => {
@@ -13,8 +13,17 @@ const Navigation = ({ link, user}) => {
                 mr="1em"
                 dir="row"
             >
-                <Badge mr="1em" colorScheme="green">{user}</Badge>
-                <Link href="/" onClick={logout}>Sign Out</Link>
+                <Box as="button" px="4" fontSize="xl">{user}</Box>
+                <Button
+                    color="white"
+                    bg="#016a31"
+                    _hover={{
+                        background: "teal",
+                        color: "white",
+                      }}
+                    >
+                    <Link href="/" onClick={logout}>Sign Out</Link>
+                </Button>
             </Flex>
         )
 
