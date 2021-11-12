@@ -38,6 +38,7 @@ import EditCourseList from "../components/admin-components/EditCourseList/EditCo
 import EditCourseOutcomes from "../components/admin-components/EditCourseOutcomes/EditCourseOutcomes";
 import OutcomeMapping from "../components/admin-components/OutcomeMapping/OutcomeMapping";
 import GenerateSectionReport from "../components/admin-components/GenerateSectionReport/GenerateSectionReport";
+import GenerateFullReport from "../components/admin-components/GenerateFullReport/GenerateFullReport";
 import GenerateStudentSurveys from "../components/admin-components/GenerateStudentSurveys";
 import EditAssignedCourses from "../components/admin-components/EditAssignedCourses/EditAssignedCourses";
 
@@ -134,8 +135,8 @@ const adminHome = () => {
         <div>
           {(() => {
             switch (view) {
-              // case "GFR":
-              //     return <EditAssignedCourses/>;
+              case "GFR":
+                return <GenerateFullReport />;
               case "GSR":
                 return <GenerateSectionReport user={user} />;
               case "OM":
