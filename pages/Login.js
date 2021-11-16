@@ -52,7 +52,12 @@ const Newlogin = () => {
         } else if (response == "Instructor") {
           router.push("/instructorHome");
         } else if (response == "Student") {
-          router.push("/studentHome");
+          console.log("From" + router.query.from);
+          if (router.query && router.query.from) {
+            router.push(router.query.from);
+          } else {
+            router.push("/studentHome");
+          }
         }
       } else
         toast({
