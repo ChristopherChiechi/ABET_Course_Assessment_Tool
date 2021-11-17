@@ -41,7 +41,7 @@ const fullReport = ({ /*semester, year*/ number, section, semester, year, id }) 
     */
 
     return (
-    <Grid templateColumns="repeat(4, 1fr)" gap={2}>
+    <Grid templateColumns="repeat(2, 1fr)" gap={8}>
         <Table variant="striped" colorScheme="green" size="sm">
             <Thead>
                 <Th>Information Technology</Th>

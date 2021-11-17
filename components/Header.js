@@ -5,13 +5,13 @@ import { Text, Box, HStack } from '@chakra-ui/react';
 const Header = () => {
     return (
         <>
-        <Box boxsize="sm" w="100%" bg="#016a31" height="15%" padding="0.75em">
+        <Box bg="#016a31" padding="0.75em" width="100%" height="100%">
             <Image
                 src="/UNTbanner.png"
                 pos="absolute"
                 top="0"
                 left="3"
-                boxSize="96px"
+                boxSize="94px"
             />
             <HStack ml="7.5%">
                 <Text fontSize="sm" fontWeight="hairline" /*letterSpacing="tighter"*/ color="white">College of Engineering</Text>
