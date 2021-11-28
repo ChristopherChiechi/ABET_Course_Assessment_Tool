@@ -5,7 +5,7 @@ import { Text, VStack, Button, Box } from "@chakra-ui/react";
 import jwt from "jsonwebtoken";
 import { useRouter } from "next/router";
 import cookieCutter from "cookie-cutter";
-
+import Navigation from "../../components/Navigation";
 //hooks
 import useToggle from "../../hooks/useToggle";
 
@@ -180,6 +180,7 @@ const studentSurvey = () => {
       <Head>
         <title>UNT Course Feedback Survey</title>
       </Head>
+      <Navigation />
       {isLoggedIn ? (
         <VStack mt="2em">
           <Box w="80%">

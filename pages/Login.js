@@ -47,17 +47,15 @@ const Newlogin = () => {
           duration: 9000,
           isClosable: true,
         });
-        if (response == "Admin") {
+        if (router.query && router.query.from) {
+          router.push(router.query.from);
+        } else if (response == "Admin") {
           router.push("/adminHome");
         } else if (response == "Instructor") {
           router.push("/instructorHome");
         } else if (response == "Student") {
-          console.log("From" + router.query.from);
-          if (router.query && router.query.from) {
-            router.push(router.query.from);
-          } else {
-            router.push("/studentHome");
-          }
+          //console.log("From" + router.query.from);
+          router.push("/studentHome");
         }
       } else
         toast({

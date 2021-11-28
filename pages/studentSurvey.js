@@ -16,7 +16,7 @@ import {
   pageData,
 } from "../components/survey-components/SurveyPageData";
 //api
-import { postStudentSurvey } from '../api/APIHelper';
+import { postStudentSurvey } from "../api/APIHelper";
 
 const studentSurvey = () => {
   const context = useContext(PageContext);
@@ -69,9 +69,7 @@ const studentSurvey = () => {
     }
   };
 
-  const submitSurvey = () => {
-    
-  }
+  const submitSurvey = () => {};
 
   const handleChange = (rating, idx, type) => {
     if (type == "TA") {
@@ -112,10 +110,7 @@ const studentSurvey = () => {
             outcomeSurvey={outcomeSurvey}
             handleChange={handleChange}
           />
-          <TAsurvey 
-            TAquestions={TAquestions} 
-            handleChange={handleChange} 
-          />
+          <TAsurvey TAquestions={TAquestions} handleChange={handleChange} />
           <StudentFeedback
             studentInput={studentInput}
             setStudentInput={setStudentInput}

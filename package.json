@@ -15,6 +15,7 @@
     "@mui/material": "^5.0.6",
     "@mui/x-data-grid": "^4.0.2",
     "cookie-cutter": "^0.2.0",
+    "dotenv": "^10.0.0",
     "framer-motion": "^4.1.17",
     "jsonwebtoken": "^8.5.1",
     "next": "^11.1.2",

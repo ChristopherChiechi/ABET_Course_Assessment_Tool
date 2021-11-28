@@ -13,7 +13,6 @@ import {
 } from "@chakra-ui/react";
 import TextField from "@mui/material/TextField";
 const jwt = require("jsonwebtoken");
-
 //api
 import { getCoursesByDepartment } from "../../api/APIHelper";
 //hooks
@@ -29,7 +28,7 @@ const GenerateStudentSurveys = () => {
       courses,
     });
   };
-  console.log(courseList);
+  const secretKey = process.env.SURVEY_JWT_KEY;
   const renderSurveyList = courseList
     ? courseList.courses.map((course, idx) => {
         var token = jwt.sign(
@@ -41,10 +40,9 @@ const GenerateStudentSurveys = () => {
             departmentName: course.department,
             displayName: course.displayName,
           },
-          "testing key"
+          secretKey
         );
         var link = "http://localhost:3000/survey/" + token;
-        console.log(link);
         return (
           <>
             <Tr key={idx} bg={idx % 2 == 0 ? "gray.300" : "gray.100"}>
@@ -110,4 +108,5 @@ const GenerateStudentSurveys = () => {
     </div>
   );
 };
+
 export default GenerateStudentSurveys;

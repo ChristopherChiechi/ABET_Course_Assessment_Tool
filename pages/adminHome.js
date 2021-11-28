@@ -12,22 +12,22 @@ import {
   VStack,
   Box,
   Table,
-    Thead,
-    Tbody,
-    Tfoot,
-    Tr,
-    Th,
-    Td,
-    TableCaption,
+  Thead,
+  Tbody,
+  Tfoot,
+  Tr,
+  Th,
+  Td,
+  TableCaption,
   Flex,
   Accordion,
-    AccordionItem,
-    AccordionButton,
-    Link
-} from "@chakra-ui/react"
+  AccordionItem,
+  AccordionButton,
+  Link,
+} from "@chakra-ui/react";
 
 import Head from "next/head";
-import AdminNavigation from "../components/admin-components/AdminNavigation";
+import Navigation from "../components/Navigation";
 import AdminMenu from "../components/admin-components/AdminMenu";
 // import FullReport from '../components/admin-components/FullReport/FullReport';
 import CreateNewSemester from "../components/admin-components/CreateNewSemester";
@@ -42,8 +42,6 @@ import GenerateFullReport from "../components/admin-components/GenerateFullRepor
 import GenerateStudentSurveys from "../components/admin-components/GenerateStudentSurveys";
 import EditAssignedCourses from "../components/admin-components/EditAssignedCourses/EditAssignedCourses";
 
-
-
 const adminHome = () => {
   const [user, setUser] = useState("MT2020");
   const [view, setView] = useState("GFR");
@@ -53,84 +51,102 @@ const adminHome = () => {
       <Head>
         <title>UNT ABET: Admin Page</title>
       </Head>
-      <AdminNavigation user={user} />
+      <Navigation />
       <div>
         <div>
-        
-          <Button 
-            bg="#016a31" 
-            color="white" 
-            onClick={onOpen} 
-            ml="1em" 
+          <Button
+            bg="#016a31"
+            color="white"
+            onClick={onOpen}
+            ml="1em"
             _hover={{
-                background: "teal",
-                color: "white",
-            }}>
+              background: "teal",
+              color: "white",
+            }}
+          >
             Admin Menu
           </Button>
-          
-          <Drawer placement="left" onClose={onClose} isOpen={isOpen} size="lg" closeOnOverlayClick="true" closeOnEsc="true" colorScheme="green" preserveScrollBarGap="true">
+
+          <Drawer
+            placement="left"
+            onClose={onClose}
+            isOpen={isOpen}
+            size="lg"
+            closeOnOverlayClick="true"
+            closeOnEsc="true"
+            colorScheme="green"
+            preserveScrollBarGap="true"
+          >
             <DrawerOverlay>
               <DrawerContent>
-                <DrawerHeader borderBottomWidth="1px" textAlign="center">Admin Menu</DrawerHeader>
+                <DrawerHeader borderBottomWidth="1px" textAlign="center">
+                  Admin Menu
+                </DrawerHeader>
                 <DrawerBody onClick={onClose}>
                   <AdminMenu setView={setView} />
                 </DrawerBody>
-
               </DrawerContent>
             </DrawerOverlay>
           </Drawer>
-          <Flex justifyContent="center" >
-          <VStack paddingTop="15" paddingLeft="30" w="30%">
-            <Box bg="#edf2f7" w="100%" padding="1em">
+          <Flex justifyContent="center">
+            <VStack paddingTop="15" paddingLeft="30" w="30%">
+              <Box bg="#edf2f7" w="100%" padding="1em">
                 <Table variant="striped" colorScheme="green" padding="1em">
-                    <TableCaption placement="top" fontWeight="bold" fontSize="x-large">Admin Menu</TableCaption>
-                    
-                    <Tbody>
-                        <Tr>
-                          <Link  onClick={() => {setView("GFR");}}>
-                            Generate Full Report
-                          </Link>
-                        </Tr>
-                        <Tr>
-                          <Link  href={{ pathname: "/components/admin-components/EditFacultyList/EditFacultyList",}}>
-                            Edit Faculty List
-                          </Link>
-                        </Tr>
-                        <Tr>
-                            
-                        </Tr>
-                        <Tr>
-                            
-                        </Tr>
-                    </Tbody>
+                  <TableCaption
+                    placement="top"
+                    fontWeight="bold"
+                    fontSize="x-large"
+                  >
+                    Admin Menu
+                  </TableCaption>
+
+                  <Tbody>
+                    <Tr>
+                      <Link
+                        onClick={() => {
+                          setView("GFR");
+                        }}
+                      >
+                        Generate Full Report
+                      </Link>
+                    </Tr>
+                    <Tr>
+                      <Link
+                        href={{
+                          pathname:
+                            "/components/admin-components/EditFacultyList/EditFacultyList",
+                        }}
+                      >
+                        Edit Faculty List
+                      </Link>
+                    </Tr>
+                    <Tr></Tr>
+                    <Tr></Tr>
+                  </Tbody>
                 </Table>
-            </Box>
-        </VStack>
-        <VStack paddingTop="15" paddingLeft="30" w="30%">
-            <Box bg="#edf2f7" w="100%" padding="1em">
+              </Box>
+            </VStack>
+            <VStack paddingTop="15" paddingLeft="30" w="30%">
+              <Box bg="#edf2f7" w="100%" padding="1em">
                 <Table variant="striped" colorScheme="green" padding="1em">
-                    <TableCaption placement="top" fontWeight="bold" fontSize="x-large">Instructor Menu</TableCaption>
-                    
-                    <Tbody>
-                        <Tr>
-                            
-                        </Tr>
-                        <Tr>
-                            
-                        </Tr>
-                        <Tr>
-                            
-                        </Tr>
-                        <Tr>
-                            
-                        </Tr>
-                    </Tbody>
+                  <TableCaption
+                    placement="top"
+                    fontWeight="bold"
+                    fontSize="x-large"
+                  >
+                    Instructor Menu
+                  </TableCaption>
+
+                  <Tbody>
+                    <Tr></Tr>
+                    <Tr></Tr>
+                    <Tr></Tr>
+                    <Tr></Tr>
+                  </Tbody>
                 </Table>
-            </Box>
-        </VStack>
-        </Flex>
-          
+              </Box>
+            </VStack>
+          </Flex>
         </div>
         <div>
           {(() => {
