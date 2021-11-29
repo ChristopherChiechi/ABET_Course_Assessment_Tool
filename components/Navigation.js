@@ -1,4 +1,4 @@
-import { Link, Flex, Box, Button } from "@chakra-ui/react";
+import { Link, Flex, Box, Button, MenuButton } from "@chakra-ui/react";
 import API from "../api/api";
 import React, { useEffect, useState } from "react";
 import cookieCutter from "cookie-cutter";
@@ -34,21 +34,36 @@ const Navigation = ({ link, user }) => {
       <Box>
         <Box
           as="button"
-          mr="1em"
           borderRadius="md"
-          fontWeight="semibold"
           color="black"
-          fontSize="lg"
-          px={4}
-          h={10}
+          fontSize="1.5em"
+          px={1}
+          h={8}
         >
           {userID}
         </Box>
-        <Button colorScheme="teal">
-          <Link href="/" onClick={logout}>
-            Sign Out
-          </Link>
-        </Button>
+          <Button
+            bg="#016a31"
+            color="white"
+            ml="1em"
+            _hover={{
+              background: "teal",
+              color: "white",
+            }}
+          >
+            Home
+          </Button>
+          <Button
+            bg="#016a31"
+            color="white"
+            ml="1em"
+            _hover={{
+              background: "teal",
+              color: "white",
+            }}
+          >
+            <Link href="/" onClick={logout}>Sign Out</Link>
+          </Button>
       </Box>
     </Flex>
   );

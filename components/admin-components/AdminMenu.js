@@ -40,11 +40,11 @@ const AdminMenu = ({ setView }) => {
                 </AccordionButton>
             </AccordionItem>
 
-            <AccordionItem>
-                <Text textAlign="left" fontWeight="bold" mt="1em" mb="1em">
-                    Department Changes
-                </Text>
-            </AccordionItem>
+            
+            <Text textAlign="left" fontSize="1.1em" fontWeight="bold" mt="2em" mb="1em">
+                <u>Departmental Changes</u>
+            </Text>
+            
             <AccordionItem>
                 <AccordionButton _expanded={{ bg: "#38A169", color: "white" }} textAlign="left" onClick={() => {
                     setView("CNS");

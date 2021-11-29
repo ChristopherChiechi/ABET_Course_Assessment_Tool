@@ -1,6 +1,7 @@
 import { useState } from "react";
 import {
   Button,
+  Center,
   Drawer,
   DrawerBody,
   DrawerFooter,
@@ -24,8 +25,11 @@ import {
   AccordionItem,
   AccordionButton,
   Link,
+  IconButton
 } from "@chakra-ui/react";
+import { HamburgerIcon } from "@chakra-ui/icons"
 
+import { useRouter } from "next/router";
 import Head from "next/head";
 import Navigation from "../components/Navigation";
 import AdminMenu from "../components/admin-components/AdminMenu";
@@ -42,10 +46,18 @@ import GenerateFullReport from "../components/admin-components/GenerateFullRepor
 import GenerateStudentSurveys from "../components/admin-components/GenerateStudentSurveys";
 import EditAssignedCourses from "../components/admin-components/EditAssignedCourses/EditAssignedCourses";
 
+var role = "super";
+var is_super = true;
+if (role=="super")
+{
+  is_super = false;
+}
+
 const adminHome = () => {
   const [user, setUser] = useState("MT2020");
-  const [view, setView] = useState("GFR");
+  const [view, setView] = useState("");
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const router = useRouter()
   return (
     <div>
       <Head>
@@ -54,7 +66,7 @@ const adminHome = () => {
       <Navigation />
       <div>
         <div>
-          <Button
+          <IconButton
             bg="#016a31"
             color="white"
             onClick={onOpen}
@@ -63,15 +75,28 @@ const adminHome = () => {
               background: "teal",
               color: "white",
             }}
-          >
-            Admin Menu
+            icon={<HamburgerIcon/>}
+          />
+          
+
+          <Button 
+            disabled={is_super}
+            onClick={() => router.push('/instructorHome')}
+            bg="#016a31" 
+            color="white" 
+            ml="1em" 
+            _hover={{
+                background: "teal",
+                color: "white",
+            }}>
+              Switch to Instructor
           </Button>
 
           <Drawer
             placement="left"
             onClose={onClose}
             isOpen={isOpen}
-            size="lg"
+            w="33%"
             closeOnOverlayClick="true"
             closeOnEsc="true"
             colorScheme="green"
@@ -79,7 +104,7 @@ const adminHome = () => {
           >
             <DrawerOverlay>
               <DrawerContent>
-                <DrawerHeader borderBottomWidth="1px" textAlign="center">
+                <DrawerHeader borderBottomWidth="1px" textAlign="center" fontSize="1.5em">
                   Admin Menu
                 </DrawerHeader>
                 <DrawerBody onClick={onClose}>
@@ -90,58 +115,32 @@ const adminHome = () => {
           </Drawer>
           <Flex justifyContent="center">
             <VStack paddingTop="15" paddingLeft="30" w="30%">
-              <Box bg="#edf2f7" w="100%" padding="1em">
-                <Table variant="striped" colorScheme="green" padding="1em">
-                  <TableCaption
-                    placement="top"
-                    fontWeight="bold"
-                    fontSize="x-large"
-                  >
-                    Admin Menu
-                  </TableCaption>
-
+              <Box borderWidth="2px" borderRadius='lg' padding="5">
+                <Table variant='simple' size='md' width="max">
+                  <TableCaption placement="top" fontWeight="bold" fontSize="2.2em">ADMIN HOME</TableCaption>
                   <Tbody>
                     <Tr>
-                      <Link
-                        onClick={() => {
-                          setView("GFR");
-                        }}
-                      >
-                        Generate Full Report
-                      </Link>
+                      <Td as="button" mr="3" color="#016a31" onClick={() => {setView("CNS");}}>Create New Semester</Td>
+                      <Td as="button" mr="3" color="#016a31" onClick={() => {setView("GFR");}}>Generate Full Report</Td>
                     </Tr>
                     <Tr>
-                      <Link
-                        href={{
-                          pathname:
-                            "/components/admin-components/EditFacultyList/EditFacultyList",
-                        }}
-                      >
-                        Edit Faculty List
-                      </Link>
+                      <Td as="button" mr="3" color="#016a31" onClick={() => {setView("EAC");}}>Edit Assigned Course</Td>
+                      <Td as="button" mr="3" color="#016a31" onClick={() => {setView("GSS");}}>Generate Student Surveys</Td>
                     </Tr>
-                    <Tr></Tr>
-                    <Tr></Tr>
-                  </Tbody>
-                </Table>
-              </Box>
-            </VStack>
-            <VStack paddingTop="15" paddingLeft="30" w="30%">
-              <Box bg="#edf2f7" w="100%" padding="1em">
-                <Table variant="striped" colorScheme="green" padding="1em">
-                  <TableCaption
-                    placement="top"
-                    fontWeight="bold"
-                    fontSize="x-large"
-                  >
-                    Instructor Menu
-                  </TableCaption>
-
-                  <Tbody>
-                    <Tr></Tr>
-                    <Tr></Tr>
-                    <Tr></Tr>
-                    <Tr></Tr>
+                    <Tr>
+                      <Td as="button" mr="3" color="#016a31" onClick={() => {setView("ECO");}}>Edit Course Outcome</Td>
+                      
+                      <Td as="button" mr="3" color="#016a31" onClick={() => {setView("GSR");}}>Generate Section Report</Td>
+                      
+                    </Tr>
+                    <Tr>
+                      <Td as="button" mr="12" color="#016a31" onClick={() => {setView("ECL");}}>Edit Course List</Td>
+                      <Td as="button" mr="3" color="#016a31" onClick={() => {setView("OM");}}>Generate Outcome Mapping</Td>
+                      
+                    </Tr>
+                    <Tr>
+                    <Td as="button" mr="3" color="#016a31" onClick={() => {setView("EFL");}}>Edit Faculty List</Td>
+                    </Tr>
                   </Tbody>
                 </Table>
               </Box>
@@ -151,6 +150,8 @@ const adminHome = () => {
         <div>
           {(() => {
             switch (view) {
+              default:
+                return null;
               case "GFR":
                 return <GenerateFullReport />;
               case "GSR":

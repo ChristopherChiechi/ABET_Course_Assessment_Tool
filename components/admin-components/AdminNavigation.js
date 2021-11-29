@@ -52,7 +52,6 @@ const AdminNavigation = ({ link, user}) => {
               >
               <Link href="/" onClick={logout}>Sign Out</Link>
             </Button>
-                    
           </Flex>
           
         </>
