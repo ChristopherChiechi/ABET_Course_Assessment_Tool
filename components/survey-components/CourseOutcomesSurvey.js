@@ -47,9 +47,7 @@ const CourseOutcomesSurvey = ({ outcomeSurvey, handleChange }) => {
         bg="#edf2f7"
       >
         <Text fontWeight="bold">
-          Course Outcome Section: Please rate the following statements on a
-          scale from 1 - 5, with 1 being strongly disagree and 5 being strongly
-          agree.
+          For each course outcome below, rate your accomplishment using a scale of 1 to 5 where 1 is Very Low and 5 is Excellent.
         </Text>
       </Center>
       <Center

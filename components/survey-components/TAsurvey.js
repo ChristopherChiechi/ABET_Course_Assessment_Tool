@@ -52,8 +52,7 @@ const TAsurvey = ({ TAquestions, handleChange }) => {
         bg="#edf2f7"
       >
         <Text fontWeight="bold">
-          TA Evaluation Section: Please rate the following statements on a scale
-          from 1 - 5, with 1 being strongly disagree and 5 being strongly agree.
+          For each item below select a rating from 1-5, where 1 is Very Low Satisfaction and 5 is Very High Satisfaction. 
         </Text>
       </Center>
       <Center
@@ -65,7 +64,7 @@ const TAsurvey = ({ TAquestions, handleChange }) => {
         <Table padding="1em" variant="striped">
           <Thead>
             <Tr>
-              <Th>Quality</Th>
+              <Th>TA Evaluation</Th>
               <Th>Rating</Th>
             </Tr>
           </Thead>

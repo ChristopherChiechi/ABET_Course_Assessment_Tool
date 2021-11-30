@@ -18,12 +18,12 @@ export const pageData = {
     "Information Technology",
     "Cyber Secuirity",
   ],
-  years: ["Freshman", "Sophomore", "Junior", "Senior"],
+  years: ["1", "2", "3", "4", "5", "Grad"],
   grades: ["A", "B", "C", "D", "F"],
   course: course,
   studentQuestions: [
     {
-      question: "What is your Major?",
+      question: "Major:",
       choices: [
         "Computer Science",
         "Software Engineering",
@@ -33,11 +33,11 @@ export const pageData = {
       ],
     },
     {
-      question: "What is your Classification?",
-      choices: ["Freshman", "Sophomore", "Junior", "Senior"],
+      question: "Year in School:",
+      choices: ["1", "2", "3", "4", "5", "Grad"],
     },
     {
-      question: "What grade do you expect?",
+      question: "Expected Grade:",
       choices: ["A", "B", "C", "D", "F"],
     },
   ],

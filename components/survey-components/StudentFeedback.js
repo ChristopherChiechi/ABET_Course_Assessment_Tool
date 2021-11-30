@@ -10,15 +10,8 @@ const StudentFeedback = ({ studentInput, setStudentInput }) => {
   return (
     <>
       <Container m="2em" padding="1em" bg="#edf2f7" minW="80%">
-        <Text fontWeight="bold">Additional comments on the Course?</Text>
-        <Textarea
-          bg="white"
-          onChange={(e) => handleChange(e, "additionalFeedback")}
-        ></Textarea>
-      </Container>
-      <Container m="2em" padding="1em" bg="#edf2f7" minW="80%">
         <Text fontWeight="bold">
-          Additional comments on Instructor's performance
+          Additional comments on TA's performance.
         </Text>
         <Textarea
           bg="white"
@@ -27,7 +20,9 @@ const StudentFeedback = ({ studentInput, setStudentInput }) => {
       </Container>
 
       <Container m="2em" padding="1em" bg="#edf2f7" minW="80%">
-        <Text fontWeight="bold">Additional comments on TA's performance</Text>
+        <Text fontWeight="bold">
+          List what you liked about the course:
+        </Text>
         <Textarea
           bg="white"
           onChange={(e) => handleChange(e, "TAeval")}
@@ -36,16 +31,8 @@ const StudentFeedback = ({ studentInput, setStudentInput }) => {
 
       <Container m="2em" padding="1em" bg="#edf2f7" minW="80%">
         <Text fontWeight="bold">
-          What parts of the class were obstacles to your learning?
+          List ways this course could be improved:
         </Text>
-        <Textarea
-          bg="white"
-          onChange={(e) => handleChange(e, "additionalFeedback")}
-        ></Textarea>
-      </Container>
-
-      <Container m="2em" padding="1em" bg="#edf2f7" minW="80%">
-        <Text fontWeight="bold">What changes might improve your learning?</Text>
         <Textarea
           bg="white"
           onChange={(e) => handleChange(e, "additionalFeedback")}
