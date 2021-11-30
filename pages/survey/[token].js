@@ -104,7 +104,6 @@ const studentSurvey = () => {
     if (!ISSERVER) {
       var surveyToken = router.query.token;
       const courseJson = jwt.decode(surveyToken);
-      console.log(courseJson.departmentName);
       if (
         courseJson == null ||
         courseJson.courseNumber == undefined ||
