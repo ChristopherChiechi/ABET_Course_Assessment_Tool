@@ -1,7 +1,7 @@
 //imports
 import { useState, useContext, useEffect } from "react";
 import Head from "next/head";
-import { Text, VStack, Button, Box } from "@chakra-ui/react";
+import { Text, VStack, Button, Box, Center } from "@chakra-ui/react";
 import jwt from "jsonwebtoken";
 import { useRouter } from "next/router";
 import cookieCutter from "cookie-cutter";
@@ -183,7 +183,7 @@ const studentSurvey = () => {
       <Navigation />
       {isLoggedIn ? (
         <VStack mt="2em">
-          <Box w="80%">
+          <Box w="90%">
             <Text fontSize="2xl" fontWeight="bold">
               {courseInformation.courseDepartment +
                 " " +
@@ -200,20 +200,29 @@ const studentSurvey = () => {
               Student Feedback Survey
             </Text>
           </Box>
-          <StudentInfoForm
-            studentInformation={studentInformation}
-            setStudentInformation={setStudentInformation}
-          />
-          <CourseOutcomesSurvey
-            outcomeSurvey={outcomeSurvey}
-            handleChange={handleChange}
-          />
-          <TAsurvey TAquestions={TAquestions} handleChange={handleChange} />
-          <StudentFeedback
-            studentInput={studentInput}
-            setStudentInput={setStudentInput}
-          />
 
+          <Box w={{ base: "120%", sm: "50%", md: "80%" }}>
+            <StudentInfoForm
+              studentInformation={studentInformation}
+              setStudentInformation={setStudentInformation}
+            />
+          </Box>
+          <Box w={{ base: "120%", sm: "50%", md: "80%" }}>
+            <CourseOutcomesSurvey
+              outcomeSurvey={outcomeSurvey}
+              handleChange={handleChange}
+            />
+          </Box>
+
+          <Box w={{ base: "120%", sm: "50%", md: "80%" }}>
+            <TAsurvey TAquestions={TAquestions} handleChange={handleChange} />
+          </Box>
+          <Box m="1.0em" w={{ base: "120%", sm: "50%", md: "80%" }}>
+            <StudentFeedback
+              studentInput={studentInput}
+              setStudentInput={setStudentInput}
+            />
+          </Box>
           <Button onClick={testFunction} mb="1em" colorScheme="green">
             Submit Survey
           </Button>
