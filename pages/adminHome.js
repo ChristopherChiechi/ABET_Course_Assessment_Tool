@@ -114,10 +114,10 @@ const adminHome = () => {
             </DrawerOverlay>
           </Drawer>
           <Flex justifyContent="center">
-            <VStack paddingTop="15" paddingLeft="30" w="30%">
+            <VStack paddingTop="15" paddingLeft="30" w={{ base: "120%", md: "80%" }}>
               <Box borderWidth="2px" borderRadius='lg' padding="5">
                 <Table variant='simple' size='md' width="max">
-                  <TableCaption placement="top" fontWeight="bold" fontSize="2.2em">ADMIN HOME</TableCaption>
+                  <TableCaption color="black" placement="top" fontWeight="bold" fontSize="2.2em">Admin Home</TableCaption>
                   <Tbody>
                     <Tr>
                       <Td as="button" mr="3" color="#016a31" onClick={() => {setView("CNS");}}>Create New Semester</Td>
