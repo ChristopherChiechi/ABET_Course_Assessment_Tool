@@ -21,12 +21,7 @@ const Header = () => {
           />
         </Box>
         <Box w={{ base: "500px", sm: "100%", md: "210px" }} height="100%">
-          <Text
-            fontsize="200px"
-            fontWeight="bold"
-            color="white"
-            marginLeft="20%"
-          >
+          <Text fontWeight="bold" color="white" marginLeft="20%">
             College of Engineering
           </Text>
         </Box>
