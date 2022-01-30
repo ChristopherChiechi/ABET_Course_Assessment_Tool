@@ -60,7 +60,7 @@ const CourseOutcomesMapping = ({ courseOutcomes, handleOutcomesChange }) => {
                                                             <Text>{work.fileName}</Text>
                                                             <Button size="sm">Remove File</Button>
                                                         </HStack> :
-                                                        <Button>Add File</Button>
+                                                        //<Button>Add File</Button>
                                                     }
                                                     <Button size="sm" colorScheme="red" mt=".5em" alignSelf="flex-end">Remove Work</Button>
                                                 </Flex>

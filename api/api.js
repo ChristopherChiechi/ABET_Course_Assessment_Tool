@@ -1,7 +1,6 @@
 // Helper API Class
 import cookieCutter from "cookie-cutter";
 import jwt from "jsonwebtoken";
-
 const axios = require("axios");
 
 const root = "https://localhost:44372/api"; // The base URL for each request
@@ -147,6 +146,21 @@ export default class API {
         console.log(json);
         return json["role"]; //return the role
       }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  //---Custom()---
+  //    Input:
+  //    Output:
+  // For development, populated the database.
+  async Custom() {
+    const url = rootNew + "/Custom";
+    console.log(url);
+    try {
+      const response = await axios.get(url);
+      console.log(response.data);
     } catch (error) {
       console.error(error);
     }
@@ -432,22 +446,46 @@ export default class API {
 
   //---getFacultyList()--- (Admin)
   //    Input: none
-  //    Output: List of instructors, coordinators, adjunct faculties, and teaching fellows
+  //    Output: List of admins, instructors, coordinators
   async getFacultyList() {
-    console.log("Ran");
-    const url = rootNew + "/Role/GetUsersByRole";
-    console.log(url);
+    const url = rootNew + "/Role/GetFaculty";
     try {
-      var response = await axios.get(url, {
-        params: { roleName: "instructor" },
-      });
-      response.data;
+      var response = await axios.get(url);
+      return response.data;
     } catch (error) {
       console.error(error);
     }
-    var oldResponse = await this.sendPost("/faculty/get-list", {});
-    console.log(oldResponse);
-    return oldResponse;
+  }
+
+  //---editFacultyUser()--- (Admin)
+  //    Input: First name, last name, EUID
+  //    Output: success or failure
+  async editFacultyUser(Firstname = "", Lastname = "", Euid = "") {
+    const url = rootNew + "/Users/EditUser";
+    try {
+      const response = await axios.patch(url, {
+        firstName: Firstname,
+        lastName: Lastname,
+        euid: Euid,
+      });
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  //---deleteFacultyUser()--- (Admin)
+  //    Input: EUID
+  //    Output: success or failure
+  async deleteFacultyUser(Euid = "") {
+    const url = rootNew + "/Users/DeleteUser";
+    try {
+      const response = await axios.delete(url, { params: { EUID: Euid } });
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   //---addFacultyMember(firstName, lastName, userid, role)--- (Admin)
@@ -459,16 +497,24 @@ export default class API {
     userId = "",
     facultyType = ""
   ) {
+    const url = rootNew + "/Users/AddUserWithRoles";
     const body = {
-      info: {
+      user: {
         firstName: firstName,
         lastName: lastName,
-        id: userId,
+        euid: userId,
       },
-      facultyType: facultyType,
+      roles: [facultyType],
     };
-
-    return await this.sendPost("/faculty/add-member", body);
+    try {
+      const response = await axios.post(url, body);
+      if (response.status == OK) {
+        console.log(response.data);
+        return "Success";
+      }
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   //---getCoursesByDepartment(department)--- (Admin)

@@ -10,7 +10,7 @@ import {
 } from "@material-ui/core";
 import { Form } from "react-bootstrap";
 import React, { useRef, useState, createContext, useContext } from "react";
-import { login } from "../api/APIHelper";
+import { login, Custom } from "../api/APIHelper";
 import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 
@@ -50,6 +50,7 @@ const Newlogin = () => {
         if (router.query && router.query.from) {
           router.push(router.query.from);
         } else if (response == "Admin") {
+          const res = await Custom();
           router.push("/adminHome");
         } else if (response == "Instructor") {
           router.push("/instructorHome");

@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+
 import {
   Box,
   Text,
@@ -7,7 +9,6 @@ import {
   List,
   Input,
   ListItem,
-  useToast,
   VStack,
 } from "@chakra-ui/react";
 import useInputState from "../../../hooks/useInputState";
@@ -17,12 +18,12 @@ import { getFacultyList, addFacultyMember } from "../../../api/APIHelper";
 import AddFacultyMember from "./AddFacultyMember";
 
 const EditFacultyList = () => {
-  const toast = useToast();
   const [faculty, setFaculty] = useState({
-    fullTime: [],
-    adjuncts: [],
-    fellows: [],
+    admin: [],
+    instructor: [],
+    coordinator: [],
   });
+  const router = useRouter();
 
   const [newFaculty, setNewFaculty] = useState({
     lastName: "",
@@ -33,12 +34,11 @@ const EditFacultyList = () => {
 
   const getFaculty = async () => {
     const facultyList = await getFacultyList();
-    console.log(facultyList);
     setFaculty({
       ...faculty,
-      fullTime: facultyList.fullTime,
-      adjuncts: facultyList.adjuncts,
-      fellows: facultyList.fellows,
+      admin: facultyList.admins,
+      instructor: facultyList.instructors,
+      coordinator: facultyList.coordinators,
     });
   };
 
@@ -48,22 +48,56 @@ const EditFacultyList = () => {
 
   useEffect(() => {
     if (newFaculty.lastName !== "") {
-      addFacultyMember(
-        newFaculty.lastName,
-        newFaculty.firstName,
-        newFaculty.untID,
-        newFaculty.type
-      );
-      getFaculty();
-      toast({
-        title: "Faculty Added",
-        status: "success",
-        duration: 5000,
-        isClosable: true,
-      })
-
+      const res = async () => {
+        await addFacultyMember(
+          newFaculty.lastName,
+          newFaculty.firstName,
+          newFaculty.untID,
+          newFaculty.type
+        );
+        router.reload(window.location.pathname);
+      };
+      res();
     }
   }, [newFaculty]);
+
+  const renderAdmin = faculty.admin.map((fac, idx) => {
+    return (
+      <ListItem align="center">
+        <FacultyMember
+          member={fac.firstName + " " + fac.lastName}
+          id={fac.euid}
+          //edit={editFaculty}
+          color={idx % 2 == 0 ? "green.200" : "gray.300"}
+          key={idx}
+        />
+      </ListItem>
+    );
+  });
+
+  const renderInstructor = faculty.instructor.map((fac, idx) => {
+    return (
+      <ListItem>
+        <FacultyMember
+          member={fac.firstName + " " + fac.lastName}
+          id={fac.euid}
+          color={idx % 2 == 0 ? "green.200" : "gray.300"}
+        />
+      </ListItem>
+    );
+  });
+
+  const renderCoordinator = faculty.coordinator.map((fac, idx) => {
+    return (
+      <ListItem>
+        <FacultyMember
+          member={fac.firstName + " " + fac.lastName}
+          id={fac.euid}
+          color={idx % 2 == 0 ? "green.200" : "gray.300"}
+        />
+      </ListItem>
+    );
+  });
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -75,62 +109,111 @@ const EditFacultyList = () => {
     }
   };
 
-  // const facultyList = fakeData.faculty;
-  // const adjunctList = fakeData.adjunctFaculty;
-  // const fellowsList = fakeData.teachingFellows;
-  // sortByLastName(facultyList);
-  // sortByLastName(adjunctList);
-  // sortByLastName(fellowsList);
-  // var cseFaculty = [];
-  // for (var i = 0; i< facultyList.length; i++) {
-  //     var obj = {};
+  return (
+    <div id="top">
+      <VStack
+        id="top"
+        w="80%"
+        m="0 auto"
+        marginBottom="2em"
+        justifyContent="center"
+      >
+        <Text fontSize="2xl" fontWeight="bold" mt="1em">
+          Edit Faculty List
+        </Text>
+        <Text fontWeight="bold" mt="1em" mb="1em" fontSize="lg" align="center">
+          Admins
+        </Text>
 
-  //     obj['name'] = facultyList[i];
-  //     obj['id'] = i;
-  //     cseFaculty.push(obj);
-  // }
+        <List marginLeft="5em" w="80%">
+          {renderAdmin}
+        </List>
+      </VStack>
+      <VStack id="top" w="80%" m="0 auto" justifyContent="center">
+        <Text fontWeight="bold" mt="1em" mb="1em" fontSize="lg" align="center">
+          Instructor
+        </Text>
+        <List w="80%" alignContent="center" align="center">
+          {renderInstructor}
+        </List>
+      </VStack>
+      <VStack
+        id="top"
+        w="80%"
+        m="0 auto"
+        marginBottom="2em"
+        justifyContent="center"
+      >
+        <Text fontWeight="bold" mt="1em" mb="1em" fontSize="lg" align="center">
+          Coordinator
+        </Text>
 
-  // var adjunct = [];
-  // for (var i = 0; i< adjunctList.length; i++) {
-  //     var obj = {};
+        <List marginLeft="5em" w="80%" align="center">
+          {renderCoordinator}
+        </List>
+        <AddFacultyMember setNewFaculty={setNewFaculty} />
+      </VStack>
+    </div>
+  );
+};
+export default EditFacultyList;
 
-  //     obj['name'] = facultyList[i];
-  //     obj['id'] = i;
-  //     adjunct.push(obj);
-  // }
+// const facultyList = fakeData.faculty;
+// const adjunctList = fakeData.adjunctFaculty;
+// const fellowsList = fakeData.teachingFellows;
+// sortByLastName(facultyList);
+// sortByLastName(adjunctList);
+// sortByLastName(fellowsList);
+// var cseFaculty = [];
+// for (var i = 0; i< facultyList.length; i++) {
+//     var obj = {};
 
-  // var fellows = [];
-  // for (var i = 0; i< fellowsList.length; i++) {
-  //     var obj = {};
+//     obj['name'] = facultyList[i];
+//     obj['id'] = i;
+//     cseFaculty.push(obj);
+// }
 
-  //     obj['name'] = facultyList[i];
-  //     obj['id'] = i;
-  //     fellows.push(obj);
-  // }
+// var adjunct = [];
+// for (var i = 0; i< adjunctList.length; i++) {
+//     var obj = {};
 
-  // const [faculty, setFaculty, reset] = useInputState("");
-  // const [facultyMembers, setFacultyMembers] = useState(cseFaculty);
-  // const [adjunctMembers, setAdjunctMembers] = useState(adjunct);
-  // const [fellowMembers, setFellowMembers] = useState(fellows);
+//     obj['name'] = facultyList[i];
+//     obj['id'] = i;
+//     adjunct.push(obj);
+// }
 
-  // const addFaculty = event => {
-  //     event.preventDefault();
-  //     setFacultyMembers([
-  //         ...facultyMembers,
-  //         {
-  //             id: facultyMembers.length,
-  //             name: faculty,
-  //         }
-  //     ]);
-  //     reset();
-  // }
+// var fellows = [];
+// for (var i = 0; i< fellowsList.length; i++) {
+//     var obj = {};
 
-  // const removeFaculty = (id) => {
-  //     event.preventDefault();
-  //     setFacultyMembers(facultyMembers.filter(fac => fac.id !== id));
-  // }
+//     obj['name'] = facultyList[i];
+//     obj['id'] = i;
+//     fellows.push(obj);
+// }
 
-  /*
+// const [faculty, setFaculty, reset] = useInputState("");
+// const [facultyMembers, setFacultyMembers] = useState(cseFaculty);
+// const [adjunctMembers, setAdjunctMembers] = useState(adjunct);
+// const [fellowMembers, setFellowMembers] = useState(fellows);
+
+// const addFaculty = event => {
+//     event.preventDefault();
+//     setFacultyMembers([
+//         ...facultyMembers,
+//         {
+//             id: facultyMembers.length,
+//             name: faculty,
+//         }
+//     ]);
+//     reset();
+// }
+
+// const removeFaculty = (id) => {
+//     event.preventDefault();
+//     setFacultyMembers(facultyMembers.filter(fac => fac.id !== id));
+// }
+
+/*
   const editFaculty = (first, last, facID, type) => {
     setFaculty(
       {...faculty, faculty[type]: map((fm) =>
@@ -138,113 +221,3 @@ const EditFacultyList = () => {
       );
   };
   */
-
-  const renderFaculty = faculty.fullTime.map((fac, idx) => {
-    return (
-      <ListItem align="center">
-        <FacultyMember
-          member={fac.firstName + " " + fac.lastName}
-          id={fac.id}
-          //edit={editFaculty}
-          color={idx % 2 == 0 ? "gray.300" : "gray.100"}
-          key={idx}
-        />
-      </ListItem>
-    );
-  });
-
-  const renderAdjunct = faculty.adjuncts.map((fac, idx) => {
-    return (
-      <ListItem>
-        <FacultyMember
-          member={fac.firstName + " " + fac.lastName}
-          id={fac.id}
-          color={idx % 2 == 0 ? "gray.300" : "gray.100"}
-        />
-      </ListItem>
-    );
-  });
-
-  const renderFellows = faculty.fellows.map((fac, idx) => {
-    return (
-      <ListItem>
-        <FacultyMember
-          member={fac.firstName + " " + fac.lastName}
-          id={fac.id}
-          color={idx % 2 == 0 ? "gray.300" : "gray.100"}
-        />
-      </ListItem>
-    );
-  });
-
-  return (
-    <div id="top">
-      <VStack id="top" w="80%" m="0 auto" marginBottom="10em">
-        <Text fontSize="2xl" fontWeight="bold" mt="1em">
-          Edit Faculty List
-        </Text>
-        <Text fontWeight="bold" mt="1em" mb="1em" fontSize="lg" align="center">
-          Instructors/Coordinators
-        </Text>
-
-        <List
-          marginLeft="5em"
-          justifyContent="center"
-          alignItems="center"
-          w="80%"
-        >
-          {renderFaculty}
-        </List>
-        <Text fontWeight="bold" mt="1em" mb="1em" fontSize="lg" align="center">
-          Adjunct Faculty
-        </Text>
-        <List
-          marginLeft="5em"
-          justifyContent="center"
-          alignItems="center"
-          w="80%"
-        >
-          {renderAdjunct}
-        </List>
-        <Text fontWeight="bold" mt="1em" mb="1em" fontSize="lg" align="center">
-          Teaching Fellows
-        </Text>
-        <List
-          marginLeft="5em"
-          justifyContent="center"
-          alignItems="center"
-          w="80%"
-        >
-          {renderFellows}
-        </List>
-        <AddFacultyMember setNewFaculty={setNewFaculty} />
-        {/* <div className="fac-input">
-                        <form onSubmit = {addFaculty}>
-                                <Input mt="1rem"
-                                    placeholder="enter a new faculty member" 
-                                    variant="flushed" 
-                                    type="text" 
-                                    value={faculty} 
-                                    onChange={setFaculty}
-                                    w='14em'
-                                />
-                        </form>
-                        <IconButton 
-                            variant="link" 
-                            isActive="false" 
-                            mt="1.5em" 
-                            ml="1em" 
-                            variantColor="green" 
-                            size='sm' 
-                            icon="add"
-                            onClick={addFaculty}>    
-                        </IconButton>
-                    </div> */}
-        {/* <Button variantColor="green" variant="outline" onClick={handleSubmit}>
-                        Submit
-                    </Button> */}
-      </VStack>
-    </div>
-  );
-};
-export default EditFacultyList;

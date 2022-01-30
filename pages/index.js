@@ -1,6 +1,5 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
-import LoginBox from "../components/LoginBox";
 export default function Home() {
   return (
     <div>

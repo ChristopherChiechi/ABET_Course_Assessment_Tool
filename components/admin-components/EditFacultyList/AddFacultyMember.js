@@ -13,12 +13,12 @@ import useToggle from "../../../hooks/useToggle";
 import useInputState from "../../../hooks/useInputState";
 
 const AddFacultyMember = ({ setNewFaculty }) => {
-  const facultyTypes = ["fullTime", "adjuncts", "fellows"];
+  const facultyTypes = ["Admin", "Instructor", "Coordinator"];
 
   const [lastName, setLastName] = useInputState("");
   const [firstName, setFirstName] = useInputState("");
   const [ID, setID] = useInputState("");
-  const [type, setType] = useState("");
+  const [type, setType] = useState("Admin");
 
   const [isEdditing, toggleEdditing] = useToggle();
 
@@ -39,21 +39,20 @@ const AddFacultyMember = ({ setNewFaculty }) => {
           <FormLabel>Faculty Type</FormLabel>
           <Select
             onChange={(e) => {
-              //console.log(e.target.value);
+              console.log(e.target.value);
               setType(e.target.value);
-              //alert(type);
             }}
             value={type}
             w="50%"
           >
             <option mr="1em" value={facultyTypes[0]}>
-              Intructor/Coordinator
+              Admin
             </option>
             <option mr="1em" value={facultyTypes[1]}>
-              Adjunct
+              Instructor
             </option>
             <option mr="1em" value={facultyTypes[2]}>
-              Teaching Fellow
+              Coordinator
             </option>
           </Select>
 
@@ -74,7 +73,7 @@ const AddFacultyMember = ({ setNewFaculty }) => {
           <FormLabel>ID</FormLabel>
           <Input w="50%" value={ID} onChange={setID} variant="filled" />
 
-          <Button v ariantColor="green" mt="1em" onClick={addFaculty}>
+          <Button ariantColor="green" mt="1em" onClick={addFaculty}>
             Add New Faculty
           </Button>
         </>
