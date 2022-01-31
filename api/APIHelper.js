@@ -1,5 +1,67 @@
 import API from "./api";
 
+// New Endpoint
+
+export async function Custom() {
+  let api_helper = new API();
+  let response = api_helper.Custom();
+  console.log(response);
+  return response.then(function (result) {
+    return result;
+  });
+}
+
+export async function getFacultyList() {
+  let api_helper = new API();
+  let response = api_helper.getFacultyList();
+  response.then(function (result) {
+    return result;
+  });
+
+  const faculty = await response;
+  return faculty;
+}
+
+export async function editFacultyUser(lastname, firstname, oldEuid, newEuid) {
+  let api_helper = new API();
+  let response = api_helper.editFacultyUser(
+    lastname,
+    firstname,
+    oldEuid,
+    newEuid
+  );
+  response.then(function (result) {
+    return result;
+  });
+  const faculty = await response;
+  return faculty;
+}
+
+export async function deleteFacultyUser(euid) {
+  let api_helper = new API();
+  console.log(euid);
+  let response = api_helper.deleteFacultyUser(euid);
+  response.then(function (result) {
+    return result;
+  });
+
+  const faculty = await response;
+  return faculty;
+}
+
+export async function addFacultyMember(lastName, firstName, id, type) {
+  console.log("type:" + type);
+  let api_helper = new API();
+  let response = api_helper.addFacultyMember(firstName, lastName, id, type);
+  response.then(function (result) {
+    return result;
+  });
+  const res = await response;
+  console.log(res);
+}
+
+// Old Endpoint
+
 export function getCourses() {
   return courses;
 }
@@ -124,15 +186,6 @@ export async function login(userid, password) {
   });
 }
 
-export async function Custom() {
-  let api_helper = new API();
-  let response = api_helper.Custom();
-  console.log(response);
-  return response.then(function (result) {
-    return result;
-  });
-}
-
 export async function getAllCourses(userid, semester, year) {
   let api_helper = new API();
   let response = api_helper.getCourses(userid, semester, year);
@@ -143,50 +196,6 @@ export async function getAllCourses(userid, semester, year) {
   const courses = await response;
   console.log(courses);
   return courses;
-}
-
-export async function getFacultyList() {
-  let api_helper = new API();
-  let response = api_helper.getFacultyList();
-  response.then(function (result) {
-    return result;
-  });
-
-  const faculty = await response;
-  return faculty;
-}
-
-export async function editFacultyUser(lastname, firstname, euid) {
-  let api_helper = new API();
-  let response = api_helper.editFacultyUser(lastname, firstname, euid);
-  response.then(function (result) {
-    return result;
-  });
-  const faculty = await response;
-  return faculty;
-}
-
-export async function deleteFacultyUser(euid) {
-  let api_helper = new API();
-  console.log(euid);
-  let response = api_helper.deleteFacultyUser(euid);
-  response.then(function (result) {
-    return result;
-  });
-
-  const faculty = await response;
-  return faculty;
-}
-
-export async function addFacultyMember(lastName, firstName, id, type) {
-  console.log("type:" + type);
-  let api_helper = new API();
-  let response = api_helper.addFacultyMember(firstName, lastName, id, type);
-  response.then(function (result) {
-    return result;
-  });
-  const res = await response;
-  console.log(res);
 }
 
 export async function getCoursesByDepartment(department) {

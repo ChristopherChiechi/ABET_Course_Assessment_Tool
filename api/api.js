@@ -25,6 +25,129 @@ export default class API {
     token = t;
   }
 
+  //***New End Point***
+
+  //---login(userid, password)---
+  //    Input: UserId, Password
+  //    Output: "Admin", "Instructor", "Student/TA" or boolean for failure
+  async login(userid = "", password = "") {
+    const url = rootNew + "/login";
+    console.log(url);
+    try {
+      var response = await axios.get(url, {
+        params: { euid: userid, password: password },
+      });
+      //console.log(response.data);
+      if (response.data.hasOwnProperty("token")) {
+        let token = response.data.token;
+        //console.log(token);
+        var expires = new Date();
+        expires.setHours(expires.getHours() + 24); //expires in 24 hours
+        expires = expires.toUTCString();
+        cookieCutter.set("token", token, { expires }); //set token cookie
+        const json = jwt.decode(token);
+        //console.log(json);
+        return json["role"]; //return the role
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  //---Custom()---
+  //    Input:
+  //    Output:
+  // For development, populated the database.
+  async Custom() {
+    const url = rootNew + "/Custom";
+    console.log(url);
+    try {
+      const response = await axios.get(url);
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  //---getFacultyList()--- (Admin)
+  //    Input: none
+  //    Output: List of admins, instructors, coordinators
+  async getFacultyList() {
+    const url = rootNew + "/Role/GetFaculty";
+    try {
+      var response = await axios.get(url);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  //---editFacultyUser()--- (Admin)
+  //    Input: First name, last name, EUID
+  //    Output: success or failure
+  async editFacultyUser(
+    Firstname = "",
+    Lastname = "",
+    oldEuid = "",
+    newEuid = ""
+  ) {
+    const url = rootNew + `/Users/EditUser/?EUID=${oldEuid}`;
+    try {
+      const response = await axios.patch(url, {
+        firstName: Firstname,
+        lastName: Lastname,
+        euid: newEuid,
+      });
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  //---deleteFacultyUser()--- (Admin)
+  //    Input: EUID
+  //    Output: success or failure
+  async deleteFacultyUser(Euid = "") {
+    const url = rootNew + "/Users/DeleteUser";
+    try {
+      const response = await axios.delete(url, { params: { EUID: Euid } });
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  //---addFacultyMember(firstName, lastName, userid, role)--- (Admin)
+  //    Input: First Name, Last Name and User Id
+  //    Output: Success or Failure
+  async addFacultyMember(
+    firstName = "",
+    lastName = "",
+    userId = "",
+    facultyType = ""
+  ) {
+    const url = rootNew + "/Users/AddUserWithRoles";
+    const body = {
+      user: {
+        firstName: firstName,
+        lastName: lastName,
+        euid: userId,
+      },
+      roles: [facultyType],
+    };
+    try {
+      const response = await axios.post(url, body);
+      if (response.status == OK) {
+        console.log(response.data);
+        return "Success";
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  // Old End Point
   // generic function for sending POST requests
   //    Input: route and body
   //    Output: The JSON that is returned from the route
@@ -122,48 +245,6 @@ export default class API {
         if (statusCode == FORBIDDEN) return new ErrorObj(FORBIDDEN_MSG);
         else return new ErrorObj(SERVER_ERROR_MSG);
       });
-  }
-
-  //---login(userid, password)---
-  //    Input: UserId, Password
-  //    Output: "Admin", "Instructor", "Student/TA" or boolean for failure
-  async login(userid = "", password = "") {
-    const url = rootNew + "/login";
-    console.log(url);
-    try {
-      var response = await axios.get(url, {
-        params: { euid: userid, password: password },
-      });
-      //console.log(response.data);
-      if (response.data.hasOwnProperty("token")) {
-        let token = response.data.token;
-        console.log(token);
-        var expires = new Date();
-        expires.setHours(expires.getHours() + 24); //expires in 24 hours
-        expires = expires.toUTCString();
-        cookieCutter.set("token", token, { expires }); //set token cookie
-        const json = jwt.decode(token);
-        console.log(json);
-        return json["role"]; //return the role
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  //---Custom()---
-  //    Input:
-  //    Output:
-  // For development, populated the database.
-  async Custom() {
-    const url = rootNew + "/Custom";
-    console.log(url);
-    try {
-      const response = await axios.get(url);
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
   }
 
   //---logout(userid)---
@@ -442,79 +523,6 @@ export default class API {
     };
 
     return await this.sendPost("/sections/add-section", body);
-  }
-
-  //---getFacultyList()--- (Admin)
-  //    Input: none
-  //    Output: List of admins, instructors, coordinators
-  async getFacultyList() {
-    const url = rootNew + "/Role/GetFaculty";
-    try {
-      var response = await axios.get(url);
-      return response.data;
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  //---editFacultyUser()--- (Admin)
-  //    Input: First name, last name, EUID
-  //    Output: success or failure
-  async editFacultyUser(Firstname = "", Lastname = "", Euid = "") {
-    const url = rootNew + "/Users/EditUser";
-    try {
-      const response = await axios.patch(url, {
-        firstName: Firstname,
-        lastName: Lastname,
-        euid: Euid,
-      });
-      return response.data;
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  //---deleteFacultyUser()--- (Admin)
-  //    Input: EUID
-  //    Output: success or failure
-  async deleteFacultyUser(Euid = "") {
-    const url = rootNew + "/Users/DeleteUser";
-    try {
-      const response = await axios.delete(url, { params: { EUID: Euid } });
-      console.log(response.data);
-      return response.data;
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  //---addFacultyMember(firstName, lastName, userid, role)--- (Admin)
-  //    Input: First Name, Last Name and User Id
-  //    Output: Success or Failure
-  async addFacultyMember(
-    firstName = "",
-    lastName = "",
-    userId = "",
-    facultyType = ""
-  ) {
-    const url = rootNew + "/Users/AddUserWithRoles";
-    const body = {
-      user: {
-        firstName: firstName,
-        lastName: lastName,
-        euid: userId,
-      },
-      roles: [facultyType],
-    };
-    try {
-      const response = await axios.post(url, body);
-      if (response.status == OK) {
-        console.log(response.data);
-        return "Success";
-      }
-    } catch (error) {
-      console.error(error);
-    }
   }
 
   //---getCoursesByDepartment(department)--- (Admin)
