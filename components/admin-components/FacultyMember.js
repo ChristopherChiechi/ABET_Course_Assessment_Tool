@@ -1,13 +1,31 @@
-import { Grid, GridItem, Text, Button } from "@chakra-ui/react";
+import {
+  Grid,
+  GridItem,
+  Text,
+  Button,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  useDisclosure,
+  ModalBody,
+  FormControl,
+  FormLabel,
+  ModalCloseButton,
+} from "@chakra-ui/react";
 import EditFacultyMember from "../admin-components/EditFacultyList/EditFacultyMember";
 import { deleteFacultyUser } from "../../api/APIHelper";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 const FacultyMember = ({ refreshTable, member, id, color }) => {
   const [isEditing, SettoggleEdditing] = useState(false);
 
   const deleteUser = (id = { id }) => {
-    const res = deleteFacultyUser(id.id);
+    if (confirm("Are you sure you want to delete User: " + id)) {
+      console.log("Delete ID " + id);
+      const res = deleteFacultyUser(id);
+    }
   };
 
   const toggleEditing = () => {
@@ -47,7 +65,7 @@ const FacultyMember = ({ refreshTable, member, id, color }) => {
             <Button
               variant="solid"
               onClick={() => {
-                deleteUser({ id });
+                deleteUser(id);
                 refreshTable();
               }}
             >

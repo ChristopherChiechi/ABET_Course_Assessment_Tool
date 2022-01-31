@@ -73,7 +73,7 @@ const AddFacultyMember = ({ setNewFaculty }) => {
           <FormLabel>ID</FormLabel>
           <Input w="50%" value={ID} onChange={setID} variant="filled" />
 
-          <Button ariantColor="green" mt="1em" onClick={addFaculty}>
+          <Button colorScheme="teal" mt="1em" onClick={addFaculty}>
             Add New Faculty
           </Button>
         </>
@@ -88,11 +88,7 @@ const AddFacultyMember = ({ setNewFaculty }) => {
             marginBottom="1em"
           />
           <Spacer />
-          <Button
-            variantColor="green"
-            display="inline"
-            onClick={toggleEdditing}
-          >
+          <Button colorScheme="teal" display="inline" onClick={toggleEdditing}>
             Add Faculty Member
           </Button>
           <Spacer />

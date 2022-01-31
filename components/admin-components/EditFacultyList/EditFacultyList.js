@@ -44,9 +44,11 @@ const EditFacultyList = () => {
 
   useEffect(() => {
     if (refreshKey == 1) {
+      //console.log("Found key 1 ");
       getFaculty();
+      refreshTable();
     }
-  }, [refreshKey]);
+  });
 
   useEffect(() => {
     if (newFaculty.lastName !== "" && newFaculty.untID !== "") {
@@ -57,6 +59,7 @@ const EditFacultyList = () => {
         newFaculty.type
       );
       refreshTable();
+      console.log(refreshKey);
     }
   }, [newFaculty]);
 
@@ -69,9 +72,8 @@ const EditFacultyList = () => {
             refreshTable={refreshTable}
             member={fac.firstName + " " + fac.lastName}
             id={fac.euid}
-            //edit={editFaculty}
             color={idx % 2 == 0 ? "green.200" : "gray.300"}
-            key={idx}
+            key={fac.euid}
           />
         </ListItem>
       );
@@ -85,6 +87,7 @@ const EditFacultyList = () => {
           member={fac.firstName + " " + fac.lastName}
           id={fac.euid}
           color={idx % 2 == 0 ? "green.200" : "gray.300"}
+          key={fac.euid}
         />
       </ListItem>
     );
@@ -98,20 +101,11 @@ const EditFacultyList = () => {
           member={fac.firstName + " " + fac.lastName}
           id={fac.euid}
           color={idx % 2 == 0 ? "green.200" : "gray.300"}
+          key={fac.euid}
         />
       </ListItem>
     );
   });
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    if (
-      window.confirm("Are you sure you would like to submit these changes?")
-    ) {
-      //POST the faculty list change to the db here
-      alert("Faculty List Updated!");
-    }
-  };
 
   return (
     <div id="top">
@@ -161,67 +155,3 @@ const EditFacultyList = () => {
   );
 };
 export default EditFacultyList;
-
-// const facultyList = fakeData.faculty;
-// const adjunctList = fakeData.adjunctFaculty;
-// const fellowsList = fakeData.teachingFellows;
-// sortByLastName(facultyList);
-// sortByLastName(adjunctList);
-// sortByLastName(fellowsList);
-// var cseFaculty = [];
-// for (var i = 0; i< facultyList.length; i++) {
-//     var obj = {};
-
-//     obj['name'] = facultyList[i];
-//     obj['id'] = i;
-//     cseFaculty.push(obj);
-// }
-
-// var adjunct = [];
-// for (var i = 0; i< adjunctList.length; i++) {
-//     var obj = {};
-
-//     obj['name'] = facultyList[i];
-//     obj['id'] = i;
-//     adjunct.push(obj);
-// }
-
-// var fellows = [];
-// for (var i = 0; i< fellowsList.length; i++) {
-//     var obj = {};
-
-//     obj['name'] = facultyList[i];
-//     obj['id'] = i;
-//     fellows.push(obj);
-// }
-
-// const [faculty, setFaculty, reset] = useInputState("");
-// const [facultyMembers, setFacultyMembers] = useState(cseFaculty);
-// const [adjunctMembers, setAdjunctMembers] = useState(adjunct);
-// const [fellowMembers, setFellowMembers] = useState(fellows);
-
-// const addFaculty = event => {
-//     event.preventDefault();
-//     setFacultyMembers([
-//         ...facultyMembers,
-//         {
-//             id: facultyMembers.length,
-//             name: faculty,
-//         }
-//     ]);
-//     reset();
-// }
-
-// const removeFaculty = (id) => {
-//     event.preventDefault();
-//     setFacultyMembers(facultyMembers.filter(fac => fac.id !== id));
-// }
-
-/*
-  const editFaculty = (first, last, facID, type) => {
-    setFaculty(
-      {...faculty, faculty[type]: map((fm) =>
-        ({fm.id === facID ? { ...fm, lastName: last, firstName: first }}))}
-      );
-  };
-  */
