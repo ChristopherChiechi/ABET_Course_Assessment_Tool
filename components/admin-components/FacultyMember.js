@@ -1,22 +1,18 @@
 import { Grid, GridItem, Text, Button } from "@chakra-ui/react";
-import useToggle from "../../hooks/useToggle";
 import EditFacultyMember from "../admin-components/EditFacultyList/EditFacultyMember";
 import { deleteFacultyUser } from "../../api/APIHelper";
-import { useRouter } from "next/router";
+import { useState } from "react";
 
-const FacultyMember = ({ member, id, color, edit }) => {
-  const router = useRouter();
-  const [isEditing, toggle] = useToggle(false);
-  console.log("is editing:" + isEditing);
-  function deleteUser(id = { id }) {
+const FacultyMember = ({ refreshTable, member, id, color }) => {
+  const [isEditing, SettoggleEdditing] = useState(false);
+
+  const deleteUser = (id = { id }) => {
     const res = deleteFacultyUser(id.id);
-    console.log(res);
-    router.reload(window.location.pathname);
-  }
+  };
 
-  function setChanged() {
-    toggle();
-  }
+  const toggleEditing = () => {
+    SettoggleEdditing((isEdditing) => !isEdditing);
+  };
 
   return (
     <Grid
@@ -26,7 +22,11 @@ const FacultyMember = ({ member, id, color, edit }) => {
       alignItems="center"
     >
       {isEditing ? (
-        <EditFacultyMember edit={setChanged} id={id} />
+        <EditFacultyMember
+          refreshTable={refreshTable}
+          toggleEditing={toggleEditing}
+          id={id}
+        />
       ) : (
         <>
           <GridItem rowSpan={"auto"}>
@@ -38,7 +38,7 @@ const FacultyMember = ({ member, id, color, edit }) => {
             <Button
               variant="solid"
               onClick={() => {
-                toggle();
+                toggleEditing();
               }}
               marginRight="1em"
             >
@@ -48,6 +48,7 @@ const FacultyMember = ({ member, id, color, edit }) => {
               variant="solid"
               onClick={() => {
                 deleteUser({ id });
+                refreshTable();
               }}
             >
               Delete

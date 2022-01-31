@@ -1,15 +1,12 @@
 import { useState } from "react";
 import {
-  Flex,
   Spacer,
   FormLabel,
   Button,
   Input,
   Select,
   Box,
-  Text,
 } from "@chakra-ui/react";
-import useToggle from "../../../hooks/useToggle";
 import useInputState from "../../../hooks/useInputState";
 
 const AddFacultyMember = ({ setNewFaculty }) => {
@@ -20,7 +17,11 @@ const AddFacultyMember = ({ setNewFaculty }) => {
   const [ID, setID] = useInputState("");
   const [type, setType] = useState("Admin");
 
-  const [isEdditing, toggleEdditing] = useToggle();
+  const [isEdditing, SettoggleEdditing] = useState(false);
+
+  const toggleEdditing = () => {
+    SettoggleEdditing((isEdditing) => !isEdditing);
+  };
 
   const addFaculty = () => {
     setNewFaculty({
@@ -29,7 +30,6 @@ const AddFacultyMember = ({ setNewFaculty }) => {
       untID: ID,
       type: type,
     });
-    toggleEdditing();
   };
 
   return (

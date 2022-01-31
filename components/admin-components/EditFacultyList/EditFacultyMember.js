@@ -1,25 +1,27 @@
 import { Input, Button } from "@chakra-ui/react";
 import useInputState from "../../../hooks/useInputState";
-import { editFacultyUser, deleteFacultyUser } from "../../../api/APIHelper";
-import { useRouter } from "next/router";
-import { Face } from "@mui/icons-material";
+import { editFacultyUser } from "../../../api/APIHelper";
 
-const EditFacultyMember = ({ toggle, id }) => {
-  const router = useRouter();
+const EditFacultyMember = ({ refreshTable, toggleEditing, id }) => {
   const [newFName, setNewFName] = useInputState("");
   const [newLName, setNewLName] = useInputState("");
   const [newEUID, setNewEUID] = useInputState("");
-  console.log("toggleer" + toggle);
 
   const editUser = () => {
-    console.log(newFName, newLName, newEUID);
-    editFacultyUser(newFName, newLName, id);
-    router.reload(window.location.pathname);
+    console.log(newFName, newLName, id, newEUID);
+    if (newEUID == "") {
+      editFacultyUser(newFName, newLName, id, id);
+    } else {
+      editFacultyUser(newFName, newLName, id, newEUID);
+    }
+    refreshTable();
   };
+
   const cancel = () => {
-    router.reload(window.location.pathname);
+    toggleEditing();
+    refreshTable();
   };
-  console.log(id);
+
   return (
     <form
       onSubmit={(e) => {
@@ -46,7 +48,6 @@ const EditFacultyMember = ({ toggle, id }) => {
         onChange={setNewEUID}
         placeholder={id}
         focusBorderColor="red"
-        isReadOnly
       />
       <Button
         marginTop={"2em"}
@@ -65,7 +66,7 @@ const EditFacultyMember = ({ toggle, id }) => {
           cancel();
         }}
       >
-        Cancel
+        Done
       </Button>
     </form>
   );

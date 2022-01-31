@@ -1,29 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/router";
 
-import {
-  Box,
-  Text,
-  Button,
-  IconButton,
-  List,
-  Input,
-  ListItem,
-  VStack,
-} from "@chakra-ui/react";
-import useInputState from "../../../hooks/useInputState";
+import { Text, List, ListItem, VStack } from "@chakra-ui/react";
 import FacultyMember from "../../admin-components/FacultyMember";
-import sortByLastName from "../../../utils/sortByLastName";
 import { getFacultyList, addFacultyMember } from "../../../api/APIHelper";
 import AddFacultyMember from "./AddFacultyMember";
 
 const EditFacultyList = () => {
+  const [refreshKey, setRefreshKey] = useState(0);
   const [faculty, setFaculty] = useState({
     admin: [],
     instructor: [],
     coordinator: [],
   });
-  const router = useRouter();
 
   const [newFaculty, setNewFaculty] = useState({
     lastName: "",
@@ -42,43 +30,58 @@ const EditFacultyList = () => {
     });
   };
 
+  const refreshTable = () => {
+    setRefreshKey(refreshKey + 1);
+  };
+
   useEffect(() => {
     getFaculty();
   }, []);
 
   useEffect(() => {
-    if (newFaculty.lastName !== "") {
-      const res = async () => {
-        await addFacultyMember(
-          newFaculty.lastName,
-          newFaculty.firstName,
-          newFaculty.untID,
-          newFaculty.type
-        );
-        router.reload(window.location.pathname);
-      };
-      res();
+    getFaculty();
+  }, [refreshKey]);
+
+  useEffect(() => {
+    if (refreshKey == 1) {
+      getFaculty();
+    }
+  }, [refreshKey]);
+
+  useEffect(() => {
+    if (newFaculty.lastName !== "" && newFaculty.untID !== "") {
+      addFacultyMember(
+        newFaculty.lastName,
+        newFaculty.firstName,
+        newFaculty.untID,
+        newFaculty.type
+      );
+      refreshTable();
     }
   }, [newFaculty]);
 
-  const renderAdmin = faculty.admin.map((fac, idx) => {
-    return (
-      <ListItem align="center">
-        <FacultyMember
-          member={fac.firstName + " " + fac.lastName}
-          id={fac.euid}
-          //edit={editFaculty}
-          color={idx % 2 == 0 ? "green.200" : "gray.300"}
-          key={idx}
-        />
-      </ListItem>
-    );
-  });
+  const renderAdmin =
+    faculty &&
+    faculty.admin.map((fac, idx) => {
+      return (
+        <ListItem align="center">
+          <FacultyMember
+            refreshTable={refreshTable}
+            member={fac.firstName + " " + fac.lastName}
+            id={fac.euid}
+            //edit={editFaculty}
+            color={idx % 2 == 0 ? "green.200" : "gray.300"}
+            key={idx}
+          />
+        </ListItem>
+      );
+    });
 
   const renderInstructor = faculty.instructor.map((fac, idx) => {
     return (
       <ListItem>
         <FacultyMember
+          refreshTable={refreshTable}
           member={fac.firstName + " " + fac.lastName}
           id={fac.euid}
           color={idx % 2 == 0 ? "green.200" : "gray.300"}
@@ -91,6 +94,7 @@ const EditFacultyList = () => {
     return (
       <ListItem>
         <FacultyMember
+          refreshTable={refreshTable}
           member={fac.firstName + " " + fac.lastName}
           id={fac.euid}
           color={idx % 2 == 0 ? "green.200" : "gray.300"}
