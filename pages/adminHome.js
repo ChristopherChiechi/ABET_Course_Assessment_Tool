@@ -25,16 +25,16 @@ import {
   AccordionItem,
   AccordionButton,
   Link,
-  IconButton
+  IconButton,
 } from "@chakra-ui/react";
-import { HamburgerIcon } from "@chakra-ui/icons"
+import { HamburgerIcon } from "@chakra-ui/icons";
 
 import { useRouter } from "next/router";
 import Head from "next/head";
 import Navigation from "../components/Navigation";
 import AdminMenu from "../components/admin-components/AdminMenu";
 // import FullReport from '../components/admin-components/FullReport/FullReport';
-import CreateNewSemester from "../components/admin-components/CreateNewSemester";
+import CreateNewSemester from "../components/admin-components/EditSemesters/CreateNewSemester";
 import EditProgramList from "../components/admin-components/EditProgramList/EditProgramList";
 import EditCourseAssignments from "../components/admin-components/EditCourseAssignments/EditCourseAssignments";
 import EditFacultyList from "../components/admin-components/EditFacultyList/EditFacultyList";
@@ -48,8 +48,7 @@ import EditAssignedCourses from "../components/admin-components/EditAssignedCour
 
 var role = "super";
 var is_super = true;
-if (role=="super")
-{
+if (role == "super") {
   is_super = false;
 }
 
@@ -57,7 +56,7 @@ const adminHome = () => {
   const [user, setUser] = useState("MT2020");
   const [view, setView] = useState("");
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const router = useRouter()
+  const router = useRouter();
   return (
     <div>
       <Head>
@@ -75,21 +74,21 @@ const adminHome = () => {
               background: "teal",
               color: "white",
             }}
-            icon={<HamburgerIcon/>}
+            icon={<HamburgerIcon />}
           />
-          
 
-          <Button 
+          <Button
             disabled={is_super}
-            onClick={() => router.push('/instructorHome')}
-            bg="#016a31" 
-            color="white" 
-            ml="1em" 
+            onClick={() => router.push("/instructorHome")}
+            bg="#016a31"
+            color="white"
+            ml="1em"
             _hover={{
-                background: "teal",
-                color: "white",
-            }}>
-              Switch to Instructor
+              background: "teal",
+              color: "white",
+            }}
+          >
+            Switch to Instructor
           </Button>
 
           <Drawer
@@ -104,7 +103,11 @@ const adminHome = () => {
           >
             <DrawerOverlay>
               <DrawerContent>
-                <DrawerHeader borderBottomWidth="1px" textAlign="center" fontSize="1.5em">
+                <DrawerHeader
+                  borderBottomWidth="1px"
+                  textAlign="center"
+                  fontSize="1.5em"
+                >
                   Admin Menu
                 </DrawerHeader>
                 <DrawerBody onClick={onClose}>
@@ -114,32 +117,122 @@ const adminHome = () => {
             </DrawerOverlay>
           </Drawer>
           <Flex justifyContent="center">
-            <VStack paddingTop="15" paddingLeft="30" w={{ base: "120%", md: "80%" }}>
-              <Box borderWidth="2px" borderRadius='lg' padding="5">
-                <Table variant='simple' size='md' width="max">
-                  <TableCaption color="black" placement="top" fontWeight="bold" fontSize="2.2em">Admin Home</TableCaption>
+            <VStack
+              paddingTop="15"
+              paddingLeft="30"
+              w={{ base: "120%", md: "80%" }}
+            >
+              <Box borderWidth="2px" borderRadius="lg" padding="5">
+                <Table variant="simple" size="md" width="max">
+                  <TableCaption
+                    color="black"
+                    placement="top"
+                    fontWeight="bold"
+                    fontSize="2.2em"
+                  >
+                    Admin Home
+                  </TableCaption>
                   <Tbody>
                     <Tr>
-                      <Td as="button" mr="3" color="#016a31" onClick={() => {setView("CNS");}}>Create New Semester</Td>
-                      <Td as="button" mr="3" color="#016a31" onClick={() => {setView("GFR");}}>Generate Full Report</Td>
+                      <Td
+                        as="button"
+                        mr="3"
+                        color="#016a31"
+                        onClick={() => {
+                          setView("CNS");
+                        }}
+                      >
+                        Create New Semester
+                      </Td>
+                      <Td
+                        as="button"
+                        mr="3"
+                        color="#016a31"
+                        onClick={() => {
+                          setView("GFR");
+                        }}
+                      >
+                        Generate Full Report
+                      </Td>
                     </Tr>
                     <Tr>
-                      <Td as="button" mr="3" color="#016a31" onClick={() => {setView("EAC");}}>Edit Assigned Course</Td>
-                      <Td as="button" mr="3" color="#016a31" onClick={() => {setView("GSS");}}>Generate Student Surveys</Td>
+                      <Td
+                        as="button"
+                        mr="3"
+                        color="#016a31"
+                        onClick={() => {
+                          setView("EAC");
+                        }}
+                      >
+                        Edit Assigned Course
+                      </Td>
+                      <Td
+                        as="button"
+                        mr="3"
+                        color="#016a31"
+                        onClick={() => {
+                          setView("GSS");
+                        }}
+                      >
+                        Generate Student Surveys
+                      </Td>
                     </Tr>
                     <Tr>
-                      <Td as="button" mr="3" color="#016a31" onClick={() => {setView("ECO");}}>Edit Course Outcome</Td>
-                      
-                      <Td as="button" mr="3" color="#016a31" onClick={() => {setView("GSR");}}>Generate Section Report</Td>
-                      
+                      <Td
+                        as="button"
+                        mr="3"
+                        color="#016a31"
+                        onClick={() => {
+                          setView("ECO");
+                        }}
+                      >
+                        Edit Course Outcome
+                      </Td>
+
+                      <Td
+                        as="button"
+                        mr="3"
+                        color="#016a31"
+                        onClick={() => {
+                          setView("GSR");
+                        }}
+                      >
+                        Generate Section Report
+                      </Td>
                     </Tr>
                     <Tr>
-                      <Td as="button" mr="12" color="#016a31" onClick={() => {setView("ECL");}}>Edit Course List</Td>
-                      <Td as="button" mr="3" color="#016a31" onClick={() => {setView("OM");}}>Generate Outcome Mapping</Td>
-                      
+                      <Td
+                        as="button"
+                        mr="12"
+                        color="#016a31"
+                        onClick={() => {
+                          setView("ECL");
+                        }}
+                      >
+                        Edit Course List
+                      </Td>
+                      <Td
+                        as="button"
+                        mr="3"
+                        color="#016a31"
+                        onClick={() => {
+                          setView("OM");
+                        }}
+                      >
+                        Generate Outcome Mapping
+                      </Td>
                     </Tr>
                     <Tr>
-                    <Td as="button" mr="3" color="#016a31" onClick={() => {setView("EFL");}}>Edit Faculty List</Td>
+                      <Td
+                        as="button"
+                        mr="3"
+                        color="#016a31"
+                        onClick={() => {
+                          setView("EFL");
+                        }}
+                      >
+                        Edit Faculty List
+                      </Td>
                     </Tr>
                   </Tbody>
                 </Table>

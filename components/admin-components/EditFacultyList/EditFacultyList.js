@@ -67,7 +67,7 @@ const EditFacultyList = () => {
     faculty &&
     faculty.admin.map((fac, idx) => {
       return (
-        <ListItem align="center">
+        <ListItem align="center" key={fac.euid}>
           <FacultyMember
             refreshTable={refreshTable}
             member={fac.firstName + " " + fac.lastName}
@@ -81,7 +81,7 @@ const EditFacultyList = () => {
 
   const renderInstructor = faculty.instructor.map((fac, idx) => {
     return (
-      <ListItem>
+      <ListItem key={fac.euid}>
         <FacultyMember
           refreshTable={refreshTable}
           member={fac.firstName + " " + fac.lastName}
@@ -95,7 +95,7 @@ const EditFacultyList = () => {
 
   const renderCoordinator = faculty.coordinator.map((fac, idx) => {
     return (
-      <ListItem>
+      <ListItem key={fac.euid}>
         <FacultyMember
           refreshTable={refreshTable}
           member={fac.firstName + " " + fac.lastName}

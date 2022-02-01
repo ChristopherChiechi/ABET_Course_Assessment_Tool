@@ -1,19 +1,4 @@
-import {
-  Grid,
-  GridItem,
-  Text,
-  Button,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  useDisclosure,
-  ModalBody,
-  FormControl,
-  FormLabel,
-  ModalCloseButton,
-} from "@chakra-ui/react";
+import { Grid, GridItem, Text, Button } from "@chakra-ui/react";
 import EditFacultyMember from "../admin-components/EditFacultyList/EditFacultyMember";
 import { deleteFacultyUser } from "../../api/APIHelper";
 import { useState, useRef } from "react";
