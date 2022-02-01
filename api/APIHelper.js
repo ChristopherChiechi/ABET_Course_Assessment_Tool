@@ -15,7 +15,7 @@ export async function getFacultyList() {
   let api_helper = new API();
   let response = api_helper.getFacultyList();
   response.then(function (result) {
-    return result;
+    //console.log(result);
   });
 
   const faculty = await response;
@@ -44,13 +44,10 @@ export async function deleteFacultyUser(euid) {
   response.then(function (result) {
     return result;
   });
-
-  const faculty = await response;
-  return faculty;
 }
 
 export async function addFacultyMember(lastName, firstName, id, type) {
-  console.log("type:" + type);
+  //console.log("type:" + type);
   let api_helper = new API();
   let response = api_helper.addFacultyMember(firstName, lastName, id, type);
   response.then(function (result) {
@@ -58,6 +55,37 @@ export async function addFacultyMember(lastName, firstName, id, type) {
   });
   const res = await response;
   console.log(res);
+}
+
+export async function getSemesters() {
+  let api_helper = new API();
+  let response = api_helper.getSemesters();
+  response.then(function (result) {
+    //console.log(result);
+  });
+  const semesterList = await response;
+  return semesterList;
+}
+
+export async function addNewSemester(year, term) {
+  let api_helper = new API();
+  let response = api_helper.addNewSemester(year, term);
+  response
+    .then(function (result) {
+      return result;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
+
+export async function deleteSemester(term, year) {
+  let api_helper = new API();
+  //console.log(`Term: ${term} Year:${year}`);
+  let response = api_helper.deleteSemester(term, year);
+  response.then(function (result) {
+    return result;
+  });
 }
 
 // Old Endpoint

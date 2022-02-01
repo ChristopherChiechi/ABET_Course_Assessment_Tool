@@ -147,6 +147,56 @@ export default class API {
     }
   }
 
+  //---getSemesters()--- (Admin)
+  //    Input: none
+  //    Output: List of semesters
+  async getSemesters() {
+    const url = rootNew + "/Semester/GetSemesters";
+    try {
+      var response = await axios.get(url);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  //---addNewSemester()--- (Admin)
+  //    Input: year, term
+  //    Output: Success or fail
+  async addNewSemester(year = 0, term = "") {
+    const url = rootNew + "/Semester/AddSemester";
+    const body = {
+      year: year,
+      term: term,
+    };
+    try {
+      const response = await axios.post(url, body);
+      if (response.status == OK) {
+        console.log(response.data);
+        return "Success";
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  //---deleteSemester()--- (Admin)
+  //    Input: term & year
+  //    Output: success or failure
+  async deleteSemester(term = "", year = 0) {
+    console.log(`term: ${term} year: ${year}`);
+    const url = rootNew + "/Semester/DeleteSemester";
+    try {
+      const response = await axios.delete(url, {
+        data: { year: year, term: term },
+      });
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   // Old End Point
   // generic function for sending POST requests
   //    Input: route and body
