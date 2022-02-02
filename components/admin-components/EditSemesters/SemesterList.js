@@ -1,11 +1,33 @@
-import { Grid, GridItem, Text, Button } from "@chakra-ui/react";
+import { Grid, GridItem, Text, Button, useToast } from "@chakra-ui/react";
 import { deleteSemester } from "../../../api/APIHelper";
 const SemesterList = ({ refreshTable, year, term, color }) => {
-  const deleteSemesterFunc = (year, term) => {
-    //console.log(`Year:${year} Term:${term} `);
-    if (confirm(`Are you sure you want to delete Year:${year} Term:${term} `)) {
-      deleteSemester(term, year);
+  const toast = useToast();
+  const deleteSemesterFunc = async (term, year) => {
+    try {
+      if (
+        confirm(`Are you sure you want to delete Year: ${year} Term: ${term} `)
+      ) {
+        const res = await deleteSemester(term, year);
+        if (res == "Success") {
+          toast({
+            description: `Successfuly removed ${year} ${term}`,
+            status: "success",
+            duration: 2000,
+            isClosable: true,
+          });
+        } else {
+          toast({
+            description: `There was an error! Message: ${res} `,
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+          });
+        }
+      }
+    } catch (error) {
+      console.log(error);
     }
+    refreshTable();
   };
 
   return (
@@ -25,8 +47,7 @@ const SemesterList = ({ refreshTable, year, term, color }) => {
           <Button
             variant="solid"
             onClick={() => {
-              refreshTable();
-              deleteSemesterFunc(year, term);
+              deleteSemesterFunc(term, year);
             }}
             marginLeft={"15em"}
           >

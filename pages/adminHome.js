@@ -45,7 +45,7 @@ import GenerateSectionReport from "../components/admin-components/GenerateSectio
 import GenerateFullReport from "../components/admin-components/GenerateFullReport/GenerateFullReport";
 import GenerateStudentSurveys from "../components/admin-components/GenerateStudentSurveys";
 import EditAssignedCourses from "../components/admin-components/EditAssignedCourses/EditAssignedCourses";
-
+import CreateNewDepartment from "../components/admin-components/EditDepartments/CreateNewDepartment";
 var role = "super";
 var is_super = true;
 if (role == "super") {
@@ -149,10 +149,10 @@ const adminHome = () => {
                         mr="3"
                         color="#016a31"
                         onClick={() => {
-                          setView("GFR");
+                          setView("CND");
                         }}
                       >
-                        Generate Full Report
+                        Create New Department
                       </Td>
                     </Tr>
                     <Tr>
@@ -225,13 +225,23 @@ const adminHome = () => {
                     <Tr>
                       <Td
                         as="button"
-                        mr="3"
+                        mr="12"
                         color="#016a31"
                         onClick={() => {
                           setView("EFL");
                         }}
                       >
                         Edit Faculty List
+                      </Td>
+                      <Td
+                        as="button"
+                        mr="3"
+                        color="#016a31"
+                        onClick={() => {
+                          setView("GFR");
+                        }}
+                      >
+                        Generate Full Report
                       </Td>
                     </Tr>
                   </Tbody>
@@ -253,6 +263,8 @@ const adminHome = () => {
                 return <OutcomeMapping />;
               case "CNS":
                 return <CreateNewSemester />;
+              case "CND":
+                return <CreateNewDepartment />;
               case "EAC":
                 return <EditAssignedCourses />;
               case "EFL":

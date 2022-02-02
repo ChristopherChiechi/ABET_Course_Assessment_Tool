@@ -4,16 +4,16 @@ import {
   Text,
   Select,
   Button,
-  Input,
   VStack,
   ListItem,
-  FormLabel,
   List,
+  useToast,
 } from "@chakra-ui/react";
 import { getSemesters, addNewSemester } from "../../../api/APIHelper";
 import SemesterList from "./SemesterList";
 
 const CreateNewSemester = () => {
+  const toast = useToast();
   var d = new Date();
   var y = d.getFullYear();
   const [refreshKey, setRefreshKey] = useState(0); //For refreshing the table
@@ -29,7 +29,7 @@ const CreateNewSemester = () => {
     setRefreshKey(refreshKey + 1);
   };
 
-  const addSemester = (event) => {
+  const addSemester = async (event) => {
     event.preventDefault();
     if (year == "" && term == "") {
       alert("Please select a term and year!");
@@ -40,28 +40,65 @@ const CreateNewSemester = () => {
         "Are you sure you would like to create the selected new semester?"
       )
     ) {
-      addNewSemester(year, term);
-      refreshTable();
+      try {
+        const res = await addNewSemester(year, term);
+        console.log(res);
+        if (res == "Success") {
+          toast({
+            description: `Successfuly added the new semester, please refresh the page if you don't see the new change!`,
+            status: "success",
+            duration: 2000,
+            isClosable: true,
+          });
+        } else {
+          toast({
+            description: `There was an error! Message: ${res} `,
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+          });
+        }
+        refreshTable();
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
   const getSemesterList = async () => {
-    const semesterlist = await getSemesters();
-    //console.log(semesterlist);
-    const sorted = semesterlist.sort((a, b) => {
-      return a.year - b.year;
-    });
-    setSemesterList(sorted);
-    //console.log(sorted);
+    try {
+      const semesterlist = await getSemesters();
+      const status = semesterlist.status;
+      //console.log(status);
+      if (status != "Success") {
+        toast({
+          title: "Error",
+          description: `There was an error fetching the data!
+          Error: ${status} `,
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+        return;
+      }
+      const sorted = semesterlist.data.sort((a, b) => {
+        return a.year - b.year;
+      });
+      setSemesterList(sorted);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "There was an error fetching the data!",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+      console.log(`Error in getSemesterList: ${error}`);
+    }
   };
 
   useEffect(() => {
     getSemesterList();
-    /*Debug
-    if(semesters){
-      console.log(semesters);
-    }
-    */
   }, [refreshKey]);
 
   const renderSemester =
@@ -102,7 +139,7 @@ const CreateNewSemester = () => {
           borderColor="teal"
           width="40%"
           marginBottom="1em"
-          isRequired
+          isRequired={true}
           value={term}
           onChange={(e) => {
             console.log(e.target.value);
@@ -120,7 +157,7 @@ const CreateNewSemester = () => {
           borderColor="teal"
           marginTop="1em"
           marginBottom="2em"
-          isRequired="true"
+          isRequired={true}
           value={year}
           onChange={(e) => {
             console.log(e.target.value);

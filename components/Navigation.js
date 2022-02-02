@@ -3,7 +3,7 @@ import API from "../api/api";
 import React, { useEffect, useState } from "react";
 import cookieCutter from "cookie-cutter";
 import jwt from "jsonwebtoken";
-
+import { Custom } from "../api/APIHelper";
 const Navigation = ({ link, user }) => {
   const logout = () => {
     new API().logout();
@@ -42,28 +42,44 @@ const Navigation = ({ link, user }) => {
         >
           {userID}
         </Box>
-          <Button
-            bg="#016a31"
-            color="white"
-            ml="1em"
-            _hover={{
-              background: "teal",
-              color: "white",
-            }}
-          >
-            Home
-          </Button>
-          <Button
-            bg="#016a31"
-            color="white"
-            ml="1em"
-            _hover={{
-              background: "teal",
-              color: "white",
-            }}
-          >
-            <Link href="/" onClick={logout}>Sign Out</Link>
-          </Button>
+        <Button
+          bg="#016a31"
+          color="white"
+          ml="1em"
+          _hover={{
+            background: "teal",
+            color: "white",
+          }}
+        >
+          Home
+        </Button>
+
+        <Button
+          bg="#016a31"
+          color="white"
+          ml="1em"
+          _hover={{
+            background: "teal",
+            color: "white",
+          }}
+        >
+          <Link href="/" onClick={logout}>
+            Sign Out
+          </Link>
+        </Button>
+        <Button
+          bg="#016a31"
+          color="white"
+          ml="1em"
+          _hover={{
+            background: "teal",
+            color: "white",
+          }}
+        >
+          <Link href="/" onClick={Custom}>
+            [Debug] Reload Database
+          </Link>
+        </Button>
       </Box>
     </Flex>
   );
