@@ -25,6 +25,22 @@ export default class API {
     token = t;
   }
 
+  checkStatus(status) {
+    //console.log(status);
+    switch (status) {
+      case 200:
+        return "Success";
+      case 401:
+        return "UNAUTHORIZED";
+      case 403:
+        return "UNAUTHORIZED";
+      case "Request failed with status code 401":
+        return "UNAUTHORIZED";
+      default:
+        console.log(`Unknown status code from request:${status}`);
+        break;
+    }
+  }
   //***New End Point***
 
   //---login(userid, password)---
@@ -154,15 +170,27 @@ export default class API {
     const url = rootNew + "/Semester/GetSemesters";
     try {
       var response = await axios.get(url);
-      return response.data;
+      if (response) {
+        let status = this.checkStatus(response.status);
+        //console.log(response);
+        //console.log(`status: ${status}`);
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
     } catch (error) {
-      console.error(error);
+      let status = this.checkStatus(error.message);
+      return {
+        data: null,
+        status: status,
+      };
     }
   }
 
   //---addNewSemester()--- (Admin)
   //    Input: year, term
-  //    Output: Success or fail
+  //    Output: Success or error message
   async addNewSemester(year = 0, term = "") {
     const url = rootNew + "/Semester/AddSemester";
     const body = {
@@ -176,7 +204,9 @@ export default class API {
         return "Success";
       }
     } catch (error) {
-      console.error(error);
+      let status = this.checkStatus(error.message);
+      console.error(status);
+      return status;
     }
   }
 
@@ -190,10 +220,14 @@ export default class API {
       const response = await axios.delete(url, {
         data: { year: year, term: term },
       });
-      console.log(response.data);
-      return response.data;
+      if (response.status == OK) {
+        console.log(response.data);
+        return "Success";
+      }
     } catch (error) {
-      console.error(error);
+      let status = this.checkStatus(error.message);
+      console.error(status);
+      return status;
     }
   }
 

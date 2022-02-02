@@ -1,3 +1,4 @@
+import { RepeatOneSharp } from "@mui/icons-material";
 import API from "./api";
 
 // New Endpoint
@@ -59,33 +60,21 @@ export async function addFacultyMember(lastName, firstName, id, type) {
 
 export async function getSemesters() {
   let api_helper = new API();
-  let response = api_helper.getSemesters();
-  response.then(function (result) {
-    //console.log(result);
-  });
-  const semesterList = await response;
-  return semesterList;
+  let response = await api_helper.getSemesters();
+  return response;
 }
 
 export async function addNewSemester(year, term) {
   let api_helper = new API();
-  let response = api_helper.addNewSemester(year, term);
-  response
-    .then(function (result) {
-      return result;
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  let response = await api_helper.addNewSemester(year, term);
+  //console.log(response);
+  return response;
 }
 
 export async function deleteSemester(term, year) {
   let api_helper = new API();
-  //console.log(`Term: ${term} Year:${year}`);
-  let response = api_helper.deleteSemester(term, year);
-  response.then(function (result) {
-    return result;
-  });
+  let response = await api_helper.deleteSemester(term, year);
+  return response;
 }
 
 // Old Endpoint
