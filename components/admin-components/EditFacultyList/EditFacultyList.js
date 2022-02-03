@@ -26,7 +26,6 @@ const EditFacultyList = () => {
       const facultyListRes = await getFacultyList();
       const facultyList = facultyListRes.data;
       const status = facultyListRes.status;
-      console.log(status);
       if (status != "Success") {
         toast({
           title: "Error",
@@ -56,14 +55,7 @@ const EditFacultyList = () => {
     getFaculty();
   }, [refreshKey]);
 
-  useEffect(() => {
-    if (refreshKey == 1) {
-      //console.log("Found key 1 ");
-      getFaculty();
-      refreshTable();
-    }
-  });
-
+  //Add try catch
   useEffect(() => {
     if (newFaculty.lastName !== "" && newFaculty.untID !== "") {
       addFacultyMember(

@@ -7,12 +7,14 @@ const EditFacultyMember = ({ refreshTable, toggleEditing, id }) => {
   const [newLName, setNewLName] = useInputState("");
   const [newEUID, setNewEUID] = useInputState("");
 
-  const editUser = () => {
+  const editUser = async () => {
     console.log(newFName, newLName, id, newEUID);
     if (newEUID == "") {
-      editFacultyUser(newFName, newLName, id, id);
+      const res = await editFacultyUser(newFName, newLName, id, id);
+      console.log(res);
     } else {
-      editFacultyUser(newFName, newLName, id, newEUID);
+      const res = await editFacultyUser(newFName, newLName, id, newEUID);
+      console.log(res);
     }
     refreshTable();
   };
