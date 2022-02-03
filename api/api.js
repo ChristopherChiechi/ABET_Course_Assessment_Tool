@@ -237,6 +237,30 @@ export default class API {
     }
   }
 
+  //---deleteSemester()--- (Admin)
+  //    Input: term & year
+  //    Output: success or failure
+  async deleteSemester(term = "", year = 0) {
+    console.log(`term: ${term} year: ${year}`);
+    const url = rootNew + "/Semester/DeleteSemester";
+    try {
+      const response = await axios.delete(url, {
+        data: { year: year, term: term },
+      });
+      if (response.status == OK) {
+        console.log(response.data);
+        return "Success";
+      }
+    } catch (error) {
+      let status = this.checkStatus(error.message);
+      console.error(status);
+      return status;
+    }
+  }
+
+  //---getMajors()--- (Admin)
+  //    Input: term & year
+  //    Output: return a list of major of that semester
   async getMajors(term, year) {
     const url = rootNew + `/Major/GetMajors?term=${term}&year=${year}`;
     try {
@@ -259,16 +283,42 @@ export default class API {
     }
   }
 
-  //---deleteSemester()--- (Admin)
-  //    Input: term & year
+  //---addMajor()--- (Admin)
+  //    Input: major name, term & year
   //    Output: success or failure
-  async deleteSemester(term = "", year = 0) {
-    console.log(`term: ${term} year: ${year}`);
-    const url = rootNew + "/Semester/DeleteSemester";
+  async addMajor(majorName, term, year) {
+    const url =
+      rootNew + `/Major/AddMajor?term=${term}&year=${year}&name=${majorName}`;
     try {
-      const response = await axios.delete(url, {
-        data: { year: year, term: term },
-      });
+      var response = await axios.post(url);
+      if (response) {
+        let status = this.checkStatus(response.status);
+        console.log(response);
+        console.log(`status: ${status}`);
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
+    } catch (error) {
+      let status = this.checkStatus(error.message);
+      return {
+        data: null,
+        status: status,
+      };
+    }
+  }
+
+  //---deleteMajor()--- (Admin)
+  //    Input: majorName, term & year
+  //    Output: success or failure
+  async deleteMajor(majorName = "", term = "", year = 0) {
+    console.log(`term: ${term} year: ${year}`);
+    const url =
+      rootNew +
+      `/Major/DeleteMajor?term=${term}&year=${year}&name=${majorName}`;
+    try {
+      const response = await axios.delete(url);
       if (response.status == OK) {
         console.log(response.data);
         return "Success";

@@ -1,11 +1,17 @@
 import { Grid, GridItem, Text, Button } from "@chakra-ui/react";
-import { deleteSemester } from "../../../api/APIHelper";
+import { deleteMajor } from "../../../api/APIHelper";
 
-const DepartmentList = ({ refreshTable, year, term, color }) => {
-  const deleteSemesterFunc = (year, term) => {
+const MajorList = ({ refreshTable, majorName, term, year, color }) => {
+  const handleDeleteMajor = async (majorName, year, term) => {
     //console.log(`Year:${year} Term:${term} `);
-    if (confirm(`Are you sure you want to delete Year:${year} Term:${term} `)) {
-      deleteSemester(term, year);
+    if (
+      confirm(
+        `Are you sure you want to delete Major: ${majorName} Year: ${year} Term: ${term}?`
+      )
+    ) {
+      const res = await deleteMajor(majorName, term, year);
+      console.log(res);
+      refreshTable();
     }
   };
 
@@ -19,15 +25,14 @@ const DepartmentList = ({ refreshTable, year, term, color }) => {
       <>
         <GridItem rowSpan={"auto"}>
           <Text>
-            Year: {year} Term: {term}
+            Major Name: {majorName} Term: {term} Year: {year}
           </Text>
         </GridItem>
         <GridItem>
           <Button
             variant="solid"
             onClick={() => {
-              refreshTable();
-              deleteSemesterFunc(year, term);
+              handleDeleteMajor(majorName, year, term);
             }}
             marginLeft={"15em"}
           >
@@ -38,5 +43,4 @@ const DepartmentList = ({ refreshTable, year, term, color }) => {
     </Grid>
   );
 };
-
-export default DepartmentList;
+export default MajorList;

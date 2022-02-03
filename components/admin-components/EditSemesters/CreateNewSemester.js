@@ -21,6 +21,7 @@ const CreateNewSemester = () => {
   const [term, setTerm] = useState("");
 
   const [semesters, setSemesterList] = useState();
+
   useEffect(() => {
     document.getElementById("top").scrollIntoView();
   });
@@ -31,7 +32,7 @@ const CreateNewSemester = () => {
 
   //
   const addSemester = async (event) => {
-    console.log(year, term);
+    console.log(`New: ${year}, ${term}`);
     Object.keys(semesters).forEach(function (key) {
       let semester = semesters[key];
       console.log(`key: ${key} data: ${semester.term} ${semester.year}`);
@@ -48,7 +49,7 @@ const CreateNewSemester = () => {
       )
     ) {
       try {
-        //const res = await addNewSemester(year, term);
+        const res = await addNewSemester(year, term);
         console.log(res);
         if (res == "Success") {
           toast({
@@ -76,7 +77,7 @@ const CreateNewSemester = () => {
     try {
       const semesterlist = await getSemesters();
       const status = semesterlist.status;
-      //console.log(status);
+      console.log(status);
       if (status != "Success") {
         toast({
           title: "Error",

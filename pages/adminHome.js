@@ -45,7 +45,7 @@ import GenerateSectionReport from "../components/admin-components/GenerateSectio
 import GenerateFullReport from "../components/admin-components/GenerateFullReport/GenerateFullReport";
 import GenerateStudentSurveys from "../components/admin-components/GenerateStudentSurveys";
 import EditAssignedCourses from "../components/admin-components/EditAssignedCourses/EditAssignedCourses";
-import CreateNewDepartment from "../components/admin-components/EditDepartments/CreateNewDepartment";
+import CreateNewMajor from "../components/admin-components/EditDepartments/CreateNewMajor";
 var role = "super";
 var is_super = true;
 if (role == "super") {
@@ -136,23 +136,24 @@ const adminHome = () => {
                     <Tr>
                       <Td
                         as="button"
-                        mr="3"
+                        mr="12"
                         color="#016a31"
                         onClick={() => {
                           setView("CNS");
                         }}
                       >
-                        Create New Semester
+                        Edit Semesters
                       </Td>
                       <Td
                         as="button"
                         mr="3"
+                        ml="3"
                         color="#016a31"
                         onClick={() => {
                           setView("CND");
                         }}
                       >
-                        Create New Department
+                        Edit Majors
                       </Td>
                     </Tr>
                     <Tr>
@@ -214,6 +215,7 @@ const adminHome = () => {
                       <Td
                         as="button"
                         mr="3"
+                        ml="1"
                         color="#016a31"
                         onClick={() => {
                           setView("OM");
@@ -236,6 +238,7 @@ const adminHome = () => {
                       <Td
                         as="button"
                         mr="3"
+                        ml="1"
                         color="#016a31"
                         onClick={() => {
                           setView("GFR");
@@ -264,7 +267,7 @@ const adminHome = () => {
               case "CNS":
                 return <CreateNewSemester />;
               case "CND":
-                return <CreateNewDepartment />;
+                return <CreateNewMajor />;
               case "EAC":
                 return <EditAssignedCourses />;
               case "EFL":

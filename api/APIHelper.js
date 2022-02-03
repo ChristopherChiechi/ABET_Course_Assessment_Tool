@@ -9,6 +9,7 @@ export async function Custom() {
   return response;
 }
 
+// All faculty endpoint
 export async function getFacultyList() {
   let api_helper = new API();
   let response = await api_helper.getFacultyList();
@@ -72,6 +73,18 @@ export async function deleteSemester(term, year) {
 export async function getMajors(term, year) {
   let api_helper = new API();
   let response = await api_helper.getMajors(term, year);
+  return response;
+}
+
+export async function addMajor(name, term, year) {
+  let api_helper = new API();
+  let response = await api_helper.addMajor(name, term, year);
+  return response;
+}
+
+export async function deleteMajor(name, term, year) {
+  let api_helper = new API();
+  let response = await api_helper.deleteMajor(name, term, year);
   return response;
 }
 
