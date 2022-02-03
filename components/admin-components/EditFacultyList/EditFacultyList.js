@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 
-import { Text, List, ListItem, VStack } from "@chakra-ui/react";
+import { Text, List, ListItem, VStack, useToast } from "@chakra-ui/react";
 import FacultyMember from "../../admin-components/FacultyMember";
 import { getFacultyList, addFacultyMember } from "../../../api/APIHelper";
 import AddFacultyMember from "./AddFacultyMember";
 
 const EditFacultyList = () => {
+  const toast = useToast();
   const [refreshKey, setRefreshKey] = useState(0);
   const [faculty, setFaculty] = useState({
     admin: [],
@@ -21,22 +22,35 @@ const EditFacultyList = () => {
   });
 
   const getFaculty = async () => {
-    const facultyList = await getFacultyList();
-    setFaculty({
-      ...faculty,
-      admin: facultyList.admins,
-      instructor: facultyList.instructors,
-      coordinator: facultyList.coordinators,
-    });
+    try {
+      const facultyListRes = await getFacultyList();
+      const facultyList = facultyListRes.data;
+      const status = facultyListRes.status;
+      console.log(status);
+      if (status != "Success") {
+        toast({
+          title: "Error",
+          description: `There was an error fetching the data! Error: ${status}`,
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+        return;
+      }
+      setFaculty({
+        ...faculty,
+        admin: facultyList.admins,
+        instructor: facultyList.instructors,
+        coordinator: facultyList.coordinators,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const refreshTable = () => {
     setRefreshKey(refreshKey + 1);
   };
-
-  useEffect(() => {
-    getFaculty();
-  }, []);
 
   useEffect(() => {
     getFaculty();
