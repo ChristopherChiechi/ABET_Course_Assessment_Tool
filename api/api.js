@@ -92,9 +92,21 @@ export default class API {
     const url = rootNew + "/Role/GetFaculty";
     try {
       var response = await axios.get(url);
-      return response.data;
+      if (response) {
+        let status = this.checkStatus(response.status);
+        //console.log(response);
+        //console.log(`status: ${status}`);
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
     } catch (error) {
-      console.error(error);
+      let status = this.checkStatus(error.message);
+      return {
+        data: null,
+        status: status,
+      };
     }
   }
 
@@ -207,6 +219,28 @@ export default class API {
       let status = this.checkStatus(error.message);
       console.error(status);
       return status;
+    }
+  }
+
+  async getMajors(term, year) {
+    const url = rootNew + `/Major/GetMajors?term=${term}&year=${year}`;
+    try {
+      var response = await axios.get(url);
+      if (response) {
+        let status = this.checkStatus(response.status);
+        console.log(response);
+        console.log(`status: ${status}`);
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
+    } catch (error) {
+      let status = this.checkStatus(error.message);
+      return {
+        data: null,
+        status: status,
+      };
     }
   }
 
