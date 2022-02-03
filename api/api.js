@@ -126,7 +126,13 @@ export default class API {
         lastName: Lastname,
         euid: newEuid,
       });
-      return response.data;
+      if (response) {
+        let status = this.checkStatus(response.status);
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
     } catch (error) {
       console.error(error);
     }
@@ -139,8 +145,13 @@ export default class API {
     const url = rootNew + "/Users/DeleteUser";
     try {
       const response = await axios.delete(url, { params: { EUID: Euid } });
-      console.log(response.data);
-      return response.data;
+      if (response) {
+        let status = this.checkStatus(response.status);
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
     } catch (error) {
       console.error(error);
     }
@@ -166,9 +177,13 @@ export default class API {
     };
     try {
       const response = await axios.post(url, body);
-      if (response.status == OK) {
-        console.log(response.data);
-        return "Success";
+      if (response) {
+        console.log(response);
+        let status = this.checkStatus(response.status);
+        return {
+          data: response.data,
+          status: status,
+        };
       }
     } catch (error) {
       console.error(error);

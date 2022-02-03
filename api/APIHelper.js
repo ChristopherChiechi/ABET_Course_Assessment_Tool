@@ -5,59 +5,50 @@ import API from "./api";
 
 export async function Custom() {
   let api_helper = new API();
-  let response = api_helper.Custom();
-  console.log(response);
-  return response.then(function (result) {
-    return result;
-  });
+  let response = await api_helper.Custom();
+  return response;
 }
 
 export async function getFacultyList() {
   let api_helper = new API();
-  let response = api_helper.getFacultyList();
-  response.then(function (result) {
-    //console.log(result);
-  });
-
-  const faculty = await response;
-  return faculty;
+  let response = await api_helper.getFacultyList();
+  console.log(response);
+  return response;
 }
 
 export async function editFacultyUser(lastname, firstname, oldEuid, newEuid) {
   let api_helper = new API();
-  let response = api_helper.editFacultyUser(
+  let response = await api_helper.editFacultyUser(
     lastname,
     firstname,
     oldEuid,
     newEuid
   );
-  response.then(function (result) {
-    return result;
-  });
-  const faculty = await response;
-  return faculty;
+  console.log(response);
+  return response;
 }
 
 export async function deleteFacultyUser(euid) {
   let api_helper = new API();
   console.log(euid);
-  let response = api_helper.deleteFacultyUser(euid);
-  response.then(function (result) {
-    return result;
-  });
+  let response = await api_helper.deleteFacultyUser(euid);
+  console.log(response);
+  return response;
 }
 
 export async function addFacultyMember(lastName, firstName, id, type) {
-  //console.log("type:" + type);
   let api_helper = new API();
-  let response = api_helper.addFacultyMember(firstName, lastName, id, type);
-  response.then(function (result) {
-    return result;
-  });
-  const res = await response;
-  console.log(res);
+  let response = await api_helper.addFacultyMember(
+    firstName,
+    lastName,
+    id,
+    type
+  );
+  console.log(response);
+  return response;
 }
 
+// All semester endpoint
 export async function getSemesters() {
   let api_helper = new API();
   let response = await api_helper.getSemesters();
@@ -74,6 +65,13 @@ export async function addNewSemester(year, term) {
 export async function deleteSemester(term, year) {
   let api_helper = new API();
   let response = await api_helper.deleteSemester(term, year);
+  return response;
+}
+
+// All majors endpoint
+export async function getMajors(term, year) {
+  let api_helper = new API();
+  let response = await api_helper.getMajors(term, year);
   return response;
 }
 
