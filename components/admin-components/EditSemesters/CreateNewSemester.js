@@ -29,7 +29,14 @@ const CreateNewSemester = () => {
     setRefreshKey(refreshKey + 1);
   };
 
+  //
   const addSemester = async (event) => {
+    console.log(year, term);
+    Object.keys(semesters).forEach(function (key) {
+      let semester = semesters[key];
+      console.log(`key: ${key} data: ${semester.term} ${semester.year}`);
+    });
+
     event.preventDefault();
     if (year == "" && term == "") {
       alert("Please select a term and year!");
@@ -41,7 +48,7 @@ const CreateNewSemester = () => {
       )
     ) {
       try {
-        const res = await addNewSemester(year, term);
+        //const res = await addNewSemester(year, term);
         console.log(res);
         if (res == "Success") {
           toast({
