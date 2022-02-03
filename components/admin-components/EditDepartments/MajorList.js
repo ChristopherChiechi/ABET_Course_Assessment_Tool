@@ -6,7 +6,7 @@ const MajorList = ({ refreshTable, majorName, term, year, color }) => {
     //console.log(`Year:${year} Term:${term} `);
     if (
       confirm(
-        `Are you sure you want to delete Major: ${majorName} Year: ${year} Term: ${term}?`
+        `Are you sure you want to delete Major: ${majorName} for ${year} ${term}?`
       )
     ) {
       const res = await deleteMajor(majorName, term, year);

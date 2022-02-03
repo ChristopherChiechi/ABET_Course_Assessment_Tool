@@ -45,7 +45,7 @@ const CreateNewMajor = () => {
     try {
       if (
         window.confirm(
-          "Are you sure you would like to create the selected new semester?"
+          `Are you sure you would like to create ${newMajor} for ${term} ${year}?`
         )
       ) {
         console.log(`Add major name: ${newMajor} term: ${term} year: ${year}`);
