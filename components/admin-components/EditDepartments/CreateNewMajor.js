@@ -41,20 +41,62 @@ const CreateNewMajor = () => {
     setRefreshKey(refreshKey + 1);
   };
 
-  const handleAddMajor = async () => {
-    try {
-      if (
-        window.confirm(
-          `Are you sure you would like to create ${newMajor} for ${term} ${year}?`
-        )
-      ) {
+  const handleAddMajor = async (event) => {
+    if (year == "" || term == "" || newMajor == "") {
+      toast({
+        description: `Please choose a semester and enter a new major!`,
+        status: "warning",
+        duration: 9000,
+        isClosable: true,
+      });
+      return;
+    } else {
+      var checkDuplicate = false;
+      Object.keys(semesters).forEach(function (key) { // TODO: iterate through majors and not semesters?
+        let semester = semesters[key];
+        console.log(`key: ${key} semester: ${semester.term} year: ${semester.year} major: ${semester.newMajor}`); // semester.newMajor is undefined, but newMajor is defined
+        if (semester.term == term && semester.year == year && semester.newMajor == newMajor) {
+          toast({
+            description: `This semester and major already exists! Please choose a different semester and major.`,
+            status: "warning",
+            duration: 9000,
+            isClosable: true,
+          });
+          checkDuplicate = true;
+        }
+      });
+      if (checkDuplicate == true) {
+        return;
+      }
+    }
+    if (
+      window.confirm(
+        "Are you sure you would like to create the new major?"
+      )
+    ) {
+      try {
         console.log(`Add major name: ${newMajor} term: ${term} year: ${year}`);
         const res = await addMajor(newMajor, term, year);
         console.log(res);
+        if (res == "Success") {
+          toast({
+            description: `Successfully added the new major! Please refresh the page if you don't see the new change.`,
+            status: "success",
+            duration: 2000,
+            isClosable: true,
+          });
+        } else {
+          toast({
+            description: `There was an error! Message: ${res} `,
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+          });
+        }
+        refreshTable();
+      } catch (error) {
+        console.log(error);
       }
-      refreshTable();
-    } catch (error) {
-      console.log(error);
     }
   };
 

@@ -31,37 +31,30 @@ const CreateNewSemester = () => {
   };
 
   const addSemester = async (event) => {
-    /*
-    //console.log(`New: ${year}, ${term}`);
-    Object.keys(semesters).forEach(function (key) {
-      let semester = semesters[key];
-      if (semester.term == term && semester.year == year) {
-        //console.log(`key: ${key} data: ${semester.term} ${semester.year}`);
-        alert("This semester already exists! Please select a different term and year.");
-        return;
-      }
-    });
-    */
-
-    event.preventDefault();
     if (year == "" || term == "") {
-      alert("Please select a term and year!");
+      toast({
+        description: `Please select a term and year!`,
+        status: "warning",
+        duration: 9000,
+        isClosable: true,
+      });
       return;
     } else {
-      var bool = false;
-      console.log(bool);
+      var checkDuplicate = false;
       Object.keys(semesters).forEach(function (key) {
         let semester = semesters[key];
         if (semester.term == term && semester.year == year) {
           //console.log(`key: ${key} data: ${semester.term} ${semester.year}`);
-          alert(
-            "This semester already exists! Please select a different term and year."
-          );
-          bool = true;
+          toast({
+            description: `This semester already exists! Please select a different term and year.`,
+            status: "warning",
+            duration: 9000,
+            isClosable: true,
+          });
+          checkDuplicate = true;
         }
       });
-      if (bool == true) {
-        console.log(bool);
+      if (checkDuplicate == true) {
         return;
       }
     }
@@ -75,7 +68,7 @@ const CreateNewSemester = () => {
         console.log(res);
         if (res == "Success") {
           toast({
-            description: `Successfuly added the new semester, please refresh the page if you don't see the new change!`,
+            description: `Successfully added the new semester! Please refresh the page if you don't see the new change.`,
             status: "success",
             duration: 2000,
             isClosable: true,
@@ -93,33 +86,6 @@ const CreateNewSemester = () => {
         console.log(error);
       }
     }
-
-    /*
-    if (window.confirm("Are you sure you would like to create the selected new semester?")) {
-      try {
-        const res = await addNewSemester(year, term);
-        console.log(res);
-        if (res == "Success") {
-          toast({
-            description: `Successfuly added the new semester, please refresh the page if you don't see the new change!`,
-            status: "success",
-            duration: 2000,
-            isClosable: true,
-          });
-        } else {
-          toast({
-            description: `There was an error! Message: ${res} `,
-            status: "error",
-            duration: 9000,
-            isClosable: true,
-          });
-        }
-        refreshTable();
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    */
   };
 
   const getSemesterList = async () => {
