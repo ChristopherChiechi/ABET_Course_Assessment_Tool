@@ -47,44 +47,53 @@ const CreateNewSemester = () => {
     if (year == "" || term == "") {
       alert("Please select a term and year!");
       return;
-    }
-    else {
-      //console.log(`New: ${year}, ${term}`);
-    Object.keys(semesters).forEach(function (key) {
-      let semester = semesters[key];
-      if (semester.term == term && semester.year == year) {
-        //console.log(`key: ${key} data: ${semester.term} ${semester.year}`);
-        alert("This semester already exists! Please select a different term and year.");
+    } else {
+      var bool = false;
+      console.log(bool);
+      Object.keys(semesters).forEach(function (key) {
+        let semester = semesters[key];
+        if (semester.term == term && semester.year == year) {
+          //console.log(`key: ${key} data: ${semester.term} ${semester.year}`);
+          alert(
+            "This semester already exists! Please select a different term and year."
+          );
+          bool = true;
+        }
+      });
+      if (bool == true) {
+        console.log(bool);
         return;
       }
-      else {
-        if (window.confirm("Are you sure you would like to create the selected new semester?")) {
-          try {
-            const res = await addNewSemester(year, term);
-            console.log(res);
-            if (res == "Success") {
-              toast({
-                description: `Successfuly added the new semester, please refresh the page if you don't see the new change!`,
-                status: "success",
-                duration: 2000,
-                isClosable: true,
-              });
-            } else {
-              toast({
-                description: `There was an error! Message: ${res} `,
-                status: "error",
-                duration: 9000,
-                isClosable: true,
-              });
-            }
-            refreshTable();
-          } catch (error) {
-            console.log(error);
-          }
-        }
-      }
-    });
     }
+    if (
+      window.confirm(
+        "Are you sure you would like to create the selected new semester?"
+      )
+    ) {
+      try {
+        const res = await addNewSemester(year, term);
+        console.log(res);
+        if (res == "Success") {
+          toast({
+            description: `Successfuly added the new semester, please refresh the page if you don't see the new change!`,
+            status: "success",
+            duration: 2000,
+            isClosable: true,
+          });
+        } else {
+          toast({
+            description: `There was an error! Message: ${res} `,
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+          });
+        }
+        refreshTable();
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
     /*
     if (window.confirm("Are you sure you would like to create the selected new semester?")) {
       try {
@@ -112,7 +121,6 @@ const CreateNewSemester = () => {
     }
     */
   };
-  
 
   const getSemesterList = async () => {
     try {
