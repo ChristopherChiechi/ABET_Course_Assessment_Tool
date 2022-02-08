@@ -42,9 +42,9 @@ const CreateNewMajor = () => {
   };
 
   const handleAddMajor = async (event) => {
-    if (year == "" || term == "" || newMajor == "") {
+    if (newMajor == "") {
       toast({
-        description: `Please choose a semester and enter a new major!`,
+        description: `Please enter a new major!`,
         status: "warning",
         duration: 9000,
         isClosable: true,
@@ -52,12 +52,11 @@ const CreateNewMajor = () => {
       return;
     } else {
       var checkDuplicate = false;
-      Object.keys(semesters).forEach(function (key) { // TODO: iterate through majors and not semesters?
-        let semester = semesters[key];
-        console.log(`key: ${key} semester: ${semester.term} year: ${semester.year} major: ${semester.newMajor}`); // semester.newMajor is undefined, but newMajor is defined
-        if (semester.term == term && semester.year == year && semester.newMajor == newMajor) {
+      Object.keys(majors).forEach(function (key) {
+        let major = majors[key];
+        if (major.name == newMajor) {
           toast({
-            description: `This semester and major already exists! Please choose a different semester and major.`,
+            description: `This major already exists! Please enter a new major.`,
             status: "warning",
             duration: 9000,
             isClosable: true,
@@ -75,7 +74,6 @@ const CreateNewMajor = () => {
       )
     ) {
       try {
-        console.log(`Add major name: ${newMajor} term: ${term} year: ${year}`);
         const res = await addMajor(newMajor, term, year);
         console.log(res);
         if (res == "Success") {
