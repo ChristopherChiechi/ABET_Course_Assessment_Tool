@@ -125,18 +125,12 @@ const EditCourseList = () => {
 
   const renderCourse = theCourse.courses.map((cours, idx) => {
     return (
-      // <Box display="flex" alignItems="center">
-      //     <div className="courses-list">
-      //         <ListItem className="course-list-card">{cours.name}</ListItem>
-      //         <IconButton ml="1em" icon="delete" onClick={(e)=>{
-      //                 e.preventDefault();
-      //                 if (window.confirm('Are you sure you would like to delete '+cours.name+'?')){
-      //                     removeCourse(cours.id)
-      //                 }
-      //         }}></IconButton>
-      //     </div>
-      // </Box>
-      <ListItem display="inline" justifyContent="center" alignItems="center">
+      <ListItem
+        key={idx}
+        display="inline"
+        justifyContent="center"
+        alignItems="center"
+      >
         <Courses
           member={
             cours.department +
@@ -184,12 +178,7 @@ const EditCourseList = () => {
               <option value="EENG">Engineering</option>
               <option value="IT">Information Technology</option>
             </Select>
-            <Button
-              variantColor="green"
-              variant="outline"
-              display="inline"
-              onClick={getNewCourses}
-            >
+            <Button variant="outline" display="inline" onClick={getNewCourses}>
               Submit
             </Button>
           </Flex>
@@ -205,32 +194,6 @@ const EditCourseList = () => {
           <Flex justifyContent="center">
             <List w="80%">{renderCourse}</List>
           </Flex>
-          {/* <div className="course-list-input">
-          <form>
-            <Input
-              mt="1rem"
-              placeholder="enter a new course (i.e. CSCE 3530 Computer Networks)"
-              variant="flushed"
-              type="text"
-              // value={course}
-              // onChange={setCourse}
-              w="30em"
-            />
-          </form>
-          <IconButton
-            variant="link"
-            isActive="false"
-            mt="1.5em"
-            ml="1em"
-            variantColor="green"
-            size="sm"
-            icon="add"
-            // onClick={addCourse}
-          ></IconButton>
-        </div> */}
-          {/* <Button variantColor="green" variant="outline" onClick={handleSubmit}>
-          Submit
-        </Button> */}
 
           <AddCourse addNewCourse={addNewCourse}></AddCourse>
         </Box>
