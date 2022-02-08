@@ -25,11 +25,11 @@ const EditFacultyList = () => {
     try {
       const facultyListRes = await getFacultyList();
       const facultyList = facultyListRes.data;
-      const status = facultyListRes.status;
-      if (status != "Success") {
+      const res = facultyListRes.status;
+      if (res != "Success") {
         toast({
           title: "Error",
-          description: `There was an error fetching the data! Error: ${status}`,
+          description: `There was an error fetching the data! Error: ${res}`,
           status: "error",
           duration: 9000,
           isClosable: true,

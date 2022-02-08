@@ -6,11 +6,19 @@ import {
   Input,
   Select,
   Box,
+  useToast,
 } from "@chakra-ui/react";
 import useInputState from "../../../hooks/useInputState";
 
-const AddFacultyMember = ({ setNewFaculty }) => {
+const AddFacultyMember = ({setNewFaculty}) => {
+  const toast = useToast();
+  const [refreshKey, setRefreshKey] = useState(0);
   const facultyTypes = ["Admin", "Instructor", "Coordinator"];
+  const [faculty, setFaculty] = useState({
+    admin: [],
+    instructor: [],
+    coordinator: [],
+  });
 
   const [lastName, setLastName] = useInputState("");
   const [firstName, setFirstName] = useInputState("");
@@ -23,13 +31,66 @@ const AddFacultyMember = ({ setNewFaculty }) => {
     SettoggleEdditing((isEdditing) => !isEdditing);
   };
 
-  const addFaculty = () => {
-    setNewFaculty({
-      lastName: lastName,
-      firstName: firstName,
-      untID: ID,
-      type: type,
-    });
+  const refreshTable = () => {
+    setRefreshKey(refreshKey + 1);
+  };
+
+  const addFaculty = async (event) => {
+    if (lastName == "" || firstName == "" || ID == "")
+    {
+      toast({
+        description: 'Required field empty!',
+        status: "warning",
+        duration: 9000,
+        isClosable: true,
+      });
+      return;
+    }
+    else {
+      var checkDuplicate = false;
+      
+      
+      Object.keys(faculty).forEach(function(key) {
+        let faculty = faculty[ID]
+        if (faculty.firstName == firstName && faculty.lastName == lastName && faculty.ID == ID)
+        {
+          toast({
+            description: 'Faculty member already exists!',
+            status: "warning",
+            duration: 9000,
+            isClosable: true,
+          });
+          checkDuplicate = true;
+        }
+      });
+      if (checkDuplicate == true) {
+        return;
+      }
+    }
+    if (window.confirm("Are you sure you would like to create this faculty member?")){
+      try {
+        const res = await setNewFaculty(lastName, firstName, ID, type);
+        console.log(res);
+        if (res == "Success") {
+          toast({
+            description: `Successfully added the new faculty member! Please refresh the page if you don't see the new change.`,
+            status: "success",
+            duration: 2000,
+            isClosable: true,
+          });
+        } else {
+          toast({
+            description: `There was an error! Message: ${res} `,
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+          });
+        }
+        refreshTable();
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
 
   return (
