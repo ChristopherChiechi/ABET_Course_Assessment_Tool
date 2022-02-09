@@ -38,7 +38,7 @@ export default class API {
         return "UNAUTHORIZED";
       default:
         console.log(`Unknown status code from request:${status}`);
-        break;
+        return status;
     }
   }
   //***New End Point***
@@ -126,6 +126,8 @@ export default class API {
         lastName: Lastname,
         euid: newEuid,
       });
+      console.log(response);
+
       if (response) {
         let status = this.checkStatus(response.status);
         return {
@@ -134,7 +136,12 @@ export default class API {
         };
       }
     } catch (error) {
+      let status = this.checkStatus(error.message);
       console.error(error);
+      return {
+        data: null,
+        status: status,
+      };
     }
   }
 
@@ -145,6 +152,7 @@ export default class API {
     const url = rootNew + "/Users/DeleteUser";
     try {
       const response = await axios.delete(url, { params: { EUID: Euid } });
+      console.log(response);
       if (response) {
         let status = this.checkStatus(response.status);
         return {
@@ -153,7 +161,12 @@ export default class API {
         };
       }
     } catch (error) {
+      let status = this.checkStatus(error.message);
       console.error(error);
+      return {
+        data: null,
+        status: status,
+      };
     }
   }
 
@@ -186,7 +199,12 @@ export default class API {
         };
       }
     } catch (error) {
-      console.error(error);
+      let status = this.checkStatus(error.message);
+      console.error(status);
+      return {
+        data: null,
+        status: status,
+      };
     }
   }
 

@@ -13,7 +13,7 @@ export async function Custom() {
 export async function getFacultyList() {
   let api_helper = new API();
   let response = await api_helper.getFacultyList();
-  console.log(response);
+  //console.log(response);
   return response;
 }
 

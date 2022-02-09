@@ -10,11 +10,11 @@ const EditFacultyMember = ({ refreshTable, toggleEditing, id }) => {
   const [newLName, setNewLName] = useInputState("");
   const [newEUID, setNewEUID] = useInputState("");
 
-  const editUser = async (event) => {
+  const editUser = async () => {
     console.log(newFName, newLName, id, newEUID);
     if (newEUID == "") {
       toast({
-        description: 'Required field empty!',
+        description: "Required field empty!",
         status: "warning",
         duration: 9000,
         isClosable: true,
@@ -23,8 +23,9 @@ const EditFacultyMember = ({ refreshTable, toggleEditing, id }) => {
     }
     try {
       const res = await editFacultyUser(newFName, newLName, id, newEUID);
+      const status = res.status;
       console.log(res);
-      if (res == "Success") {
+      if (status == "Success") {
         toast({
           description: `Change Successful! Please refresh the page if you don't see the new change.`,
           status: "success",
@@ -33,7 +34,7 @@ const EditFacultyMember = ({ refreshTable, toggleEditing, id }) => {
         });
       } else {
         toast({
-          description: `There was an error! Message: ${res} `,
+          description: `There was an error! Message: ${status} `,
           status: "error",
           duration: 9000,
           isClosable: true,

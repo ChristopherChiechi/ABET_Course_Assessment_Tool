@@ -9,10 +9,10 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import useInputState from "../../../hooks/useInputState";
+import { addFacultyMember } from "../../../api/APIHelper";
 
-const AddFacultyMember = ({setNewFaculty}) => {
+const AddFacultyMember = ({ refreshTable }) => {
   const toast = useToast();
-  const [refreshKey, setRefreshKey] = useState(0);
   const facultyTypes = ["Admin", "Instructor", "Coordinator"];
   const [faculty, setFaculty] = useState({
     admin: [],
@@ -31,26 +31,22 @@ const AddFacultyMember = ({setNewFaculty}) => {
     SettoggleEdditing((isEdditing) => !isEdditing);
   };
 
-  const refreshTable = () => {
-    setRefreshKey(refreshKey + 1);
-  };
-
-  const addFaculty = async (event) => {
-    if (lastName == "" || firstName == "" || ID == "")
-    {
+  const addFaculty = async () => {
+    if (lastName == "" || firstName == "" || ID == "") {
       toast({
-        description: 'Required field empty!',
+        description: "Required field empty!",
         status: "warning",
         duration: 9000,
         isClosable: true,
       });
       return;
     }
-    
     try {
-      const res = await setNewFaculty(lastName, firstName, ID, type);
+      const res = await addFacultyMember(lastName, firstName, ID, type);
       console.log(res);
-      if (res == "Success") {
+      const status = res.status;
+      console.log(status);
+      if (status == "Success") {
         toast({
           description: `Successfully added the new faculty member! Please refresh the page if you don't see the new change.`,
           status: "success",
@@ -59,16 +55,16 @@ const AddFacultyMember = ({setNewFaculty}) => {
         });
       } else {
         toast({
-          description: `There was an error! Message: ${res} `,
+          description: `There was an error! Message: ${status} `,
           status: "error",
           duration: 9000,
           isClosable: true,
         });
       }
-      refreshTable();
     } catch (error) {
       console.log(error);
     }
+    refreshTable();
   };
 
   return (

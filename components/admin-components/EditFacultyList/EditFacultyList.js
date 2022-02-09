@@ -55,20 +55,6 @@ const EditFacultyList = () => {
     getFaculty();
   }, [refreshKey]);
 
-  //Add try catch
-  useEffect(() => {
-    if (newFaculty.lastName !== "" && newFaculty.untID !== "") {
-      addFacultyMember(
-        newFaculty.lastName,
-        newFaculty.firstName,
-        newFaculty.untID,
-        newFaculty.type
-      );
-      refreshTable();
-      console.log(refreshKey);
-    }
-  }, [newFaculty]);
-
   const renderAdmin =
     faculty &&
     faculty.admin.map((fac, idx) => {
@@ -155,7 +141,7 @@ const EditFacultyList = () => {
         <List marginLeft="5em" w="80%" align="center">
           {renderCoordinator}
         </List>
-        <AddFacultyMember setNewFaculty={setNewFaculty} />
+        <AddFacultyMember refreshTable={refreshTable} />
       </VStack>
     </div>
   );
