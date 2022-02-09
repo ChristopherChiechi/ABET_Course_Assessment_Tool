@@ -46,50 +46,28 @@ const AddFacultyMember = ({setNewFaculty}) => {
       });
       return;
     }
-    else {
-      var checkDuplicate = false;
-      
-      
-      Object.keys(faculty).forEach(function(key) {
-        let faculty = faculty[ID]
-        if (faculty.firstName == firstName && faculty.lastName == lastName && faculty.ID == ID)
-        {
-          toast({
-            description: 'Faculty member already exists!',
-            status: "warning",
-            duration: 9000,
-            isClosable: true,
-          });
-          checkDuplicate = true;
-        }
-      });
-      if (checkDuplicate == true) {
-        return;
+    
+    try {
+      const res = await setNewFaculty(lastName, firstName, ID, type);
+      console.log(res);
+      if (res == "Success") {
+        toast({
+          description: `Successfully added the new faculty member! Please refresh the page if you don't see the new change.`,
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+        });
+      } else {
+        toast({
+          description: `There was an error! Message: ${res} `,
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
       }
-    }
-    if (window.confirm("Are you sure you would like to create this faculty member?")){
-      try {
-        const res = await setNewFaculty(lastName, firstName, ID, type);
-        console.log(res);
-        if (res == "Success") {
-          toast({
-            description: `Successfully added the new faculty member! Please refresh the page if you don't see the new change.`,
-            status: "success",
-            duration: 2000,
-            isClosable: true,
-          });
-        } else {
-          toast({
-            description: `There was an error! Message: ${res} `,
-            status: "error",
-            duration: 9000,
-            isClosable: true,
-          });
-        }
-        refreshTable();
-      } catch (error) {
-        console.log(error);
-      }
+      refreshTable();
+    } catch (error) {
+      console.log(error);
     }
   };
 

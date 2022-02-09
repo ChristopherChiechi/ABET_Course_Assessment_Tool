@@ -1,15 +1,38 @@
-import { Grid, GridItem, Text, Button } from "@chakra-ui/react";
+import { Grid, GridItem, Text, Button, useToast } from "@chakra-ui/react";
 import EditFacultyMember from "../admin-components/EditFacultyList/EditFacultyMember";
 import { deleteFacultyUser } from "../../api/APIHelper";
 import { useState, useRef } from "react";
 
 const FacultyMember = ({ refreshTable, member, id, color }) => {
+  const toast = useToast();
+  const [refreshKey, setRefreshKey] = useState(0);
   const [isEditing, SettoggleEdditing] = useState(false);
 
   const deleteUser = (id = { id }) => {
-    if (confirm("Are you sure you want to delete User: " + id)) {
+    if (window.confirm("Are you sure you want to delete User: " + id)) {
       console.log("Delete ID " + id);
-      const res = deleteFacultyUser(id);
+      try {
+        const res = deleteFacultyUser(id);
+        console.log(res);
+        if (res == "Success") {
+          toast({
+            description: `User successfully deleted! Please refresh the page if you don't see the new change.`,
+            status: "success",
+            duration: 2000,
+            isClosable: true,
+          });
+        } else {
+          toast({
+            description: `There was an error! Message: ${res} `,
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+          });
+        }
+        refreshTable();
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
