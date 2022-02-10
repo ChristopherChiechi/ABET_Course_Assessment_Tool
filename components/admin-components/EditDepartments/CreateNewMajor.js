@@ -29,7 +29,7 @@ const CreateNewMajor = () => {
   const [majors, setMajors] = useState();
   const [newMajor, setNewMajor] = useInputState("");
 
-  const toast = useToast();
+  const toast = useToast({ position: "top" });
 
   const [semesters, setSemesterList] = useState();
 
@@ -50,6 +50,8 @@ const CreateNewMajor = () => {
         isClosable: true,
       });
       return;
+    } else if (!majors) {
+        return;
     } else {
       var checkDuplicate = false;
       Object.keys(majors).forEach(function (key) {

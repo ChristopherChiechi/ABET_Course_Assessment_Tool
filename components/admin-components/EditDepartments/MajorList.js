@@ -2,7 +2,7 @@ import { Grid, GridItem, Text, Button, useToast } from "@chakra-ui/react";
 import { deleteMajor } from "../../../api/APIHelper";
 
 const MajorList = ({ refreshTable, majorName, term, year, color }) => {
-  const toast = useToast();
+  const toast = useToast({ position: "top" });
 
   const handleDeleteMajor = async (majorName, year, term) => {
     try {
