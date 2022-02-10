@@ -52,13 +52,10 @@ const CreateNewMajor = () => {
       return;
     } else {
       var checkDuplicate = false;
-      Object.keys(majors).forEach(function (key) {
-        // TODO: iterate through majors and not semesters?
-        let major = majors[key];
-        console.log(major);
-        //console.log(`key: ${key} MAJOR: ${major}`); // semester.newMajor is undefined, but newMajor is defined
-        if (major.name == newMajor) {
-          console.log("Run");
+      Object.keys(semesters).forEach(function (key) { // TODO: iterate through majors and not semesters?
+        let semester = semesters[key];
+        console.log(`key: ${key} semester: ${semester.term} year: ${semester.year} major: ${semester.newMajor}`); // semester.newMajor is undefined, but newMajor is defined
+        if (semester.term == term && semester.year == year && semester.newMajor == newMajor) {
           toast({
             description: `This semester and major already exists! Please choose a different semester and major.`,
             status: "warning",
@@ -73,7 +70,9 @@ const CreateNewMajor = () => {
       }
     }
     if (
-      window.confirm("Are you sure you would like to create the new major?")
+      window.confirm(
+        "Are you sure you would like to create the new major?"
+      )
     ) {
       try {
         console.log(`Add major name: ${newMajor} term: ${term} year: ${year}`);
@@ -102,29 +101,77 @@ const CreateNewMajor = () => {
   };
 
   const getSemesterList = async () => {
-    const semesterlist = await getSemesters();
-    const sorted = semesterlist.data.sort((a, b) => {
-      return b.year - a.year;
-    });
-    setSemesterList(sorted);
+    try {
+      const semesterlist = await getSemesters();
+      const status = semesterlist.status;
+      console.log(status);
+      if (status != "Success") {
+        toast({
+          title: "Error",
+          description: `There was an error fetching the data!
+          Error: ${status} `,
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+        return;
+      }
+      const sorted = semesterlist.data.sort((a, b) => {
+        return b.year - a.year;
+      });
+      setSemesterList(sorted);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "There was an error fetching the data!",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+      console.log(`Error in getSemesterList: ${error}`);
+    }
   };
 
   const getMajorList = async (semTerm, semYear) => {
-    console.log(semTerm, semYear);
-    const majorList = await getMajors(semTerm, semYear);
-    setMajors(majorList.data);
+    try {
+      const majorList = await getMajors(semTerm, semYear);
+      const status = majorList.status;
+      console.log(status)
+      //console.log(semTerm, semYear);
+      if (status != "Success") {
+        toast({
+          title: "Error",
+          description: `There was an error fetching the data!
+          Error: ${status} `,
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+        return;
+      }
+      setMajors(majorList.data);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "There was an error fetching the data!",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+      console.log(`Error in getMajorList: ${error}`);
+    }
   };
 
   const handleSubmit = () => {
-    Object.keys(semesters).forEach(function (key) {
-      let semester = semesters[key];
-      if (semester.semesterId == semID) {
-        //console.log(`Found: ${semester.term} ${semester.year}`);
-        setTerm(semester.term);
-        setYear(semester.year);
-        getMajorList(semester.term, semester.year);
-      }
-    });
+      Object.keys(semesters).forEach(function (key) {
+        let semester = semesters[key];
+        if (semester.semesterId == semID) {
+          //console.log(`Found: ${semester.term} ${semester.year}`);
+          setTerm(semester.term);
+          setYear(semester.year);
+          getMajorList(semester.term, semester.year);
+        }
+      });
   };
 
   useEffect(() => {
