@@ -6,7 +6,7 @@ import { getFacultyList, addFacultyMember } from "../../../api/APIHelper";
 import AddFacultyMember from "./AddFacultyMember";
 
 const EditFacultyList = () => {
-  const toast = useToast();
+  const toast = useToast({position: "top"});
   const [refreshKey, setRefreshKey] = useState(0);
   const [faculty, setFaculty] = useState({
     admin: [],

@@ -13,7 +13,7 @@ import { getSemesters, addNewSemester } from "../../../api/APIHelper";
 import SemesterList from "./SemesterList";
 
 const CreateNewSemester = () => {
-  const toast = useToast();
+  const toast = useToast({position: "top"});
   var d = new Date();
   var y = d.getFullYear();
   const [refreshKey, setRefreshKey] = useState(0); //For refreshing the table

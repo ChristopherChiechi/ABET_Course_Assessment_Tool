@@ -7,7 +7,7 @@ const StudentLoginBox = ({toggleLoggin}) => {
 
     const [username, setUsername, resetUsername] = useInputState("");
     const [password, setPassword, resetPassword] = useInputState("");
-    const toast = useToast();
+    const toast = useToast({position: "top"});
     
     const handleSubmit = async (evt) => {
         evt.preventDefault();

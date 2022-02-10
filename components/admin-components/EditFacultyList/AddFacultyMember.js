@@ -12,7 +12,7 @@ import useInputState from "../../../hooks/useInputState";
 import { addFacultyMember } from "../../../api/APIHelper";
 
 const AddFacultyMember = ({ refreshTable }) => {
-  const toast = useToast();
+  const toast = useToast({position: "top"});
   const facultyTypes = ["Admin", "Instructor", "Coordinator"];
   const [faculty, setFaculty] = useState({
     admin: [],

@@ -4,7 +4,7 @@ import { deleteFacultyUser } from "../../api/APIHelper";
 import { useState, useRef } from "react";
 
 const FacultyMember = ({ refreshTable, member, id, color }) => {
-  const toast = useToast();
+  const toast = useToast({position: "top"});
   const [refreshKey, setRefreshKey] = useState(0);
   const [isEditing, SettoggleEdditing] = useState(false);
 
