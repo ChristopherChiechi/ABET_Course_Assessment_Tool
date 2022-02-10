@@ -24,7 +24,7 @@ const theme = createTheme({
 
 const Newlogin = () => {
   const router = useRouter();
-  const toast = useToast();
+  const toast = useToast({position: "top"});
   const euidRef = useRef();
   const passwordRef = useRef();
   const [error, setError] = useState("");

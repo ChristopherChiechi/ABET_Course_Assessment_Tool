@@ -4,7 +4,7 @@ import { editFacultyUser } from "../../../api/APIHelper";
 import { useState } from "react";
 
 const EditFacultyMember = ({ refreshTable, toggleEditing, id }) => {
-  const toast = useToast();
+  const toast = useToast({position: "top"});
   const [refreshKey, setRefreshKey] = useState(0);
   const [newFName, setNewFName] = useInputState("");
   const [newLName, setNewLName] = useInputState("");

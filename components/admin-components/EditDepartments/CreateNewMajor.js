@@ -29,7 +29,7 @@ const CreateNewMajor = () => {
   const [majors, setMajors] = useState();
   const [newMajor, setNewMajor] = useInputState("");
 
-  const toast = useToast();
+  const toast = useToast({position: "top"});
 
   const [semesters, setSemesterList] = useState();
 

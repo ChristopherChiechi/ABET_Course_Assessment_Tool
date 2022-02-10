@@ -1,7 +1,7 @@
 import { Grid, GridItem, Text, Button, useToast } from "@chakra-ui/react";
 import { deleteSemester } from "../../../api/APIHelper";
 const SemesterList = ({ refreshTable, year, term, color }) => {
-  const toast = useToast();
+  const toast = useToast({position: "top"});
 
   const deleteSemesterFunc = async (term, year) => {
     try {
