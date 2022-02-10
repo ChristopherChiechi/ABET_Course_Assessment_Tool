@@ -52,10 +52,13 @@ const CreateNewMajor = () => {
       return;
     } else {
       var checkDuplicate = false;
-      Object.keys(semesters).forEach(function (key) { // TODO: iterate through majors and not semesters?
-        let semester = semesters[key];
-        console.log(`key: ${key} semester: ${semester.term} year: ${semester.year} major: ${semester.newMajor}`); // semester.newMajor is undefined, but newMajor is defined
-        if (semester.term == term && semester.year == year && semester.newMajor == newMajor) {
+      Object.keys(majors).forEach(function (key) { 
+        // TODO: iterate through majors and not semesters?
+        let major = majors[key];//let semester = semesters[key];
+        console.log(major);
+        //console.log(`key: ${key} semester: ${semester.term} year: ${semester.year} major: ${semester.newMajor}`); // semester.newMajor is undefined, but newMajor is defined
+        if (major.name == newMajor) {
+          console.log("Run");
           toast({
             description: `This semester and major already exists! Please choose a different semester and major.`,
             status: "warning",
@@ -70,9 +73,7 @@ const CreateNewMajor = () => {
       }
     }
     if (
-      window.confirm(
-        "Are you sure you would like to create the new major?"
-      )
+      window.confirm("Are you sure you would like to create the new major?")
     ) {
       try {
         console.log(`Add major name: ${newMajor} term: ${term} year: ${year}`);
