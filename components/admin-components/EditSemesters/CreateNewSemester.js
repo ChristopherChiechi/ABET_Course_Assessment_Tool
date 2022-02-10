@@ -59,9 +59,7 @@ const CreateNewSemester = () => {
       }
     }
     if (
-      window.confirm(
-        "Are you sure you would like to create the selected new semester?"
-      )
+      window.confirm("Are you sure you would like to create the selected new semester?")
     ) {
       try {
         const res = await addNewSemester(year, term);

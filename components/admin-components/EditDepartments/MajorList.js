@@ -1,18 +1,35 @@
-import { Grid, GridItem, Text, Button } from "@chakra-ui/react";
+import { Grid, GridItem, Text, Button, useToast } from "@chakra-ui/react";
 import { deleteMajor } from "../../../api/APIHelper";
 
 const MajorList = ({ refreshTable, majorName, term, year, color }) => {
+  const toast = useToast();
+
   const handleDeleteMajor = async (majorName, year, term) => {
-    //console.log(`Year:${year} Term:${term} `);
-    if (
-      confirm(
-        `Are you sure you want to delete Major: ${majorName} for ${year} ${term}?`
-      )
-    ) {
-      const res = await deleteMajor(majorName, term, year);
-      console.log(res);
-      refreshTable();
+    try {
+      if (
+        confirm(`Are you sure you want to delete Major: ${majorName} for ${year} ${term}?`)
+      ) {
+        const res = await deleteMajor(majorName, term, year);
+        if (res == "Success") {
+          toast({
+            description: `Successfuly removed ${majorName} for ${year} ${term}`,
+            status: "success",
+            duration: 2000,
+            isClosable: true,
+          });
+        } else {
+          toast({
+            description: `There was an error! Message: ${res} `,
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+          });
+        }
+      } 
+    } catch (error) {
+      console.log(error);
     }
+    refreshTable();
   };
 
   return (
