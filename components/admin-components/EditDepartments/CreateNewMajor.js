@@ -41,7 +41,7 @@ const CreateNewMajor = () => {
     setRefreshKey(refreshKey + 1);
   };
 
-  const handleAddMajor = async (event) => {
+  const handleAddMajor = async () => {
     if (year == "" || term == "" || newMajor == "") {
       toast({
         description: `Please choose a semester and enter a new major!`,
@@ -52,9 +52,9 @@ const CreateNewMajor = () => {
       return;
     } else {
       var checkDuplicate = false;
-      Object.keys(majors).forEach(function (key) { 
+      Object.keys(majors).forEach(function (key) {
         // TODO: iterate through majors and not semesters?
-        let major = majors[key];//let semester = semesters[key];
+        let major = majors[key]; //let semester = semesters[key];
         console.log(major);
         //console.log(`key: ${key} semester: ${semester.term} year: ${semester.year} major: ${semester.newMajor}`); // semester.newMajor is undefined, but newMajor is defined
         if (major.name == newMajor) {
@@ -78,8 +78,10 @@ const CreateNewMajor = () => {
       try {
         console.log(`Add major name: ${newMajor} term: ${term} year: ${year}`);
         const res = await addMajor(newMajor, term, year);
+        const status = res.status;
+
         console.log(res);
-        if (res == "Success") {
+        if (status == "Success") {
           toast({
             description: `Successfully added the new major! Please refresh the page if you don't see the new change.`,
             status: "success",
@@ -88,7 +90,7 @@ const CreateNewMajor = () => {
           });
         } else {
           toast({
-            description: `There was an error! Message: ${res} `,
+            description: `There was an error! Message: ${status} `,
             status: "error",
             duration: 9000,
             isClosable: true,
@@ -137,7 +139,7 @@ const CreateNewMajor = () => {
     try {
       const majorList = await getMajors(semTerm, semYear);
       const status = majorList.status;
-      console.log(status)
+      console.log(status);
       //console.log(semTerm, semYear);
       if (status != "Success") {
         toast({
@@ -164,15 +166,15 @@ const CreateNewMajor = () => {
   };
 
   const handleSubmit = () => {
-      Object.keys(semesters).forEach(function (key) {
-        let semester = semesters[key];
-        if (semester.semesterId == semID) {
-          //console.log(`Found: ${semester.term} ${semester.year}`);
-          setTerm(semester.term);
-          setYear(semester.year);
-          getMajorList(semester.term, semester.year);
-        }
-      });
+    Object.keys(semesters).forEach(function (key) {
+      let semester = semesters[key];
+      if (semester.semesterId == semID) {
+        //console.log(`Found: ${semester.term} ${semester.year}`);
+        setTerm(semester.term);
+        setYear(semester.year);
+        getMajorList(semester.term, semester.year);
+      }
+    });
   };
 
   useEffect(() => {

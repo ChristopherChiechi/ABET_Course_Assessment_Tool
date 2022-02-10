@@ -7,10 +7,13 @@ const MajorList = ({ refreshTable, majorName, term, year, color }) => {
   const handleDeleteMajor = async (majorName, year, term) => {
     try {
       if (
-        confirm(`Are you sure you want to delete Major: ${majorName} for ${year} ${term}?`)
+        confirm(
+          `Are you sure you want to delete Major: ${majorName} for ${year} ${term}?`
+        )
       ) {
         const res = await deleteMajor(majorName, term, year);
-        if (res == "Success") {
+        const status = res.status;
+        if (status == "Success") {
           toast({
             description: `Successfuly removed ${majorName} for ${year} ${term}`,
             status: "success",
@@ -19,13 +22,13 @@ const MajorList = ({ refreshTable, majorName, term, year, color }) => {
           });
         } else {
           toast({
-            description: `There was an error! Message: ${res} `,
+            description: `There was an error! Message: ${status} `,
             status: "error",
             duration: 9000,
             isClosable: true,
           });
         }
-      } 
+      }
     } catch (error) {
       console.log(error);
     }

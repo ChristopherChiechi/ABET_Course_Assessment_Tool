@@ -244,14 +244,21 @@ export default class API {
     };
     try {
       const response = await axios.post(url, body);
-      if (response.status == OK) {
-        console.log(response.data);
-        return "Success";
+      if (response) {
+        let status = this.checkStatus(response.status);
+        //console.log(response);
+        //console.log(`status: ${status}`);
+        return {
+          data: response.data,
+          status: status,
+        };
       }
     } catch (error) {
       let status = this.checkStatus(error.message);
-      console.error(status);
-      return status;
+      return {
+        data: null,
+        status: status,
+      };
     }
   }
 
@@ -265,14 +272,21 @@ export default class API {
       const response = await axios.delete(url, {
         data: { year: year, term: term },
       });
-      if (response.status == OK) {
-        console.log(response.data);
-        return "Success";
+      if (response) {
+        let status = this.checkStatus(response.status);
+        //console.log(response);
+        //console.log(`status: ${status}`);
+        return {
+          data: response.data,
+          status: status,
+        };
       }
     } catch (error) {
       let status = this.checkStatus(error.message);
-      console.error(status);
-      return status;
+      return {
+        data: null,
+        status: status,
+      };
     }
   }
 
@@ -337,9 +351,14 @@ export default class API {
       `/Major/DeleteMajor?term=${term}&year=${year}&name=${majorName}`;
     try {
       const response = await axios.delete(url);
-      if (response.status == OK) {
-        console.log(response.data);
-        return "Success";
+      if (response) {
+        let status = this.checkStatus(response.status);
+        console.log(response);
+        console.log(`status: ${status}`);
+        return {
+          data: response.data,
+          status: status,
+        };
       }
     } catch (error) {
       let status = this.checkStatus(error.message);
