@@ -30,7 +30,7 @@ const CreateNewSemester = () => {
     setRefreshKey(refreshKey + 1);
   };
 
-  const addSemester = async (event) => {
+  const addSemester = async () => {
     if (year == "" || term == "") {
       toast({
         description: `Please select a term and year!`,
@@ -65,8 +65,9 @@ const CreateNewSemester = () => {
     ) {
       try {
         const res = await addNewSemester(year, term);
-        console.log(res);
-        if (res == "Success") {
+        const status = res.status;
+        console.log(status);
+        if (status == "Success") {
           toast({
             description: `Successfully added the new semester! Please refresh the page if you don't see the new change.`,
             status: "success",
@@ -75,7 +76,7 @@ const CreateNewSemester = () => {
           });
         } else {
           toast({
-            description: `There was an error! Message: ${res} `,
+            description: `There was an error! Message: ${status} `,
             status: "error",
             duration: 9000,
             isClosable: true,
