@@ -3,22 +3,13 @@ import {
   Box,
   Text,
   Select,
-  Button,
-  IconButton,
   List,
-  Input,
   ListItem,
   Flex,
   VStack,
 } from "@chakra-ui/react";
-import useInputState from "../../../hooks/useInputState";
-import fakeData from "../../../fake-data/course.json";
 import Courses from "../../Courses";
-import {
-  getCoursesByDepartment,
-  addCourse,
-  removeCourse,
-} from "../../../api/APIHelper";
+import { getCoursesByDepartment, getSemesters } from "../../../api/APIHelper";
 import AddCourse from "./AddCourse";
 const EditCourseList = () => {
   useEffect(() => {
@@ -28,28 +19,27 @@ const EditCourseList = () => {
   const [theCourse, setNewCourses] = useState({
     courses: [],
   });
-
-  const [newCourse, addNewCourse] = useState({
-    firstName: "",
-    userid: "",
-    lastName: "",
-    year: 0,
-    semester: "",
-    courseNumber: "",
-    displayName: "",
-    department: "",
-  });
-  // State of the department choices and function to set the new state.
-  const [theDepartment, setNewDepartment] = useState({
-    value: "CSCE",
-  });
+  const [refreshKey, setRefreshKey] = useState(0); //For refreshing the table
+  const [theDepartment, setDepartment] = useState("");
+  const [semesters, setSemesterList] = useState();
+  const [semJson, setSemJson] = useState();
 
   // Grabs the courses by department from the back-end.
   const getNewCourses = async () => {
-    const newCourseList = await getCoursesByDepartment(theDepartment.value);
+    console.log("ran");
+    if (!semJson) {
+      return;
+    }
+    const semesterParse = JSON.parse(semJson);
+    console.log(semesterParse);
+    const newCourseList = await getCoursesByDepartment(
+      semesterParse["term"],
+      semesterParse["year"],
+      theDepartment
+    );
     setNewCourses({
       ...theCourse,
-      courses: newCourseList,
+      courses: newCourseList.data,
     });
     console.log(theCourse.courses);
   };
@@ -63,92 +53,61 @@ const EditCourseList = () => {
       alert("Course List Updated!");
     }
   };
-  // Sets the department state to the value of the department selected.
-  const dropDownHandler = (event) => {
-    event.preventDefault();
-    setNewDepartment({
-      value: event.target.value,
-    });
+
+  //Check if the department is select before enable the dropdown for semester
+  const checkIfSelectMajor = () => {
+    console.log(theDepartment);
+    if (!theDepartment) {
+      return true;
+    }
+    return false;
   };
 
-  // const courseList = fakeData.courses;
-  // var cseCourses = [];
-  // for (var i = 0; i < courseList.length; i++) {
-  //   var obj = {};
+  const getSemesterList = async () => {
+    const semesterlist = await getSemesters();
+    const sorted = semesterlist.data.sort((a, b) => {
+      return b.year - a.year;
+    });
+    setSemesterList(sorted);
+  };
 
-  //   obj["name"] = courseList[i].code + " " + courseList[i].name;
-  //   obj["id"] = i;
-  //   cseCourses.push(obj);
-  // }
-
-  // const [course, setCourse, reset] = useInputState("");
-  // const [courses, setCourses] = useState(cseCourses);
-
-  // const addCourse = (event) => {
-  //   event.preventDefault();
-  //   setCourses([
-  //     ...courses,
-  //     {
-  //       id: courses.length,
-  //       name: course,
-  //     },
-  //   ]);
-  //   reset();
-  // };
-
-  // const removeCourse = (id) => {
-  //   event.preventDefault();
-  //   setCourses(courses.filter((cours) => cours.id !== id));
-  // };
+  const refreshTable = () => {
+    setRefreshKey(refreshKey + 1);
+  };
 
   useEffect(() => {
-    getNewCourses();
+    getSemesterList();
   }, []);
 
   useEffect(() => {
-    if (newCourse.lastName !== "") {
-      addCourse(
-        newCourse.userid,
-        newCourse.firstName,
-        newCourse.lastName,
-        newCourse.year,
-        newCourse.semester,
-        newCourse.courseNumber,
-        newCourse.displayName,
-        newCourse.department
-      );
-      alert("New Course Added");
-      getNewCourses();
-    }
-  }, [newCourse]);
-  console.log(newCourse);
+    getNewCourses();
+    console.log("refresh");
+  }, [semJson, theDepartment, refreshKey]);
 
-  const renderCourse = theCourse.courses.map((cours, idx) => {
-    return (
-      <ListItem
-        key={idx}
-        display="inline"
-        justifyContent="center"
-        alignItems="center"
-      >
-        <Courses
-          member={
-            cours.department +
-            " " +
-            cours.courseNumber +
-            "\n" +
-            cours.displayName
-          }
-          color={idx % 2 == 0 ? "gray.300" : "gray.100"}
+  const renderCourse =
+    theCourse.courses &&
+    theCourse.courses.map((cours, idx) => {
+      return (
+        <ListItem
           key={idx}
-          year={cours.year}
-          semester={cours.semester}
-          courseNumber={cours.courseNumber}
-          department={cours.department}
-        />
-      </ListItem>
-    );
-  });
+          display="inline"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Courses
+            DisplayName={cours.displayName}
+            coordinatorID={cours.coordinatorEUID}
+            color={idx % 2 == 0 ? "green.200" : "gray.300"}
+            key={idx}
+            year={cours.year}
+            semester={cours.semester}
+            courseNumber={cours.courseNumber}
+            department={cours.department}
+            courseComplete={cours.isCourseCompleted}
+          />
+        </ListItem>
+      );
+    });
 
   return (
     <div id="top">
@@ -169,18 +128,44 @@ const EditCourseList = () => {
           </Text>
           <Flex justifyContent="center">
             <Select
+              id="department"
+              width="70%"
               mr="1em"
-              alignSelf="c"
-              width="80%"
-              onChange={dropDownHandler}
+              isRequired={true}
+              placeholder="Select Department"
+              borderColor="teal"
+              value={theDepartment}
+              onChange={(e) => {
+                console.log(`Department select: ${e.target.value}`);
+                setDepartment(e.target.value);
+              }}
             >
               <option value="CSCE">Computer Science</option>
               <option value="EENG">Engineering</option>
               <option value="IT">Information Technology</option>
             </Select>
-            <Button variant="outline" display="inline" onClick={getNewCourses}>
-              Submit
-            </Button>
+            <Select
+              id="term"
+              placeholder="Select semester"
+              borderColor="teal"
+              width="70%"
+              isRequired={true}
+              value={semJson}
+              disabled={checkIfSelectMajor()}
+              onChange={(e) => {
+                console.log(`Semester ID: ${e.target.value}`);
+                setSemJson(e.target.value);
+              }}
+            >
+              {semesters &&
+                semesters.map((sem, idx) => {
+                  return (
+                    <option value={JSON.stringify(sem)} key={idx}>
+                      {sem.term} {sem.year}
+                    </option>
+                  );
+                })}
+            </Select>
           </Flex>
           <Text
             fontWeight="bold"
@@ -195,7 +180,7 @@ const EditCourseList = () => {
             <List w="80%">{renderCourse}</List>
           </Flex>
 
-          <AddCourse addNewCourse={addNewCourse}></AddCourse>
+          <AddCourse refreshTable={refreshTable}></AddCourse>
         </Box>
       </VStack>
     </div>

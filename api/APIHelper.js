@@ -17,6 +17,13 @@ export async function getFacultyList() {
   return response;
 }
 
+export async function getUsersByRole(roleName) {
+  let api_helper = new API();
+  let response = await api_helper.getUsersByRole(roleName);
+  //console.log(response);
+  return response;
+}
+
 export async function editFacultyUser(lastname, firstname, oldEuid, newEuid) {
   let api_helper = new API();
   let response = await api_helper.editFacultyUser(
@@ -85,6 +92,44 @@ export async function addMajor(name, term, year) {
 export async function deleteMajor(name, term, year) {
   let api_helper = new API();
   let response = await api_helper.deleteMajor(name, term, year);
+  return response;
+}
+
+//All course endpoint
+
+export async function addNewCourse(
+  year,
+  term,
+  courseID,
+  coordinatorEUID,
+  courseNumber,
+  displayName,
+  coordinatorComment,
+  isCourseCompleted,
+  department
+) {
+  let api_helper = new API();
+  let response = await api_helper.addNewCourse(
+    year,
+    term,
+    courseID,
+    coordinatorEUID,
+    courseNumber,
+    displayName,
+    coordinatorComment,
+    isCourseCompleted,
+    department
+  );
+  return response;
+}
+
+export async function getCoursesByDepartment(term, year, department) {
+  let api_helper = new API();
+  let response = await api_helper.getCoursesByDepartment(
+    term,
+    year,
+    department
+  );
   return response;
 }
 
@@ -226,7 +271,7 @@ export async function getAllCourses(userid, semester, year) {
   return courses;
 }
 
-export async function getCoursesByDepartment(department) {
+/* export async function getCoursesByDepartment(department) {
   let api_helper = new API();
   let response = api_helper.getCoursesByDepartment(department);
   response.then(function (result) {
@@ -234,7 +279,7 @@ export async function getCoursesByDepartment(department) {
   });
   const courses = await response;
   return courses;
-}
+} */
 
 export async function addCourse(
   userid = "",
