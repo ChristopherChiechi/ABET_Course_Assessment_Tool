@@ -2,7 +2,7 @@ import { Grid, GridItem, Text, Button, useToast } from "@chakra-ui/react";
 import { deleteSemester } from "../../../api/APIHelper";
 
 const SemesterList = ({ refreshTable, year, term, color }) => {
-  const toast = useToast({position: "top"});
+  const toast = useToast({ position: "top" });
 
   const deleteSemesterFunc = async (term, year) => {
     try {
@@ -10,7 +10,8 @@ const SemesterList = ({ refreshTable, year, term, color }) => {
         confirm(`Are you sure you want to delete Year: ${year} Term: ${term} `)
       ) {
         const res = await deleteSemester(term, year);
-        if (res == "Success") {
+        const status = res.status;
+        if (status == "Success") {
           toast({
             description: `Successfuly removed ${year} ${term}`,
             status: "success",
@@ -19,7 +20,7 @@ const SemesterList = ({ refreshTable, year, term, color }) => {
           });
         } else {
           toast({
-            description: `There was an error! Message: ${res} `,
+            description: `There was an error! Message: ${status} `,
             status: "error",
             duration: 9000,
             isClosable: true,

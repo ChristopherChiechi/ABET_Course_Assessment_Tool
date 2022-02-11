@@ -51,16 +51,6 @@ const CreateNewMajor = () => {
       });
       return;
     } else if (!majors) {
-      const res = await addMajor(newMajor, term, year);
-      const status = res.status; 
-      toast({
-        title: "Error",
-        description: `There was an error fetching the data!
-        Error: ${status} `,
-        status: "error",
-        duration: 9000,
-        isClosable: true,
-      });
       return;
     } else {
       var checkDuplicate = false;
