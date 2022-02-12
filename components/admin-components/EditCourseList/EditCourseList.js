@@ -7,10 +7,12 @@ import {
   ListItem,
   Flex,
   VStack,
+  useToast
 } from "@chakra-ui/react";
 import Courses from "../../Courses";
 import { getCoursesByDepartment, getSemesters } from "../../../api/APIHelper";
 import AddCourse from "./AddCourse";
+
 const EditCourseList = () => {
   useEffect(() => {
     document.getElementById("top").scrollIntoView();
@@ -19,28 +21,54 @@ const EditCourseList = () => {
   const [theCourse, setNewCourses] = useState({
     courses: [],
   });
+  
+  const toast = useToast({position: "top"});
   const [refreshKey, setRefreshKey] = useState(0); //For refreshing the table
   const [theDepartment, setDepartment] = useState("");
   const [semesters, setSemesterList] = useState();
   const [semJson, setSemJson] = useState();
+  
 
   // Grabs the courses by department from the back-end.
   const getNewCourses = async () => {
     console.log("ran");
     if (!semJson) {
+      toast({
+        title: "Error",
+        description: `There was an error fetching the data!`,
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
       return;
     }
     const semesterParse = JSON.parse(semJson);
     console.log(semesterParse);
-    const newCourseList = await getCoursesByDepartment(
-      semesterParse["term"],
-      semesterParse["year"],
-      theDepartment
-    );
+    try {
+      const newCourseListRes = await getCoursesByDepartment(
+        semesterParse["term"],
+        semesterParse["year"],
+        theDepartment
+      );
+      const courseList = newCourseListRes.data;
+      const res = newCourseListRes.status;
+      if (res != "Success") {
+        toast({
+          title: "Error",
+          description: `There was an error fetching the data! Error: ${res}`,
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+        return;
+      }
     setNewCourses({
       ...theCourse,
       courses: newCourseList.data,
     });
+  } catch (error) {
+    console.log(error);
+  }
     console.log(theCourse.courses);
   };
 
@@ -64,11 +92,25 @@ const EditCourseList = () => {
   };
 
   const getSemesterList = async () => {
-    const semesterlist = await getSemesters();
-    const sorted = semesterlist.data.sort((a, b) => {
-      return b.year - a.year;
+    try {
+      const semesterlistRes = await getSemesters();
+      const sorted = semesterlist.data.sort((a, b) => {
+      const res = semesterlistRes.status;
+      if (res != "Success") {
+        toast({
+          title: "Error",
+          description: `There was an error fetching the data! Error: ${res}`,
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+        return b.year - a.year;
+      }
+      setSemesterList(sorted);
     });
-    setSemesterList(sorted);
+  } catch (error) {
+    console.log(error);
+  }
   };
 
   const refreshTable = () => {

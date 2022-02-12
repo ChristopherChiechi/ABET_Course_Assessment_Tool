@@ -89,6 +89,9 @@ const AddFacultyMember = ({ refreshTable }) => {
             <option mr="1em" value={facultyTypes[2]}>
               Coordinator
             </option>
+            <option mr="1em" value={facultyTypes[3]}>
+              Super User
+            </option>
           </Select>
 
           <FormLabel>Last Name</FormLabel>
