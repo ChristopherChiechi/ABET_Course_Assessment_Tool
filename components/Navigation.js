@@ -1,4 +1,12 @@
-import { Link, Flex, Box, Button, MenuButton } from "@chakra-ui/react";
+import {
+  Link,
+  Flex,
+  Box,
+  Button,
+  MenuButton,
+  VStack,
+  HStack,
+} from "@chakra-ui/react";
 import API from "../api/api";
 import React, { useEffect, useState } from "react";
 import cookieCutter from "cookie-cutter";
@@ -31,7 +39,7 @@ const Navigation = ({ link, user }) => {
 
   return (
     <Flex justifyContent="flex-end" mt="1em" mr="1em" dir="row">
-      <Box>
+      <HStack spacing="10px" >
         <Box
           as="button"
           borderRadius="md"
@@ -80,7 +88,7 @@ const Navigation = ({ link, user }) => {
             [Debug] Reload Database
           </Link>
         </Button>
-      </Box>
+      </HStack>
     </Flex>
   );
 
