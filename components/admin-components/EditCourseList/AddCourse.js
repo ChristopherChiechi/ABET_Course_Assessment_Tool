@@ -13,8 +13,6 @@ import {
 const AddCourse = ({ refreshTable }) => {
   const [courseDisplayName, setCourseDisplayName] = useInputState("");
   const [courseNameCode, setCourseNameCode] = useInputState("");
-  const [year, setYear] = useState(0);
-  const [term, setTerm] = useState("");
   const [semJson, setSemJson] = useState();
   const [majors, setMajors] = useState();
   const [selectDepartment, setSelectDepartment] = useState();

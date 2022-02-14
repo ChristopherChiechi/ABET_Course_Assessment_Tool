@@ -47,10 +47,10 @@ export default class API {
   //    Input: UserId, Password
   //    Output: "Admin", "Instructor", "Student/TA" or boolean for failure
   async login(userid = "", password = "") {
-    const url = rootNew + "/login";
+    const url = rootNew + `/Login?EUID=${userid}&password=${password}`;
     console.log(url);
     try {
-      var response = await axios.get(url, {
+      var response = await axios.post(url, {
         params: { euid: userid, password: password },
       });
       //console.log(response.data);
