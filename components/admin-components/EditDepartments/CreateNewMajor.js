@@ -55,10 +55,8 @@ const CreateNewMajor = () => {
     } else {
       var checkDuplicate = false;
       Object.keys(majors).forEach(function (key) {
-        // TODO: iterate through majors and not semesters?
-        let major = majors[key]; //let semester = semesters[key];
+        let major = majors[key];
         console.log(major);
-        //console.log(`key: ${key} semester: ${semester.term} year: ${semester.year} major: ${semester.newMajor}`); // semester.newMajor is undefined, but newMajor is defined
         if (major.name == newMajor) {
           console.log("Run");
           toast({
