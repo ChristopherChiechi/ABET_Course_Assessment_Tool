@@ -38,15 +38,13 @@ const Navigation = ({ link, user }) => {
   }, []);
 
   return (
-    <Flex justifyContent="flex-end" mt="1em" mr="1em" dir="row">
-      <HStack spacing="10px" >
+    <Flex justifyContent="left" mt="1em" mr="1em" dir="row">
+      <HStack spacing="10px">
         <Box
           as="button"
-          borderRadius="md"
           color="black"
           fontSize="1.5em"
-          px={1}
-          h={8}
+          w="105px"
         >
           {userID}
         </Box>
