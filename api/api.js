@@ -465,6 +465,34 @@ export default class API {
     }
   }
 
+  //---deleteSemester()--- (Admin)
+  //    Input: term & year
+  //    Output: success or failure
+  async deleteCourse(term = "", year = 0, department = "", courseNumber = "") {
+    //console.log(`term: ${term} year: ${year}`);
+    const url =
+      rootNew +
+      `/Course/DeleteCourse?term=${term}&year=${year}&department=${department}&courseNumber=${courseNumber}`;
+    try {
+      const response = await axios.delete(url);
+      if (response) {
+        let status = this.checkStatus(response.status);
+        //console.log(response);
+        //console.log(`status: ${status}`);
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
+    } catch (error) {
+      let status = this.checkStatus(error.message);
+      return {
+        data: null,
+        status: status,
+      };
+    }
+  }
+
   // Old End Point
   // generic function for sending POST requests
   //    Input: route and body

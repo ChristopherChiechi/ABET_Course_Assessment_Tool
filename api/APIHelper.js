@@ -133,6 +133,21 @@ export async function getCoursesByDepartment(term, year, department) {
   return response;
 }
 
+export async function deleteCourse(
+  term = "",
+  year = 0,
+  department = "",
+  courseNumber = ""
+) {
+  let api_helper = new API();
+  let response = await api_helper.deleteCourse(
+    term,
+    year,
+    department,
+    courseNumber
+  );
+  return response;
+}
 // Old Endpoint
 
 export function getCourses() {
