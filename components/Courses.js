@@ -20,9 +20,7 @@ const Courses = ({
           <Text fontSize="15px">
             {department}&nbsp;{DisplayName}&nbsp;{courseNumber}
           </Text>
-          <Text fontSize="15px">
-            Coordinator&nbsp;EUID:{coordinatorID} test: {courseComplete}
-          </Text>
+          <Text fontSize="15px">Coordinator&nbsp;EUID:{coordinatorID}</Text>
         </GridItem>
         <GridItem colStart={5} colEnd={6}>
           <Button
