@@ -13,11 +13,11 @@ const Header = () => {
       >
         <Box w={{ base: "100px", sm: "50%", md: "100px" }} height="100%">
           <Image
-            src="/UNTbanner.png"
+            src="/WhiteUNTLogo.png"
             pos="absolute"
-            top="0"
-            left="3"
-            boxSize="94px"
+            top="0.4"
+            left="5"
+            height="45px"
           />
         </Box>
         <Box w={{ base: "500px", sm: "100%", md: "210px" }} height="100%">

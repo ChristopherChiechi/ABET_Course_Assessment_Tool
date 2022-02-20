@@ -1,20 +1,49 @@
-import { Input, Button } from "@chakra-ui/react";
+import { Input, Button, useToast } from "@chakra-ui/react";
 import useInputState from "../../../hooks/useInputState";
 import { editFacultyUser } from "../../../api/APIHelper";
+import { useState } from "react";
 
 const EditFacultyMember = ({ refreshTable, toggleEditing, id }) => {
+  const toast = useToast({position: "top"});
+  const [refreshKey, setRefreshKey] = useState(0);
   const [newFName, setNewFName] = useInputState("");
   const [newLName, setNewLName] = useInputState("");
   const [newEUID, setNewEUID] = useInputState("");
 
-  const editUser = () => {
+  const editUser = async () => {
     console.log(newFName, newLName, id, newEUID);
     if (newEUID == "") {
-      editFacultyUser(newFName, newLName, id, id);
-    } else {
-      editFacultyUser(newFName, newLName, id, newEUID);
+      toast({
+        description: "Required field empty!",
+        status: "warning",
+        duration: 9000,
+        isClosable: true,
+      });
+      return;
     }
-    refreshTable();
+    try {
+      const res = await editFacultyUser(newFName, newLName, id, newEUID);
+      const status = res.status;
+      console.log(res);
+      if (status == "Success") {
+        toast({
+          description: `Change Successful! Please refresh the page if you don't see the new change.`,
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+        });
+      } else {
+        toast({
+          description: `There was an error! Message: ${status} `,
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+      }
+      refreshTable();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const cancel = () => {

@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 
-import { Text, List, ListItem, VStack } from "@chakra-ui/react";
+import { Text, List, ListItem, VStack, useToast } from "@chakra-ui/react";
 import FacultyMember from "../../admin-components/FacultyMember";
 import { getFacultyList, addFacultyMember } from "../../../api/APIHelper";
 import AddFacultyMember from "./AddFacultyMember";
 
 const EditFacultyList = () => {
+  const toast = useToast({position: "top"});
   const [refreshKey, setRefreshKey] = useState(0);
   const [faculty, setFaculty] = useState({
     admin: [],
@@ -21,13 +22,29 @@ const EditFacultyList = () => {
   });
 
   const getFaculty = async () => {
-    const facultyList = await getFacultyList();
-    setFaculty({
-      ...faculty,
-      admin: facultyList.admins,
-      instructor: facultyList.instructors,
-      coordinator: facultyList.coordinators,
-    });
+    try {
+      const facultyListRes = await getFacultyList();
+      const facultyList = facultyListRes.data;
+      const res = facultyListRes.status;
+      if (res != "Success") {
+        toast({
+          title: "Error",
+          description: `There was an error fetching the data! Error: ${res}`,
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+        return;
+      }
+      setFaculty({
+        ...faculty,
+        admin: facultyList.admins,
+        instructor: facultyList.instructors,
+        coordinator: facultyList.coordinators,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const refreshTable = () => {
@@ -36,32 +53,7 @@ const EditFacultyList = () => {
 
   useEffect(() => {
     getFaculty();
-  }, []);
-
-  useEffect(() => {
-    getFaculty();
   }, [refreshKey]);
-
-  useEffect(() => {
-    if (refreshKey == 1) {
-      //console.log("Found key 1 ");
-      getFaculty();
-      refreshTable();
-    }
-  });
-
-  useEffect(() => {
-    if (newFaculty.lastName !== "" && newFaculty.untID !== "") {
-      addFacultyMember(
-        newFaculty.lastName,
-        newFaculty.firstName,
-        newFaculty.untID,
-        newFaculty.type
-      );
-      refreshTable();
-      console.log(refreshKey);
-    }
-  }, [newFaculty]);
 
   const renderAdmin =
     faculty &&
@@ -149,7 +141,7 @@ const EditFacultyList = () => {
         <List marginLeft="5em" w="80%" align="center">
           {renderCoordinator}
         </List>
-        <AddFacultyMember setNewFaculty={setNewFaculty} />
+        <AddFacultyMember refreshTable={refreshTable} />
       </VStack>
     </div>
   );

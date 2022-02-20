@@ -24,7 +24,7 @@ const theme = createTheme({
 
 const Newlogin = () => {
   const router = useRouter();
-  const toast = useToast();
+  const toast = useToast({position: "top"});
   const euidRef = useRef();
   const passwordRef = useRef();
   const [error, setError] = useState("");
@@ -50,12 +50,10 @@ const Newlogin = () => {
         if (router.query && router.query.from) {
           router.push(router.query.from);
         } else if (response == "Admin") {
-          const res = await Custom();
           router.push("/adminHome");
         } else if (response == "Instructor") {
           router.push("/instructorHome");
         } else if (response == "Student") {
-          //console.log("From" + router.query.from);
           router.push("/studentHome");
         }
       } else

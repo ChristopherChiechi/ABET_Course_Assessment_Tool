@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 
 const CourseOutcomeTable = ({ course, handleCheck }) => {
-  const toast = useToast();
+  const toast = useToast({position: "top"});
 
   const [outcomes, setOutcomes] = useState(course.outcomes);
   const [checkArray, setCheckArray] = useState(course);

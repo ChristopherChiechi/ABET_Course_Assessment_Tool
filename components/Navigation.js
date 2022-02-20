@@ -1,9 +1,17 @@
-import { Link, Flex, Box, Button, MenuButton } from "@chakra-ui/react";
+import {
+  Link,
+  Flex,
+  Box,
+  Button,
+  MenuButton,
+  VStack,
+  HStack,
+} from "@chakra-ui/react";
 import API from "../api/api";
 import React, { useEffect, useState } from "react";
 import cookieCutter from "cookie-cutter";
 import jwt from "jsonwebtoken";
-
+import { Custom } from "../api/APIHelper";
 const Navigation = ({ link, user }) => {
   const logout = () => {
     new API().logout();
@@ -30,41 +38,55 @@ const Navigation = ({ link, user }) => {
   }, []);
 
   return (
-    <Flex justifyContent="flex-end" mt="1em" mr="1em" dir="row">
-      <Box>
+    <Flex justifyContent="left" mt="1em" mr="1em" dir="row">
+      <HStack spacing="10px">
         <Box
           as="button"
-          borderRadius="md"
           color="black"
           fontSize="1.5em"
-          px={1}
-          h={8}
+          w="105px"
         >
           {userID}
         </Box>
-          <Button
-            bg="#016a31"
-            color="white"
-            ml="1em"
-            _hover={{
-              background: "teal",
-              color: "white",
-            }}
-          >
-            Home
-          </Button>
-          <Button
-            bg="#016a31"
-            color="white"
-            ml="1em"
-            _hover={{
-              background: "teal",
-              color: "white",
-            }}
-          >
-            <Link href="/" onClick={logout}>Sign Out</Link>
-          </Button>
-      </Box>
+        <Button
+          bg="#016a31"
+          color="white"
+          ml="1em"
+          _hover={{
+            background: "teal",
+            color: "white",
+          }}
+        >
+          Home
+        </Button>
+
+        <Button
+          bg="#016a31"
+          color="white"
+          ml="1em"
+          _hover={{
+            background: "teal",
+            color: "white",
+          }}
+        >
+          <Link href="/" onClick={logout}>
+            Sign Out
+          </Link>
+        </Button>
+        <Button
+          bg="#016a31"
+          color="white"
+          ml="1em"
+          _hover={{
+            background: "teal",
+            color: "white",
+          }}
+        >
+          <Link href="/" onClick={Custom}>
+            [Debug] Reload Database
+          </Link>
+        </Button>
+      </HStack>
     </Flex>
   );
 

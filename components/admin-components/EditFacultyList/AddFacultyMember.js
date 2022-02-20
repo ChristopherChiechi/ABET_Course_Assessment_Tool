@@ -6,11 +6,19 @@ import {
   Input,
   Select,
   Box,
+  useToast,
 } from "@chakra-ui/react";
 import useInputState from "../../../hooks/useInputState";
+import { addFacultyMember } from "../../../api/APIHelper";
 
-const AddFacultyMember = ({ setNewFaculty }) => {
+const AddFacultyMember = ({ refreshTable }) => {
+  const toast = useToast({position: "top"});
   const facultyTypes = ["Admin", "Instructor", "Coordinator"];
+  const [faculty, setFaculty] = useState({
+    admin: [],
+    instructor: [],
+    coordinator: [],
+  });
 
   const [lastName, setLastName] = useInputState("");
   const [firstName, setFirstName] = useInputState("");
@@ -23,13 +31,40 @@ const AddFacultyMember = ({ setNewFaculty }) => {
     SettoggleEdditing((isEdditing) => !isEdditing);
   };
 
-  const addFaculty = () => {
-    setNewFaculty({
-      lastName: lastName,
-      firstName: firstName,
-      untID: ID,
-      type: type,
-    });
+  const addFaculty = async () => {
+    if (lastName == "" || firstName == "" || ID == "") {
+      toast({
+        description: "Required field empty!",
+        status: "warning",
+        duration: 9000,
+        isClosable: true,
+      });
+      return;
+    }
+    try {
+      const res = await addFacultyMember(lastName, firstName, ID, type);
+      console.log(res);
+      const status = res.status;
+      console.log(status);
+      if (status == "Success") {
+        toast({
+          description: `Successfully added the new faculty member! Please refresh the page if you don't see the new change.`,
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+        });
+      } else {
+        toast({
+          description: `There was an error! Message: ${status} `,
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    refreshTable();
   };
 
   return (
@@ -53,6 +88,9 @@ const AddFacultyMember = ({ setNewFaculty }) => {
             </option>
             <option mr="1em" value={facultyTypes[2]}>
               Coordinator
+            </option>
+            <option mr="1em" value={facultyTypes[3]}>
+              Super User
             </option>
           </Select>
 

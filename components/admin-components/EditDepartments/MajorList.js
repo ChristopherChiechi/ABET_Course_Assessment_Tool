@@ -1,19 +1,21 @@
 import { Grid, GridItem, Text, Button, useToast } from "@chakra-ui/react";
-import { deleteSemester } from "../../../api/APIHelper";
+import { deleteMajor } from "../../../api/APIHelper";
 
-const SemesterList = ({ refreshTable, year, term, color }) => {
+const MajorList = ({ refreshTable, majorName, term, year, color }) => {
   const toast = useToast({ position: "top" });
 
-  const deleteSemesterFunc = async (term, year) => {
+  const handleDeleteMajor = async (majorName, year, term) => {
     try {
       if (
-        confirm(`Are you sure you want to delete Year: ${year} Term: ${term} `)
+        confirm(
+          `Are you sure you want to delete Major: ${majorName} for ${year} ${term}?`
+        )
       ) {
-        const res = await deleteSemester(term, year);
+        const res = await deleteMajor(majorName, term, year);
         const status = res.status;
         if (status == "Success") {
           toast({
-            description: `Successfuly removed ${year} ${term}`,
+            description: `Successfuly removed ${majorName} for ${year} ${term}`,
             status: "success",
             duration: 2000,
             isClosable: true,
@@ -43,14 +45,14 @@ const SemesterList = ({ refreshTable, year, term, color }) => {
       <>
         <GridItem rowSpan={"auto"}>
           <Text>
-            Year: {year} Term: {term}
+            Major Name: {majorName} Term: {term} Year: {year}
           </Text>
         </GridItem>
         <GridItem>
           <Button
             variant="solid"
             onClick={() => {
-              deleteSemesterFunc(term, year);
+              handleDeleteMajor(majorName, year, term);
             }}
             marginLeft={"15em"}
           >
@@ -61,5 +63,4 @@ const SemesterList = ({ refreshTable, year, term, color }) => {
     </Grid>
   );
 };
-
-export default SemesterList;
+export default MajorList;

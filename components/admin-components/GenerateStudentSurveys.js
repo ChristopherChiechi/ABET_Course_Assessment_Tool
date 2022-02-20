@@ -22,7 +22,8 @@ const GenerateStudentSurveys = () => {
   //toggle sort by instructor
   const [sortByInstructor, toggleSortByInstructor] = useToggle();
   const getNewCourses = async () => {
-    const courses = await getCoursesByDepartment("CSCE");
+    const coursesRes = await getCoursesByDepartment("Fall", "2022", "CSCE");
+    const courses = coursesRes.data;
     setCourses({
       ...courseList,
       courses,
@@ -36,7 +37,7 @@ const GenerateStudentSurveys = () => {
             courseNumber: course.courseNumber,
             courseSemester: course.semester,
             courseYear: course.year,
-            instructorID: course.coordinator.id,
+            instructorID: course.coordinatorEUID,
             departmentName: course.department,
             displayName: course.displayName,
           },
@@ -48,8 +49,7 @@ const GenerateStudentSurveys = () => {
             <Tr key={idx} bg={idx % 2 == 0 ? "gray.300" : "gray.100"}>
               <Td>
                 {course.department} {course.courseNumber},{course.displayName},
-                Intsructor: {course.coordinator.firstName}{" "}
-                {course.coordinator.lastName}, Survey Link:{" "}
+                IntsructorEUID: {course.coordinatorEUID}, Survey Link:{" "}
                 <Link
                   color="teal"
                   href={link}

@@ -1,93 +1,153 @@
+import { RepeatOneSharp } from "@mui/icons-material";
 import API from "./api";
 
 // New Endpoint
 
 export async function Custom() {
   let api_helper = new API();
-  let response = api_helper.Custom();
-  console.log(response);
-  return response.then(function (result) {
-    return result;
-  });
+  let response = await api_helper.Custom();
+  return response;
 }
 
+// All faculty endpoint
 export async function getFacultyList() {
   let api_helper = new API();
-  let response = api_helper.getFacultyList();
-  response.then(function (result) {
-    //console.log(result);
-  });
+  let response = await api_helper.getFacultyList();
+  //console.log(response);
+  return response;
+}
 
-  const faculty = await response;
-  return faculty;
+export async function getUsersByRole(roleName) {
+  let api_helper = new API();
+  let response = await api_helper.getUsersByRole(roleName);
+  //console.log(response);
+  return response;
 }
 
 export async function editFacultyUser(lastname, firstname, oldEuid, newEuid) {
   let api_helper = new API();
-  let response = api_helper.editFacultyUser(
+  let response = await api_helper.editFacultyUser(
     lastname,
     firstname,
     oldEuid,
     newEuid
   );
-  response.then(function (result) {
-    return result;
-  });
-  const faculty = await response;
-  return faculty;
+  console.log(response);
+  return response;
 }
 
 export async function deleteFacultyUser(euid) {
   let api_helper = new API();
   console.log(euid);
-  let response = api_helper.deleteFacultyUser(euid);
-  response.then(function (result) {
-    return result;
-  });
+  let response = await api_helper.deleteFacultyUser(euid);
+  console.log(response);
+  return response;
 }
 
 export async function addFacultyMember(lastName, firstName, id, type) {
-  //console.log("type:" + type);
   let api_helper = new API();
-  let response = api_helper.addFacultyMember(firstName, lastName, id, type);
-  response.then(function (result) {
-    return result;
-  });
-  const res = await response;
-  console.log(res);
+  let response = await api_helper.addFacultyMember(
+    firstName,
+    lastName,
+    id,
+    type
+  );
+  console.log(response);
+  return response;
 }
 
+// All semester endpoint
 export async function getSemesters() {
   let api_helper = new API();
-  let response = api_helper.getSemesters();
-  response.then(function (result) {
-    //console.log(result);
-  });
-  const semesterList = await response;
-  return semesterList;
+  let response = await api_helper.getSemesters();
+  return response;
 }
 
 export async function addNewSemester(year, term) {
   let api_helper = new API();
-  let response = api_helper.addNewSemester(year, term);
-  response
-    .then(function (result) {
-      return result;
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  let response = await api_helper.addNewSemester(year, term);
+  //console.log(response);
+  return response;
 }
 
 export async function deleteSemester(term, year) {
   let api_helper = new API();
-  //console.log(`Term: ${term} Year:${year}`);
-  let response = api_helper.deleteSemester(term, year);
-  response.then(function (result) {
-    return result;
-  });
+  let response = await api_helper.deleteSemester(term, year);
+  return response;
 }
 
+// All majors endpoint
+export async function getMajors(term, year) {
+  let api_helper = new API();
+  let response = await api_helper.getMajors(term, year);
+  return response;
+}
+
+export async function addMajor(name, term, year) {
+  let api_helper = new API();
+  let response = await api_helper.addMajor(name, term, year);
+  return response;
+}
+
+export async function deleteMajor(name, term, year) {
+  let api_helper = new API();
+  let response = await api_helper.deleteMajor(name, term, year);
+  return response;
+}
+
+//All course endpoint
+
+export async function addNewCourse(
+  year,
+  term,
+  courseID,
+  coordinatorEUID,
+  courseNumber,
+  displayName,
+  coordinatorComment,
+  isCourseCompleted,
+  department
+) {
+  let api_helper = new API();
+  let response = await api_helper.addNewCourse(
+    year,
+    term,
+    courseID,
+    coordinatorEUID,
+    courseNumber,
+    displayName,
+    coordinatorComment,
+    isCourseCompleted,
+    department
+  );
+  return response;
+}
+
+export async function getCoursesByDepartment(term, year, department) {
+  let api_helper = new API();
+  let response = await api_helper.getCoursesByDepartment(
+    term,
+    year,
+    department
+  );
+  return response;
+}
+
+export async function deleteCourse(
+  term = "",
+  year = 0,
+  department = "",
+  courseNumber = ""
+) {
+  let api_helper = new API();
+  let response = await api_helper.deleteCourse(
+    term,
+    year,
+    department,
+    courseNumber
+  );
+  return response;
+}
 // Old Endpoint
 
 export function getCourses() {
@@ -226,7 +286,7 @@ export async function getAllCourses(userid, semester, year) {
   return courses;
 }
 
-export async function getCoursesByDepartment(department) {
+/* export async function getCoursesByDepartment(department) {
   let api_helper = new API();
   let response = api_helper.getCoursesByDepartment(department);
   response.then(function (result) {
@@ -234,7 +294,7 @@ export async function getCoursesByDepartment(department) {
   });
   const courses = await response;
   return courses;
-}
+} */
 
 export async function addCourse(
   userid = "",

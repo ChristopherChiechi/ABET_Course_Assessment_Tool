@@ -11,6 +11,7 @@ import {
   DrawerCloseButton,
   useDisclosure,
   VStack,
+  HStack,
   Box,
   Table,
   Thead,
@@ -45,7 +46,7 @@ import GenerateSectionReport from "../components/admin-components/GenerateSectio
 import GenerateFullReport from "../components/admin-components/GenerateFullReport/GenerateFullReport";
 import GenerateStudentSurveys from "../components/admin-components/GenerateStudentSurveys";
 import EditAssignedCourses from "../components/admin-components/EditAssignedCourses/EditAssignedCourses";
-
+import CreateNewMajor from "../components/admin-components/EditDepartments/CreateNewMajor";
 var role = "super";
 var is_super = true;
 if (role == "super") {
@@ -65,31 +66,35 @@ const adminHome = () => {
       <Navigation />
       <div>
         <div>
-          <IconButton
-            bg="#016a31"
-            color="white"
-            onClick={onOpen}
-            ml="1em"
-            _hover={{
-              background: "teal",
-              color: "white",
-            }}
-            icon={<HamburgerIcon />}
-          />
+        <Flex justifyContent="left" mt="1em" mr="1em">
+          <HStack spacing='10px' w={{ base: "120%", md: "80%" }}>
+            <IconButton
+              bg="#016a31"
+              color="white"
+              onClick={onOpen}
+              ml="1em"
+              _hover={{
+                background: "teal",
+                color: "white",
+              }}
+              icon={<HamburgerIcon />}
+            />
 
-          <Button
-            disabled={is_super}
-            onClick={() => router.push("/instructorHome")}
-            bg="#016a31"
-            color="white"
-            ml="1em"
-            _hover={{
-              background: "teal",
-              color: "white",
-            }}
-          >
-            Switch to Instructor
-          </Button>
+            <Button
+              disabled={is_super}
+              onClick={() => router.push("/instructorHome")}
+              bg="#016a31"
+              color="white"
+              ml="1em"
+              _hover={{
+                background: "teal",
+                color: "white",
+              }}
+            >
+              Switch to Instructor
+            </Button>
+          </HStack>
+        </Flex>
 
           <Drawer
             placement="left"
@@ -136,23 +141,24 @@ const adminHome = () => {
                     <Tr>
                       <Td
                         as="button"
-                        mr="3"
+                        mr="12"
                         color="#016a31"
                         onClick={() => {
                           setView("CNS");
                         }}
                       >
-                        Create New Semester
+                        Edit Semesters
                       </Td>
                       <Td
                         as="button"
                         mr="3"
+                        ml="3"
                         color="#016a31"
                         onClick={() => {
-                          setView("GFR");
+                          setView("CND");
                         }}
                       >
-                        Generate Full Report
+                        Edit Majors
                       </Td>
                     </Tr>
                     <Tr>
@@ -214,6 +220,7 @@ const adminHome = () => {
                       <Td
                         as="button"
                         mr="3"
+                        ml="1"
                         color="#016a31"
                         onClick={() => {
                           setView("OM");
@@ -225,13 +232,24 @@ const adminHome = () => {
                     <Tr>
                       <Td
                         as="button"
-                        mr="3"
+                        mr="12"
                         color="#016a31"
                         onClick={() => {
                           setView("EFL");
                         }}
                       >
                         Edit Faculty List
+                      </Td>
+                      <Td
+                        as="button"
+                        mr="3"
+                        ml="1"
+                        color="#016a31"
+                        onClick={() => {
+                          setView("GFR");
+                        }}
+                      >
+                        Generate Full Report
                       </Td>
                     </Tr>
                   </Tbody>
@@ -253,6 +271,8 @@ const adminHome = () => {
                 return <OutcomeMapping />;
               case "CNS":
                 return <CreateNewSemester />;
+              case "CND":
+                return <CreateNewMajor />;
               case "EAC":
                 return <EditAssignedCourses />;
               case "EFL":
