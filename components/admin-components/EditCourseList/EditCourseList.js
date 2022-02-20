@@ -208,31 +208,6 @@ const EditCourseList = () => {
     getNewCourses();
   }, [semJson, theDepartment, refreshKey]);
 
-  const renderCourse =
-    theCourse.courses &&
-    theCourse.courses.map((cours, idx) => {
-      return (
-        <ListItem
-          key={idx}
-          display="inline"
-          justifyContent="center"
-          alignItems="center"
-        >
-          <Courses
-            DisplayName={cours.displayName}
-            coordinatorID={cours.coordinatorEUID}
-            color={idx % 2 == 0 ? "green.200" : "gray.300"}
-            key={idx}
-            year={cours.year}
-            semester={cours.semester}
-            courseNumber={cours.courseNumber}
-            department={cours.department}
-            courseComplete={cours.isCourseCompleted}
-          />
-        </ListItem>
-      );
-    });
-
   return (
     <div>
       <VStack id="top" w="90%" m="0 auto">
@@ -291,23 +266,11 @@ const EditCourseList = () => {
                 })}
             </Select>
           </Flex>
-          <Text
-            fontWeight="bold"
-            mt="1em"
-            mb="1em"
-            fontSize="lg"
-            align="center"
-          >
-            Old Layout
-          </Text>
-          <Flex justifyContent="center">
-            <List w="80%">{renderCourse}</List>
-          </Flex>
         </Box>
       </VStack>
-      <Box align="center" w="80%" margin="auto">
+      <Box align="center" w="50%" margin="auto">
         <Text fontWeight="bold" mt="1em" mb="1em" fontSize="lg" align="center">
-          New Layout
+          Courses Table
         </Text>
         <MaterialTable
           icons={tableIcons}
