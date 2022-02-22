@@ -211,18 +211,11 @@ const EditCourseList = () => {
   return (
     <div>
       <VStack id="top" w="90%" m="0 auto">
-        <Text fontSize="2xl" fontWeight="bold" mt="1em">
-          Edit Course List
-        </Text>
-
         <Box m="1em" p="3em">
-          <Text
-            align="center"
-            fontWeight="bold"
-            mt="1em"
-            mb="1em"
-            fontSize="lg"
-          >
+          <Text align="center" fontSize="2xl" fontWeight="bold" mt="1em">
+            Edit Course List
+          </Text>
+          <Text align="center" fontWeight="bold" mb="1em" fontSize="lg">
             Select Department
           </Text>
           <Flex justifyContent="center">
@@ -276,6 +269,8 @@ const EditCourseList = () => {
           icons={tableIcons}
           options={{
             search: true,
+            pageSize: 10,
+            pageSizeOptions: [10, 20, 30],
           }}
           actions={[
             {
@@ -291,6 +286,16 @@ const EditCourseList = () => {
           columns={columns}
           data={theCourse.courses}
           title="Course List"
+          editable={{
+            onRowUpdate: (newData, oldData) =>
+              new Promise((resolve, reject) => {
+                setTimeout(() => {
+                  console.log(oldData);
+                  console.log(newData);
+                  resolve();
+                }, 1000);
+              }),
+          }}
         />
         {semJson && <AddCourse refreshTable={refreshTable}></AddCourse>}
       </Box>
