@@ -9,7 +9,6 @@ import {
   VStack,
   useToast,
 } from "@chakra-ui/react";
-import Courses from "../../Courses";
 import {
   getCoursesByDepartment,
   getSemesters,

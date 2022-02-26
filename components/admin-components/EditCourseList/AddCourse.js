@@ -11,7 +11,6 @@ import {
 } from "@chakra-ui/react";
 import useToggle from "../../../hooks/useToggle";
 import useInputState from "../../../hooks/useInputState";
-import { reset } from "../../../hooks/useInputState";
 
 import {
   getSemesters,
@@ -37,8 +36,8 @@ const AddCourse = ({ refreshTable }) => {
   const [isEdditing, toggleEdditing] = useToggle();
 
   const handleAddCourseButton = async (e) => {
+    console.log(coordinatorSelect, semesters, selectDepartment);
     if (
-      courseID == "" ||
       courseDisplayName == "" ||
       courseNameCode == "" ||
       !coordinatorSelect ||
