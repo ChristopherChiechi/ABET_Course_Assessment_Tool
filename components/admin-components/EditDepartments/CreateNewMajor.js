@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
+  Flex,
   Text,
   Button,
   Input,
@@ -32,10 +33,6 @@ const CreateNewMajor = () => {
   const toast = useToast({ position: "top" });
 
   const [semesters, setSemesterList] = useState();
-
-  useEffect(() => {
-    document.getElementById("top").scrollIntoView();
-  });
 
   const refreshTable = () => {
     setRefreshKey(refreshKey + 1);
@@ -165,17 +162,23 @@ const CreateNewMajor = () => {
     }
   };
 
-  const handleSubmit = () => {
-    Object.keys(semesters).forEach(function (key) {
-      let semester = semesters[key];
-      if (semester.semesterId == semID) {
-        //console.log(`Found: ${semester.term} ${semester.year}`);
-        setTerm(semester.term);
-        setYear(semester.year);
-        getMajorList(semester.term, semester.year);
-      }
-    });
-  };
+  useEffect(() => {
+    document.getElementById("top").scrollIntoView();
+  });
+
+  useEffect(() => {
+    if (semesters) {
+      Object.keys(semesters).forEach(function (key) {
+        let semester = semesters[key];
+        if (semester.semesterId == semID) {
+          //console.log(`Found: ${semester.term} ${semester.year}`);
+          setTerm(semester.term);
+          setYear(semester.year);
+          getMajorList(semester.term, semester.year);
+        }
+      });
+    }
+  }, [semID]);
 
   useEffect(() => {
     getSemesterList();
@@ -210,37 +213,30 @@ const CreateNewMajor = () => {
           Majors List
         </Text>
         <Box fontWeight="bold">Choose a semester and hit submit.</Box>
-        <Grid templateColumns="repeat(2, 1fr)" gap={1} w="40%">
-          <GridItem>
-            <Select
-              ml="3em"
-              id="term"
-              placeholder="Select semester"
-              borderColor="teal"
-              width="100%"
-              isRequired={true}
-              value={semID}
-              onChange={(e) => {
-                console.log(`Semester ID: ${e.target.value}`);
-                setSemID(e.target.value);
-              }}
-            >
-              {semesters &&
-                semesters.map((sem, idx) => {
-                  return (
-                    <option value={sem.semesterId} id="ingredientId" key={idx}>
-                      {sem.term} {sem.year}
-                    </option>
-                  );
-                })}
-            </Select>
-          </GridItem>
-          <GridItem>
-            <Button ml="3em" onClick={handleSubmit} colorScheme="teal">
-              Submit
-            </Button>
-          </GridItem>
-        </Grid>
+        <Flex justifyContent="center">
+          <Select
+            align="center"
+            id="term"
+            placeholder="Select semester"
+            borderColor="teal"
+            width="100%"
+            isRequired={true}
+            value={semID}
+            onChange={(e) => {
+              console.log(`Semester ID: ${e.target.value}`);
+              setSemID(e.target.value);
+            }}
+          >
+            {semesters &&
+              semesters.map((sem, idx) => {
+                return (
+                  <option value={sem.semesterId} id="ingredientId" key={idx}>
+                    {sem.term} {sem.year}
+                  </option>
+                );
+              })}
+          </Select>
+        </Flex>
 
         <List>{renderMajor}</List>
         <Text fontSize="2xl" fontWeight="bold" mt="1em">
