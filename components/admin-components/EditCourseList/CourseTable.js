@@ -154,12 +154,32 @@ const CourseTable = ({
     var isCourseCompletedBool = JSON.parse(newData.isCourseCompleted);
 
     try {
+      var coordinatorEUID;
+      if (coordinatorList) {
+        for (let key in coordinatorList) {
+          if (coordinatorList[key].label == newData.coordinatorEUID) {
+            coordinatorEUID = coordinatorList[key].coordinatorEUID;
+            console.log(coordinatorEUID);
+          }
+        }
+      }
+      if (!coordinatorEUID) {
+        toast({
+          title: "Error",
+          description: `Please select an instructor before adding!`,
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+        return;
+      }
+
       const deleteRes = await editCourse(
         term,
         year,
         theDepartment,
         oldData.courseNumber,
-        newData.coordinatorEUID,
+        coordinatorEUID,
         newData.courseNumber,
         newData.displayName,
         "Hi",
