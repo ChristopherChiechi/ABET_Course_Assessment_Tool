@@ -107,7 +107,7 @@ const EditCourseList = () => {
       title: "Coordinator EUID",
       field: "coordinatorEUID",
       validate: (rowData) =>
-        rowData.coordinatorEUID ? true : "Course number can not be empty",
+        rowData.coordinatorEUID ? true : "Coordintor EUID can not be empty",
       filtering: false,
       editComponent: (props) => (
         <SingleSelect
@@ -230,7 +230,7 @@ const EditCourseList = () => {
         </Box>
       </VStack>
       <Box align="center" w="50%" margin="auto">
-        {!semJson && (
+        {!semJson && !theDepartment && (
           <Text
             fontWeight="bold"
             mt="1em"
@@ -241,7 +241,7 @@ const EditCourseList = () => {
             [Table] Waiting for department and semester selection
           </Text>
         )}
-        {semJson && (
+        {semJson && theDepartment && (
           <Text
             fontWeight="bold"
             mt="1em"
@@ -253,7 +253,7 @@ const EditCourseList = () => {
           </Text>
         )}
 
-        {semJson && (
+        {semJson && theDepartment && (
           <CourseTable
             theDepartment={theDepartment}
             columns={columns}

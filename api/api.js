@@ -459,7 +459,7 @@ export default class API {
     }
   }
 
-  //---deleteSemester()--- (Admin)
+  //---deleteCourse()--- (Admin)
   //    Input: term, year, department, course number
   //    Output: success or failure
   async deleteCourse(term = "", year = 0, department = "", courseNumber = "") {
@@ -523,6 +523,114 @@ export default class API {
         coordinatorComment: newCoordinatorComment,
         isCourseCompleted: newIsCourseComplete,
         department: newDepartment,
+      });
+      if (response) {
+        let status = this.checkStatus(response.status);
+
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
+    } catch (error) {
+      let status = this.checkStatus(error.message);
+      return {
+        data: null,
+        status: status,
+      };
+    }
+  }
+
+  //---addNewSection()--- (Admin)
+  //    Input: year, term, department, courseNumber, instructorEUID, isSectionComplete, sectionNumber, numberOfStudents
+  //    Output: success or failure
+  async addNewSection(
+    year,
+    term,
+    department,
+    courseNumber,
+    instructorEUID,
+    isSectionComplete,
+    sectionNumber,
+    numberOfStudents
+  ) {
+    const url =
+      rootNew +
+      `/Section/AddSection?term=${term}&year=${year}&department=${department}&courseNumber=${courseNumber}`;
+    const body = {
+      sectionId: 0,
+      instructorEUID: instructorEUID,
+      isSectionComplete: isSectionComplete,
+      sectionNumber: sectionNumber,
+      numberOfStudents: numberOfStudents,
+    };
+    try {
+      const response = await axios.post(url, body);
+      if (response) {
+        let status = this.checkStatus(response.status);
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
+    } catch (error) {
+      let status = this.checkStatus(error.message);
+      return {
+        data: null,
+        status: status,
+      };
+    }
+  }
+
+  //---deleteSection()--- (Admin)
+  //    Input: term, year, department, course number, sectionNumber
+  //    Output: success or failure
+  async deleteSection(term, year, department, courseNumber, sectionNumber) {
+    const url =
+      rootNew +
+      `/Section/DeleteSection?term=${term}&year=${year}&department=${department}&courseNumber=${courseNumber}&sectionNumber=${sectionNumber}`;
+    try {
+      const response = await axios.delete(url);
+      if (response) {
+        let status = this.checkStatus(response.status);
+
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
+    } catch (error) {
+      let status = this.checkStatus(error.message);
+      return {
+        data: null,
+        status: status,
+      };
+    }
+  }
+
+  //---editSection()--- (Admin)
+  //    Input: term, year, department, course number, newCoordinatorEUID, newDisplayName, newCoordinatorComment, newIsCourseComplete, newDepartment
+  //    Output: success or failure
+  async editSection(
+    term,
+    year,
+    department,
+    courseNumber,
+    sectionNumber,
+    newInstructorEUID,
+    newIsSectionCompleted,
+    newSectionNumber,
+    newNumberOfStudents
+  ) {
+    const url =
+      rootNew +
+      `/Section/EditSection?term=${term}&year=${year}&department=${department}&courseNumber=${courseNumber}&sectionNumber=${sectionNumber}`;
+    try {
+      const response = await axios.patch(url, {
+        instructorEUID: newInstructorEUID,
+        isSectionCompleted: newIsSectionCompleted,
+        sectionNumber: newSectionNumber,
+        numberOfStudents: newNumberOfStudents,
       });
       if (response) {
         let status = this.checkStatus(response.status);

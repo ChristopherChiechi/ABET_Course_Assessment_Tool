@@ -177,6 +177,73 @@ export async function editCourse(
   return response;
 }
 
+export async function addNewSection(
+  year,
+  term,
+  department,
+  courseNumber,
+  instructorEUID,
+  isSectionComplete,
+  sectionNumber,
+  numberOfStudents
+) {
+  let api_helper = new API();
+  let response = await api_helper.addNewSection(
+    year,
+    term,
+    department,
+    courseNumber,
+    instructorEUID,
+    isSectionComplete,
+    sectionNumber,
+    numberOfStudents
+  );
+  return response;
+}
+
+export async function deleteSection(
+  term,
+  year,
+  department,
+  courseNumber,
+  sectionNumber
+) {
+  let api_helper = new API();
+  let response = await api_helper.deleteSection(
+    term,
+    year,
+    department,
+    courseNumber,
+    sectionNumber
+  );
+  return response;
+}
+
+export async function editSection(
+  term,
+  year,
+  department,
+  courseNumber,
+  sectionNumber,
+  newInstructorEUID,
+  newIsSectionCompleted,
+  newSectionNumber,
+  newNumberOfStudents
+) {
+  let api_helper = new API();
+  let response = await api_helper.editSection(
+    term,
+    year,
+    department,
+    courseNumber,
+    sectionNumber,
+    newInstructorEUID,
+    newIsSectionCompleted,
+    newSectionNumber,
+    newNumberOfStudents
+  );
+  return response;
+}
 // Old Endpoint
 
 export function getCourses() {
