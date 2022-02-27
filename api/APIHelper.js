@@ -148,6 +148,35 @@ export async function deleteCourse(
   );
   return response;
 }
+
+export async function editCourse(
+  term = "",
+  year = 0,
+  department = "",
+  courseNumber = "",
+  newCoordinatorEUID,
+  newCourseNumber,
+  newDisplayName,
+  newCoordinatorComment,
+  newIsCourseComplete,
+  newDepartment
+) {
+  let api_helper = new API();
+  let response = await api_helper.editCourse(
+    term,
+    year,
+    department,
+    courseNumber,
+    newCoordinatorEUID,
+    newCourseNumber,
+    newDisplayName,
+    newCoordinatorComment,
+    newIsCourseComplete,
+    newDepartment
+  );
+  return response;
+}
+
 // Old Endpoint
 
 export function getCourses() {

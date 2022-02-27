@@ -370,13 +370,11 @@ export default class API {
   //    Input: majorName, term & year
   //    Output: success or failure
   async deleteMajor(majorName = "", term = "", year = 0) {
-    console.log(`term: ${term} year: ${year}`);
     const url =
       rootNew +
       `/Major/DeleteMajor?term=${term}&year=${year}&name=${majorName}`;
     try {
       const response = await axios.delete(url);
-      console.log(response);
       if (response) {
         let status = this.checkStatus(response.status);
         console.log(response);
@@ -405,8 +403,6 @@ export default class API {
       var response = await axios.get(url);
       if (response) {
         let status = this.checkStatus(response.status);
-        console.log(response);
-        console.log(`status: ${status}`);
         return {
           data: response.data,
           status: status,
@@ -449,8 +445,6 @@ export default class API {
       const response = await axios.post(url, body);
       if (response) {
         let status = this.checkStatus(response.status);
-        console.log(response);
-        console.log(`status: ${status}`);
         return {
           data: response.data,
           status: status,
@@ -466,10 +460,9 @@ export default class API {
   }
 
   //---deleteSemester()--- (Admin)
-  //    Input: term & year
+  //    Input: term, year, department, course number
   //    Output: success or failure
   async deleteCourse(term = "", year = 0, department = "", courseNumber = "") {
-    //console.log(`term: ${term} year: ${year}`);
     const url =
       rootNew +
       `/Course/DeleteCourse?term=${term}&year=${year}&department=${department}&courseNumber=${courseNumber}`;
@@ -477,8 +470,63 @@ export default class API {
       const response = await axios.delete(url);
       if (response) {
         let status = this.checkStatus(response.status);
-        //console.log(response);
-        //console.log(`status: ${status}`);
+
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
+    } catch (error) {
+      let status = this.checkStatus(error.message);
+      return {
+        data: null,
+        status: status,
+      };
+    }
+  }
+
+  //---EditCourse()--- (Admin)
+  //    Input: term, year, department, course number, newCoordinatorEUID, newCourseNumber, newDisplayName, newCoordinatorComment, newIsCourseComplete, newDepartment
+  //    Output: success or failure
+  async editCourse(
+    term = "",
+    year = 0,
+    department = "",
+    courseNumber = "",
+    newCoordinatorEUID,
+    newCourseNumber,
+    newDisplayName,
+    newCoordinatorComment,
+    newIsCourseComplete,
+    newDepartment
+  ) {
+    const url =
+      rootNew +
+      `/Course/EditCourse?term=${term}&year=${year}&department=${department}&courseNumber=${courseNumber}`;
+    console.log(
+      term,
+      year,
+      department,
+      courseNumber,
+      newCoordinatorEUID,
+      newCourseNumber,
+      newDisplayName,
+      newCoordinatorComment,
+      newIsCourseComplete,
+      newDepartment
+    );
+    try {
+      const response = await axios.patch(url, {
+        coordinatorEUID: newCoordinatorEUID,
+        courseNumber: newCourseNumber,
+        displayName: newDisplayName,
+        coordinatorComment: newCoordinatorComment,
+        isCourseCompleted: newIsCourseComplete,
+        department: newDepartment,
+      });
+      if (response) {
+        let status = this.checkStatus(response.status);
+
         return {
           data: response.data,
           status: status,

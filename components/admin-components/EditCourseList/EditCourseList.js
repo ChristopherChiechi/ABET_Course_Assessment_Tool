@@ -1,68 +1,18 @@
 import React, { useState, useEffect } from "react";
-import {
-  Box,
-  Text,
-  Select,
-  List,
-  ListItem,
-  Flex,
-  VStack,
-  useToast,
-} from "@chakra-ui/react";
+import { Box, Text, Select, Flex, VStack, useToast } from "@chakra-ui/react";
 import {
   getCoursesByDepartment,
   getSemesters,
-  deleteCourse,
+  getUsersByRole,
 } from "../../../api/APIHelper";
-import AddCourse from "./AddCourse";
-import MaterialTable from "material-table";
-import { forwardRef } from "react";
-
-import AddBox from "@material-ui/icons/AddBox";
-import ArrowDownward from "@material-ui/icons/ArrowDownward";
-import Check from "@material-ui/icons/Check";
-import ChevronLeft from "@material-ui/icons/ChevronLeft";
-import ChevronRight from "@material-ui/icons/ChevronRight";
-import Clear from "@material-ui/icons/Clear";
-import DeleteOutline from "@material-ui/icons/DeleteOutline";
-import Edit from "@material-ui/icons/Edit";
-import FilterList from "@material-ui/icons/FilterList";
-import FirstPage from "@material-ui/icons/FirstPage";
-import LastPage from "@material-ui/icons/LastPage";
-import Remove from "@material-ui/icons/Remove";
-import SaveAlt from "@material-ui/icons/SaveAlt";
-import Search from "@material-ui/icons/Search";
-import ViewColumn from "@material-ui/icons/ViewColumn";
-import DeleteIcon from "@material-ui/icons/Delete";
-
-const tableIcons = {
-  Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
-  Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
-  Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
-  Delete: forwardRef((props, ref) => <DeleteOutline {...props} ref={ref} />),
-  DetailPanel: forwardRef((props, ref) => (
-    <ChevronRight {...props} ref={ref} />
-  )),
-  Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} />),
-  Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
-  Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
-  FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
-  LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
-  NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
-  PreviousPage: forwardRef((props, ref) => (
-    <ChevronLeft {...props} ref={ref} />
-  )),
-  ResetSearch: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
-  Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
-  SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
-  ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
-  ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
-};
+import CourseTable from "./CourseTable";
+import { SingleSelect } from "react-select-material-ui";
 
 const EditCourseList = () => {
   useEffect(() => {
     document.getElementById("top").scrollIntoView();
   });
+
   // State of the courses and function to set the new state.
   const [theCourse, setNewCourses] = useState({
     courses: [],
@@ -75,14 +25,39 @@ const EditCourseList = () => {
   const [semJson, setSemJson] = useState();
   const [year, setYear] = useState();
   const [term, setTerm] = useState();
+  const [coordinatorList, setCoordinatorList] = useState();
+  const [lookupObject, setLookupObject] = useState();
 
-  // Grabs the courses by department from the back-end.
+  //Get Coordinator List
+  const getCoordinatorList = async () => {
+    const lookup = {};
+    try {
+      const response = await getUsersByRole("Coordinator");
+      const data = response.data;
+      if (response) {
+        const coordinatorMap = data.map((coordinator) => ({
+          coordinatorEUID: coordinator.euid,
+          label: coordinator.firstName + " " + coordinator.lastName,
+        }));
+        setCoordinatorList(coordinatorMap);
+        if (coordinatorList) {
+          coordinatorList.forEach((coordinator) => {
+            lookup[coordinator.coordinatorEUID] = coordinator.label;
+          });
+          setLookupObject(lookup);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // Get the courses by department from the back-end.
   const getNewCourses = async () => {
     if (!semJson) {
       return;
     }
     const semesterParse = JSON.parse(semJson);
-    console.log(semesterParse);
     setYear(semesterParse["year"]);
     setTerm(semesterParse["term"]);
     try {
@@ -115,54 +90,47 @@ const EditCourseList = () => {
     }
   };
 
-  const removeCourse = async (department, courseName) => {
-    console.log(term, year, department, courseName);
-    try {
-      const deleteRes = await deleteCourse(term, year, department, courseName);
-      const status = deleteRes.status;
-      if (status != "Success") {
-        toast({
-          title: "Error",
-          description: `There was an error deleting the course! Error: ${status}`,
-          status: "error",
-          duration: 9000,
-          isClosable: true,
-        });
-        return;
-      } else {
-        toast({
-          title: "Success",
-          description: `Course ${courseName} deleted`,
-          status: "success",
-          duration: 9000,
-          isClosable: true,
-        });
-        refreshTable();
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const columns = [
-    { title: "Department", field: "department" },
-    { title: "Course ID", field: "courseId" },
-    { title: "Course Name", field: "displayName" },
-    { title: "Course Number", field: "courseNumber" },
-    { title: "Coordinator EUID", field: "coordinatorEUID" },
-    { title: "Is Complete", field: "isCourseCompleted" },
-    { title: "Coordinator Comment", field: "coordinatorComment" },
+    {
+      title: "Course Name",
+      field: "displayName",
+      validate: (rowData) =>
+        rowData.displayName ? true : "Course name can not be empty",
+    },
+    {
+      title: "Course Number",
+      field: "courseNumber",
+      validate: (rowData) =>
+        rowData.courseNumber ? true : "Course number can not be empty",
+    },
+    {
+      title: "Coordinator EUID",
+      field: "coordinatorEUID",
+      validate: (rowData) =>
+        rowData.coordinatorEUID ? true : "Course number can not be empty",
+      filtering: false,
+      editComponent: (props) => (
+        <SingleSelect
+          options={lookupObject}
+          fullWidth={true}
+          value={props.value}
+          onChange={(value) => {
+            props.onChange(value);
+            console.log(value);
+          }}
+        />
+      ),
+    },
+    {
+      title: "Is Complete",
+      field: "isCourseCompleted",
+      validate: (rowData) =>
+        rowData.isCourseCompleted != null
+          ? true
+          : "Is course completed can not be empty",
+      lookup: { true: "Yes", false: "No" },
+    },
   ];
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    if (
-      window.confirm("Are you sure you would like to submit these changes?")
-    ) {
-      //POST the course list change to the db here
-      alert("Course List Updated!");
-    }
-  };
 
   //Check if the department is select before enable the dropdown for semester
   const checkIfSelectMajor = () => {
@@ -199,10 +167,13 @@ const EditCourseList = () => {
     setRefreshKey(refreshKey + 1);
   };
 
+  //Fetch semester list on department change
   useEffect(() => {
     getSemesterList();
+    getCoordinatorList();
   }, [theDepartment]);
 
+  //Fetch course when semester or deparment change , or on table refresh
   useEffect(() => {
     getNewCourses();
   }, [semJson, theDepartment, refreshKey]);
@@ -227,7 +198,6 @@ const EditCourseList = () => {
               borderColor="teal"
               value={theDepartment}
               onChange={(e) => {
-                console.log(`Department select: ${e.target.value}`);
                 setDepartment(e.target.value);
               }}
             >
@@ -244,7 +214,6 @@ const EditCourseList = () => {
               value={semJson}
               disabled={checkIfSelectMajor()}
               onChange={(e) => {
-                console.log(`Semester ID: ${e.target.value}`);
                 setSemJson(e.target.value);
               }}
             >
@@ -261,42 +230,40 @@ const EditCourseList = () => {
         </Box>
       </VStack>
       <Box align="center" w="50%" margin="auto">
-        <Text fontWeight="bold" mt="1em" mb="1em" fontSize="lg" align="center">
-          Courses Table
-        </Text>
-        <MaterialTable
-          icons={tableIcons}
-          options={{
-            search: true,
-            pageSize: 10,
-            pageSizeOptions: [10, 20, 30],
-          }}
-          actions={[
-            {
-              icon: () => <DeleteIcon />,
-              tooltip: "Delete Course",
-              onClick: (event, rowData) => {
-                if (confirm("You want to delete " + rowData.displayName)) {
-                  removeCourse(rowData.department, rowData.courseNumber);
-                }
-              },
-            },
-          ]}
-          columns={columns}
-          data={theCourse.courses}
-          title="Course List"
-          editable={{
-            onRowUpdate: (newData, oldData) =>
-              new Promise((resolve, reject) => {
-                setTimeout(() => {
-                  console.log(oldData);
-                  console.log(newData);
-                  resolve();
-                }, 1000);
-              }),
-          }}
-        />
-        {semJson && <AddCourse refreshTable={refreshTable}></AddCourse>}
+        {!semJson && (
+          <Text
+            fontWeight="bold"
+            mt="1em"
+            mb="1em"
+            fontSize="lg"
+            align="center"
+          >
+            [Table] Waiting for department and semester selection
+          </Text>
+        )}
+        {semJson && (
+          <Text
+            fontWeight="bold"
+            mt="1em"
+            mb="1em"
+            fontSize="lg"
+            align="center"
+          >
+            Courses Table
+          </Text>
+        )}
+
+        {semJson && (
+          <CourseTable
+            theDepartment={theDepartment}
+            columns={columns}
+            data={theCourse.courses}
+            year={year}
+            term={term}
+            coordinatorList={coordinatorList}
+            refreshTable={refreshTable}
+          />
+        )}
       </Box>
     </div>
   );
