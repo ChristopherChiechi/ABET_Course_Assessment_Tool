@@ -177,6 +177,22 @@ export async function editCourse(
   return response;
 }
 
+export async function getSectionsByCourse(
+  term,
+  year,
+  department,
+  courseNumber
+) {
+  let api_helper = new API();
+  let response = await api_helper.getSectionsByCourse(
+    term,
+    year,
+    department,
+    courseNumber
+  );
+  return response;
+}
+
 export async function addNewSection(
   year,
   term,

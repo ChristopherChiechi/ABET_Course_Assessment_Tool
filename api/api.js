@@ -539,6 +539,33 @@ export default class API {
     }
   }
 
+  //Sections Endpoint
+
+  //---getSectionsByCourse()--- (Admin)
+  //    Input: role name
+  //    Output: List of faculty members with that role
+  async getSectionsByCourse(term, year, department, courseNumber) {
+    const url =
+      rootNew +
+      `/Course/GetSectionsByCourse?term=${term}&year=${year}&department=${department}&courseNumber=${courseNumber}`;
+    try {
+      var response = await axios.get(url);
+      if (response) {
+        let status = this.checkStatus(response.status);
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
+    } catch (error) {
+      let status = this.checkStatus(error.message);
+      return {
+        data: null,
+        status: status,
+      };
+    }
+  }
+
   //---addNewSection()--- (Admin)
   //    Input: year, term, department, courseNumber, instructorEUID, isSectionComplete, sectionNumber, numberOfStudents
   //    Output: success or failure
