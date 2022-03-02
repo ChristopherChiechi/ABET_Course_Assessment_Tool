@@ -10,13 +10,13 @@ import {
   Select,
   useToast,
   VStack,
-  NumberIncrementStepper,
 } from "@chakra-ui/react";
 //api
 import {
   getCoursesByDepartment,
   getSemesters,
   getUsersByRole,
+  getSectionsByCourse,
 } from "../../../api/APIHelper";
 
 //Auto complete Selection
@@ -38,6 +38,7 @@ const EditAssignedCourses = () => {
   const [instructorList, setInstructorList] = useState();
   const [lookupObject, setLookupObject] = useState();
   const [selectCourse, setSelectCourse] = useState();
+  const [sectionList, setSectionList] = useState();
 
   //Get Semester List after department is select
   const getSemesterList = async () => {
@@ -93,7 +94,6 @@ const EditAssignedCourses = () => {
       return;
     }
     const semesterParse = JSON.parse(semJson);
-    console.log(semesterParse);
     setYear(semesterParse["year"]);
     setTerm(semesterParse["term"]);
     try {
@@ -120,6 +120,13 @@ const EditAssignedCourses = () => {
         label: course.displayName,
       }));
 
+      if (_.isEmpty(courseList)) {
+        setCourseSelectionOptions(["There are no course for this semester"]);
+        setSelectCourse("");
+        console.log("Empty courselist");
+        return;
+      }
+
       if (courseMapToValueAndLabel) {
         setCourseSelectionOptions(courseMapToValueAndLabel);
       }
@@ -127,13 +134,46 @@ const EditAssignedCourses = () => {
       console.log(error);
     }
   };
-
   useEffect(() => {
     getNewCourses();
     getInstructorList();
   }, [semJson, theDepartment, refreshKey]);
 
   //[End] get course list
+
+  // Get the sections of a course
+  const getSections = async () => {
+    if (!semJson) {
+      return;
+    }
+    try {
+      const sectionlistRes = await getSectionsByCourse(
+        term,
+        year,
+        theDepartment,
+        selectCourse
+      );
+      const sectionListData = sectionlistRes.data;
+      const status = sectionlistRes.status;
+      if (status != "Success") {
+        toast({
+          title: "Error",
+          description: `There was an error fetching the course list! Error: ${status}`,
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+        return;
+      }
+      setSectionList(sectionListData);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getSections();
+  }, [selectCourse, refreshKey]);
 
   //Get instructor List
   const getInstructorList = async () => {
@@ -153,7 +193,6 @@ const EditAssignedCourses = () => {
             lookup[instructor.instructorEUID] = instructor.label;
           });
           setLookupObject(lookup);
-          console.log(lookupObject);
         }
       }
     } catch (error) {
@@ -164,6 +203,7 @@ const EditAssignedCourses = () => {
   //Refresh table
   const refreshTable = () => {
     setRefreshKey(refreshKey + 1);
+    console.log(refreshKey);
   };
 
   const columns = [
@@ -205,27 +245,6 @@ const EditAssignedCourses = () => {
           ? true
           : "Is section completed can not be empty",
       lookup: { true: "Yes", false: "No" },
-    },
-  ];
-
-  const data = [
-    {
-      sectionNumber: "001",
-      numberOfStudents: 30,
-      instructorEUID: "tt0377",
-      isSectionCompleted: true,
-    },
-    {
-      sectionNumber: "002",
-      numberOfStudents: 25,
-      instructorEUID: "jt0377",
-      isSectionCompleted: false,
-    },
-    {
-      sectionNumber: "5",
-      numberOfStudents: 55,
-      instructorEUID: "jt0377",
-      isSectionCompleted: false,
     },
   ];
 
@@ -292,6 +311,7 @@ const EditAssignedCourses = () => {
               disabled={checkIfSelectMajorAndSemester()}
               style={{ bottom: "5px" }}
               fullWidth={true}
+              value={selectCourse}
               placeholder="Select a course"
               options={courseSelectionOptions}
               onChange={(value) => {
@@ -329,18 +349,21 @@ const EditAssignedCourses = () => {
           </Text>
         )}
 
-        {selectCourse && semJson && theDepartment && (
-          <SectionTable
-            year={year}
-            term={term}
-            department={theDepartment}
-            courseNumber={selectCourse}
-            columns={columns}
-            data={data}
-            instructorList={instructorList}
-            refreshTable={refreshTable}
-          />
-        )}
+        {selectCourse &&
+          semJson &&
+          theDepartment &&
+          selectCourse != "There are no course for this semester" && (
+            <SectionTable
+              year={year}
+              term={term}
+              department={theDepartment}
+              courseNumber={selectCourse}
+              columns={columns}
+              data={sectionList}
+              instructorList={instructorList}
+              refreshTable={refreshTable}
+            />
+          )}
       </Box>
     </div>
   );
