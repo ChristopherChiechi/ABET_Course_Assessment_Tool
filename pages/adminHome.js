@@ -48,7 +48,7 @@ import GenerateStudentSurveys from "../components/admin-components/GenerateStude
 import EditAssignedCourses from "../components/admin-components/EditAssignedCourses/EditAssignedCourses";
 import CreateNewMajor from "../components/admin-components/EditDepartments/CreateNewMajor";
 import AssignCourseToMajorOutcome from "../components/admin-components/MajorsOutcomes/AssignCourseToMajor/AssignCourseToMajorOutcome";
-
+import AddNewOutcomeToMajor from "../components/admin-components/MajorsOutcomes/AddNewOutcomeToMajor/AddNewOutcomeToMajor";
 var role = "super";
 var is_super = true;
 if (role == "super") {
@@ -289,6 +289,8 @@ const adminHome = () => {
                 return <GenerateStudentSurveys />;
               case "ACMO":
                 return <AssignCourseToMajorOutcome />;
+              case "ANOTM":
+                return <AddNewOutcomeToMajor />;
             }
           })()}
         </div>

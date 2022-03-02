@@ -281,6 +281,60 @@ export async function deleteCourseAssignedToMajor(
   return response;
 }
 
+export async function addNewOutcomeToMajor(
+  year,
+  term,
+  majorName,
+  outcomeName,
+  outcomeDescription
+) {
+  let api_helper = new API();
+  let response = await api_helper.addNewOutcomeToMajor(
+    year,
+    term,
+    majorName,
+    outcomeName,
+    outcomeDescription
+  );
+  return response;
+}
+
+export async function deleteOutcomeFromMajor(
+  year,
+  term,
+  majorName,
+  outcomeName
+) {
+  let api_helper = new API();
+  let response = await api_helper.deleteOutcomeFromMajor(
+    year,
+    term,
+    majorName,
+    outcomeName
+  );
+  return response;
+}
+
+export async function editOutcomeForMajor(
+  term,
+  year,
+  majorName,
+  oldOutcomeName,
+  newOutcomename,
+  newDescription
+) {
+  let api_helper = new API();
+  let response = await api_helper.editOutcomeForMajor(
+    term,
+    year,
+    majorName,
+    oldOutcomeName,
+    newOutcomename,
+    newDescription
+  );
+  return response;
+}
+
 // Old Endpoint
 
 export function getCourses() {

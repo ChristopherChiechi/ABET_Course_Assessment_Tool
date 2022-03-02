@@ -710,6 +710,104 @@ export default class API {
     }
   }
 
+  //---addNewOutcomeToMajor()--- (Admin)
+  //    Input: year,term,majorName,outcome Name, outcome Description
+  //    Output: success or failure
+  async addNewOutcomeToMajor(
+    year,
+    term,
+    majorName,
+    outcomeName,
+    outcomeDescription
+  ) {
+    const url =
+      rootNew +
+      `/MajorOutcome/AddMajorOutcome?term=${term}&year=${year}&majorName=${majorName}`;
+    const body = {
+      majorOutcomeId: 0,
+      name: outcomeName,
+      description: outcomeDescription,
+    };
+    try {
+      const response = await axios.post(url, body);
+      if (response) {
+        let status = this.checkStatus(response.status);
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
+    } catch (error) {
+      let status = this.checkStatus(error.message);
+      return {
+        data: null,
+        status: status,
+      };
+    }
+  }
+
+  //---deleteOutcomeFromMajor()--- (Admin)
+  //    Input: year,term,majorName,outcome Name
+  //    Output: success or failure
+  async deleteOutcomeFromMajor(year, term, majorName, outcomeName) {
+    const url =
+      rootNew +
+      `/MajorOutcome/DeleteMajorOutcome?term=${term}&year=${year}&majorName=${majorName}&outcomeName=${outcomeName}`;
+    try {
+      const response = await axios.delete(url);
+      if (response) {
+        let status = this.checkStatus(response.status);
+
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
+    } catch (error) {
+      let status = this.checkStatus(error.message);
+      return {
+        data: null,
+        status: status,
+      };
+    }
+  }
+
+  //---editSection()--- (Admin)
+  //    Input: term, year, major name, old outcome name
+  //    Output: success or failure
+  async editOutcomeForMajor(
+    term,
+    year,
+    majorName,
+    oldOutcomeName,
+    newOutcomename,
+    newDescription
+  ) {
+    const url =
+      rootNew +
+      `/majorOutcome/EditMajorOutcome?term=${term}&year=${year}&majorName=${majorName}&outcomeName=${oldOutcomeName}`;
+    try {
+      const response = await axios.patch(url, {
+        name: newOutcomename,
+        description: newDescription,
+      });
+      if (response) {
+        let status = this.checkStatus(response.status);
+
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
+    } catch (error) {
+      let status = this.checkStatus(error.message);
+      return {
+        data: null,
+        status: status,
+      };
+    }
+  }
+
   // Old End Point
   // generic function for sending POST requests
   //    Input: route and body
