@@ -177,6 +177,22 @@ export async function editCourse(
   return response;
 }
 
+export async function getSectionsByCourse(
+  term,
+  year,
+  department,
+  courseNumber
+) {
+  let api_helper = new API();
+  let response = await api_helper.getSectionsByCourse(
+    term,
+    year,
+    department,
+    courseNumber
+  );
+  return response;
+}
+
 export async function addNewSection(
   year,
   term,
@@ -335,7 +351,53 @@ export async function editOutcomeForMajor(
   return response;
 }
 
+export async function addOutcomeToCourse(
+  year,
+  term,
+  department,
+  courseNumber,
+  major,
+  outcomName
+) {
+  let api_helper = new API();
+  let response = await api_helper.addOutcomeToCourse(
+    year,
+    term,
+    department,
+    courseNumber,
+    major,
+    outcomName
+  );
+  return response;
+}
+
+export async function deleteOutcomeFromCourse(
+  year,
+  term,
+  department,
+  courseNumber,
+  major,
+  outcomName
+) {
+  let api_helper = new API();
+  let response = await api_helper.deleteOutcomeFromCourse(
+    year,
+    term,
+    department,
+    courseNumber,
+    major,
+    outcomName
+  );
+  return response;
+}
+
 // Old Endpoint
+//
+//
+//
+//
+//
+//
 
 export function getCourses() {
   return courses;

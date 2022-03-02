@@ -22,10 +22,9 @@ import ViewColumn from "@material-ui/icons/ViewColumn";
 
 //API
 import {
-  addNewSection,
-  deleteSection,
-  editSection,
-} from "../../../api/APIHelper";
+  addOutcomeToCourse,
+  deleteOutcomeFromCourse,
+} from "../../../../api/APIHelper";
 
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -51,33 +50,40 @@ const tableIcons = {
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
 };
 
-const SectionTable = ({
-  year,
+const AssignOutcomeToCourseTable = ({
   term,
+  year,
   department,
-  courseNumber,
+  selectCourseNumber,
+  majorName,
+  refreshTable,
   columns,
   data,
-  instructorList,
-  refreshTable,
 }) => {
   //Toast
   const toast = useToast({ position: "top" });
+
+  function getKeyByValue(object, value) {
+    return Object.keys(object).find((key) => object[key] === value);
+  }
+
   //Handle remove
-  const handleRemoveSection = async (section) => {
+  const handleRemoveOutcome = async (oldData) => {
+    console.log(majorName);
     try {
-      const deleteRes = await deleteSection(
-        term,
+      const deleteRes = await deleteOutcomeFromCourse(
         year,
+        term,
         department,
-        courseNumber,
-        section.sectionNumber
+        selectCourseNumber,
+        majorName,
+        oldData.outcomeName
       );
       const status = deleteRes.status;
       if (status != "Success") {
         toast({
           title: "Error",
-          description: `There was an error deleting the section! Error: ${status}`,
+          description: `There was an error deleting the course! Error: ${status}`,
           status: "error",
           duration: 9000,
           isClosable: true,
@@ -85,51 +91,30 @@ const SectionTable = ({
         return;
       } else {
         toast({
-          title: "Success",
-          description: `Section ${section.sectionNumber} deleted`,
+          description: `Successfully deleted`,
           status: "success",
           duration: 9000,
           isClosable: true,
         });
-        refreshTable();
       }
     } catch (error) {
       console.log(error);
     }
+    refreshTable();
   };
 
-  //Handle Add section
-  const handleAddSection = async (newSection) => {
+  //Handle add
+  const handleAddOutcomeToCourse = async (newData) => {
+    console.log(newData);
+    console.log(term, year, department, selectCourseNumber, majorName);
     try {
-      var instructorEUID;
-      if (instructorList) {
-        for (let key in instructorList) {
-          if (instructorList[key].label == newSection.instructorEUID) {
-            instructorEUID = instructorList[key].instructorEUID;
-          }
-        }
-      }
-      if (!instructorEUID) {
-        toast({
-          title: "Error",
-          description: `Please select an instructor before adding!`,
-          status: "error",
-          duration: 9000,
-          isClosable: true,
-        });
-        return;
-      }
-      var isSectionCompleted = JSON.parse(newSection.isSectionCompleted);
-      console.log(newSection, instructorEUID);
-      const res = await addNewSection(
+      const res = await addOutcomeToCourse(
         year,
         term,
         department,
-        courseNumber,
-        instructorEUID,
-        isSectionCompleted,
-        newSection.sectionNumber.toString(),
-        newSection.numberOfStudents
+        selectCourseNumber,
+        majorName,
+        newData.outcomeName
       );
       const status = res.status;
       if (status != "Success") {
@@ -144,78 +129,13 @@ const SectionTable = ({
       } else {
         toast({
           title: "Success",
-          description: `Successfully added the new section! Please refresh the page if you don't see the new change.`,
+          description: `Successfully assigned outcome: ${newData.outcomeName} to course: ${selectCourseNumber}! Please refresh the page if you don't see the new change.`,
           status: "success",
           duration: 9000,
           isClosable: true,
         });
-        refreshTable();
       }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleEditSection = async (newData, oldData) => {
-    console.log(newData);
-    var isSectionComplete = JSON.parse(newData.isSectionCompleted);
-    try {
-      var instructorEUID;
-      if (newData.instructorEUID == oldData.instructorEUID) {
-        instructorEUID = oldData.instructorEUID;
-      } else {
-        if (instructorList) {
-          for (let key in instructorList) {
-            if (instructorList[key].label == newData.instructorEUID) {
-              instructorEUID = instructorList[key].instructorEUID;
-              console.log(instructorEUID);
-            }
-          }
-        }
-      }
-
-      if (!instructorEUID) {
-        toast({
-          title: "Error",
-          description: `Please select an instructor before adding!`,
-          status: "error",
-          duration: 9000,
-          isClosable: true,
-        });
-        return;
-      }
-
-      const editRes = await editSection(
-        term,
-        year,
-        department,
-        courseNumber,
-        oldData.sectionNumber,
-        instructorEUID,
-        isSectionComplete,
-        newData.sectionNumber.toString(),
-        newData.numberOfStudents
-      );
-      const status = editRes.status;
-      if (status != "Success") {
-        toast({
-          title: "Error",
-          description: `There was an error editing the section! Error: ${status}`,
-          status: "error",
-          duration: 9000,
-          isClosable: true,
-        });
-        return;
-      } else {
-        toast({
-          title: "Success",
-          description: `section ${oldData.sectionNumber} Edited`,
-          status: "success",
-          duration: 9000,
-          isClosable: true,
-        });
-        refreshTable();
-      }
+      refreshTable();
     } catch (error) {
       console.log(error);
     }
@@ -231,26 +151,20 @@ const SectionTable = ({
       }}
       columns={columns}
       data={data}
-      title="Section List"
+      title="Outcome List"
       editable={{
-        onRowUpdate: (newData, oldData) =>
+        onRowAdd: (newData) =>
           new Promise((resolve, reject) => {
             setTimeout(() => {
-              handleEditSection(newData, oldData);
+              handleAddOutcomeToCourse(newData);
               resolve();
             }, 1000);
           }),
-        onRowAdd: (newSection) =>
+        onRowDelete: (oldData) =>
           new Promise((resolve, reject) => {
             setTimeout(() => {
-              handleAddSection(newSection);
-              resolve();
-            }, 1000);
-          }),
-        onRowDelete: (deleteSection) =>
-          new Promise((resolve, reject) => {
-            setTimeout(() => {
-              handleRemoveSection(deleteSection);
+              console.log(oldData);
+              handleRemoveOutcome(oldData);
               resolve();
             }, 1000);
           }),
@@ -258,4 +172,4 @@ const SectionTable = ({
     />
   );
 };
-export default SectionTable;
+export default AssignOutcomeToCourseTable;

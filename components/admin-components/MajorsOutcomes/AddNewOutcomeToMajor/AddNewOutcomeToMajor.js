@@ -145,7 +145,7 @@ const AddNewOutcomeToMajor = () => {
       <VStack id="top" w="90%" m="0 auto">
         <Box m="1em" p="3em">
           <Text align="center" fontSize="2xl" fontWeight="bold" mt="1em">
-            Add new outcome to major
+            Add New Outcome to Major
           </Text>
 
           <Flex justifyContent="center">

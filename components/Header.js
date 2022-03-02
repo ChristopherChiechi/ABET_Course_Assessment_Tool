@@ -4,7 +4,7 @@ import { Text, Box, HStack } from "@chakra-ui/react";
 
 const Header = () => {
   return (
-    <>
+    <div>
       <HStack
         direction={["column", "row"]}
         bg="#016a31"
@@ -43,7 +43,7 @@ const Header = () => {
         height="5%"
         padding="0.3em"
       ></Box>
-    </>
+    </div>
   );
 };
 export default Header;

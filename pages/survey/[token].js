@@ -107,9 +107,9 @@ const studentSurvey = () => {
       if (
         courseJson == null ||
         courseJson.courseNumber == undefined ||
-        courseJson.courseSemester == undefined ||
+        courseJson.sectionNumber == undefined ||
+        courseJson.courseTerm == undefined ||
         courseJson.courseYear == undefined ||
-        courseJson.displayName == undefined ||
         courseJson.departmentName == undefined
       ) {
         router.push({
@@ -118,9 +118,9 @@ const studentSurvey = () => {
       } else {
         setCourseInformation({
           courseNumber: courseJson.courseNumber,
-          courseSemester: courseJson.courseSemester,
+          courseTerm: courseJson.courseTerm,
           courseYear: courseJson.courseYear,
-          courseDisplayName: courseJson.displayName,
+          sectionNumber: courseJson.sectionNumber,
           courseDepartment: courseJson.departmentName,
         });
         console.log(courseJson.courseNumber);
@@ -139,7 +139,6 @@ const studentSurvey = () => {
       alert(" Please complete the student information");
     }
     let i;
-    let counter = 0;
     for (i = 0; i < outcomeSurvey.length; i++) {
       if (outcomeSurvey[i].rating === 0) {
         alert("Please answer all course outcomes");
@@ -147,13 +146,13 @@ const studentSurvey = () => {
       }
     }
     let j;
-    let taCounter = 0;
     for (j = 0; j < TAquestions.length; j++) {
       if (TAquestions[i].rating === 0) {
         alert("Please answer the Ta questions");
         break;
       }
     }
+    console.log(outcomeSurvey);
   };
 
   const submitSurvey = () => {};
@@ -187,11 +186,11 @@ const studentSurvey = () => {
               {courseInformation.courseDepartment +
                 " " +
                 courseInformation.courseNumber +
-                " " +
-                courseInformation.courseDisplayName}
+                " Section " +
+                courseInformation.sectionNumber}
             </Text>
             <Text fontSize="2xl" fontWeight="bold">
-              {courseInformation.courseSemester +
+              {courseInformation.courseTerm +
                 " " +
                 courseInformation.courseYear}
             </Text>
