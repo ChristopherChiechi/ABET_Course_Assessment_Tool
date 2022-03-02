@@ -50,8 +50,6 @@ const tableIcons = {
 const SemesterTable = ({
   columns,
   data,
-  year,
-  term,
   refreshTable,
 }) => {
   //Toast
@@ -124,7 +122,7 @@ const SemesterTable = ({
       }}
       columns={columns}
       data={data}
-      title="Semester List"
+      title=""
       editable={{
         onRowAdd: (newSemester) =>
           new Promise((resolve, reject) => {
