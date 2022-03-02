@@ -35,7 +35,7 @@ import Head from "next/head";
 import Navigation from "../components/Navigation";
 import AdminMenu from "../components/admin-components/AdminMenu";
 // import FullReport from '../components/admin-components/FullReport/FullReport';
-import CreateNewSemester from "../components/admin-components/EditSemesters/CreateNewSemester";
+import EditSemesterList from "../components/admin-components/EditSemesters/EditSemesterList";
 import EditProgramList from "../components/admin-components/EditProgramList/EditProgramList";
 import EditCourseAssignments from "../components/admin-components/EditCourseAssignments/EditCourseAssignments";
 import EditFacultyList from "../components/admin-components/EditFacultyList/EditFacultyList";
@@ -272,7 +272,7 @@ const adminHome = () => {
               case "OM":
                 return <OutcomeMapping />;
               case "CNS":
-                return <CreateNewSemester />;
+                return <EditSemesterList />;
               case "CND":
                 return <CreateNewMajor />;
               case "EAC":
