@@ -324,8 +324,6 @@ export default class API {
       var response = await axios.get(url);
       if (response) {
         let status = this.checkStatus(response.status);
-        console.log(response);
-        console.log(`status: ${status}`);
         return {
           data: response.data,
           status: status,
@@ -632,6 +630,69 @@ export default class API {
         sectionNumber: newSectionNumber,
         numberOfStudents: newNumberOfStudents,
       });
+      if (response) {
+        let status = this.checkStatus(response.status);
+
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
+    } catch (error) {
+      let status = this.checkStatus(error.message);
+      return {
+        data: null,
+        status: status,
+      };
+    }
+  }
+
+  //Outcome
+
+  //---assignCourseToMajor()--- (Admin)
+  //    Input: year,term,department,courseNumber,major
+  //    Output: success or failure
+  async assignCourseToMajor(year, term, department, courseNumber, major) {
+    const url =
+      rootNew +
+      `/CourseOutcome/addCourseOutcome?term=${term}&year=${year}&classDepartment=${department}&courseNumber=${courseNumber}`;
+    const body = {
+      courseOutcomeId: 0,
+      major: major,
+    };
+    try {
+      const response = await axios.post(url, body);
+      if (response) {
+        let status = this.checkStatus(response.status);
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
+    } catch (error) {
+      let status = this.checkStatus(error.message);
+      return {
+        data: null,
+        status: status,
+      };
+    }
+  }
+
+  //---deleteCourseAssignedToMajor()--- (Admin)
+  //    Input: term, year, department, course number, major
+  //    Output: success or failure
+  async deleteCourseAssignedToMajor(
+    term,
+    year,
+    department,
+    courseNumber,
+    major
+  ) {
+    const url =
+      rootNew +
+      `/CourseOutcome/DeleteCourseOutcome?term=${term}&year=${year}&classDepartment=${department}&courseNumber=${courseNumber}&majorName=${major}`;
+    try {
+      const response = await axios.delete(url);
       if (response) {
         let status = this.checkStatus(response.status);
 

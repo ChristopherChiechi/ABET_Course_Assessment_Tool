@@ -47,6 +47,8 @@ import GenerateFullReport from "../components/admin-components/GenerateFullRepor
 import GenerateStudentSurveys from "../components/admin-components/GenerateStudentSurveys";
 import EditAssignedCourses from "../components/admin-components/EditAssignedCourses/EditAssignedCourses";
 import CreateNewMajor from "../components/admin-components/EditDepartments/CreateNewMajor";
+import AssignCourseToMajorOutcome from "../components/admin-components/MajorsOutcomes/AssignCourseToMajor/AssignCourseToMajorOutcome";
+
 var role = "super";
 var is_super = true;
 if (role == "super") {
@@ -66,35 +68,35 @@ const adminHome = () => {
       <Navigation />
       <div>
         <div>
-        <Flex justifyContent="left" mt="1em" mr="1em">
-          <HStack spacing='10px' w={{ base: "120%", md: "80%" }}>
-            <IconButton
-              bg="#016a31"
-              color="white"
-              onClick={onOpen}
-              ml="1em"
-              _hover={{
-                background: "teal",
-                color: "white",
-              }}
-              icon={<HamburgerIcon />}
-            />
+          <Flex justifyContent="left" mt="1em" mr="1em">
+            <HStack spacing="10px" w={{ base: "120%", md: "80%" }}>
+              <IconButton
+                bg="#016a31"
+                color="white"
+                onClick={onOpen}
+                ml="1em"
+                _hover={{
+                  background: "teal",
+                  color: "white",
+                }}
+                icon={<HamburgerIcon />}
+              />
 
-            <Button
-              disabled={is_super}
-              onClick={() => router.push("/instructorHome")}
-              bg="#016a31"
-              color="white"
-              ml="1em"
-              _hover={{
-                background: "teal",
-                color: "white",
-              }}
-            >
-              Switch to Instructor
-            </Button>
-          </HStack>
-        </Flex>
+              <Button
+                disabled={is_super}
+                onClick={() => router.push("/instructorHome")}
+                bg="#016a31"
+                color="white"
+                ml="1em"
+                _hover={{
+                  background: "teal",
+                  color: "white",
+                }}
+              >
+                Switch to Instructor
+              </Button>
+            </HStack>
+          </Flex>
 
           <Drawer
             placement="left"
@@ -285,6 +287,8 @@ const adminHome = () => {
                 return <EditCourseOutcomes />;
               case "GSS":
                 return <GenerateStudentSurveys />;
+              case "ACMO":
+                return <AssignCourseToMajorOutcome />;
             }
           })()}
         </div>

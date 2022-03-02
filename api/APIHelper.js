@@ -244,6 +244,43 @@ export async function editSection(
   );
   return response;
 }
+
+export async function assignCourseToMajor(
+  year,
+  term,
+  department,
+  courseNumber,
+  major
+) {
+  let api_helper = new API();
+  let response = await api_helper.assignCourseToMajor(
+    year,
+    term,
+    department,
+    courseNumber,
+    major
+  );
+  return response;
+}
+
+export async function deleteCourseAssignedToMajor(
+  term,
+  year,
+  department,
+  courseNumber,
+  major
+) {
+  let api_helper = new API();
+  let response = await api_helper.deleteCourseAssignedToMajor(
+    term,
+    year,
+    department,
+    courseNumber,
+    major
+  );
+  return response;
+}
+
 // Old Endpoint
 
 export function getCourses() {

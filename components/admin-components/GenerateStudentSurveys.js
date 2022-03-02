@@ -28,6 +28,9 @@ const GenerateStudentSurveys = () => {
       ...courseList,
       courses,
     });
+    if (courses) {
+      console.log(courses);
+    }
   };
   const secretKey = process.env.SURVEY_JWT_KEY;
   const renderSurveyList = courseList
