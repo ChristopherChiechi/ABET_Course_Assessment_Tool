@@ -44,11 +44,12 @@ import EditCourseOutcomes from "../components/admin-components/EditCourseOutcome
 import OutcomeMapping from "../components/admin-components/OutcomeMapping/OutcomeMapping";
 import GenerateSectionReport from "../components/admin-components/GenerateSectionReport/GenerateSectionReport";
 import GenerateFullReport from "../components/admin-components/GenerateFullReport/GenerateFullReport";
-import GenerateStudentSurveys from "../components/admin-components/GenerateStudentSurveys";
+import GenerateStudentSurveys from "../components/admin-components/GenerateStudentSurveys/GenerateStudentSurveys";
 import EditAssignedCourses from "../components/admin-components/EditAssignedCourses/EditAssignedCourses";
 import CreateNewMajor from "../components/admin-components/EditDepartments/CreateNewMajor";
 import AssignCourseToMajorOutcome from "../components/admin-components/MajorsOutcomes/AssignCourseToMajor/AssignCourseToMajorOutcome";
 import AddNewOutcomeToMajor from "../components/admin-components/MajorsOutcomes/AddNewOutcomeToMajor/AddNewOutcomeToMajor";
+import AssignOutcomeToCourse from "../components/admin-components/MajorsOutcomes/AssignOutcomeToCourse/AssignOutcomeToCourse";
 var role = "super";
 var is_super = true;
 if (role == "super") {
@@ -291,6 +292,8 @@ const adminHome = () => {
                 return <AssignCourseToMajorOutcome />;
               case "ANOTM":
                 return <AddNewOutcomeToMajor />;
+              case "AOTC":
+                return <AssignOutcomeToCourse />;
             }
           })()}
         </div>

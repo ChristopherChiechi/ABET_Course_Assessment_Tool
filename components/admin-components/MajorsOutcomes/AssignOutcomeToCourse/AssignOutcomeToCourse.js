@@ -1,14 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { Box, Text, Select, Flex, VStack, useToast } from "@chakra-ui/react";
+import {
+  Box,
+  Text,
+  Select,
+  VStack,
+  useToast,
+  Center,
+  Grid,
+  GridItem,
+} from "@chakra-ui/react";
 import {
   getCoursesByDepartment,
   getSemesters,
   getMajors,
 } from "../../../../api/APIHelper";
-import AssignCourseToMajorOutcomeTable from "./AssignCourseToMajorOutcomeTable";
 import { SingleSelect } from "react-select-material-ui";
-
-const AssignCourseToMajorOutcome = () => {
+import AssignOutcomeToCourseTable from "./AssignOutcomeToCourseTable";
+const AssignOutcomeToCourse = () => {
   useEffect(() => {
     document.getElementById("top").scrollIntoView();
   });
@@ -25,8 +33,11 @@ const AssignCourseToMajorOutcome = () => {
   const [semJson, setSemJson] = useState();
   const [year, setYear] = useState();
   const [term, setTerm] = useState();
-  const [lookupObjectMajor, setLookupObjectMajor] = useState();
   const [lookupObjectCourse, setLookupObjectCourse] = useState();
+  const [majorsList, setMajorsList] = useState();
+  const [majorSelect, setMajorSelect] = useState();
+  const [selectCourse, setSelectCourse] = useState();
+  const [courseSelectionOptions, setCourseSelectionOptions] = useState();
 
   const getMajorsList = async () => {
     const lookup = {};
@@ -50,12 +61,7 @@ const AssignCourseToMajorOutcome = () => {
         });
         return;
       }
-      majorListData.forEach((major) => {
-        lookup[major.name] = major.name;
-      });
-
-      console.log(lookup);
-      setLookupObjectMajor(lookup);
+      setMajorsList(majorListData);
     } catch (error) {
       console.log(error);
     }
@@ -98,6 +104,22 @@ const AssignCourseToMajorOutcome = () => {
         ] = ` ${course.department} ${course.courseNumber} ${course.displayName}`;
       });
       setLookupObjectCourse(lookup);
+
+      const courseMapToValueAndLabel = courseList.map((course) => ({
+        value: course.courseNumber,
+        label: course.displayName,
+      }));
+
+      if (_.isEmpty(courseList)) {
+        setCourseSelectionOptions(["There are no course for this semester"]);
+        setSelectCourse("");
+        console.log("Empty courselist");
+        return;
+      }
+
+      if (courseMapToValueAndLabel) {
+        setCourseSelectionOptions(courseMapToValueAndLabel);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -105,48 +127,40 @@ const AssignCourseToMajorOutcome = () => {
 
   const columns = [
     {
-      title: "Course",
-      field: "courseNumber",
+      title: "Outcome Name",
+      field: "outcomeName",
       validate: (rowData) =>
-        rowData.courseNumber ? true : "Course name can not be empty",
-      editComponent: (props) => (
-        <SingleSelect
-          options={lookupObjectCourse}
-          fullWidth={true}
-          value={props.value}
-          onChange={(value) => {
-            props.onChange(value);
-            console.log(value);
-          }}
-        />
-      ),
+        rowData.outcomeName ? true : "Outcome name name can not be empty",
     },
     {
-      title: "Major",
-      field: "major",
-      lookup: lookupObjectMajor,
-      validate: (rowData) => (rowData.major ? true : "Major can not be empty"),
+      title: "Outcome Description",
+      field: "outcomeDescription",
+      editable: "never",
     },
   ];
 
   const data = [
     {
-      courseNumber: "333",
-      major: "CE",
+      outcomeName: "CE Outcome 2",
+      outcomeDescription: "Hi there",
     },
     {
-      courseNumber: "333",
-      major: "CS",
-    },
-    {
-      courseNumber: "333",
-      major: "IT",
+      outcomeName: "Outcome 2",
+      outcomeDescription: "Bye there",
     },
   ];
 
   //Check if the department is select before enable the dropdown for semester
   const checkIfSelectMajor = () => {
     if (!theDepartment) {
+      return true;
+    }
+    return false;
+  };
+
+  //Check if the department and semester is select before enable the dropdown for major
+  const checkIfSelectMajorAndSemseter = () => {
+    if (!theDepartment || !semJson) {
       return true;
     }
     return false;
@@ -195,17 +209,17 @@ const AssignCourseToMajorOutcome = () => {
 
   return (
     <div>
+      <Center>
+        <Text fontWeight="bold" fontSize="xl" mt="1em">
+          Assign course to major outcomes
+        </Text>
+      </Center>
       <VStack id="top" w="90%" m="0 auto">
-        <Box m="1em" p="3em">
-          <Text align="center" fontSize="2xl" fontWeight="bold" mt="1em">
-            Assign course to major outcomes
-          </Text>
-
-          <Flex justifyContent="center">
+        <Grid templateColumns="repeat(4, 1fr)" gap={1}>
+          <GridItem>
             <Select
               id="department"
-              width="70%"
-              mr="1em"
+              width="100%"
               isRequired={true}
               placeholder="Select Department"
               borderColor="teal"
@@ -218,11 +232,13 @@ const AssignCourseToMajorOutcome = () => {
               <option value="EENG">Engineering</option>
               <option value="IT">Information Technology</option>
             </Select>
+          </GridItem>
+          <GridItem>
             <Select
               id="term"
               placeholder="Select semester"
               borderColor="teal"
-              width="70%"
+              width="100%"
               isRequired={true}
               value={semJson}
               disabled={checkIfSelectMajor()}
@@ -239,8 +255,46 @@ const AssignCourseToMajorOutcome = () => {
                   );
                 })}
             </Select>
-          </Flex>
-        </Box>
+          </GridItem>
+          <GridItem>
+            <Select
+              id="majors"
+              placeholder="Select major"
+              borderColor="teal"
+              width="100%"
+              value={majorSelect}
+              isRequired={true}
+              disabled={checkIfSelectMajorAndSemseter()}
+              onChange={(e) => {
+                setMajorSelect(e.target.value);
+                console.log(e.target.value);
+              }}
+            >
+              {majorsList &&
+                majorsList.map((major, idx) => {
+                  return (
+                    <option value={major.name} key={idx}>
+                      {major.name}
+                    </option>
+                  );
+                })}
+            </Select>
+          </GridItem>
+          <GridItem>
+            <SingleSelect
+              disabled={checkIfSelectMajorAndSemseter()}
+              style={{ bottom: "5px" }}
+              fullWidth={true}
+              value={selectCourse}
+              placeholder="Select a course"
+              options={courseSelectionOptions}
+              onChange={(value) => {
+                setSelectCourse(value);
+                console.log(value);
+              }}
+            />
+          </GridItem>
+        </Grid>
       </VStack>
       <Box align="center" w="30%" margin="auto">
         {!semJson && !theDepartment && (
@@ -250,24 +304,23 @@ const AssignCourseToMajorOutcome = () => {
         )}
         {semJson && theDepartment && (
           <Text fontWeight="bold" mb="1em" fontSize="lg" align="center">
-            Courses Table
+            Outcome Table
           </Text>
         )}
-
-        {semJson && theDepartment && lookupObjectMajor && (
-          <AssignCourseToMajorOutcomeTable
-            theDepartment={theDepartment}
+        {selectCourse && semJson && theDepartment && selectCourse && (
+          <AssignOutcomeToCourseTable
+            term={term}
+            year={year}
+            department={theDepartment}
+            selectCourseNumber={selectCourse}
+            majorName={majorSelect}
+            refreshTable={refreshTable}
             columns={columns}
             data={data}
-            year={year}
-            term={term}
-            refreshTable={refreshTable}
-            courseLookUp={lookupObjectCourse}
-            majorLookUp={lookupObjectMajor}
           />
         )}
       </Box>
     </div>
   );
 };
-export default AssignCourseToMajorOutcome;
+export default AssignOutcomeToCourse;
