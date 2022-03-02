@@ -835,6 +835,71 @@ export default class API {
     }
   }
 
+  //---addOutcomeToCourse()--- (Admin)
+  //    Input: year,term,department,courseNumber,major,outcomName
+  //    Output: success or failure
+  async addOutcomeToCourse(
+    year,
+    term,
+    department,
+    courseNumber,
+    major,
+    outcomName
+  ) {
+    const url =
+      rootNew +
+      `/CourseOutcome/AddMajorOutcome?term=${term}&year=${year}&classDepartment=${department}&courseNumber=${courseNumber}&majorName=${major}&outcomeName=${outcomName}`;
+    try {
+      const response = await axios.post(url);
+      if (response) {
+        let status = this.checkStatus(response.status);
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
+    } catch (error) {
+      let status = this.checkStatus(error.message);
+      return {
+        data: null,
+        status: status,
+      };
+    }
+  }
+
+  //---deleteOutcomeFromMajor()--- (Admin)
+  //    Input: year,term,department,courseNumber,major,outcomName
+  //    Output: success or failure
+  async deleteOutcomeFromCourse(
+    year,
+    term,
+    department,
+    courseNumber,
+    major,
+    outcomName
+  ) {
+    const url =
+      rootNew +
+      `/CourseOutcome/DeleteMajorOutcome?term=${term}&year=${year}&classDepartment=${department}&courseNumber=${courseNumber}&majorName=${major}&outcomeName=${outcomName}`;
+    try {
+      const response = await axios.delete(url);
+      if (response) {
+        let status = this.checkStatus(response.status);
+
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
+    } catch (error) {
+      let status = this.checkStatus(error.message);
+      return {
+        data: null,
+        status: status,
+      };
+    }
+  }
+
   // Old End Point
   // generic function for sending POST requests
   //    Input: route and body
