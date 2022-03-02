@@ -91,11 +91,11 @@ const SectionTable = ({
           duration: 9000,
           isClosable: true,
         });
+        refreshTable();
       }
     } catch (error) {
       console.log(error);
     }
-    refreshTable();
   };
 
   //Handle Add section
@@ -149,8 +149,8 @@ const SectionTable = ({
           duration: 9000,
           isClosable: true,
         });
+        refreshTable();
       }
-      refreshTable();
     } catch (error) {
       console.log(error);
     }
@@ -214,11 +214,11 @@ const SectionTable = ({
           duration: 9000,
           isClosable: true,
         });
+        refreshTable();
       }
     } catch (error) {
       console.log(error);
     }
-    refreshTable();
   };
 
   return (
