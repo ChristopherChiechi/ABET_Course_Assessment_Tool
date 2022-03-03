@@ -585,7 +585,7 @@ export default class API {
     const body = {
       sectionId: 0,
       instructorEUID: instructorEUID,
-      isSectionComplete: isSectionComplete,
+      isSectionCompleted: isSectionComplete,
       sectionNumber: sectionNumber,
       numberOfStudents: numberOfStudents,
     };
@@ -1306,7 +1306,8 @@ export default class API {
     courseNumber = "",
     sectionNumber = "",
     department = "",
-    numberOfStudents = 0
+    numberOfStudents = 0,
+    isSectionCompleted
   ) {
     const body = {
       section: {
@@ -1320,7 +1321,7 @@ export default class API {
         courseNumber,
         sectionNumber,
         department,
-        isSectionCompleted: false,
+        isSectionCompleted: isSectionCompleted,
         numberOfStudents,
       },
     };
