@@ -164,7 +164,7 @@ const AssignCourseToMajorOutcomeTable = ({
       }}
       columns={columns}
       data={data}
-      title="Course List"
+      title=" "
       editable={{
         onRowAdd: (newData) =>
           new Promise((resolve, reject) => {

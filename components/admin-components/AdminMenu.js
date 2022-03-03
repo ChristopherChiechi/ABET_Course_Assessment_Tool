@@ -163,10 +163,10 @@ const AdminMenu = ({ setView }) => {
           _expanded={{ bg: "#38A169", color: "white" }}
           textAlign="left"
           onClick={() => {
-            setView("EAC");
+            setView("CNM");
           }}
         >
-          Edit Program List
+          Edit Major List
         </AccordionButton>
       </AccordionItem>
 
@@ -175,7 +175,7 @@ const AdminMenu = ({ setView }) => {
           _expanded={{ bg: "#38A169", color: "white" }}
           textAlign="left"
           onClick={() => {
-            setView("ECL");
+            setView("CNM");
           }}
         >
           Edit Course List

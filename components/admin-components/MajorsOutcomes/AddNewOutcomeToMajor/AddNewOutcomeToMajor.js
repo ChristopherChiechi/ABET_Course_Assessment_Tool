@@ -61,12 +61,12 @@ const AddNewOutcomeToMajor = () => {
 
   const columns = [
     {
-      title: "Name",
+      title: "Outcome Name",
       field: "name",
       validate: (rowData) => (rowData.name ? true : "Name can not be empty"),
     },
     {
-      title: "Description",
+      title: "Outcome Description",
       field: "description",
       validate: (rowData) =>
         rowData.description ? true : "Description can not be empty",
@@ -184,9 +184,11 @@ const AddNewOutcomeToMajor = () => {
                 setDepartment(e.target.value);
               }}
             >
-              <option value="CSCE">Computer Science</option>
-              <option value="EENG">Engineering</option>
-              <option value="IT">Information Technology</option>
+              <option value="CSCE">Computer Science & Engineering</option>
+              <option value="BE">Biomedical Engineering</option>
+              <option value="EE">Electrical Engineering</option>
+              <option value="MSE">Material Science And Engineering</option>
+              <option value="ME">Mechanical Engineering</option>
             </Select>
             <Select
               id="term"
@@ -243,7 +245,7 @@ const AddNewOutcomeToMajor = () => {
         )}
         {semJson && theDepartment && (
           <Text fontWeight="bold" mb="1em" fontSize="lg" align="center">
-            Courses Table
+            Outcome Table
           </Text>
         )}
 

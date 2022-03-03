@@ -158,10 +158,10 @@ const adminHome = () => {
                         ml="3"
                         color="#016a31"
                         onClick={() => {
-                          setView("CND");
+                          setView("CNM");
                         }}
                       >
-                        Edit Majors
+                        Edit Major List
                       </Td>
                     </Tr>
                     <Tr>
@@ -274,7 +274,7 @@ const adminHome = () => {
                 return <OutcomeMapping />;
               case "CNS":
                 return <EditSemesterList />;
-              case "CND":
+              case "CNM":
                 return <CreateNewMajor />;
               case "EAC":
                 return <EditAssignedCourses />;

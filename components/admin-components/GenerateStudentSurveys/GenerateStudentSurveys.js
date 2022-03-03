@@ -226,7 +226,7 @@ const GenerateStudentSurveys = () => {
               }}
             >
               <option value="CSCE">Computer Science</option>
-              <option value="EENG">Engineering</option>
+              <option value="EENG">Computer Engineering</option>
               <option value="IT">Information Technology</option>
             </Select>
           </GridItem>

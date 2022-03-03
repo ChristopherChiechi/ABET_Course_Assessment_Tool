@@ -298,9 +298,11 @@ const AssignOutcomeToCourse = () => {
                 setDepartment(e.target.value);
               }}
             >
-              <option value="CSCE">Computer Science</option>
-              <option value="EENG">Engineering</option>
-              <option value="IT">Information Technology</option>
+              <option value="CSCE">Computer Science & Engineering</option>
+              <option value="BE">Biomedical Engineering</option>
+              <option value="EE">Electrical Engineering</option>
+              <option value="MSE">Material Science And Engineering</option>
+              <option value="ME">Mechanical Engineering</option>
             </Select>
           </GridItem>
           <GridItem>
@@ -366,7 +368,7 @@ const AssignOutcomeToCourse = () => {
           </GridItem>
         </Grid>
       </VStack>
-      <Box align="center" w="30%" margin="auto">
+      <Box align="center" w="60%" margin="auto">
         {!semJson && !theDepartment && (
           <Text fontWeight="bold" mt="1em" fontSize="lg" align="center">
             [Table] Waiting for department and semester selection

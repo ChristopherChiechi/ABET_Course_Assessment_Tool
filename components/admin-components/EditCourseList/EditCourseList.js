@@ -201,9 +201,11 @@ const EditCourseList = () => {
                 setDepartment(e.target.value);
               }}
             >
-              <option value="CSCE">Computer Science</option>
-              <option value="EENG">Engineering</option>
-              <option value="IT">Information Technology</option>
+              <option value="CSCE">Computer Science & Engineering</option>
+              <option value="BE">Biomedical Engineering</option>
+              <option value="EE">Electrical Engineering</option>
+              <option value="MSE">Material Science And Engineering</option>
+              <option value="ME">Mechanical Engineering</option>
             </Select>
             <Select
               id="term"
