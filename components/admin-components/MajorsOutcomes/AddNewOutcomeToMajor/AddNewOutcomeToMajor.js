@@ -117,10 +117,11 @@ const AddNewOutcomeToMajor = () => {
 
   const getOutcomeList = async () => {
     if (!semJson || !theDepartment || !majorSelect) return;
+    const semesterParse = JSON.parse(semJson);
     try {
       const outcomeListRes = await getMajorOutcomesBymajor(
-        year,
-        term,
+        semesterParse["year"],
+        semesterParse["term"],
         majorSelect
       );
       const outcomeListData = outcomeListRes.data;
