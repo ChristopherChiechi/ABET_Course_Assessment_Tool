@@ -900,6 +900,56 @@ export default class API {
     }
   }
 
+  //---getMajorOutcomesBymajor()--- (Admin)
+  //    Input: year,term, major name
+  //    Output: success or failure
+  async getMajorOutcomesBymajor(year, term, majorName) {
+    const url =
+      rootNew +
+      `/Major/GetMajorOutcomesByMajor?term=${term}&year=${year}&majorName=${majorName}`;
+    try {
+      const response = await axios.get(url);
+      if (response) {
+        let status = this.checkStatus(response.status);
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
+    } catch (error) {
+      let status = this.checkStatus(error.message);
+      return {
+        data: null,
+        status: status,
+      };
+    }
+  }
+
+  //---getMajorOutcomesBymajor()--- (Admin)
+  //    Input: year,term, major name
+  //    Output: success or failure
+  async getOutcomesByCourse(year, term, department, courseNumber) {
+    const url =
+      rootNew +
+      `/Course/GetMajorOutcomesSatisfied?term=${term}&year=${year}&department=${department}&courseNumber=${courseNumber}`;
+    try {
+      const response = await axios.get(url);
+      if (response) {
+        let status = this.checkStatus(response.status);
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
+    } catch (error) {
+      let status = this.checkStatus(error.message);
+      return {
+        data: null,
+        status: status,
+      };
+    }
+  }
+
   // Old End Point
   // generic function for sending POST requests
   //    Input: route and body
@@ -1357,27 +1407,6 @@ export default class API {
     };
 
     return await this.sendPost("/courses/remove-course", body);
-  }
-
-  //---getCourseOutcomesByCourse(year, semester, courseNumber, department)--- (Admin)
-  //    Input: year, semester, courseNumber, department
-  //    Output: array of course outcomes
-  async getCourseOutcomesByCourse(
-    year = 0,
-    semester = "",
-    courseNumber = "",
-    department = ""
-  ) {
-    const body = {
-      Course: {
-        year,
-        semester,
-        courseNumber,
-        department,
-      },
-    };
-
-    return await this.sendPost("/course-outcomes/by-course", body);
   }
 
   //---postCourseOutcomes(outcomes)--- (Admin)

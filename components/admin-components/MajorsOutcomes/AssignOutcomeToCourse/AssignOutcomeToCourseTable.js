@@ -63,10 +63,6 @@ const AssignOutcomeToCourseTable = ({
   //Toast
   const toast = useToast({ position: "top" });
 
-  function getKeyByValue(object, value) {
-    return Object.keys(object).find((key) => object[key] === value);
-  }
-
   //Handle remove
   const handleRemoveOutcome = async (oldData) => {
     console.log(majorName);
@@ -77,7 +73,7 @@ const AssignOutcomeToCourseTable = ({
         department,
         selectCourseNumber,
         majorName,
-        oldData.outcomeName
+        oldData.name
       );
       const status = deleteRes.status;
       if (status != "Success") {
@@ -114,7 +110,7 @@ const AssignOutcomeToCourseTable = ({
         department,
         selectCourseNumber,
         majorName,
-        newData.outcomeName
+        newData.name
       );
       const status = res.status;
       if (status != "Success") {
@@ -129,7 +125,7 @@ const AssignOutcomeToCourseTable = ({
       } else {
         toast({
           title: "Success",
-          description: `Successfully assigned outcome: ${newData.outcomeName} to course: ${selectCourseNumber}! Please refresh the page if you don't see the new change.`,
+          description: `Successfully assigned outcome: ${newData.name} to course: ${selectCourseNumber}! Please refresh the page if you don't see the new change.`,
           status: "success",
           duration: 9000,
           isClosable: true,

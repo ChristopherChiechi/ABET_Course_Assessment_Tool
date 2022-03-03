@@ -132,15 +132,7 @@ const AssignCourseToMajorOutcome = () => {
   const data = [
     {
       courseNumber: "333",
-      major: "CE",
-    },
-    {
-      courseNumber: "333",
       major: "CS",
-    },
-    {
-      courseNumber: "333",
-      major: "IT",
     },
   ];
 

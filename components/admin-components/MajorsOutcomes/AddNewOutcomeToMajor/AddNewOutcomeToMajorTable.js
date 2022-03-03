@@ -94,6 +94,7 @@ const AddNewOutcomeToMajorTable = ({
           duration: 9000,
           isClosable: true,
         });
+        refreshTable();
       }
     } catch (error) {
       console.log(error);
@@ -127,11 +128,11 @@ const AddNewOutcomeToMajorTable = ({
           duration: 9000,
           isClosable: true,
         });
+        refreshTable();
       }
     } catch (error) {
       console.log(error);
     }
-    refreshTable();
   };
 
   //Handle add
@@ -162,8 +163,8 @@ const AddNewOutcomeToMajorTable = ({
           duration: 9000,
           isClosable: true,
         });
+        refreshTable();
       }
-      refreshTable();
     } catch (error) {
       console.log(error);
     }

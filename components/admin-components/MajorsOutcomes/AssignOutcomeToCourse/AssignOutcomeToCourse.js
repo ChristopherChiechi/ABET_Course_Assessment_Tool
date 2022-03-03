@@ -13,6 +13,8 @@ import {
   getCoursesByDepartment,
   getSemesters,
   getMajors,
+  getOutcomesByCourse,
+  getMajorOutcomesBymajor,
 } from "../../../../api/APIHelper";
 import { SingleSelect } from "react-select-material-ui";
 import AssignOutcomeToCourseTable from "./AssignOutcomeToCourseTable";
@@ -38,9 +40,26 @@ const AssignOutcomeToCourse = () => {
   const [majorSelect, setMajorSelect] = useState();
   const [selectCourse, setSelectCourse] = useState();
   const [courseSelectionOptions, setCourseSelectionOptions] = useState();
+  const [outcomeList, setOutcomeList] = useState();
+  const [outcomeOptions, setOutcomeOptions] = useState();
+
+  //Check if the department is select before enable the dropdown for semester
+  const checkIfSelectMajor = () => {
+    if (!theDepartment) {
+      return true;
+    }
+    return false;
+  };
+
+  //Check if the department and semester is select before enable the dropdown for major
+  const checkIfSelectMajorAndSemseter = () => {
+    if (!theDepartment || !semJson) {
+      return true;
+    }
+    return false;
+  };
 
   const getMajorsList = async () => {
-    const lookup = {};
     if (!semJson) return;
     const semesterParse = JSON.parse(semJson);
     try {
@@ -125,55 +144,41 @@ const AssignOutcomeToCourse = () => {
     }
   };
 
-  const columns = [
-    {
-      title: "Outcome Name",
-      field: "outcomeName",
-      validate: (rowData) =>
-        rowData.outcomeName ? true : "Outcome name name can not be empty",
-    },
-    {
-      title: "Outcome Description",
-      field: "outcomeDescription",
-      editable: "never",
-    },
-  ];
-
-  const data = [
-    {
-      outcomeName: "CE Outcome 2",
-      outcomeDescription: "Hi there",
-    },
-    {
-      outcomeName: "Outcome 2",
-      outcomeDescription: "Bye there",
-    },
-  ];
-
-  //Check if the department is select before enable the dropdown for semester
-  const checkIfSelectMajor = () => {
-    if (!theDepartment) {
-      return true;
+  const getOutcomesList = async () => {
+    if (!selectCourse || !year || !term || !theDepartment) return;
+    try {
+      const outcomeListRes = await getOutcomesByCourse(
+        year,
+        term,
+        theDepartment,
+        selectCourse
+      );
+      const outcomeList = outcomeListRes.data;
+      const status = outcomeListRes.status;
+      if (status != "Success") {
+        toast({
+          title: "Error",
+          description: `There was an error fetching the course list! Error: ${status}`,
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+        return;
+      }
+      setOutcomeList(outcomeList);
+    } catch (error) {
+      console.log(error);
     }
-    return false;
-  };
-
-  //Check if the department and semester is select before enable the dropdown for major
-  const checkIfSelectMajorAndSemseter = () => {
-    if (!theDepartment || !semJson) {
-      return true;
-    }
-    return false;
   };
 
   const getSemesterList = async () => {
     try {
       const semesterlistRes = await getSemesters();
-      const res = semesterlistRes.status;
-      if (res != "Success") {
+      const status = semesterlistRes.status;
+      if (status != "Success") {
         toast({
           title: "Error",
-          description: `There was an error fetching the data! Error: ${res}`,
+          description: `There was an error fetching the data! Error: ${status}`,
           status: "error",
           duration: 9000,
           isClosable: true,
@@ -184,6 +189,37 @@ const AssignOutcomeToCourse = () => {
         return b.year - a.year;
       });
       setSemesterList(sorted);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  //Create the options for drop-down
+  const getOutcomesListByMajor = async () => {
+    if (!year || !term || !majorSelect) return;
+    try {
+      var lookup = {};
+      const outcomelistRes = await getMajorOutcomesBymajor(
+        year,
+        term,
+        majorSelect
+      );
+      const outcomeListData = outcomelistRes.data;
+      const status = outcomelistRes.status;
+      if (status != "Success") {
+        toast({
+          title: "Error",
+          description: `There was an error fetching the data! Error: ${status}`,
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+        return;
+      }
+      outcomeListData.forEach((outcome) => {
+        lookup[outcome.name] = outcome.name;
+      });
+      setOutcomeOptions(lookup);
     } catch (error) {
       console.log(error);
     }
@@ -206,6 +242,40 @@ const AssignOutcomeToCourse = () => {
   useEffect(() => {
     getMajorsList();
   }, [semJson]);
+
+  useEffect(() => {
+    getOutcomesList();
+    if (outcomeList) console.log(outcomeList);
+  }, [semJson, theDepartment, refreshKey, selectCourse]);
+
+  useEffect(() => {
+    getOutcomesListByMajor();
+  }, [semJson, majorSelect]);
+
+  const columns = [
+    {
+      title: "Outcome Name",
+      field: "name",
+      validate: (rowData) =>
+        rowData.name ? true : "Outcome name name can not be empty",
+      editComponent: (props) => (
+        <SingleSelect
+          options={outcomeOptions}
+          fullWidth={true}
+          value={props.value}
+          onChange={(value) => {
+            console.log(value);
+            props.onChange(value);
+          }}
+        />
+      ),
+    },
+    {
+      title: "Outcome Description",
+      field: "description",
+      editable: "never",
+    },
+  ];
 
   return (
     <div>
@@ -316,7 +386,7 @@ const AssignOutcomeToCourse = () => {
             majorName={majorSelect}
             refreshTable={refreshTable}
             columns={columns}
-            data={data}
+            data={outcomeList}
           />
         )}
       </Box>

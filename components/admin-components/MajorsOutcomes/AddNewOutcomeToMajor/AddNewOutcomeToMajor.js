@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Box, Text, Select, Flex, VStack, useToast } from "@chakra-ui/react";
-import { getSemesters, getMajors } from "../../../../api/APIHelper";
+import {
+  getSemesters,
+  getMajors,
+  getMajorOutcomesBymajor,
+} from "../../../../api/APIHelper";
 import AddNewOutcomeToMajorTable from "./AddNewOutcomeToMajorTable";
 
 const AddNewOutcomeToMajor = () => {
@@ -22,6 +26,7 @@ const AddNewOutcomeToMajor = () => {
   const [term, setTerm] = useState();
   const [majorSelect, setMajorSelect] = useState();
   const [majorsList, setMajorsList] = useState();
+  const [outcomeList, setOutcomeList] = useState();
 
   const getMajorsList = async () => {
     if (!semJson) return;
@@ -68,24 +73,6 @@ const AddNewOutcomeToMajor = () => {
     },
   ];
 
-  const data = [
-    {
-      name: "IT Outcome 1",
-      description:
-        "An ability to apply knowledge of computing and mathematics appropriate to the program’s student outcomes and to the discipline",
-    },
-    {
-      name: "IT Outcome 2",
-      description:
-        "An ability to analyze a problem, and identify and define the computing requirements appropriate to its solution.",
-    },
-    {
-      name: "IT Outcome 3",
-      description:
-        "An ability to design, implement, and evaluate a computer-based system, process, component, or program to meet desired needs.      ",
-    },
-  ];
-
   //Check if the department is select before enable the dropdown for semester
   const checkIfSelectMajor = () => {
     if (!theDepartment) {
@@ -102,6 +89,7 @@ const AddNewOutcomeToMajor = () => {
   };
 
   const getSemesterList = async () => {
+    if (!theDepartment) return;
     try {
       const semesterlistRes = await getSemesters();
       const res = semesterlistRes.status;
@@ -127,6 +115,36 @@ const AddNewOutcomeToMajor = () => {
     }
   };
 
+  const getOutcomeList = async () => {
+    if (!semJson || !theDepartment || !majorSelect) return;
+    try {
+      const outcomeListRes = await getMajorOutcomesBymajor(
+        year,
+        term,
+        majorSelect
+      );
+      const outcomeListData = outcomeListRes.data;
+      const status = outcomeListRes.status;
+      if (status != "Success") {
+        toast({
+          title: "Error",
+          description: `There was an error fetching the data! Error: ${status}`,
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+        return;
+      }
+      if (outcomeListData) {
+        setOutcomeList(outcomeListData);
+      }
+      if (outcomeList) {
+        console.log(outcomeList);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const refreshTable = () => {
     setRefreshKey(refreshKey + 1);
   };
@@ -138,7 +156,11 @@ const AddNewOutcomeToMajor = () => {
 
   useEffect(() => {
     getMajorsList();
-  }, [semJson]);
+  }, [semJson, theDepartment, majorSelect]);
+
+  useEffect(() => {
+    getOutcomeList();
+  }, [semJson, theDepartment, majorSelect, refreshKey]);
 
   return (
     <div>
@@ -227,7 +249,7 @@ const AddNewOutcomeToMajor = () => {
         {semJson && theDepartment && majorSelect && (
           <AddNewOutcomeToMajorTable
             columns={columns}
-            data={data}
+            data={outcomeList}
             year={year}
             term={term}
             majorName={majorSelect}

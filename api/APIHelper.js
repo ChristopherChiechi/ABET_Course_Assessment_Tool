@@ -391,6 +391,32 @@ export async function deleteOutcomeFromCourse(
   return response;
 }
 
+export async function getMajorOutcomesBymajor(year, term, majorName) {
+  let api_helper = new API();
+  let response = await api_helper.getMajorOutcomesBymajor(
+    year,
+    term,
+    majorName
+  );
+  return response;
+}
+
+export async function getOutcomesByCourse(
+  year,
+  term,
+  department,
+  courseNumber
+) {
+  let api_helper = new API();
+  let response = await api_helper.getOutcomesByCourse(
+    year,
+    term,
+    department,
+    courseNumber
+  );
+  return response;
+}
+
 // Old Endpoint
 //
 //
