@@ -325,7 +325,7 @@ const EditAssignedCourses = () => {
           </GridItem>
         </Grid>
       </VStack>
-      <Box align="center" w="50%" margin="auto">
+      <Box align="center" margin="auto" w={{ sm:"100%", md: "50%"}}>
         {!selectCourse ||
           !semJson ||
           (!theDepartment && (

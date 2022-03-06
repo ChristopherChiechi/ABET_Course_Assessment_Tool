@@ -57,14 +57,14 @@ const EditSemesterList = () => {
     setRefreshKey(refreshKey + 1);
   };
 
-  //Fetch semester list on semester change
+  //Fetch semester list on semester change w={{ base: "80%", sm: "80%"}}>
   useEffect(() => {
     getSemesterList();
   }, [refreshKey]);
 
   return (
     <div>
-      <Box align="center" w="30%" margin="auto">
+      <Box align="center" margin="auto" w={{ base:"80%", md: "30%"}}>
           <Text
             fontWeight="bold"
             mt="1em"

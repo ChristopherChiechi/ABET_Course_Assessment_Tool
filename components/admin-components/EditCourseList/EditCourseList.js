@@ -231,7 +231,7 @@ const EditCourseList = () => {
           </Flex>
         </Box>
       </VStack>
-      <Box align="center" w="50%" margin="auto">
+      <Box align="center" w={{ sm:"100%", md: "50%"}} margin="auto">
         {!semJson && !theDepartment && (
           <Text
             fontWeight="bold"
