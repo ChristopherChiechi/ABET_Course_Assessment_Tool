@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from "react";
 
-import { Text, List, ListItem, VStack, useToast } from "@chakra-ui/react";
-import FacultyMember from "../../admin-components/FacultyMember";
-import { getFacultyList, addFacultyMember } from "../../../api/APIHelper";
+
+
+import { Text, List, ListItem, VStack, useToast, Box } from "@chakra-ui/react";
+import FacultyMember from "../FacultyMember";
+import { getFacultyList, addFacultyMember, editFacultyUser } from "../../../api/APIHelper";
 import AddFacultyMember from "./AddFacultyMember";
 
-const EditFacultyList = () => {
+import FacultyTable from "./FacultyTable"
+
+
+const EditFacultyList = ({}) => {
   const toast = useToast({position: "top"});
   const [refreshKey, setRefreshKey] = useState(0);
   const [faculty, setFaculty] = useState({
@@ -36,16 +41,47 @@ const EditFacultyList = () => {
         });
         return;
       }
-      setFaculty({
-        ...faculty,
-        admin: facultyList.admins,
-        instructor: facultyList.instructors,
-        coordinator: facultyList.coordinators,
+      const sorted = facultyListRes.data.sort((a, b) => {
+        return b.year - a.year;
       });
+      setFaculty(sorted);
     } catch (error) {
       console.log(error);
     }
   };
+
+  
+
+  
+
+  const columns = [
+    {
+      title: "Faculty Type",
+      field: "facultyType",
+      validate: (rowData) =>
+        rowData.facultyType ? true : "Faculty Type can not be empty",
+        lookup: {Admin: "Admin", Instructor: "Instructor", Coordinator: "Coordinator"}
+    },
+    {
+      title: "First Name",
+      field: "firstName",
+      validate: (rowData) =>
+        rowData.firstName ? true : "First Name can not be empty",
+    },
+    {
+      title: "Last Name",
+      field: "lastName",
+      validate: (rowData) =>
+        rowData.lastName ? true : "Last Name can not be empty",
+    },
+    {
+      title: "Faculty EUID",
+      field: "facultyEUID",
+      validate: (rowData) =>
+        rowData.facultyEUID ? true : "Faculty EUID can not be empty",
+        
+    },
+  ];
 
   const refreshTable = () => {
     setRefreshKey(refreshKey + 1);
@@ -53,97 +89,28 @@ const EditFacultyList = () => {
 
   useEffect(() => {
     getFaculty();
-  }, [refreshKey]);
-
-  const renderAdmin =
-    faculty &&
-    faculty.admin.map((fac, idx) => {
-      return (
-        <ListItem align="center" key={fac.euid}>
-          <FacultyMember
-            refreshTable={refreshTable}
-            member={fac.firstName + " " + fac.lastName}
-            id={fac.euid}
-            color={idx % 2 == 0 ? "green.200" : "gray.300"}
-            key={fac.euid}
-          />
-        </ListItem>
-      );
-    });
-
-  const renderInstructor = faculty.instructor.map((fac, idx) => {
-    return (
-      <ListItem key={fac.euid}>
-        <FacultyMember
-          refreshTable={refreshTable}
-          member={fac.firstName + " " + fac.lastName}
-          id={fac.euid}
-          color={idx % 2 == 0 ? "green.200" : "gray.300"}
-          key={fac.euid}
-        />
-      </ListItem>
-    );
-  });
-
-  const renderCoordinator = faculty.coordinator.map((fac, idx) => {
-    return (
-      <ListItem key={fac.euid}>
-        <FacultyMember
-          refreshTable={refreshTable}
-          member={fac.firstName + " " + fac.lastName}
-          id={fac.euid}
-          color={idx % 2 == 0 ? "green.200" : "gray.300"}
-          key={fac.euid}
-        />
-      </ListItem>
-    );
-  });
+  }, [semJason, theDepartment, refreshKey]);
 
   return (
-    <div id="top">
-      <VStack
-        id="top"
-        w="80%"
-        m="0 auto"
-        marginBottom="2em"
-        justifyContent="center"
-      >
-        <Text fontSize="2xl" fontWeight="bold" mt="1em">
-          Edit Faculty List
-        </Text>
-        <Text fontWeight="bold" mt="1em" mb="1em" fontSize="lg" align="center">
-          Admins
-        </Text>
-
-        <List marginLeft="5em" w="80%">
-          {renderAdmin}
-        </List>
-      </VStack>
-      <VStack id="top" w="80%" m="0 auto" justifyContent="center">
-        <Text fontWeight="bold" mt="1em" mb="1em" fontSize="lg" align="center">
-          Instructor
-        </Text>
-        <List w="80%" alignContent="center" align="center">
-          {renderInstructor}
-        </List>
-      </VStack>
-      <VStack
-        id="top"
-        w="80%"
-        m="0 auto"
-        marginBottom="2em"
-        justifyContent="center"
-      >
-        <Text fontWeight="bold" mt="1em" mb="1em" fontSize="lg" align="center">
-          Coordinator
-        </Text>
-
-        <List marginLeft="5em" w="80%" align="center">
-          {renderCoordinator}
-        </List>
-        <AddFacultyMember refreshTable={refreshTable} />
-      </VStack>
+    <div>
+      <Box align="center" w="50%" margin="auto" marginBottom={20} >
+          <Text
+            fontWeight="bold"
+            mt="1em"
+            mb="1em"
+            fontSize="lg"
+            align="center"
+          >
+            Faculty Table
+          </Text>
+          <FacultyTable
+            columns={columns}
+            data={faculty}
+            refreshTable={refreshTable}
+          />
+      </Box>
     </div>
   );
+  
 };
 export default EditFacultyList;
