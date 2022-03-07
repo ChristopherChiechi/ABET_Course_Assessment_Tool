@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import { Text, Center, useToast, Box, Select } from "@chakra-ui/react";
 import FacultyMember from "../FacultyMember";
-import { getFacultyList } from "../../../api/APIHelper";
+import { getUsersByRole } from "../../../api/APIHelper";
 import AddFacultyMember from "./AddFacultyMember";
 
 import FacultyTable from "./FacultyTable";
@@ -12,11 +12,7 @@ const EditFacultyList = () => {
   const [refreshKey, setRefreshKey] = useState(0);
   const [selectFaculty, setSelectFaculty] = useState(0);
 
-  const [faculty, setFaculty] = useState({
-    admin: [],
-    instructor: [],
-    coordinator: [],
-  });
+  const [faculty, setFaculty] = useState();
 
   const columns = [
     {
@@ -52,7 +48,7 @@ const EditFacultyList = () => {
 
   const getFaculty = async () => {
     try {
-      const facultyListRes = await getFacultyList();
+      const facultyListRes = await getUsersByRole(selectFaculty);
       const facultyList = facultyListRes.data;
       const res = facultyListRes.status;
       if (res != "Success") {
@@ -65,13 +61,7 @@ const EditFacultyList = () => {
         });
         return;
       }
-
-      setFaculty({
-        ...faculty,
-        admin: facultyList.admins,
-        instructor: facultyList.instructors,
-        coordinator: facultyList.coordinators,
-      });
+      setFaculty(facultyList);
     } catch (error) {
       console.log(error);
     }
