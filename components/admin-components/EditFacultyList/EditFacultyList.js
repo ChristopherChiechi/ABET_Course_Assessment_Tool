@@ -10,7 +10,8 @@ import AddFacultyMember from "./AddFacultyMember";
 import FacultyTable from "./FacultyTable"
 
 
-const EditFacultyList = ({}) => {
+const EditFacultyList = () => {
+  
   const toast = useToast({position: "top"});
   const [refreshKey, setRefreshKey] = useState(0);
   const [faculty, setFaculty] = useState({
@@ -18,41 +19,6 @@ const EditFacultyList = ({}) => {
     instructor: [],
     coordinator: [],
   });
-
-  const [newFaculty, setNewFaculty] = useState({
-    lastName: "",
-    firstName: "",
-    untID: "",
-    type: "",
-  });
-
-  const getFaculty = async () => {
-    try {
-      const facultyListRes = await getFacultyList();
-      const facultyList = facultyListRes.data;
-      const res = facultyListRes.status;
-      if (res != "Success") {
-        toast({
-          title: "Error",
-          description: `There was an error fetching the data! Error: ${res}`,
-          status: "error",
-          duration: 9000,
-          isClosable: true,
-        });
-        return;
-      }
-      const sorted = facultyListRes.data.sort((a, b) => {
-        return b.year - a.year;
-      });
-      setFaculty(sorted);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  
-
-  
 
   const columns = [
     {
@@ -83,13 +49,46 @@ const EditFacultyList = ({}) => {
     },
   ];
 
+  const getFaculty = async () => {
+    try {
+      const facultyListRes = await getFacultyList();
+      const facultyList = facultyListRes.data;
+      const res = facultyListRes.status;
+      if (res != "Success") {
+        toast({
+          title: "Error",
+          description: `There was an error fetching the data! Error: ${res}`,
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+        return;
+      }
+      
+      setFaculty({
+        ...faculty,
+        admin: facultyList.admins,
+        instructor: facultyList.instructors,
+        coordinator: facultyList.coordinators,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  
+
+  
+
+  
+
   const refreshTable = () => {
     setRefreshKey(refreshKey + 1);
   };
 
   useEffect(() => {
     getFaculty();
-  }, [semJason, theDepartment, refreshKey]);
+  }, [ refreshKey]);
 
   return (
     <div>
@@ -105,7 +104,7 @@ const EditFacultyList = ({}) => {
           </Text>
           <FacultyTable
             columns={columns}
-            data={faculty}
+            data={faculty.admin, faculty.instructor, faculty.coordinator}
             refreshTable={refreshTable}
           />
       </Box>

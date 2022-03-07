@@ -49,56 +49,30 @@ const tableIcons = {
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
 };
 
-const EditFacultyList = ({
+const FacultyTable = ({
     columns,
     data,
-    //refreshTable,
+    refreshTable,
   }) => {
     const toast = useToast({position: "top"});
     
-    const handlegetFaculty = async (newData, oldData) => {
-        var isCourseCompletedBool = JSON.parse(newData.is)
-    }
   
     
           
     return (
-        
       <MaterialTable
-      icons={tableIcons}
-      columns={columns}
-      options={{
+        options={{
         search: true,
         pageSize: 10,
         pageSizeOptions: [10, 20, 30],
       }}
+      icons={tableIcons}
+      columns={columns}
       data={data}
       title="Faculty List"
-      editable={{
-        onRowUpdate: (newData, oldData) =>
-          new Promise((resolve, reject) => {
-            setTimeout(() => {
-              handleEditFaculty(newData, oldData);
-              resolve();
-            }, 1000);
-          }),
-        onRowAdd: (newCourse) =>
-          new Promise((resolve, reject) => {
-            setTimeout(() => {
-              handleAddCourse(newCourse);
-              resolve();
-            }, 1000);
-          }),
-        onRowDelete: (oldData) =>
-          new Promise((resolve, reject) => {
-            setTimeout(() => {
-              handleRemoveCourse(oldData.department, oldData.courseNumber);
-              resolve();
-            }, 1000);
-          }),
-      }}
+      
       />
     );
   };
-  export default EditFacultyList;
+  export default FacultyTable;
   
