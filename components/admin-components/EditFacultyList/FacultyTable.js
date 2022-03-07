@@ -61,15 +61,15 @@ const FacultyTable = ({
     const handleAddFaculty = async (newUser) =>
     {
         console.log(newUser);
-        if (newUser.lastName == "" || newUser.firstName == "" || newUser.euid == "") {
-          toast({
-            description: "Required field empty!",
-            status: "warning",
-            duration: 9000,
-            isClosable: true,
-          });
-          return;
-        }
+        if (!newUser.lastName || !newUser.firstName || !newUser.euid) {
+            toast({
+              description: "Required field empty!",
+              status: "warning",
+              duration: 9000,
+              isClosable: true,
+            });
+            return;
+          }
         try {
           const res = await addFacultyMember(newUser.lastName, newUser.firstName, newUser.euid, selectFaculty);
           console.log(res);
