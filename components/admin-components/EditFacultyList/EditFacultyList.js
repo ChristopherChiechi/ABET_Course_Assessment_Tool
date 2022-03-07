@@ -99,17 +99,22 @@ const EditFacultyList = () => {
           <option value="instructor">Instructor</option>
 
         </Select>
-
         <Text fontWeight="bold" mt="1em" mb="1em" fontSize="lg" align="center">
           Faculty Table
         </Text>
+       
+          
         
+        
+        {selectFaculty && (
+          
         <FacultyTable
           columns={columns}
           data={faculty}
           selectFaculty={selectFaculty}
           refreshTable={refreshTable}
         />
+        )}
       </Box>
     </div>
   );

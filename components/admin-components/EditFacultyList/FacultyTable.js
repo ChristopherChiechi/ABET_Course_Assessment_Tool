@@ -123,6 +123,43 @@ const FacultyTable = ({
         console.log(error);
       }
     };
+
+    const handleEditFaculty = async (newUser, oldUser) => 
+    {
+      if (!newUser.lastName || !newUser.firstName || !newUser.euid) {
+        toast({
+          description: "Required field empty!",
+          status: "warning",
+          duration: 9000,
+          isClosable: true,
+        });
+        return;
+      }
+      try {
+        const res = await editFacultyUser(newUser.firstName, newUser.lastName, oldUser.euid, newUser.euid);
+        const status = res.status;
+        console.log(res);
+        if (status == "Success") {
+          toast({
+            description: `Change Successful! Please refresh the page if you don't see the new change.`,
+            status: "success",
+            duration: 2000,
+            isClosable: true,
+          });
+        } else {
+          toast({
+            description: `There was an error! Message: ${status} `,
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+          });
+        }
+        refreshTable();
+      } catch (error) {
+        console.log(error);
+      }
+
+    };
           
     return (
       <MaterialTable
@@ -154,6 +191,13 @@ const FacultyTable = ({
           new Promise((resolve, reject) => {
             setTimeout(() => {
               handleRemoveFaculty(oldData);
+              resolve();
+            }, 1000);
+          }),
+          onRowUpdate: (newUser, oldUser) =>
+          new Promise((resolve, reject) => {
+            setTimeout(() => {
+              handleEditFaculty(newUser, oldUser);
               resolve();
             }, 1000);
           }),
