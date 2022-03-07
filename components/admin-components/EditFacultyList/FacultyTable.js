@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 
 import { Text, List, ListItem, VStack, useToast } from "@chakra-ui/react";
 import FacultyMember from "../FacultyMember";
-import { getFacultyList, addFacultyMember, editFacultyUser } from "../../../api/APIHelper";
+import { getFacultyList, addFacultyMember, editFacultyUser, getUsersByRole } from "../../../api/APIHelper";
 import AddFacultyMember from "./AddFacultyMember";
 
 import MaterialTable from "material-table";
@@ -56,6 +56,36 @@ const FacultyTable = ({
   }) => {
     const toast = useToast({position: "top"});
     
+
+    const handleAddFaculty = async (newUser) =>
+    {
+        console.log(newUser);
+        try {
+            const res = await addFacultyMember(newUser.lastName, newUser.firstName, newUser.euid, "admin");
+            console.log(res);
+            const status = res.status;
+            console.log(status);
+            if (status == "Success") {
+              toast({
+                description: `Successfully added the new faculty member! Please refresh the page if you don't see the new change.`,
+                status: "success",
+                duration: 2000,
+                isClosable: true,
+              });
+            } else {
+              toast({
+                description: `There was an error! Message: ${status} `,
+                status: "error",
+                duration: 9000,
+                isClosable: true,
+              });
+            }
+          } catch (error) {
+            console.log(error);
+          }
+          
+        refreshTable();
+    };
   
     
           
@@ -70,7 +100,22 @@ const FacultyTable = ({
       columns={columns}
       data={data}
       title="Faculty List"
-      
+      editable={{
+        onRowUpdate: () =>
+        new Promise((resolve, reject) => {
+          setTimeout(() => {
+           
+            resolve();
+          }, 1000);
+        }),
+      onRowAdd: (newUser) =>
+          new Promise((resolve, reject) => {
+            setTimeout(() => {
+              handleAddFaculty(newUser);
+              resolve();
+            }, 1000);
+          }),
+        }}
       />
     );
   };

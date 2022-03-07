@@ -15,17 +15,7 @@ const EditFacultyList = () => {
   const [faculty, setFaculty] = useState();
 
   const columns = [
-    {
-      title: "Faculty Type",
-      field: "facultyType",
-      validate: (rowData) =>
-        rowData.facultyType ? true : "Faculty Type can not be empty",
-      lookup: {
-        Admin: "Admin",
-        Instructor: "Instructor",
-        Coordinator: "Coordinator",
-      },
-    },
+  
     {
       title: "First Name",
       field: "firstName",
@@ -40,9 +30,9 @@ const EditFacultyList = () => {
     },
     {
       title: "Faculty EUID",
-      field: "facultyEUID",
+      field: "euid",
       validate: (rowData) =>
-        rowData.facultyEUID ? true : "Faculty EUID can not be empty",
+        rowData.euid ? true : "Faculty EUID can not be empty",
     },
   ];
 
@@ -62,6 +52,7 @@ const EditFacultyList = () => {
         return;
       }
       setFaculty(facultyList);
+      
     } catch (error) {
       console.log(error);
     }
@@ -93,22 +84,26 @@ const EditFacultyList = () => {
           value={selectFaculty}
           onChange={(e) => {
             console.log(e.target.value);
-            if (e.target.value == "") {
-              setDepartment(null);
-            } else {
+            
               setSelectFaculty(e.target.value);
-            }
+              refreshTable();
           }}
         >
           <option value="admin">Admin</option>
           <option value="coordinator">Coordinator</option>
           <option value="instructor">Instructor</option>
-          <option value="superuser">Super User</option>
+
         </Select>
 
         <Text fontWeight="bold" mt="1em" mb="1em" fontSize="lg" align="center">
           Faculty Table
         </Text>
+        
+        <FacultyTable
+          columns={columns}
+          data={faculty}
+          refreshTable={refreshTable}
+        />
       </Box>
     </div>
   );
