@@ -37,6 +37,11 @@ const EditFacultyList = () => {
   ];
 
   const getFaculty = async () => {
+    if(!selectFaculty)
+    {
+      return;
+    }
+
     try {
       const facultyListRes = await getUsersByRole(selectFaculty);
       const facultyList = facultyListRes.data;

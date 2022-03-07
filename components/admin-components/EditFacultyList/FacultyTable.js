@@ -95,12 +95,12 @@ const FacultyTable = ({
         search: true,
         pageSize: 10,
         pageSizeOptions: [10, 20, 30],
-      }}
-      icons={tableIcons}
-      columns={columns}
-      data={data}
-      title="Faculty List"
-      editable={{
+        }}
+        icons={tableIcons}
+        columns={columns}
+        data={data}
+        title="Faculty List"
+        editable={{
         onRowUpdate: () =>
         new Promise((resolve, reject) => {
           setTimeout(() => {
@@ -108,7 +108,7 @@ const FacultyTable = ({
             resolve();
           }, 1000);
         }),
-      onRowAdd: (newUser) =>
+        onRowAdd: (newUser) =>
           new Promise((resolve, reject) => {
             setTimeout(() => {
               handleAddFaculty(newUser);
