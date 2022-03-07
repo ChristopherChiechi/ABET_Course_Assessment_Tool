@@ -52,6 +52,7 @@ const tableIcons = {
 const FacultyTable = ({
     columns,
     data,
+    selectFaculty,
     refreshTable,
   }) => {
     const toast = useToast({position: "top"});
@@ -60,30 +61,39 @@ const FacultyTable = ({
     const handleAddFaculty = async (newUser) =>
     {
         console.log(newUser);
+        if (newUser.lastName == "" || newUser.firstName == "" || newUser.euid == "") {
+          toast({
+            description: "Required field empty!",
+            status: "warning",
+            duration: 9000,
+            isClosable: true,
+          });
+          return;
+        }
         try {
-            const res = await addFacultyMember(newUser.lastName, newUser.firstName, newUser.euid, "admin");
-            console.log(res);
-            const status = res.status;
-            console.log(status);
-            if (status == "Success") {
-              toast({
-                description: `Successfully added the new faculty member! Please refresh the page if you don't see the new change.`,
-                status: "success",
-                duration: 2000,
-                isClosable: true,
-              });
-            } else {
-              toast({
-                description: `There was an error! Message: ${status} `,
-                status: "error",
-                duration: 9000,
-                isClosable: true,
-              });
-            }
-          } catch (error) {
-            console.log(error);
+          const res = await addFacultyMember(newUser.lastName, newUser.firstName, newUser.euid, selectFaculty);
+          console.log(res);
+          const status = res.status;
+          console.log(status);
+          if (status == "Success") {
+            toast({
+              description: `Successfully added the new faculty member! Please refresh the page if you don't see the new change.`,
+              status: "success",
+              duration: 2000,
+              isClosable: true,
+            });
+          } else {
+            toast({
+              description: `There was an error! Message: ${status} `,
+              status: "error",
+              duration: 9000,
+              isClosable: true,
+            });
           }
-          
+        }
+        catch (error) {
+          console.log(error);
+        }
         refreshTable();
     };
   

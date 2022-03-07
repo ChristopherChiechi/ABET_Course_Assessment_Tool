@@ -107,6 +107,7 @@ const EditFacultyList = () => {
         <FacultyTable
           columns={columns}
           data={faculty}
+          selectFaculty={selectFaculty}
           refreshTable={refreshTable}
         />
       </Box>
