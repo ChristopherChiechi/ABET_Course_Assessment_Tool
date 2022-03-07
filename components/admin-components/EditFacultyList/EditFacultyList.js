@@ -1,19 +1,17 @@
 import React, { useState, useEffect } from "react";
 
-
-
-import { Text, List, ListItem, VStack, useToast, Box } from "@chakra-ui/react";
+import { Text, Center, useToast, Box, Select } from "@chakra-ui/react";
 import FacultyMember from "../FacultyMember";
-import { getFacultyList, addFacultyMember, editFacultyUser } from "../../../api/APIHelper";
+import { getFacultyList } from "../../../api/APIHelper";
 import AddFacultyMember from "./AddFacultyMember";
 
-import FacultyTable from "./FacultyTable"
-
+import FacultyTable from "./FacultyTable";
 
 const EditFacultyList = () => {
-  
-  const toast = useToast({position: "top"});
+  const toast = useToast({ position: "top" });
   const [refreshKey, setRefreshKey] = useState(0);
+  const [selectFaculty, setSelectFaculty] = useState(0);
+
   const [faculty, setFaculty] = useState({
     admin: [],
     instructor: [],
@@ -26,7 +24,11 @@ const EditFacultyList = () => {
       field: "facultyType",
       validate: (rowData) =>
         rowData.facultyType ? true : "Faculty Type can not be empty",
-        lookup: {Admin: "Admin", Instructor: "Instructor", Coordinator: "Coordinator"}
+      lookup: {
+        Admin: "Admin",
+        Instructor: "Instructor",
+        Coordinator: "Coordinator",
+      },
     },
     {
       title: "First Name",
@@ -45,7 +47,6 @@ const EditFacultyList = () => {
       field: "facultyEUID",
       validate: (rowData) =>
         rowData.facultyEUID ? true : "Faculty EUID can not be empty",
-        
     },
   ];
 
@@ -64,7 +65,7 @@ const EditFacultyList = () => {
         });
         return;
       }
-      
+
       setFaculty({
         ...faculty,
         admin: facultyList.admins,
@@ -76,40 +77,50 @@ const EditFacultyList = () => {
     }
   };
 
-  
-
-  
-
-  
-
   const refreshTable = () => {
     setRefreshKey(refreshKey + 1);
   };
 
   useEffect(() => {
     getFaculty();
-  }, [ refreshKey]);
+  }, [refreshKey]);
 
   return (
     <div>
-      <Box align="center" w="50%" margin="auto" marginBottom={20} >
-          <Text
-            fontWeight="bold"
-            mt="1em"
-            mb="1em"
-            fontSize="lg"
-            align="center"
-          >
-            Faculty Table
-          </Text>
-          <FacultyTable
-            columns={columns}
-            data={faculty.admin, faculty.instructor, faculty.coordinator}
-            refreshTable={refreshTable}
-          />
+      <Center>
+        <Text fontSize="2xl" fontWeight="bold" mt="1em">
+          Edit Faculty List
+        </Text>
+      </Center>
+      <Box align="center" w="50%" margin="auto" marginBottom={20}>
+        <Select
+          id="facultyselector"
+          width="50%"
+          mr="1em"
+          isRequired={true}
+          placeholder="Select faculty role"
+          borderColor="teal"
+          value={selectFaculty}
+          onChange={(e) => {
+            console.log(e.target.value);
+            if (e.target.value == "") {
+              setDepartment(null);
+            } else {
+              setSelectFaculty(e.target.value);
+            }
+          }}
+        >
+          <option value="admin">Admin</option>
+          <option value="coordinator">Coordinator</option>
+          <option value="instructor">Instructor</option>
+          <option value="superuser">Super User</option>
+        </Select>
+
+        <Text fontWeight="bold" mt="1em" mb="1em" fontSize="lg" align="center">
+          Faculty Table
+        </Text>
       </Box>
     </div>
   );
-  
 };
 export default EditFacultyList;
