@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 
 import { Text, List, ListItem, VStack, useToast } from "@chakra-ui/react";
 import FacultyMember from "../FacultyMember";
-import { getFacultyList, addFacultyMember, editFacultyUser, getUsersByRole } from "../../../api/APIHelper";
+import { getFacultyList, addFacultyMember, editFacultyUser, getUsersByRole, deleteFacultyUser } from "../../../api/APIHelper";
 import AddFacultyMember from "./AddFacultyMember";
 
 import MaterialTable from "material-table";
@@ -97,7 +97,32 @@ const FacultyTable = ({
         refreshTable();
     };
   
-    
+    const handleRemoveFaculty = async (oldData) => {
+      try {
+        const res = await deleteFacultyUser(oldData.euid);
+        if (res) {
+          console.log(res);
+          if (res.status == "Success") {
+            toast({
+              description: `User successfully deleted! Please refresh the page if you don't see the new change.`,
+              status: "success",
+              duration: 2000,
+              isClosable: true,
+            });
+          } else {
+            toast({
+              description: `There was an error! Message: ${res.status} `,
+              status: "error",
+              duration: 9000,
+              isClosable: true,
+            });
+          }
+          refreshTable();
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
           
     return (
       <MaterialTable
@@ -122,6 +147,13 @@ const FacultyTable = ({
           new Promise((resolve, reject) => {
             setTimeout(() => {
               handleAddFaculty(newUser);
+              resolve();
+            }, 1000);
+          }),
+          onRowDelete: (oldData) =>
+          new Promise((resolve, reject) => {
+            setTimeout(() => {
+              handleRemoveFaculty(oldData);
               resolve();
             }, 1000);
           }),
