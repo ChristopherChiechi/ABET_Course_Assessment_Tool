@@ -37,6 +37,11 @@ const EditFacultyList = () => {
   ];
 
   const getFaculty = async () => {
+    if(!selectFaculty)
+    {
+      return;
+    }
+
     try {
       const facultyListRes = await getUsersByRole(selectFaculty);
       const facultyList = facultyListRes.data;
@@ -94,16 +99,22 @@ const EditFacultyList = () => {
           <option value="instructor">Instructor</option>
 
         </Select>
-
         <Text fontWeight="bold" mt="1em" mb="1em" fontSize="lg" align="center">
           Faculty Table
         </Text>
+       
+          
         
+        
+        {selectFaculty && (
+          
         <FacultyTable
           columns={columns}
           data={faculty}
+          selectFaculty={selectFaculty}
           refreshTable={refreshTable}
         />
+        )}
       </Box>
     </div>
   );

@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 
 import { Text, List, ListItem, VStack, useToast } from "@chakra-ui/react";
 import FacultyMember from "../FacultyMember";
-import { getFacultyList, addFacultyMember, editFacultyUser, getUsersByRole } from "../../../api/APIHelper";
+import { getFacultyList, addFacultyMember, editFacultyUser, getUsersByRole, deleteFacultyUser } from "../../../api/APIHelper";
 import AddFacultyMember from "./AddFacultyMember";
 
 import MaterialTable from "material-table";
@@ -52,6 +52,7 @@ const tableIcons = {
 const FacultyTable = ({
     columns,
     data,
+    selectFaculty,
     refreshTable,
   }) => {
     const toast = useToast({position: "top"});
@@ -60,34 +61,105 @@ const FacultyTable = ({
     const handleAddFaculty = async (newUser) =>
     {
         console.log(newUser);
-        try {
-            const res = await addFacultyMember(newUser.lastName, newUser.firstName, newUser.euid, "admin");
-            console.log(res);
-            const status = res.status;
-            console.log(status);
-            if (status == "Success") {
-              toast({
-                description: `Successfully added the new faculty member! Please refresh the page if you don't see the new change.`,
-                status: "success",
-                duration: 2000,
-                isClosable: true,
-              });
-            } else {
-              toast({
-                description: `There was an error! Message: ${status} `,
-                status: "error",
-                duration: 9000,
-                isClosable: true,
-              });
-            }
-          } catch (error) {
-            console.log(error);
+        if (!newUser.lastName || !newUser.firstName || !newUser.euid) {
+            toast({
+              description: "Required field empty!",
+              status: "warning",
+              duration: 9000,
+              isClosable: true,
+            });
+            return;
           }
-          
+        try {
+          const res = await addFacultyMember(newUser.lastName, newUser.firstName, newUser.euid, selectFaculty);
+          console.log(res);
+          const status = res.status;
+          console.log(status);
+          if (status == "Success") {
+            toast({
+              description: `Successfully added the new faculty member! Please refresh the page if you don't see the new change.`,
+              status: "success",
+              duration: 2000,
+              isClosable: true,
+            });
+          } else {
+            toast({
+              description: `There was an error! Message: ${status} `,
+              status: "error",
+              duration: 9000,
+              isClosable: true,
+            });
+          }
+        }
+        catch (error) {
+          console.log(error);
+        }
         refreshTable();
     };
   
-    
+    const handleRemoveFaculty = async (oldData) => {
+      try {
+        const res = await deleteFacultyUser(oldData.euid);
+        if (res) {
+          console.log(res);
+          if (res.status == "Success") {
+            toast({
+              description: `User successfully deleted! Please refresh the page if you don't see the new change.`,
+              status: "success",
+              duration: 2000,
+              isClosable: true,
+            });
+          } else {
+            toast({
+              description: `There was an error! Message: ${res.status} `,
+              status: "error",
+              duration: 9000,
+              isClosable: true,
+            });
+          }
+          refreshTable();
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    const handleEditFaculty = async (newUser, oldUser) => 
+    {
+      if (!newUser.lastName || !newUser.firstName || !newUser.euid) {
+        toast({
+          description: "Required field empty!",
+          status: "warning",
+          duration: 9000,
+          isClosable: true,
+        });
+        return;
+      }
+      try {
+        const res = await editFacultyUser(newUser.firstName, newUser.lastName, oldUser.euid, newUser.euid);
+        const status = res.status;
+        console.log(res);
+        if (status == "Success") {
+          toast({
+            description: `Change Successful! Please refresh the page if you don't see the new change.`,
+            status: "success",
+            duration: 2000,
+            isClosable: true,
+          });
+        } else {
+          toast({
+            description: `There was an error! Message: ${status} `,
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+          });
+        }
+        refreshTable();
+      } catch (error) {
+        console.log(error);
+      }
+
+    };
           
     return (
       <MaterialTable
@@ -95,12 +167,12 @@ const FacultyTable = ({
         search: true,
         pageSize: 10,
         pageSizeOptions: [10, 20, 30],
-      }}
-      icons={tableIcons}
-      columns={columns}
-      data={data}
-      title="Faculty List"
-      editable={{
+        }}
+        icons={tableIcons}
+        columns={columns}
+        data={data}
+        title="Faculty List"
+        editable={{
         onRowUpdate: () =>
         new Promise((resolve, reject) => {
           setTimeout(() => {
@@ -108,10 +180,24 @@ const FacultyTable = ({
             resolve();
           }, 1000);
         }),
-      onRowAdd: (newUser) =>
+        onRowAdd: (newUser) =>
           new Promise((resolve, reject) => {
             setTimeout(() => {
               handleAddFaculty(newUser);
+              resolve();
+            }, 1000);
+          }),
+          onRowDelete: (oldData) =>
+          new Promise((resolve, reject) => {
+            setTimeout(() => {
+              handleRemoveFaculty(oldData);
+              resolve();
+            }, 1000);
+          }),
+          onRowUpdate: (newUser, oldUser) =>
+          new Promise((resolve, reject) => {
+            setTimeout(() => {
+              handleEditFaculty(newUser, oldUser);
               resolve();
             }, 1000);
           }),
