@@ -19,7 +19,7 @@ import Remove from "@material-ui/icons/Remove";
 import SaveAlt from "@material-ui/icons/SaveAlt";
 import Search from "@material-ui/icons/Search";
 import ViewColumn from "@material-ui/icons/ViewColumn";
-
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
   Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
@@ -50,6 +50,24 @@ const StudentSurveysTable = ({ columns, data }) => {
 
   return (
     <MaterialTable
+      actions={[
+        {
+          icon: () => <ContentCopyIcon />,
+          tooltip: "Copy to clipboard",
+          onClick: (event, rowData) => {
+            navigator.clipboard.writeText(rowData.link);
+            if (window.clipboardData) {
+              window.clipboardData.setData("Text", rowData.link);
+            }
+            toast({
+              description: `Link is copied to clipboard`,
+              status: "success",
+              duration: 500,
+              isClosable: true,
+            });
+          },
+        },
+      ]}
       icons={tableIcons}
       options={{
         search: true,

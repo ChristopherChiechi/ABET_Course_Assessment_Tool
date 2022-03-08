@@ -174,7 +174,7 @@ const AddNewOutcomeToMajor = () => {
           <Flex justifyContent="center">
             <Select
               id="department"
-              width="70%"
+              width="130%"
               mr="1em"
               isRequired={true}
               placeholder="Select Department"
