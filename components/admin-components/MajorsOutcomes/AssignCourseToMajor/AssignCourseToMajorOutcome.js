@@ -197,7 +197,7 @@ const AssignCourseToMajorOutcome = () => {
           <Flex justifyContent="center">
             <Select
               id="department"
-              width="70%"
+              width="125%"
               mr="1em"
               isRequired={true}
               placeholder="Select Department"
@@ -217,7 +217,7 @@ const AssignCourseToMajorOutcome = () => {
               id="term"
               placeholder="Select semester"
               borderColor="teal"
-              width="70%"
+              width="72%"
               isRequired={true}
               value={semJson}
               disabled={checkIfSelectMajor()}

@@ -185,13 +185,10 @@ const EditCourseList = () => {
           <Text align="center" fontSize="2xl" fontWeight="bold" mt="1em">
             Edit Course List
           </Text>
-          <Text align="center" fontWeight="bold" mb="1em" fontSize="lg">
-            Select Department
-          </Text>
           <Flex justifyContent="center">
             <Select
               id="department"
-              width="70%"
+              width="130%"
               mr="1em"
               isRequired={true}
               placeholder="Select Department"
@@ -211,7 +208,7 @@ const EditCourseList = () => {
               id="term"
               placeholder="Select semester"
               borderColor="teal"
-              width="70%"
+              width="75%"
               isRequired={true}
               value={semJson}
               disabled={checkIfSelectMajor()}
@@ -231,7 +228,7 @@ const EditCourseList = () => {
           </Flex>
         </Box>
       </VStack>
-      <Box align="center" w={{ sm:"100%", md: "50%"}} margin="auto">
+      <Box align="center" w={{ sm: "100%", md: "50%" }} margin="auto">
         {!semJson && !theDepartment && (
           <Text
             fontWeight="bold"

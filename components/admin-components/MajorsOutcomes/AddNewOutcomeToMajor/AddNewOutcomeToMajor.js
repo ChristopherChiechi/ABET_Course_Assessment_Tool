@@ -174,7 +174,7 @@ const AddNewOutcomeToMajor = () => {
           <Flex justifyContent="center">
             <Select
               id="department"
-              width="70%"
+              width="120%"
               mr="1em"
               isRequired={true}
               placeholder="Select Department"
@@ -216,7 +216,7 @@ const AddNewOutcomeToMajor = () => {
               placeholder="Select major"
               borderColor="teal"
               ml="1em"
-              width="60%"
+              width="80%"
               value={majorSelect}
               isRequired={true}
               disabled={checkIfSelectMajorAndSemseter()}
