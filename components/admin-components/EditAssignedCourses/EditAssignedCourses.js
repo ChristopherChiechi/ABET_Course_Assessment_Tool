@@ -213,15 +213,18 @@ const EditAssignedCourses = () => {
       field: "sectionNumber",
       type: "numeric",
       validate: (rowData) =>
-        rowData.sectionNumber ? true : "Section number can not be empty",
+        rowData.sectionNumber
+          ? true
+          : "Section number can not be empty or contain characters",
     },
     {
       title: "Number of student",
       field: "numberOfStudents",
       type: "numeric",
-
       validate: (rowData) =>
-        rowData.numberOfStudents ? true : "Number of student can not be empty",
+        rowData.numberOfStudents
+          ? true
+          : "Number of student can not be empty or contain characters",
     },
     {
       title: "Instructor EUID",
@@ -325,7 +328,7 @@ const EditAssignedCourses = () => {
           </GridItem>
         </Grid>
       </VStack>
-      <Box align="center" margin="auto" w={{ sm:"100%", md: "50%"}}>
+      <Box align="center" margin="auto" w={{ sm: "100%", md: "50%" }}>
         {!selectCourse ||
           !semJson ||
           (!theDepartment && (

@@ -64,7 +64,7 @@ const EditFacultyList = () => {
 
   useEffect(() => {
     getFaculty();
-  }, [refreshKey]);
+  }, [refreshKey, selectFaculty, faculty]);
 
   return (
     <div>
@@ -83,10 +83,7 @@ const EditFacultyList = () => {
           borderColor="teal"
           value={selectFaculty}
           onChange={(e) => {
-            console.log(e.target.value);
-
             setSelectFaculty(e.target.value);
-            refreshTable();
           }}
         >
           <option value="admin">Admin</option>

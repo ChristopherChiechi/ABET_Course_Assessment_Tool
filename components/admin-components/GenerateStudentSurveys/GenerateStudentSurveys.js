@@ -189,16 +189,16 @@ const GenerateStudentSurveys = () => {
   ];
 
   useEffect(() => {
-    getSectionList();
-  }, [selectCourse, semJson, selectDepartment]);
-
-  useEffect(() => {
     getSemesterList();
   }, [selectDepartment]);
 
   useEffect(() => {
     getCourseList();
   }, [semJson]);
+
+  useEffect(() => {
+    getSectionList();
+  }, [courseSelectionOptions, selectCourse, selectDepartment]);
 
   return (
     <div id="top">

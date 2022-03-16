@@ -82,6 +82,7 @@ const FacultyTable = ({ columns, data, selectFaculty, refreshTable }) => {
           duration: 2000,
           isClosable: true,
         });
+        refreshTable();
       } else {
         toast({
           description: `There was an error! Message: ${status} `,
@@ -93,7 +94,6 @@ const FacultyTable = ({ columns, data, selectFaculty, refreshTable }) => {
     } catch (error) {
       console.log(error);
     }
-    refreshTable();
   };
 
   const handleRemoveFaculty = async (oldData) => {
