@@ -37,7 +37,6 @@ import AdminMenu from "../components/admin-components/AdminMenu";
 // import FullReport from '../components/admin-components/FullReport/FullReport';
 import EditSemesterList from "../components/admin-components/EditSemesters/EditSemesterList";
 import EditProgramList from "../components/admin-components/EditProgramList/EditProgramList";
-import EditCourseAssignments from "../components/admin-components/EditCourseAssignments/EditCourseAssignments";
 import EditFacultyList from "../components/admin-components/EditFacultyList/EditFacultyList";
 import EditCourseList from "../components/admin-components/EditCourseList/EditCourseList";
 import EditCourseOutcomes from "../components/admin-components/EditCourseOutcomes/EditCourseOutcomes";
