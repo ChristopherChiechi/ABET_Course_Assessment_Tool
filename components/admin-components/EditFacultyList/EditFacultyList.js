@@ -1,29 +1,45 @@
 import React, { useState, useEffect } from "react";
 
-import { Text, List, ListItem, VStack, useToast } from "@chakra-ui/react";
-import FacultyMember from "../../admin-components/FacultyMember";
-import { getFacultyList, addFacultyMember } from "../../../api/APIHelper";
-import AddFacultyMember from "./AddFacultyMember";
+import { Text, Center, useToast, Box, Select } from "@chakra-ui/react";
+import { getUsersByRole } from "../../../api/APIHelper";
+
+import FacultyTable from "./FacultyTable";
 
 const EditFacultyList = () => {
-  const toast = useToast({position: "top"});
-  const [refreshKey, setRefreshKey] = useState(0);
-  const [faculty, setFaculty] = useState({
-    admin: [],
-    instructor: [],
-    coordinator: [],
-  });
+  const toast = useToast({ position: "top" });
+  const [refreshKey, setRefreshKey] = useState();
+  const [selectFaculty, setSelectFaculty] = useState();
 
-  const [newFaculty, setNewFaculty] = useState({
-    lastName: "",
-    firstName: "",
-    untID: "",
-    type: "",
-  });
+  const [faculty, setFaculty] = useState();
+
+  const columns = [
+    {
+      title: "First Name",
+      field: "firstName",
+      validate: (rowData) =>
+        rowData.firstName ? true : "First Name can not be empty",
+    },
+    {
+      title: "Last Name",
+      field: "lastName",
+      validate: (rowData) =>
+        rowData.lastName ? true : "Last Name can not be empty",
+    },
+    {
+      title: "Faculty EUID",
+      field: "euid",
+      validate: (rowData) =>
+        rowData.euid ? true : "Faculty EUID can not be empty",
+    },
+  ];
 
   const getFaculty = async () => {
+    if (!selectFaculty) {
+      return;
+    }
+
     try {
-      const facultyListRes = await getFacultyList();
+      const facultyListRes = await getUsersByRole(selectFaculty);
       const facultyList = facultyListRes.data;
       const res = facultyListRes.status;
       if (res != "Success") {
@@ -36,12 +52,7 @@ const EditFacultyList = () => {
         });
         return;
       }
-      setFaculty({
-        ...faculty,
-        admin: facultyList.admins,
-        instructor: facultyList.instructors,
-        coordinator: facultyList.coordinators,
-      });
+      setFaculty(facultyList);
     } catch (error) {
       console.log(error);
     }
@@ -53,96 +64,43 @@ const EditFacultyList = () => {
 
   useEffect(() => {
     getFaculty();
-  }, [refreshKey]);
-
-  const renderAdmin =
-    faculty &&
-    faculty.admin.map((fac, idx) => {
-      return (
-        <ListItem align="center" key={fac.euid}>
-          <FacultyMember
-            refreshTable={refreshTable}
-            member={fac.firstName + " " + fac.lastName}
-            id={fac.euid}
-            color={idx % 2 == 0 ? "green.200" : "gray.300"}
-            key={fac.euid}
-          />
-        </ListItem>
-      );
-    });
-
-  const renderInstructor = faculty.instructor.map((fac, idx) => {
-    return (
-      <ListItem key={fac.euid}>
-        <FacultyMember
-          refreshTable={refreshTable}
-          member={fac.firstName + " " + fac.lastName}
-          id={fac.euid}
-          color={idx % 2 == 0 ? "green.200" : "gray.300"}
-          key={fac.euid}
-        />
-      </ListItem>
-    );
-  });
-
-  const renderCoordinator = faculty.coordinator.map((fac, idx) => {
-    return (
-      <ListItem key={fac.euid}>
-        <FacultyMember
-          refreshTable={refreshTable}
-          member={fac.firstName + " " + fac.lastName}
-          id={fac.euid}
-          color={idx % 2 == 0 ? "green.200" : "gray.300"}
-          key={fac.euid}
-        />
-      </ListItem>
-    );
-  });
+  }, [refreshKey, selectFaculty, faculty]);
 
   return (
-    <div id="top">
-      <VStack
-        id="top"
-        w="80%"
-        m="0 auto"
-        marginBottom="2em"
-        justifyContent="center"
-      >
+    <div>
+      <Center>
         <Text fontSize="2xl" fontWeight="bold" mt="1em">
           Edit Faculty List
         </Text>
+      </Center>
+      <Box align="center" w="50%" margin="auto" marginBottom={20}>
+        <Select
+          id="facultyselector"
+          width="50%"
+          mr="1em"
+          isRequired={true}
+          placeholder="Select faculty role"
+          borderColor="teal"
+          value={selectFaculty}
+          onChange={(e) => {
+            setSelectFaculty(e.target.value);
+          }}
+        >
+          <option value="admin">Admin</option>
+          <option value="coordinator">Coordinator</option>
+          <option value="instructor">Instructor</option>
+        </Select>
         <Text fontWeight="bold" mt="1em" mb="1em" fontSize="lg" align="center">
-          Admins
+          Faculty Table
         </Text>
 
-        <List marginLeft="5em" w="80%">
-          {renderAdmin}
-        </List>
-      </VStack>
-      <VStack id="top" w="80%" m="0 auto" justifyContent="center">
-        <Text fontWeight="bold" mt="1em" mb="1em" fontSize="lg" align="center">
-          Instructor
-        </Text>
-        <List w="80%" alignContent="center" align="center">
-          {renderInstructor}
-        </List>
-      </VStack>
-      <VStack
-        id="top"
-        w="80%"
-        m="0 auto"
-        marginBottom="2em"
-        justifyContent="center"
-      >
-        <Text fontWeight="bold" mt="1em" mb="1em" fontSize="lg" align="center">
-          Coordinator
-        </Text>
-
-        <List marginLeft="5em" w="80%" align="center">
-          {renderCoordinator}
-        </List>
-        <AddFacultyMember refreshTable={refreshTable} />
-      </VStack>
+        <FacultyTable
+          columns={columns}
+          data={faculty}
+          selectFaculty={selectFaculty}
+          refreshTable={refreshTable}
+        />
+      </Box>
     </div>
   );
 };

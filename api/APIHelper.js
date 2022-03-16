@@ -148,7 +148,282 @@ export async function deleteCourse(
   );
   return response;
 }
+
+export async function editCourse(
+  term = "",
+  year = 0,
+  department = "",
+  courseNumber = "",
+  newCoordinatorEUID,
+  newCourseNumber,
+  newDisplayName,
+  newCoordinatorComment,
+  newIsCourseComplete,
+  newDepartment
+) {
+  let api_helper = new API();
+  let response = await api_helper.editCourse(
+    term,
+    year,
+    department,
+    courseNumber,
+    newCoordinatorEUID,
+    newCourseNumber,
+    newDisplayName,
+    newCoordinatorComment,
+    newIsCourseComplete,
+    newDepartment
+  );
+  return response;
+}
+
+export async function getSectionsByCourse(
+  term,
+  year,
+  department,
+  courseNumber
+) {
+  let api_helper = new API();
+  let response = await api_helper.getSectionsByCourse(
+    term,
+    year,
+    department,
+    courseNumber
+  );
+  return response;
+}
+
+export async function addNewSection(
+  year,
+  term,
+  department,
+  courseNumber,
+  instructorEUID,
+  isSectionComplete,
+  sectionNumber,
+  numberOfStudents
+) {
+  let api_helper = new API();
+  let response = await api_helper.addNewSection(
+    year,
+    term,
+    department,
+    courseNumber,
+    instructorEUID,
+    isSectionComplete,
+    sectionNumber,
+    numberOfStudents
+  );
+  return response;
+}
+
+export async function deleteSection(
+  term,
+  year,
+  department,
+  courseNumber,
+  sectionNumber
+) {
+  let api_helper = new API();
+  let response = await api_helper.deleteSection(
+    term,
+    year,
+    department,
+    courseNumber,
+    sectionNumber
+  );
+  return response;
+}
+
+export async function editSection(
+  term,
+  year,
+  department,
+  courseNumber,
+  sectionNumber,
+  newInstructorEUID,
+  newIsSectionCompleted,
+  newSectionNumber,
+  newNumberOfStudents
+) {
+  let api_helper = new API();
+  let response = await api_helper.editSection(
+    term,
+    year,
+    department,
+    courseNumber,
+    sectionNumber,
+    newInstructorEUID,
+    newIsSectionCompleted,
+    newSectionNumber,
+    newNumberOfStudents
+  );
+  return response;
+}
+
+export async function assignCourseToMajor(
+  year,
+  term,
+  department,
+  courseNumber,
+  major
+) {
+  let api_helper = new API();
+  let response = await api_helper.assignCourseToMajor(
+    year,
+    term,
+    department,
+    courseNumber,
+    major
+  );
+  return response;
+}
+
+export async function deleteCourseAssignedToMajor(
+  term,
+  year,
+  department,
+  courseNumber,
+  major
+) {
+  let api_helper = new API();
+  let response = await api_helper.deleteCourseAssignedToMajor(
+    term,
+    year,
+    department,
+    courseNumber,
+    major
+  );
+  return response;
+}
+
+export async function addNewOutcomeToMajor(
+  year,
+  term,
+  majorName,
+  outcomeName,
+  outcomeDescription
+) {
+  let api_helper = new API();
+  let response = await api_helper.addNewOutcomeToMajor(
+    year,
+    term,
+    majorName,
+    outcomeName,
+    outcomeDescription
+  );
+  return response;
+}
+
+export async function deleteOutcomeFromMajor(
+  year,
+  term,
+  majorName,
+  outcomeName
+) {
+  let api_helper = new API();
+  let response = await api_helper.deleteOutcomeFromMajor(
+    year,
+    term,
+    majorName,
+    outcomeName
+  );
+  return response;
+}
+
+export async function editOutcomeForMajor(
+  term,
+  year,
+  majorName,
+  oldOutcomeName,
+  newOutcomename,
+  newDescription
+) {
+  let api_helper = new API();
+  let response = await api_helper.editOutcomeForMajor(
+    term,
+    year,
+    majorName,
+    oldOutcomeName,
+    newOutcomename,
+    newDescription
+  );
+  return response;
+}
+
+export async function addOutcomeToCourse(
+  year,
+  term,
+  department,
+  courseNumber,
+  major,
+  outcomName
+) {
+  let api_helper = new API();
+  let response = await api_helper.addOutcomeToCourse(
+    year,
+    term,
+    department,
+    courseNumber,
+    major,
+    outcomName
+  );
+  return response;
+}
+
+export async function deleteOutcomeFromCourse(
+  year,
+  term,
+  department,
+  courseNumber,
+  major,
+  outcomName
+) {
+  let api_helper = new API();
+  let response = await api_helper.deleteOutcomeFromCourse(
+    year,
+    term,
+    department,
+    courseNumber,
+    major,
+    outcomName
+  );
+  return response;
+}
+
+export async function getMajorOutcomesBymajor(year, term, majorName) {
+  let api_helper = new API();
+  let response = await api_helper.getMajorOutcomesBymajor(
+    year,
+    term,
+    majorName
+  );
+  return response;
+}
+
+export async function getOutcomesByCourse(
+  year,
+  term,
+  department,
+  courseNumber
+) {
+  let api_helper = new API();
+  let response = await api_helper.getOutcomesByCourse(
+    year,
+    term,
+    department,
+    courseNumber
+  );
+  return response;
+}
+
 // Old Endpoint
+//
+//
+//
+//
+//
+//
 
 export function getCourses() {
   return courses;

@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Box, Text, Select, Flex, VStack, useToast } from "@chakra-ui/react";
 import {
-  getCoursesByDepartment,
   getSemesters,
-  getUsersByRole,
-} from "../../../api/APIHelper";
-import CourseTable from "./CourseTable";
-import { SingleSelect } from "react-select-material-ui";
+  getMajors,
+  getMajorOutcomesBymajor,
+} from "../../../../api/APIHelper";
+import AddNewOutcomeToMajorTable from "./AddNewOutcomeToMajorTable";
 
-const EditCourseList = () => {
+const AddNewOutcomeToMajor = () => {
   useEffect(() => {
     document.getElementById("top").scrollIntoView();
   });
@@ -25,110 +24,52 @@ const EditCourseList = () => {
   const [semJson, setSemJson] = useState();
   const [year, setYear] = useState();
   const [term, setTerm] = useState();
-  const [coordinatorList, setCoordinatorList] = useState();
-  const [lookupObject, setLookupObject] = useState();
+  const [majorSelect, setMajorSelect] = useState();
+  const [majorsList, setMajorsList] = useState();
+  const [outcomeList, setOutcomeList] = useState();
 
-  //Get Coordinator List
-  const getCoordinatorList = async () => {
-    const lookup = {};
-    try {
-      const response = await getUsersByRole("Coordinator");
-      const data = response.data;
-      if (response) {
-        const coordinatorMap = data.map((coordinator) => ({
-          coordinatorEUID: coordinator.euid,
-          label: coordinator.firstName + " " + coordinator.lastName,
-        }));
-        setCoordinatorList(coordinatorMap);
-        if (coordinatorList) {
-          coordinatorList.forEach((coordinator) => {
-            lookup[coordinator.coordinatorEUID] = coordinator.label;
-          });
-          setLookupObject(lookup);
-        }
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  // Get the courses by department from the back-end.
-  const getNewCourses = async () => {
-    if (!semJson) {
-      return;
-    }
+  const getMajorsList = async () => {
+    if (!semJson) return;
     const semesterParse = JSON.parse(semJson);
-    setYear(semesterParse["year"]);
-    setTerm(semesterParse["term"]);
     try {
-      const newCourseListRes = await getCoursesByDepartment(
+      const majorListRes = await getMajors(
         semesterParse["term"],
-        semesterParse["year"],
-        theDepartment
+        semesterParse["year"]
       );
-      const courseList = newCourseListRes.data;
-      const res = newCourseListRes.status;
-      if (res != "Success") {
+      setTerm(semesterParse["term"]);
+      setYear(semesterParse["year"]);
+      const majorListData = majorListRes.data;
+      const status = majorListRes.status;
+
+      if (status != "Success") {
         toast({
           title: "Error",
-          description: `There was an error fetching the course list! Error: ${res}`,
+          description: `There was an error fetching the course list! Error: ${status}`,
           status: "error",
           duration: 9000,
           isClosable: true,
         });
         return;
       }
-      setNewCourses({
-        ...theCourse,
-        courses: courseList,
-      });
+      if (!majorListData) return;
+      setMajorsList(majorListData);
+      if (majorsList) console.log(majorsList);
     } catch (error) {
       console.log(error);
-    }
-    if (theCourse) {
-      console.log(theCourse.courses);
     }
   };
 
   const columns = [
     {
-      title: "Course Name",
-      field: "displayName",
-      validate: (rowData) =>
-        rowData.displayName ? true : "Course name can not be empty",
+      title: "Outcome Name",
+      field: "name",
+      validate: (rowData) => (rowData.name ? true : "Name can not be empty"),
     },
     {
-      title: "Course Number",
-      field: "courseNumber",
+      title: "Outcome Description",
+      field: "description",
       validate: (rowData) =>
-        rowData.courseNumber ? true : "Course number can not be empty",
-    },
-    {
-      title: "Coordinator EUID",
-      field: "coordinatorEUID",
-      validate: (rowData) =>
-        rowData.coordinatorEUID ? true : "Coordintor EUID can not be empty",
-      filtering: false,
-      editComponent: (props) => (
-        <SingleSelect
-          options={lookupObject}
-          fullWidth={true}
-          value={props.value}
-          onChange={(value) => {
-            props.onChange(value);
-            console.log(value);
-          }}
-        />
-      ),
-    },
-    {
-      title: "Is Complete",
-      field: "isCourseCompleted",
-      validate: (rowData) =>
-        rowData.isCourseCompleted != null
-          ? true
-          : "Is course completed can not be empty",
-      lookup: { true: "Yes", false: "No" },
+        rowData.description ? true : "Description can not be empty",
     },
   ];
 
@@ -140,7 +81,15 @@ const EditCourseList = () => {
     return false;
   };
 
+  const checkIfSelectMajorAndSemseter = () => {
+    if (!theDepartment || !semJson) {
+      return true;
+    }
+    return false;
+  };
+
   const getSemesterList = async () => {
+    if (!theDepartment) return;
     try {
       const semesterlistRes = await getSemesters();
       const res = semesterlistRes.status;
@@ -158,11 +107,45 @@ const EditCourseList = () => {
         return b.year - a.year;
       });
       setSemesterList(sorted);
+      if (semesters) {
+        console.log(semesters);
+      }
     } catch (error) {
       console.log(error);
     }
   };
 
+  const getOutcomeList = async () => {
+    if (!semJson || !theDepartment || !majorSelect) return;
+    const semesterParse = JSON.parse(semJson);
+    try {
+      const outcomeListRes = await getMajorOutcomesBymajor(
+        semesterParse["year"],
+        semesterParse["term"],
+        majorSelect
+      );
+      const outcomeListData = outcomeListRes.data;
+      const status = outcomeListRes.status;
+      if (status != "Success") {
+        toast({
+          title: "Error",
+          description: `There was an error fetching the data! Error: ${status}`,
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+        return;
+      }
+      if (outcomeListData) {
+        setOutcomeList(outcomeListData);
+      }
+      if (outcomeList) {
+        console.log(outcomeList);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const refreshTable = () => {
     setRefreshKey(refreshKey + 1);
   };
@@ -170,25 +153,28 @@ const EditCourseList = () => {
   //Fetch semester list on department change
   useEffect(() => {
     getSemesterList();
-    getCoordinatorList();
   }, [theDepartment]);
 
-  //Fetch course when semester or deparment change , or on table refresh
   useEffect(() => {
-    getNewCourses();
-  }, [semJson, theDepartment, refreshKey]);
+    getMajorsList();
+  }, [semJson, theDepartment, majorSelect]);
+
+  useEffect(() => {
+    getOutcomeList();
+  }, [semJson, theDepartment, majorSelect, refreshKey]);
 
   return (
     <div>
       <VStack id="top" w="90%" m="0 auto">
         <Box m="1em" p="3em">
           <Text align="center" fontSize="2xl" fontWeight="bold" mt="1em">
-            Edit Course List
+            Add New Outcome to Major
           </Text>
+
           <Flex justifyContent="center">
             <Select
               id="department"
-              width="130%"
+              width="120%"
               mr="1em"
               isRequired={true}
               placeholder="Select Department"
@@ -208,7 +194,7 @@ const EditCourseList = () => {
               id="term"
               placeholder="Select semester"
               borderColor="teal"
-              width="75%"
+              width="70%"
               isRequired={true}
               value={semJson}
               disabled={checkIfSelectMajor()}
@@ -225,41 +211,51 @@ const EditCourseList = () => {
                   );
                 })}
             </Select>
+            <Select
+              id="term"
+              placeholder="Select major"
+              borderColor="teal"
+              ml="1em"
+              width="80%"
+              value={majorSelect}
+              isRequired={true}
+              disabled={checkIfSelectMajorAndSemseter()}
+              onChange={(e) => {
+                setMajorSelect(e.target.value);
+                console.log(e.target.value);
+              }}
+            >
+              {majorsList &&
+                majorsList.map((major, idx) => {
+                  return (
+                    <option value={major.name} key={idx}>
+                      {major.name}
+                    </option>
+                  );
+                })}
+            </Select>
           </Flex>
         </Box>
       </VStack>
-      <Box align="center" w={{ sm: "100%", md: "50%" }} margin="auto">
+      <Box align="center" w="60%" margin="auto">
         {!semJson && !theDepartment && (
-          <Text
-            fontWeight="bold"
-            mt="1em"
-            mb="1em"
-            fontSize="lg"
-            align="center"
-          >
+          <Text fontWeight="bold" mt="1em" fontSize="lg" align="center">
             [Table] Waiting for department and semester selection
           </Text>
         )}
         {semJson && theDepartment && (
-          <Text
-            fontWeight="bold"
-            mt="1em"
-            mb="1em"
-            fontSize="lg"
-            align="center"
-          >
-            Courses Table
+          <Text fontWeight="bold" mb="1em" fontSize="lg" align="center">
+            Outcome Table
           </Text>
         )}
 
-        {semJson && theDepartment && (
-          <CourseTable
-            theDepartment={theDepartment}
+        {semJson && theDepartment && majorSelect && (
+          <AddNewOutcomeToMajorTable
             columns={columns}
-            data={theCourse.courses}
+            data={outcomeList}
             year={year}
             term={term}
-            coordinatorList={coordinatorList}
+            majorName={majorSelect}
             refreshTable={refreshTable}
           />
         )}
@@ -267,4 +263,4 @@ const EditCourseList = () => {
     </div>
   );
 };
-export default EditCourseList;
+export default AddNewOutcomeToMajor;

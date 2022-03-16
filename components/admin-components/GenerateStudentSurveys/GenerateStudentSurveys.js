@@ -1,44 +1,37 @@
 //imports
 import React, { useState, useEffect } from "react";
 import {
-  Text,
   Grid,
   GridItem,
-  Center,
-  Flex,
-  Box,
   Select,
-  useToast,
   VStack,
+  Center,
+  Text,
+  Box,
 } from "@chakra-ui/react";
+const jwt = require("jsonwebtoken");
 //api
 import {
   getCoursesByDepartment,
   getSemesters,
-  getUsersByRole,
   getSectionsByCourse,
 } from "../../../api/APIHelper";
-
-//Auto complete Selection
+//hooks
 import { SingleSelect } from "react-select-material-ui";
 
-//Table
-import SectionTable from "./SectionTable";
+import StudentSurveysTable from "./StudentSurveysTable";
 
-const EditAssignedCourses = () => {
-  //Selector variables
-  const toast = useToast({ position: "top" });
-  const [refreshKey, setRefreshKey] = useState(0); //For refreshing the table
-  const [theDepartment, setDepartment] = useState("");
-  const [semesters, setSemesterList] = useState();
+const GenerateStudentSurveys = () => {
+  const [courseList, setCourses] = useState();
+  //toggle sort by instructor
+  const [selectDepartment, setSelectDepartment] = useState("");
   const [semJson, setSemJson] = useState();
+  const [semesters, setSemesterList] = useState();
   const [year, setYear] = useState();
   const [term, setTerm] = useState();
   const [courseSelectionOptions, setCourseSelectionOptions] = useState();
-  const [instructorList, setInstructorList] = useState();
-  const [lookupObject, setLookupObject] = useState();
   const [selectCourse, setSelectCourse] = useState();
-  const [sectionList, setSectionList] = useState();
+  const [surveyObject, setSurveyObject] = useState();
 
   //Get Semester List after department is select
   const getSemesterList = async () => {
@@ -64,32 +57,8 @@ const EditAssignedCourses = () => {
     }
   };
 
-  //Check if the department is select before enable the dropdown for semester
-  const checkIfSelectMajor = () => {
-    if (!theDepartment) {
-      return true;
-    }
-    return false;
-  };
-
-  //Check if the department and semester is select before displaying the table
-  const checkIfSelectMajorAndSemester = () => {
-    if (!theDepartment || !semJson) {
-      return true;
-    }
-    return false;
-  };
-
-  useEffect(() => {
-    getSemesterList();
-  }, [theDepartment]);
-
-  //End get Semester
-
-  //[Begin]Get the courses list after semester and deparment is selected
-
-  // Get the courses by department from the back-end.
-  const getNewCourses = async () => {
+  //Get course list
+  const getCourseList = async () => {
     if (!semJson) {
       return;
     }
@@ -100,7 +69,7 @@ const EditAssignedCourses = () => {
       const newCourseListRes = await getCoursesByDepartment(
         semesterParse["term"],
         semesterParse["year"],
-        theDepartment
+        selectDepartment
       );
       const courseList = newCourseListRes.data;
       const status = newCourseListRes.status;
@@ -120,13 +89,6 @@ const EditAssignedCourses = () => {
         label: course.displayName,
       }));
 
-      if (_.isEmpty(courseList)) {
-        setCourseSelectionOptions(["There are no course for this semester"]);
-        setSelectCourse("");
-        console.log("Empty courselist");
-        return;
-      }
-
       if (courseMapToValueAndLabel) {
         setCourseSelectionOptions(courseMapToValueAndLabel);
       }
@@ -134,147 +96,132 @@ const EditAssignedCourses = () => {
       console.log(error);
     }
   };
-  useEffect(() => {
-    getNewCourses();
-    getInstructorList();
-  }, [semJson, theDepartment, refreshKey]);
+  //Check if the department is select before enable the dropdown for semester
+  const checkIfSelectMajor = () => {
+    if (!selectDepartment) {
+      return true;
+    }
+    return false;
+  };
 
-  //[End] get course list
+  //Check if the department and semester is select before displaying the table
+  const checkIfSelectMajorAndSemester = () => {
+    if (!selectDepartment || !semJson) {
+      return true;
+    }
+    return false;
+  };
 
-  // Get the sections of a course
-  const getSections = async () => {
-    if (!semJson) {
+  const secretKey = process.env.SURVEY_JWT_KEY;
+
+  //Get section list
+  const getSectionList = async () => {
+    var surveyObj = {};
+    if (!semJson || !selectDepartment || !selectCourse) {
+      console.log(semJson, selectDepartment, selectCourse);
       return;
     }
     try {
       const sectionlistRes = await getSectionsByCourse(
         term,
         year,
-        theDepartment,
+        selectDepartment,
         selectCourse
       );
-      const sectionListData = sectionlistRes.data;
+      var sectionListData = sectionlistRes.data;
       const status = sectionlistRes.status;
       if (status != "Success") {
         toast({
           title: "Error",
-          description: `There was an error fetching the course list! Error: ${status}`,
+          description: `There was an error fetching the section list! Error: ${status}`,
           status: "error",
           duration: 9000,
           isClosable: true,
         });
         return;
       }
-      setSectionList(sectionListData);
-      console.log(sectionListData);
+      sectionListData.map((section, idx) => {
+        var token = jwt.sign(
+          {
+            courseNumber: selectCourse,
+            sectionNumber: section.sectionNumber,
+            courseTerm: term,
+            courseYear: year,
+            instructorID: section.instructorEUID,
+            departmentName: selectDepartment,
+          },
+          secretKey,
+          { expiresIn: "365d" }
+        );
+        var link = "http://localhost:3000/survey/" + token;
+        surveyObj[idx] = {
+          courseNumber: selectCourse,
+          sectionNumber: section.sectionNumber,
+          courseTerm: term,
+          courseYear: year,
+          instructorID: section.instructorEUID,
+          departmentName: selectDepartment,
+          link: link,
+        };
+      });
+      var test = Object.values(surveyObj);
+      setSurveyObject(test);
+      console.log(test);
     } catch (error) {
       console.log(error);
     }
   };
 
-  useEffect(() => {
-    getSections();
-  }, [selectCourse, refreshKey]);
-
-  //Get instructor List
-  const getInstructorList = async () => {
-    const lookup = {};
-    try {
-      const response = await getUsersByRole("Instructor");
-      const data = response.data;
-      if (response) {
-        const instructorMap = data.map((instructor) => ({
-          instructorEUID: instructor.euid,
-          label: instructor.firstName + " " + instructor.lastName,
-        }));
-        setInstructorList(instructorMap);
-        if (instructorList) {
-          console.log(instructorList);
-          instructorList.forEach((instructor) => {
-            lookup[instructor.instructorEUID] = instructor.label;
-          });
-          setLookupObject(lookup);
-        }
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  //Refresh table
-  const refreshTable = () => {
-    setRefreshKey(refreshKey + 1);
-    console.log(refreshKey);
-  };
-
+  //Table columns
   const columns = [
     {
       title: "Section Number",
       field: "sectionNumber",
-      type: "numeric",
-      validate: (rowData) =>
-        rowData.sectionNumber
-          ? true
-          : "Section number can not be empty or contain characters",
-    },
-    {
-      title: "Number of student",
-      field: "numberOfStudents",
-      type: "numeric",
-      validate: (rowData) =>
-        rowData.numberOfStudents
-          ? true
-          : "Number of student can not be empty or contain characters",
     },
     {
       title: "Instructor EUID",
-      field: "instructorEUID",
-      validate: (rowData) =>
-        rowData.instructorEUID ? true : "Instructor EUID can not be empty",
-      filtering: false,
-      editComponent: (props) => (
-        <SingleSelect
-          options={lookupObject}
-          fullWidth={true}
-          value={props.value}
-          onChange={(value) => props.onChange(value)}
-        />
-      ),
+      field: "instructorID",
     },
     {
-      title: "Is section Completed",
-      field: "isSectionCompleted",
-      validate: (rowData) =>
-        rowData.isSectionCompleted != null
-          ? true
-          : "Is section completed can not be empty",
-      lookup: { true: "Yes", false: "No" },
+      title: "Link",
+      field: "link",
     },
   ];
 
+  useEffect(() => {
+    getSemesterList();
+  }, [selectDepartment]);
+
+  useEffect(() => {
+    getCourseList();
+  }, [semJson]);
+
+  useEffect(() => {
+    getSectionList();
+  }, [courseSelectionOptions, selectCourse, selectDepartment]);
+
   return (
-    <div>
+    <div id="top">
       <Center>
         <Text fontWeight="bold" fontSize="xl" mt="1em">
-          Add & Edit Course's Sections
+          Generate Student Surveys
         </Text>
       </Center>
       <VStack id="top" w="100%">
-        <Grid templateColumns="repeat(3, 1fr)" gap={1}>
+        <Grid mt="2em" templateColumns="repeat(3, 1fr)" gap={4}>
           <GridItem>
             <Select
               id="department"
               width="100%"
-              mr="1em"
               isRequired={true}
               placeholder="Select Department"
               borderColor="teal"
-              value={theDepartment}
+              value={selectDepartment}
               onChange={(e) => {
                 if (e.target.value == "") {
-                  setDepartment(null);
+                  setSelectDepartment(null);
                 } else {
-                  setDepartment(e.target.value);
+                  setSelectDepartment(e.target.value);
                 }
               }}
             >
@@ -317,7 +264,6 @@ const EditAssignedCourses = () => {
               disabled={checkIfSelectMajorAndSemester()}
               style={{ bottom: "5px" }}
               fullWidth={true}
-              value={selectCourse}
               placeholder="Select a course"
               options={courseSelectionOptions}
               onChange={(value) => {
@@ -328,10 +274,10 @@ const EditAssignedCourses = () => {
           </GridItem>
         </Grid>
       </VStack>
-      <Box align="center" margin="auto" w={{ sm: "100%", md: "50%" }}>
+      <Box align="center" w="50%" margin="auto">
         {!selectCourse ||
           !semJson ||
-          (!theDepartment && (
+          (!selectDepartment && (
             <Text
               fontWeight="bold"
               mt="1em"
@@ -343,7 +289,7 @@ const EditAssignedCourses = () => {
             </Text>
           ))}
 
-        {selectCourse && semJson && theDepartment && (
+        {selectCourse && semJson && selectDepartment && (
           <Text
             fontWeight="bold"
             mt="1em"
@@ -351,27 +297,15 @@ const EditAssignedCourses = () => {
             fontSize="lg"
             align="center"
           >
-            Sections Table
+            Survey Table
           </Text>
         )}
-
-        {selectCourse &&
-          semJson &&
-          theDepartment &&
-          selectCourse != "There are no course for this semester" && (
-            <SectionTable
-              year={year}
-              term={term}
-              department={theDepartment}
-              courseNumber={selectCourse}
-              columns={columns}
-              data={sectionList}
-              instructorList={instructorList}
-              refreshTable={refreshTable}
-            />
-          )}
+        {selectCourse && semJson && selectDepartment && surveyObject && (
+          <StudentSurveysTable columns={columns} data={surveyObject} />
+        )}
       </Box>
     </div>
   );
 };
-export default EditAssignedCourses;
+
+export default GenerateStudentSurveys;

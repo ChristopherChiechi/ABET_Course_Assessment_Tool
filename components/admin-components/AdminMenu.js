@@ -10,6 +10,16 @@ import {
 const AdminMenu = ({ setView }) => {
   return (
     <Accordion allowToggle>
+      <Text
+        textAlign="left"
+        fontSize="1.1em"
+        fontWeight="bold"
+        mt="2em"
+        mb="1em"
+      >
+        <u>Report management</u>
+      </Text>
+
       <AccordionItem>
         <AccordionButton
           _expanded={{ bg: "#38A169", color: "white" }}
@@ -53,6 +63,52 @@ const AdminMenu = ({ setView }) => {
           }}
         >
           Student Outcome Mapping
+        </AccordionButton>
+      </AccordionItem>
+
+      <Text
+        textAlign="left"
+        fontSize="1.1em"
+        fontWeight="bold"
+        mt="2em"
+        mb="1em"
+      >
+        <u>Major/Course Outcome</u>
+      </Text>
+
+      <AccordionItem>
+        <AccordionButton
+          _expanded={{ bg: "#38A169", color: "white" }}
+          textAlign="left"
+          onClick={() => {
+            setView("ACMO");
+          }}
+        >
+          1) Assign course to major outcome
+        </AccordionButton>
+      </AccordionItem>
+
+      <AccordionItem>
+        <AccordionButton
+          _expanded={{ bg: "#38A169", color: "white" }}
+          textAlign="left"
+          onClick={() => {
+            setView("ANOTM");
+          }}
+        >
+          2) Add new outcome to major
+        </AccordionButton>
+      </AccordionItem>
+
+      <AccordionItem>
+        <AccordionButton
+          _expanded={{ bg: "#38A169", color: "white" }}
+          textAlign="left"
+          onClick={() => {
+            setView("AOTC");
+          }}
+        >
+          3) Assign outcome to course
         </AccordionButton>
       </AccordionItem>
 
@@ -107,10 +163,10 @@ const AdminMenu = ({ setView }) => {
           _expanded={{ bg: "#38A169", color: "white" }}
           textAlign="left"
           onClick={() => {
-            setView("EPL");
+            setView("CNM");
           }}
         >
-          Edit Program List
+          Edit Major List
         </AccordionButton>
       </AccordionItem>
 
@@ -119,7 +175,7 @@ const AdminMenu = ({ setView }) => {
           _expanded={{ bg: "#38A169", color: "white" }}
           textAlign="left"
           onClick={() => {
-            setView("ECL");
+            setView("CNM");
           }}
         >
           Edit Course List

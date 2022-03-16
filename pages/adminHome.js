@@ -35,18 +35,20 @@ import Head from "next/head";
 import Navigation from "../components/Navigation";
 import AdminMenu from "../components/admin-components/AdminMenu";
 // import FullReport from '../components/admin-components/FullReport/FullReport';
-import CreateNewSemester from "../components/admin-components/EditSemesters/CreateNewSemester";
+import EditSemesterList from "../components/admin-components/EditSemesters/EditSemesterList";
 import EditProgramList from "../components/admin-components/EditProgramList/EditProgramList";
-import EditCourseAssignments from "../components/admin-components/EditCourseAssignments/EditCourseAssignments";
 import EditFacultyList from "../components/admin-components/EditFacultyList/EditFacultyList";
 import EditCourseList from "../components/admin-components/EditCourseList/EditCourseList";
 import EditCourseOutcomes from "../components/admin-components/EditCourseOutcomes/EditCourseOutcomes";
 import OutcomeMapping from "../components/admin-components/OutcomeMapping/OutcomeMapping";
 import GenerateSectionReport from "../components/admin-components/GenerateSectionReport/GenerateSectionReport";
 import GenerateFullReport from "../components/admin-components/GenerateFullReport/GenerateFullReport";
-import GenerateStudentSurveys from "../components/admin-components/GenerateStudentSurveys";
+import GenerateStudentSurveys from "../components/admin-components/GenerateStudentSurveys/GenerateStudentSurveys";
 import EditAssignedCourses from "../components/admin-components/EditAssignedCourses/EditAssignedCourses";
 import CreateNewMajor from "../components/admin-components/EditDepartments/CreateNewMajor";
+import AssignCourseToMajorOutcome from "../components/admin-components/MajorsOutcomes/AssignCourseToMajor/AssignCourseToMajorOutcome";
+import AddNewOutcomeToMajor from "../components/admin-components/MajorsOutcomes/AddNewOutcomeToMajor/AddNewOutcomeToMajor";
+import AssignOutcomeToCourse from "../components/admin-components/MajorsOutcomes/AssignOutcomeToCourse/AssignOutcomeToCourse";
 var role = "super";
 var is_super = true;
 if (role == "super") {
@@ -66,35 +68,35 @@ const adminHome = () => {
       <Navigation />
       <div>
         <div>
-        <Flex justifyContent="left" mt="1em" mr="1em">
-          <HStack spacing='10px' w={{ base: "120%", md: "80%" }}>
-            <IconButton
-              bg="#016a31"
-              color="white"
-              onClick={onOpen}
-              ml="1em"
-              _hover={{
-                background: "teal",
-                color: "white",
-              }}
-              icon={<HamburgerIcon />}
-            />
+          <Flex justifyContent="left" mt="1em" mr="1em">
+            <HStack spacing="10px" w={{ base: "120%", md: "80%" }}>
+              <IconButton
+                bg="#016a31"
+                color="white"
+                onClick={onOpen}
+                ml="1em"
+                _hover={{
+                  background: "teal",
+                  color: "white",
+                }}
+                icon={<HamburgerIcon />}
+              />
 
-            <Button
-              disabled={is_super}
-              onClick={() => router.push("/instructorHome")}
-              bg="#016a31"
-              color="white"
-              ml="1em"
-              _hover={{
-                background: "teal",
-                color: "white",
-              }}
-            >
-              Switch to Instructor
-            </Button>
-          </HStack>
-        </Flex>
+              <Button
+                disabled={is_super}
+                onClick={() => router.push("/instructorHome")}
+                bg="#016a31"
+                color="white"
+                ml="1em"
+                _hover={{
+                  background: "teal",
+                  color: "white",
+                }}
+              >
+                Switch to Instructor
+              </Button>
+            </HStack>
+          </Flex>
 
           <Drawer
             placement="left"
@@ -155,10 +157,10 @@ const adminHome = () => {
                         ml="3"
                         color="#016a31"
                         onClick={() => {
-                          setView("CND");
+                          setView("CNM");
                         }}
                       >
-                        Edit Majors
+                        Edit Major List
                       </Td>
                     </Tr>
                     <Tr>
@@ -270,8 +272,8 @@ const adminHome = () => {
               case "OM":
                 return <OutcomeMapping />;
               case "CNS":
-                return <CreateNewSemester />;
-              case "CND":
+                return <EditSemesterList />;
+              case "CNM":
                 return <CreateNewMajor />;
               case "EAC":
                 return <EditAssignedCourses />;
@@ -285,6 +287,12 @@ const adminHome = () => {
                 return <EditCourseOutcomes />;
               case "GSS":
                 return <GenerateStudentSurveys />;
+              case "ACMO":
+                return <AssignCourseToMajorOutcome />;
+              case "ANOTM":
+                return <AddNewOutcomeToMajor />;
+              case "AOTC":
+                return <AssignOutcomeToCourse />;
             }
           })()}
         </div>
