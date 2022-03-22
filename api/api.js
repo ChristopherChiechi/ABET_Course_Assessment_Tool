@@ -999,7 +999,118 @@ export default class API {
     }
   }
 
-  // Role
+  // Survey
+
+  //---getQuestionSet()--- (Admin)
+  //    Input: year,term, major name
+  //    Output: a list of questions belong to that question set
+  async getQuestionSet(year, term, questionSetName) {
+    const url =
+      rootNew +
+      `/Survey/GetQuestionSet?term=${term}&year=${year}&questionSetName=${questionSetName}`;
+    try {
+      const response = await axios.get(url);
+      if (response) {
+        let status = this.checkStatus(response.status);
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
+    } catch (error) {
+      let status = this.checkStatus(error.message);
+      return {
+        data: null,
+        status: status,
+      };
+    }
+  }
+
+  //---GetQuestion()--- (Admin)
+  //    Input: year,term,
+  //    Output: a list of all questions
+  async getQuestions(year, term) {
+    const url = rootNew + `/Survey/GetQuestions?term=${term}&year=${year}`;
+    try {
+      const response = await axios.get(url);
+      if (response) {
+        let status = this.checkStatus(response.status);
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
+    } catch (error) {
+      let status = this.checkStatus(error.message);
+      return {
+        data: null,
+        status: status,
+      };
+    }
+  }
+
+  //---saveQuestions()--- (Admin)
+  //    Input: year,term, questionSet, questions
+  //    Output: success or failure
+  async saveQuestions(year, term, questionSet, questions) {
+    const url =
+      rootNew +
+      `/Survey/SaveQuestions?term=${term}&year=${year}&questionSetName=${questionSet}`;
+    const body = {
+      questions,
+    };
+    try {
+      const response = await axios.post(url, questions);
+      if (response) {
+        let status = this.checkStatus(response.status);
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
+    } catch (error) {
+      let status = this.checkStatus(error.message);
+      return {
+        data: null,
+        status: status,
+      };
+    }
+  }
+
+  //---postSurvey()--- (student)
+  //    Input: year,term, euid,department,courseNumber,sectionNumber,additionalComments,answers
+  //    Output: success or failure
+  async postSurvey(
+    year,
+    term,
+    euid,
+    department,
+    courseNumber,
+    sectionNumber,
+    additionalComments,
+    answers
+  ) {
+    const url =
+      rootNew +
+      `/Survey/PostSurvey?EUID=${euid}&term=${term}&year=${year}&department=${department}&courseNumber=${courseNumber}&sectionNumber=${sectionNumber}&additionalComments=${additionalComments}`;
+
+    try {
+      const response = await axios.post(url, answers);
+      if (response) {
+        let status = this.checkStatus(response.status);
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
+    } catch (error) {
+      let status = this.checkStatus(error.message);
+      return {
+        data: null,
+        status: status,
+      };
+    }
+  }
 
   // Old End Point
   // generic function for sending POST requests

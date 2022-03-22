@@ -10,6 +10,7 @@ course["course-outcomes"] = course["course-outcomes"].map((outcome) => {
     rating: 0,
   };
 });
+
 export const pageData = {
   majors: [
     "Computer Science",
@@ -29,7 +30,7 @@ export const pageData = {
         "Software Engineering",
         "Computer Engineering",
         "Information Technology",
-        "Cyber Secuirity",
+        "Cyber Security",
       ],
     },
     {
@@ -41,6 +42,7 @@ export const pageData = {
       choices: ["A", "B", "C", "D", "F"],
     },
   ],
+
   questions: questionData.TAquestions.map((question) => {
     return {
       question,

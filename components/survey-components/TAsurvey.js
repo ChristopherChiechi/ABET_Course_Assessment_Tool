@@ -26,21 +26,23 @@ const TAsurvey = ({ TAquestions, handleChange }) => {
     );
   });
 
-  const renderRows = TAquestions.map((question, idx) => {
-    return (
-      <Tr key={idx}>
-        <Td>{question.question}</Td>
-        <Td>
-          <RadioGroup
-            value={question.rating}
-            onChange={(e) => handleChange(e, idx, "TA")}
-          >
-            <HStack spacing={10}>{renderRadios}</HStack>
-          </RadioGroup>
-        </Td>
-      </Tr>
-    );
-  });
+  const renderRows =
+    TAquestions &&
+    TAquestions.map((question, idx) => {
+      return (
+        <Tr key={idx}>
+          <Td>{question.question}</Td>
+          <Td>
+            <RadioGroup
+              value={question.rating}
+              onChange={(e) => handleChange(e, idx, "TA")}
+            >
+              <HStack spacing={10}>{renderRadios}</HStack>
+            </RadioGroup>
+          </Td>
+        </Tr>
+      );
+    });
 
   return (
     <>
@@ -52,7 +54,8 @@ const TAsurvey = ({ TAquestions, handleChange }) => {
         bg="#edf2f7"
       >
         <Text fontWeight="bold">
-          For each item below select a rating from 1-5, where 1 is Very Low Satisfaction and 5 is Very High Satisfaction. 
+          For each item below select a rating from 1-5, where 1 is Very Low
+          Satisfaction and 5 is Very High Satisfaction.
         </Text>
       </Center>
       <Center
@@ -61,7 +64,7 @@ const TAsurvey = ({ TAquestions, handleChange }) => {
         w={{ base: "120%", md: "80%" }}
         borderRadius="4px"
       >
-        <Table padding="1em" variant="striped">
+        <Table padding="0.5em" variant="striped">
           <Thead>
             <Tr>
               <Th>TA Evaluation</Th>

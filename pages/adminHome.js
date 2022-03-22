@@ -4,28 +4,19 @@ import {
   Center,
   Drawer,
   DrawerBody,
-  DrawerFooter,
   DrawerHeader,
   DrawerOverlay,
   DrawerContent,
-  DrawerCloseButton,
   useDisclosure,
   VStack,
   HStack,
   Box,
   Table,
-  Thead,
   Tbody,
-  Tfoot,
   Tr,
-  Th,
   Td,
   TableCaption,
   Flex,
-  Accordion,
-  AccordionItem,
-  AccordionButton,
-  Link,
   IconButton,
 } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
@@ -49,6 +40,7 @@ import CreateNewMajor from "../components/admin-components/EditDepartments/Creat
 import AssignCourseToMajorOutcome from "../components/admin-components/MajorsOutcomes/AssignCourseToMajor/AssignCourseToMajorOutcome";
 import AddNewOutcomeToMajor from "../components/admin-components/MajorsOutcomes/AddNewOutcomeToMajor/AddNewOutcomeToMajor";
 import AssignOutcomeToCourse from "../components/admin-components/MajorsOutcomes/AssignOutcomeToCourse/AssignOutcomeToCourse";
+import EditSurveyQuestions from "../components/admin-components/Student-Survey/EditSurveyQuestions";
 var role = "super";
 var is_super = true;
 if (role == "super") {
@@ -293,6 +285,8 @@ const adminHome = () => {
                 return <AddNewOutcomeToMajor />;
               case "AOTC":
                 return <AssignOutcomeToCourse />;
+              case "ESQ":
+                return <EditSurveyQuestions />;
             }
           })()}
         </div>

@@ -119,6 +119,28 @@ const AdminMenu = ({ setView }) => {
         mt="2em"
         mb="1em"
       >
+        <u>Survey</u>
+      </Text>
+
+      <AccordionItem>
+        <AccordionButton
+          _expanded={{ bg: "#38A169", color: "white" }}
+          textAlign="left"
+          onClick={() => {
+            setView("ESQ");
+          }}
+        >
+          Edit Student Survey Questions
+        </AccordionButton>
+      </AccordionItem>
+
+      <Text
+        textAlign="left"
+        fontSize="1.1em"
+        fontWeight="bold"
+        mt="2em"
+        mb="1em"
+      >
         <u>Departmental Changes</u>
       </Text>
 

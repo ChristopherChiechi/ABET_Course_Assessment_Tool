@@ -1,19 +1,21 @@
 //imports
 import { useState, useContext, useEffect } from "react";
 import Head from "next/head";
-import { Text, VStack, Button, Box, Center } from "@chakra-ui/react";
+import { Text, VStack, Button, Box, useToast } from "@chakra-ui/react";
 import jwt from "jsonwebtoken";
 import { useRouter } from "next/router";
 import cookieCutter from "cookie-cutter";
 import Navigation from "../../components/Navigation";
 //hooks
 import useToggle from "../../hooks/useToggle";
-
+//API
+import { getQuestions, postSurvey } from "../../api/APIHelper";
 //components
 import StudentLoginBox from "../../components/survey-components/StudentLoginBox";
 import StudentInfoForm from "../../components/survey-components/StudentInfoForm";
 import CourseOutcomesSurvey from "../../components/survey-components/CourseOutcomesSurvey";
 import TAsurvey from "../../components/survey-components/TAsurvey";
+import InstructorSurvey from "../../components/survey-components/Instructorsurvey";
 import StudentFeedback from "../../components/survey-components/StudentFeedback";
 //page data
 import {
@@ -21,13 +23,12 @@ import {
   pageData,
 } from "../../components/survey-components/SurveyPageData";
 //api
-import { postStudentSurvey } from "../../api/APIHelper";
+
 const studentSurvey = () => {
   const context = useContext(PageContext);
-  const course = context.course;
   const router = useRouter();
+  const toast = useToast({ position: "top" });
 
-  const pathname = router.pathname;
   let relativeURL = "";
   const ISSERVER = typeof window === "undefined";
   let role = "";
@@ -85,9 +86,9 @@ const studentSurvey = () => {
   const [outcomeSurvey, setOutcomeSurvey] = useState(
     context.course["course-outcomes"]
   );
-  const [TAquestions, setTAquestions] = useState(context.questions);
+  const [TAquestions, setTAquestions] = useState();
+  const [InstructorQuestions, setInstructorQuestions] = useState();
   const [studentInput, setStudentInput] = useState({
-    TAeval: "",
     additionalFeedback: "",
   });
 
@@ -99,6 +100,10 @@ const studentSurvey = () => {
     console.log("course updated");
     getCourseInformation();
   }, []);
+
+  useEffect(() => {
+    getQuestionsFunction();
+  }, [courseInformation]);
 
   const getCourseInformation = () => {
     if (!ISSERVER) {
@@ -123,39 +128,98 @@ const studentSurvey = () => {
           sectionNumber: courseJson.sectionNumber,
           courseDepartment: courseJson.departmentName,
         });
-        console.log(courseJson.courseNumber);
-        console.log(courseJson.departmentName);
       }
     }
   };
 
-  const testFunction = () => {
-    console.log(studentInformation, outcomeSurvey, TAquestions, studentInput);
+  const getQuestionsFunction = async () => {
     if (
-      studentInformation.major === "" ||
-      studentInformation.classification == "" ||
-      studentInformation.grade === ""
+      courseInformation.courseTerm == "" ||
+      courseInformation.courseYear == ""
     ) {
-      alert(" Please complete the student information");
+      return;
     }
-    let i;
-    for (i = 0; i < outcomeSurvey.length; i++) {
-      if (outcomeSurvey[i].rating === 0) {
-        alert("Please answer all course outcomes");
-        break;
-      }
+    try {
+      var questionsRes = await getQuestions(
+        courseInformation.courseYear,
+        courseInformation.courseTerm
+      );
+      const instructorQuestions = questionsRes.data[0].questions.map(
+        (question) => {
+          return {
+            question,
+            rating: 0,
+          };
+        }
+      );
+      const TAQuestions = questionsRes.data[1].questions.map((question) => {
+        return {
+          question,
+          rating: 0,
+        };
+      });
+      setTAquestions(TAQuestions);
+      setInstructorQuestions(instructorQuestions);
+    } catch (error) {
+      console.log(error);
     }
-    let j;
-    for (j = 0; j < TAquestions.length; j++) {
-      if (TAquestions[i].rating === 0) {
-        alert("Please answer the Ta questions");
-        break;
-      }
-    }
-    console.log(outcomeSurvey);
   };
 
-  const submitSurvey = () => {};
+  const testFunction = async () => {
+    const token = cookieCutter.get("token");
+    const json = jwt.decode(token);
+    const euid = json.unique_name;
+    console.log(euid);
+    var allAnswerArray = [];
+
+    let array = TAquestions.map((question) => Object.values(question.rating));
+    console.log(array);
+    for (var i = 0; i < InstructorQuestions.length; i++) {
+      console.log(InstructorQuestions[i].rating);
+      allAnswerArray.push(InstructorQuestions[i].rating);
+    }
+    for (var i = 0; i < TAquestions.length; i++) {
+      console.log(TAquestions[i].rating);
+      allAnswerArray.push(TAquestions[i].rating);
+    }
+    console.log(allAnswerArray);
+    console.log(
+      studentInformation,
+      outcomeSurvey,
+      TAquestions,
+      studentInput.additionalFeedback
+    );
+    try {
+      const res = await postSurvey(
+        courseInformation.courseYear,
+        courseInformation.courseTerm,
+        euid,
+        courseInformation.courseDepartment,
+        courseInformation.courseNumber,
+        courseInformation.sectionNumber,
+        studentInput.additionalFeedback,
+        allAnswerArray
+      );
+      const status = res.status;
+      if (status == "Success") {
+        toast({
+          description: `Successfully deleted the question! Please refresh the page if you don't see the new change.`,
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+        });
+      } else {
+        toast({
+          description: `There was an error! Message: ${status} `,
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleChange = (rating, idx, type) => {
     if (type == "TA") {
@@ -167,6 +231,11 @@ const studentSurvey = () => {
       var temp = outcomeSurvey;
       outcomeSurvey[idx].rating = parseInt(rating);
       setOutcomeSurvey([...temp]);
+      console.log(outcomeSurvey[idx]);
+    } else if (type == "Instructor") {
+      var temp = InstructorQuestions;
+      InstructorQuestions[idx].rating = parseInt(rating);
+      setInstructorQuestions([...temp]);
       console.log(outcomeSurvey[idx]);
     } else {
       console.log("incorrect type");
@@ -181,7 +250,7 @@ const studentSurvey = () => {
       <Navigation />
       {isLoggedIn ? (
         <VStack mt="2em">
-          <Box w="90%">
+          <Box w="95%">
             <Text fontSize="2xl" fontWeight="bold">
               {courseInformation.courseDepartment +
                 " " +
@@ -198,7 +267,6 @@ const studentSurvey = () => {
               Student Feedback Survey
             </Text>
           </Box>
-
           <Box w={{ base: "120%", sm: "50%", md: "80%" }}>
             <StudentInfoForm
               studentInformation={studentInformation}
@@ -208,6 +276,13 @@ const studentSurvey = () => {
           <Box w={{ base: "120%", sm: "50%", md: "80%" }}>
             <CourseOutcomesSurvey
               outcomeSurvey={outcomeSurvey}
+              handleChange={handleChange}
+            />
+          </Box>
+
+          <Box w={{ base: "120%", sm: "50%", md: "80%" }}>
+            <InstructorSurvey
+              instructorQuestions={InstructorQuestions}
               handleChange={handleChange}
             />
           </Box>

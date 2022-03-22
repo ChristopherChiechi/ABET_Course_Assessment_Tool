@@ -50,7 +50,6 @@ export async function addFacultyMember(lastName, firstName, id, type) {
 }
 
 // All role endpoint
-
 export async function getUsersByRole(roleName) {
   let api_helper = new API();
   let response = await api_helper.getUsersByRole(roleName);
@@ -274,6 +273,7 @@ export async function editSection(
   return response;
 }
 
+//All outcome endpoint
 export async function assignCourseToMajor(
   year,
   term,
@@ -426,6 +426,55 @@ export async function getOutcomesByCourse(
     term,
     department,
     courseNumber
+  );
+  return response;
+}
+
+//All survey endpoint
+
+export async function getQuestionSet(year, term, questionSetName) {
+  let api_helper = new API();
+  let response = await api_helper.getQuestionSet(year, term, questionSetName);
+  return response;
+}
+
+export async function getQuestions(year, term) {
+  let api_helper = new API();
+  let response = await api_helper.getQuestions(year, term);
+  return response;
+}
+
+export async function saveQuestions(year, term, questionSet, questions) {
+  let api_helper = new API();
+  let response = await api_helper.saveQuestions(
+    year,
+    term,
+    questionSet,
+    questions
+  );
+  return response;
+}
+
+export async function postSurvey(
+  year,
+  term,
+  euid,
+  department,
+  courseNumber,
+  sectionNumber,
+  additionalComments,
+  answers
+) {
+  let api_helper = new API();
+  let response = await api_helper.postSurvey(
+    year,
+    term,
+    euid,
+    department,
+    courseNumber,
+    sectionNumber,
+    additionalComments,
+    answers
   );
   return response;
 }

@@ -1,13 +1,7 @@
 import React from "react";
 
 import { useToast } from "@chakra-ui/react";
-import {
-  getFacultyList,
-  addFacultyMember,
-  editFacultyUser,
-  getUsersByRole,
-  deleteFacultyUser,
-} from "../../../api/APIHelper";
+import { saveQuestions } from "../../../api/APIHelper";
 
 import MaterialTable from "material-table";
 import { forwardRef } from "react";
@@ -51,33 +45,49 @@ const tableIcons = {
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
 };
 
-const FacultyTable = ({ columns, data, selectFaculty, refreshTable }) => {
+const SurveyQuestionsTable = ({
+  columns,
+  data,
+  selectQuestionSet,
+  year,
+  term,
+  refreshTable,
+}) => {
   const toast = useToast({ position: "top" });
 
-  const handleAddFaculty = async (newUser) => {
-    console.log(newUser);
-    if (!newUser.lastName || !newUser.firstName || !newUser.euid) {
-      toast({
-        description: "Required field empty!",
-        status: "warning",
-        duration: 9000,
-        isClosable: true,
-      });
-      return;
-    }
+  Array.prototype.insert = function (index, item) {
+    this.splice(index, 0, item);
+  };
+
+  Array.prototype.swapItems = function (a, b) {
+    this[a] = this.splice(b, 1, this[a])[0];
+    return this;
+  };
+
+  //Handle adding questions
+  const handleAddQuestion = async (newQuestion) => {
     try {
-      const res = await addFacultyMember(
-        newUser.lastName,
-        newUser.firstName,
-        newUser.euid,
-        selectFaculty
+      var newQuestionsArray;
+      var newQuestionsArray = data.map(function (question) {
+        return question["question"];
+      });
+      if (!newQuestion.id) {
+        newQuestionsArray.push(newQuestion.question);
+      } else {
+        newQuestionsArray.insert(newQuestion.id, newQuestion.question);
+      }
+      console.log(newQuestionsArray);
+
+      const res = await saveQuestions(
+        year,
+        term,
+        selectQuestionSet,
+        newQuestionsArray
       );
-      console.log(res);
       const status = res.status;
-      console.log(status);
       if (status == "Success") {
         toast({
-          description: `Successfully added the new faculty member! Please refresh the page if you don't see the new change.`,
+          description: `Successfully added the new question! Please refresh the page if you don't see the new change.`,
           status: "success",
           duration: 2000,
           isClosable: true,
@@ -90,51 +100,85 @@ const FacultyTable = ({ columns, data, selectFaculty, refreshTable }) => {
           isClosable: true,
         });
       }
+      refreshTable();
     } catch (error) {
       console.log(error);
     }
   };
 
-  const handleRemoveFaculty = async (oldData) => {
+  //Handle remove question
+  const handleRemoveQuestion = async (oldQuestion) => {
     try {
-      const res = await deleteFacultyUser(oldData.euid);
-      if (res) {
-        console.log(res);
-        if (res.status == "Success") {
-          toast({
-            description: `User successfully deleted! Please refresh the page if you don't see the new change.`,
-            status: "success",
-            duration: 2000,
-            isClosable: true,
-          });
-        } else {
-          toast({
-            description: `There was an error! Message: ${res.status} `,
-            status: "error",
-            duration: 9000,
-            isClosable: true,
-          });
-        }
-        refreshTable();
+      var questionsArray;
+      var questionsArray = data.map(function (question) {
+        return question["question"];
+      });
+      const index = questionsArray.indexOf(oldQuestion.question); // Find the index of the question
+      if (index > -1) {
+        questionsArray.splice(index, 1); //Remove the question
       }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleEditFaculty = async (newUser, oldUser) => {
-    try {
-      const res = await editFacultyUser(
-        newUser.firstName,
-        newUser.lastName,
-        oldUser.euid,
-        newUser.euid
+      console.log(questionsArray);
+      //Save questions by calling api
+      const res = await saveQuestions(
+        year,
+        term,
+        selectQuestionSet,
+        questionsArray
       );
       const status = res.status;
-      console.log(res);
       if (status == "Success") {
         toast({
-          description: `Change Successful! Please refresh the page if you don't see the new change.`,
+          description: `Successfully deleted the question! Please refresh the page if you don't see the new change.`,
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+        });
+      } else {
+        toast({
+          description: `There was an error! Message: ${status} `,
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+      }
+      refreshTable();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleEditQuestion = async (newQuestion, oldQuestion) => {
+    try {
+      var questionsArray;
+      var questionsArray = data.map(function (question) {
+        return question["question"];
+      });
+
+      //handle text change
+      if (newQuestion.question != oldQuestion.question) {
+        const index = questionsArray.indexOf(oldQuestion.question); // Find the index of the question
+        if (index > -1) {
+          questionsArray[index] = newQuestion.question;
+        }
+      }
+
+      //Handle id or order change
+      if (newQuestion.id != oldQuestion.id) {
+        questionsArray.swapItems(oldQuestion.id, newQuestion.id);
+      }
+
+      console.log(questionsArray);
+
+      const res = await saveQuestions(
+        year,
+        term,
+        selectQuestionSet,
+        questionsArray
+      );
+      const status = res.status;
+      if (status == "Success") {
+        toast({
+          description: `Successfully edited the question! Please refresh the page if you don't see the new change.`,
           status: "success",
           duration: 2000,
           isClosable: true,
@@ -159,11 +203,12 @@ const FacultyTable = ({ columns, data, selectFaculty, refreshTable }) => {
         search: true,
         pageSize: 10,
         pageSizeOptions: [10, 20, 30],
+        tableLayout: "auto",
       }}
       icons={tableIcons}
       columns={columns}
       data={data}
-      title="Faculty List"
+      title=""
       editable={{
         onRowUpdate: () =>
           new Promise((resolve, reject) => {
@@ -171,24 +216,24 @@ const FacultyTable = ({ columns, data, selectFaculty, refreshTable }) => {
               resolve();
             }, 1000);
           }),
-        onRowAdd: (newUser) =>
+        onRowAdd: (newQuestion) =>
           new Promise((resolve, reject) => {
             setTimeout(() => {
-              handleAddFaculty(newUser);
+              handleAddQuestion(newQuestion);
               resolve();
             }, 1000);
           }),
-        onRowDelete: (oldData) =>
+        onRowDelete: (oldQuestion) =>
           new Promise((resolve, reject) => {
             setTimeout(() => {
-              handleRemoveFaculty(oldData);
+              handleRemoveQuestion(oldQuestion);
               resolve();
             }, 1000);
           }),
-        onRowUpdate: (newUser, oldUser) =>
+        onRowUpdate: (newQuestion, oldQuestion) =>
           new Promise((resolve, reject) => {
             setTimeout(() => {
-              handleEditFaculty(newUser, oldUser);
+              handleEditQuestion(newQuestion, oldQuestion);
               resolve();
             }, 1000);
           }),
@@ -196,4 +241,4 @@ const FacultyTable = ({ columns, data, selectFaculty, refreshTable }) => {
     />
   );
 };
-export default FacultyTable;
+export default SurveyQuestionsTable;

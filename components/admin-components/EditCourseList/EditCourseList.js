@@ -82,6 +82,9 @@ const EditCourseList = () => {
         ...theCourse,
         courses: courseList,
       });
+      if (theCourse.courses) {
+        console.log(theCourse.courses);
+      }
     } catch (error) {
       console.log(error);
     }

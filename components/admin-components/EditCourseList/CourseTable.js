@@ -89,7 +89,7 @@ const CourseTable = ({
     refreshTable();
   };
 
-  //Handle Remove
+  //Handle add
   const handleAddCourse = async (newCourse) => {
     try {
       var coordinatorEUID;
