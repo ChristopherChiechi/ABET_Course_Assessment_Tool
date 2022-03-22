@@ -64,7 +64,7 @@ const EditFacultyList = () => {
 
   useEffect(() => {
     getFaculty();
-  }, [refreshKey, selectFaculty, faculty]);
+  }, [refreshKey, selectFaculty]);
 
   return (
     <div>
