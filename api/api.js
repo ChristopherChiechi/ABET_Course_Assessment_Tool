@@ -135,11 +135,11 @@ export default class API {
     }
   }
 
-  //---todo()--- (Admin)
-  //    Input: year,term,department,courseNumber,major,outcomName
+  //---AddRoleToUser()--- (Admin)
+  //    Input: euid, role
   //    Output: success or failure
-  async AddRoleToUser(euid, role) {
-    const url = rootNew + `/Role/AddRoleToUser?EUID=tt0377&roleName=admin`;
+  async addRoleToUser(euid, role) {
+    const url = rootNew + `/Role/AddRoleToUser?EUID=${euid}&roleName=${role}`;
     try {
       const response = await axios.post(url);
       if (response) {
@@ -151,6 +151,32 @@ export default class API {
       }
     } catch (error) {
       let status = this.checkStatus(error.message);
+      return {
+        data: null,
+        status: status,
+      };
+    }
+  }
+
+  //---removeRoleFromUser()--- (Admin)
+  //    Input: EUID, role
+  //    Output: success or failure
+  async removeRoleFromUser(euid, role) {
+    const url =
+      rootNew + `/Role/RemoveRoleFromUser?EUID=${euid}&roleName=${role}`;
+    try {
+      const response = await axios.delete(url);
+      console.log(response);
+      if (response) {
+        let status = this.checkStatus(response.status);
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
+    } catch (error) {
+      let status = this.checkStatus(error.message);
+      console.error(error);
       return {
         data: null,
         status: status,

@@ -17,13 +17,6 @@ export async function getFacultyList() {
   return response;
 }
 
-export async function getUsersByRole(roleName) {
-  let api_helper = new API();
-  let response = await api_helper.getUsersByRole(roleName);
-  //console.log(response);
-  return response;
-}
-
 export async function editFacultyUser(lastname, firstname, oldEuid, newEuid) {
   let api_helper = new API();
   let response = await api_helper.editFacultyUser(
@@ -53,6 +46,26 @@ export async function addFacultyMember(lastName, firstName, id, type) {
     type
   );
   console.log(response);
+  return response;
+}
+
+// All role endpoint
+
+export async function getUsersByRole(roleName) {
+  let api_helper = new API();
+  let response = await api_helper.getUsersByRole(roleName);
+  return response;
+}
+
+export async function addRoleToUser(euid, role) {
+  let api_helper = new API();
+  let response = await api_helper.addRoleToUser(euid, role);
+  return response;
+}
+
+export async function removeRoleFromUser(euid, role) {
+  let api_helper = new API();
+  let response = await api_helper.removeRoleFromUser(euid, role);
   return response;
 }
 
