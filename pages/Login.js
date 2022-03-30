@@ -51,6 +51,8 @@ const Newlogin = () => {
           router.push(router.query.from);
         } else if (response == "Admin") {
           router.push("/adminHome");
+        }else if (response == "Coordinator") {
+            router.push("/instructorHome");
         } else if (response == "Instructor") {
           router.push("/instructorHome");
         } else if (response == "Student") {
