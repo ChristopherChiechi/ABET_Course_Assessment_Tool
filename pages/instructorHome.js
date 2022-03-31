@@ -19,7 +19,7 @@ const instructorHome = () => {
   });
 
   const getCourses = async () => {
-    console.log("test");
+    //console.log("test");
     const instructor = await getInstructorCourses(user, term);
     const coordinator = await getCoordinatorCourses(user, term);
     setCourses({
@@ -44,7 +44,7 @@ const instructorHome = () => {
       <Head>
         <title>UNT ABET: Instructor Page</title>
       </Head>
-      <Navigation user={user} />
+      <Navigation />
       <VStack mt="4em">
         <TermSelect parentTerm={term} setParentTerm={setTerm} />
         <FormsView

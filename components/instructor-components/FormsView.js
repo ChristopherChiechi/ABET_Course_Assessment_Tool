@@ -12,8 +12,14 @@ import {
     Box
 } from "@chakra-ui/react";
 import Link from "next/link"
+import cookieCutter from "cookie-cutter";
+import jwt from "jsonwebtoken";
 
 const FormsView = ({ instructorCourses, coordinatorCourses, term }) => {
+    let role = "";
+    const token = cookieCutter.get("token");
+    const json = jwt.decode(token);
+    role = json.role;
     
     instructorCourses.sort(
         (a, b) => (a.courseNumber + a.sectionNumber > b.courseNumber + b.sectionNumber) ? 1 : -1
@@ -106,42 +112,51 @@ const FormsView = ({ instructorCourses, coordinatorCourses, term }) => {
             </Tr>
         )
     })
-    return (
-        <VStack w="75%">
-            <Box bg="#edf2f7" w="100%" padding="1em">
-                <Table variant="striped" colorScheme="green" padding="1em">
-                    <TableCaption placement="top" fontWeight="bold" fontSize="xl">Instructor Forms</TableCaption>
-                    <Thead>
 
-                        <Tr>
-                            <Th>Name</Th>
-                            <Th>Code</Th>
-                            <Th>Form</Th>
-                        </Tr>
-                    </Thead>
-                    <Tbody>
-                        {renderInstructorCourses}
-                    </Tbody>
-                </Table>
-            </Box>
-            <Box bg="#edf2f7" w="100%" padding="1em">
-                <Table variant="striped" colorScheme="green" padding="1em">
-                    <TableCaption placement="top" fontWeight="bold" fontSize="xl">Coordinator Forms</TableCaption>
-                    <Thead>
-                        <Tr>
-                            <Th>Name</Th>
-                            <Th>Code</Th>
-                            <Th>Form</Th>
-                        </Tr>
-                    </Thead>
-                    <Tbody>
-                        {renderCoordinatorCourses}
-                    </Tbody>
-                </Table>
-            </Box>
-        </VStack>
-    )
+    if (role == "Instructor") {
+        return (
+            <VStack w="75%">
+                <Box bg="#edf2f7" w="100%" padding="1em">
+                    <Table variant="striped" colorScheme="green" padding="1em">
+                        <TableCaption placement="top" fontWeight="bold" fontSize="xl">Instructor Forms</TableCaption>
+                        <Thead>
+
+                            <Tr>
+                                <Th>Name</Th>
+                                <Th>Code</Th>
+                                <Th>Form</Th>
+                            </Tr>
+                        </Thead>
+                        <Tbody>
+                            {renderInstructorCourses}
+                        </Tbody>
+                    </Table>
+                </Box>
+            </VStack>
+        )
+    }
+
+    if (role == "Coordinator") {
+        return (
+            <VStack w="75%">
+                <Box bg="#edf2f7" w="100%" padding="1em">
+                    <Table variant="striped" colorScheme="green" padding="1em">
+                        <TableCaption placement="top" fontWeight="bold" fontSize="xl">Coordinator Forms</TableCaption>
+                        <Thead>
+                            <Tr>
+                                <Th>Name</Th>
+                                <Th>Code</Th>
+                                <Th>Form</Th>
+                            </Tr>
+                        </Thead>
+                        <Tbody>
+                            {renderCoordinatorCourses}
+                        </Tbody>
+                    </Table>
+                </Box>
+            </VStack>
+        )
+    }
 }
-
 
 export default FormsView;
