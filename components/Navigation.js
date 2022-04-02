@@ -51,7 +51,6 @@ const Navigation = ({ link, user }) => {
         <Button
           bg="#016a31"
           color="white"
-          ml="1em"
           _hover={{
             background: "teal",
             color: "white",
@@ -60,32 +59,32 @@ const Navigation = ({ link, user }) => {
           Home
         </Button>
 
-        <Button
+        <Link href="/" onClick={logout}>
+          <Button
           bg="#016a31"
           color="white"
-          ml="1em"
           _hover={{
             background: "teal",
             color: "white",
           }}
-        >
-          <Link href="/" onClick={logout}>
+          >
             Sign Out
-          </Link>
-        </Button>
-        <Button
-          bg="#016a31"
-          color="white"
-          ml="1em"
-          _hover={{
-            background: "teal",
-            color: "white",
-          }}
-        >
+          </Button>
+        </Link>
+        
           <Link href="/" onClick={Custom}>
-            [Debug] Reload Database
+            <Button
+            bg="#016a31"
+            color="white"
+            _hover={{
+              background: "teal",
+              color: "white",
+            }}
+            >
+              [Debug] Reload Database
+            </Button>
           </Link>
-        </Button>
+        
       </HStack>
     </Flex>
   );

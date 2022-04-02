@@ -38,28 +38,30 @@ const Navigation = ({ link, user}) => {
   }, []);
 
     return(
-        <Flex justifyContent="flex-end" mt="1em" mr="1em" dir="row">
-            <HStack spacing="10px">
-                <Box
-                as="button"
-                color="black"
-                fontSize="1.0em"
-                w="90px"
-                >
-                {userID}
-                </Box>
+      <Flex justifyContent="flex-end" mt="1em" mr="1em" dir="row">
+          <HStack spacing="10px">
+              <Box
+              as="button"
+              color="black"
+              fontSize="1.0em"
+              w="90px"
+              >
+              {userID}
+              </Box>
+              <Link href="/" onClick={logout}>
                 <Button
-                    color="white"
-                    bg="#016a31"
-                    _hover={{
-                        background: "teal",
-                        color: "white",
-                        }}
-                    >
-                    <Link href="/" onClick={logout}>Sign Out</Link>
+                  bg="#016a31"
+                  color="white"
+                  _hover={{
+                    background: "teal",
+                    color: "white",
+                  }}
+                >
+                  Sign Out
                 </Button>
-            </HStack>
-        </Flex>
+              </Link>
+          </HStack>
+      </Flex>
     )
 
     // switch (link) {
