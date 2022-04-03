@@ -364,22 +364,33 @@ export async function editOutcomeForMajor(
   return response;
 }
 
-export async function addOutcomeToCourse(
+export async function getCourseOutcome(year, term, department, courseNumber) {
+  let api_helper = new API();
+  let response = await api_helper.getCourseOutcome(
+    year,
+    term,
+    department,
+    courseNumber
+  );
+  return response;
+}
+
+export async function addNewCourseOutcome(
   year,
   term,
   department,
   courseNumber,
-  major,
-  outcomName
+  outcomeName,
+  outcomeDescription
 ) {
   let api_helper = new API();
-  let response = await api_helper.addOutcomeToCourse(
+  let response = await api_helper.addNewCourseOutcome(
     year,
     term,
     department,
     courseNumber,
-    major,
-    outcomName
+    outcomeName,
+    outcomeDescription
   );
   return response;
 }

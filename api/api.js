@@ -884,22 +884,51 @@ export default class API {
     }
   }
 
-  //---addOutcomeToCourse()--- (Admin)
-  //    Input: year,term,department,courseNumber,major,outcomName
+  //---getCourseOutcome()--- (Admin)
+  //    Input: year,term, department,courseNumber
   //    Output: success or failure
-  async addOutcomeToCourse(
+  async getCourseOutcome(year, term, department, courseNumber) {
+    const url =
+      rootNew +
+      `/CourseOutcome/GetCourseOutcomes?term=${term}&year=${year}&classDepartment=${department}&courseNumber=${courseNumber}`;
+    try {
+      const response = await axios.get(url);
+      if (response) {
+        let status = this.checkStatus(response.status);
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
+    } catch (error) {
+      let status = this.checkStatus(error.message);
+      return {
+        data: null,
+        status: status,
+      };
+    }
+  }
+
+  //---addOutcomeToCourse()--- (Admin)
+  //    Input: year,term,department,courseNumber ,outcomName, outcomeDescription
+  //    Output: success or failure
+  async addNewCourseOutcome(
     year,
     term,
     department,
     courseNumber,
-    major,
-    outcomName
+    outcomeName,
+    outcomeDescription
   ) {
     const url =
       rootNew +
-      `/CourseOutcome/AddMajorOutcome?term=${term}&year=${year}&classDepartment=${department}&courseNumber=${courseNumber}&majorName=${major}&outcomeName=${outcomName}`;
+      `/CourseOutcome/addCourseOutcome?term=${term}&year=${year}&classDepartment=${department}&courseNumber=${courseNumber}`;
     try {
-      const response = await axios.post(url);
+      const body = {
+        name: outcomeName,
+        description: outcomeDescription,
+      };
+      const response = await axios.post(url, body);
       if (response) {
         let status = this.checkStatus(response.status);
         return {
