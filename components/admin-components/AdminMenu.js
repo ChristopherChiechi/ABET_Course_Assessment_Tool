@@ -81,22 +81,10 @@ const AdminMenu = ({ setView }) => {
           _expanded={{ bg: "#38A169", color: "white" }}
           textAlign="left"
           onClick={() => {
-            setView("ACMO");
-          }}
-        >
-          1) Assign course to major outcome
-        </AccordionButton>
-      </AccordionItem>
-
-      <AccordionItem>
-        <AccordionButton
-          _expanded={{ bg: "#38A169", color: "white" }}
-          textAlign="left"
-          onClick={() => {
             setView("ANMO");
           }}
         >
-          2) Add new major outcome
+          Add New Major Outcome
         </AccordionButton>
       </AccordionItem>
       <AccordionItem>
@@ -107,7 +95,7 @@ const AdminMenu = ({ setView }) => {
             setView("ANCO");
           }}
         >
-          Add new course outcome
+          Add New Course Outcome
         </AccordionButton>
       </AccordionItem>
 
@@ -116,10 +104,10 @@ const AdminMenu = ({ setView }) => {
           _expanded={{ bg: "#38A169", color: "white" }}
           textAlign="left"
           onClick={() => {
-            setView("AOTC");
+            setView("LCOTMO");
           }}
         >
-          3) Assign outcome to course
+          Map Major Outcome To Course Outcome
         </AccordionButton>
       </AccordionItem>
 

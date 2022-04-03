@@ -6,6 +6,8 @@ import {
   VStack,
   useToast,
   Center,
+  ListItem,
+  OrderedList,
   Grid,
   GridItem,
 } from "@chakra-ui/react";
@@ -13,12 +15,16 @@ import {
   getCoursesByDepartment,
   getSemesters,
   getMajors,
-  getOutcomesByCourse,
+  getCourseOutcome,
   getMajorOutcomesBymajor,
-} from "../../../../api/APIHelper";
+  GetLinkedMajorOutcomes,
+} from "../../../api/APIHelper";
 import { SingleSelect } from "react-select-material-ui";
-import AssignOutcomeToCourseTable from "./AssignOutcomeToCourseTable";
-const AssignOutcomeToCourse = () => {
+
+import MappingTable from "./MappingTable";
+import DisplayMajorOutcomes from "./DisplayMajorOutcomes";
+
+const LinkedCourseOutcomeToMajorOutcomes = () => {
   useEffect(() => {
     document.getElementById("top").scrollIntoView();
   });
@@ -36,12 +42,18 @@ const AssignOutcomeToCourse = () => {
   const [year, setYear] = useState();
   const [term, setTerm] = useState();
   const [lookupObjectCourse, setLookupObjectCourse] = useState();
+  const [majorOutcomeDisplay, setMajorOutcomeDisplay] = useState();
+
   const [majorsList, setMajorsList] = useState();
   const [majorSelect, setMajorSelect] = useState();
   const [selectCourse, setSelectCourse] = useState();
+  const [selectOutcome, setSelectOutcome] = useState();
+
   const [courseSelectionOptions, setCourseSelectionOptions] = useState();
+  const [outcomeSelectOption, setOutcomeSelectOption] = useState();
   const [outcomeList, setOutcomeList] = useState();
   const [outcomeOptions, setOutcomeOptions] = useState();
+  const [linkedMajorOutcomeList, setLinkedMajorOutcomeList] = useState();
 
   //Check if the department is select before enable the dropdown for semester
   const checkIfSelectMajor = () => {
@@ -137,6 +149,7 @@ const AssignOutcomeToCourse = () => {
       }
 
       if (courseMapToValueAndLabel) {
+        console.log(courseMapToValueAndLabel);
         setCourseSelectionOptions(courseMapToValueAndLabel);
       }
     } catch (error) {
@@ -144,10 +157,11 @@ const AssignOutcomeToCourse = () => {
     }
   };
 
+  //Get course outcome
   const getOutcomesList = async () => {
     if (!selectCourse || !year || !term || !theDepartment) return;
     try {
-      const outcomeListRes = await getOutcomesByCourse(
+      const outcomeListRes = await getCourseOutcome(
         year,
         term,
         theDepartment,
@@ -165,7 +179,45 @@ const AssignOutcomeToCourse = () => {
         });
         return;
       }
-      setOutcomeList(outcomeList);
+
+      const outComeMapToNameAndDescription = outcomeList.map((outcome) => ({
+        value: outcome.name,
+        label: `${outcome.name}. ${outcome.description}`,
+      }));
+
+      if (outComeMapToNameAndDescription) {
+        setOutcomeSelectOption(outComeMapToNameAndDescription);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getLinkedMajorOutcomesList = async () => {
+    if (!selectCourse || !year || !term || !theDepartment || !selectOutcome)
+      return;
+    try {
+      const linkedOutcomesRes = await GetLinkedMajorOutcomes(
+        year,
+        term,
+        theDepartment,
+        selectCourse,
+        selectOutcome
+      );
+      const linkedData = linkedOutcomesRes.data;
+      const status = linkedOutcomesRes.status;
+      if (status != "Success") {
+        toast({
+          title: "Error",
+          description: `There was an error fetching the course list! Error: ${status}`,
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+        return;
+      }
+      setLinkedMajorOutcomeList(linkedData);
+      console.log(linkedData);
     } catch (error) {
       console.log(error);
     }
@@ -199,6 +251,7 @@ const AssignOutcomeToCourse = () => {
     if (!year || !term || !majorSelect) return;
     try {
       var lookup = {};
+      var majorOutcomeListForDisplay = {};
       const outcomelistRes = await getMajorOutcomesBymajor(
         year,
         term,
@@ -219,6 +272,11 @@ const AssignOutcomeToCourse = () => {
       outcomeListData.forEach((outcome) => {
         lookup[outcome.name] = outcome.name;
       });
+      console.log(outcomeListData);
+      outcomeListData.forEach((outcome) => {
+        majorOutcomeListForDisplay[outcome.name] = outcome.description;
+      });
+      setMajorOutcomeDisplay(outcomeListData);
       setOutcomeOptions(lookup);
     } catch (error) {
       console.log(error);
@@ -245,19 +303,25 @@ const AssignOutcomeToCourse = () => {
 
   useEffect(() => {
     getOutcomesList();
-    if (outcomeList) console.log(outcomeList);
   }, [semJson, theDepartment, refreshKey, selectCourse]);
 
   useEffect(() => {
     getOutcomesListByMajor();
   }, [semJson, majorSelect]);
 
+  useEffect(() => {
+    getLinkedMajorOutcomesList();
+  }, [selectOutcome, theDepartment, selectCourse, semJson, refreshKey]);
+
   const columns = [
     {
-      title: "Outcome Name",
+      title: "Major Outcome Name or Number",
       field: "name",
+      width: "6%",
+      width: null,
+      cellStyle: { width: 200 },
       validate: (rowData) =>
-        rowData.name ? true : "Outcome name name can not be empty",
+        rowData.name ? true : "Outcome name can not be empty",
       editComponent: (props) => (
         <SingleSelect
           options={outcomeOptions}
@@ -271,7 +335,7 @@ const AssignOutcomeToCourse = () => {
       ),
     },
     {
-      title: "Outcome Description",
+      title: "Major Outcome Description",
       field: "description",
       editable: "never",
     },
@@ -281,7 +345,7 @@ const AssignOutcomeToCourse = () => {
     <div>
       <Center>
         <Text fontWeight="bold" fontSize="xl" mt="1em">
-          Assign course to major outcomes
+          Student Outcome Mapping
         </Text>
       </Center>
       <VStack id="top" w="90%" m="0 auto">
@@ -364,31 +428,66 @@ const AssignOutcomeToCourse = () => {
           </GridItem>
         </Grid>
       </VStack>
-      <Box align="center" w="60%" margin="auto">
-        {!semJson && !theDepartment && (
-          <Text fontWeight="bold" mt="1em" fontSize="lg" align="center">
-            [Table] Waiting for department and semester selection
-          </Text>
+      <Box
+        mb="2em"
+        align="center"
+        w="65%"
+        margin="auto"
+        border="1px"
+        borderColor="teal"
+      >
+        <SingleSelect
+          id="outcomeSelect"
+          disabled={checkIfSelectMajorAndSemseter()}
+          style={{ bottom: "5px" }}
+          fullWidth={true}
+          value={selectOutcome}
+          placeholder="Select a course outcome"
+          options={outcomeSelectOption}
+          onChange={(value) => {
+            console.log(value);
+            setSelectOutcome(value);
+          }}
+        />
+      </Box>
+
+      <Box align="center" w="65%" margin="auto" bg="#edf2f7">
+        {majorOutcomeDisplay && majorSelect && (
+          <DisplayMajorOutcomes
+            majorSelect={majorSelect}
+            majorOutcomeDisplay={majorOutcomeDisplay}
+          />
         )}
-        {semJson && theDepartment && (
-          <Text fontWeight="bold" mb="1em" fontSize="lg" align="center">
-            Outcome Table
-          </Text>
-        )}
+      </Box>
+      <Box mb="1em"></Box>
+
+      <Box align="center" w="65%" margin="auto">
         {selectCourse && semJson && theDepartment && selectCourse && (
-          <AssignOutcomeToCourseTable
+          <MappingTable
             term={term}
             year={year}
             department={theDepartment}
             selectCourseNumber={selectCourse}
             majorName={majorSelect}
+            selectOutcome={selectOutcome}
             refreshTable={refreshTable}
             columns={columns}
-            data={outcomeList}
+            data={linkedMajorOutcomeList}
           />
         )}
       </Box>
     </div>
   );
 };
-export default AssignOutcomeToCourse;
+export default LinkedCourseOutcomeToMajorOutcomes;
+
+/*
+<Box align="center" w="80%" margin="auto">
+        {outcomeList && (
+          <MappingTable2
+            outcomeList={outcomeList}
+            majorOutcomeDisplay={majorOutcomeDisplay}
+          />
+        )}
+      </Box>
+    */

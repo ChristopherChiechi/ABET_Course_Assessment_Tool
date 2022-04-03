@@ -23,7 +23,7 @@ import ViewColumn from "@material-ui/icons/ViewColumn";
 //API
 import {
   addNewCourseOutcome,
-  deleteOutcomeFromCourse,
+  deleteCourseOutcome,
 } from "../../../api/APIHelper";
 
 const tableIcons = {
@@ -67,12 +67,11 @@ const AddNewCourseOutcomeTable = ({
   const handleRemoveOutcome = async (oldData) => {
     console.log(majorName);
     try {
-      const deleteRes = await deleteOutcomeFromCourse(
+      const deleteRes = await deleteCourseOutcome(
         year,
         term,
         department,
         selectCourseNumber,
-        majorName,
         oldData.name
       );
       const status = deleteRes.status;

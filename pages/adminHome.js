@@ -36,10 +36,10 @@ import GenerateFullReport from "../components/admin-components/GenerateFullRepor
 import GenerateStudentSurveys from "../components/admin-components/GenerateStudentSurveys/GenerateStudentSurveys";
 import EditAssignedCourses from "../components/admin-components/EditAssignedCourses/EditAssignedCourses";
 import CreateNewMajor from "../components/admin-components/EditDepartments/CreateNewMajor";
-import AssignCourseToMajorOutcome from "../components/admin-components/MajorsOutcomes/AssignCourseToMajor/AssignCourseToMajorOutcome";
+import LinkedCourseOutcomeToMajorOutcomes from "../components/admin-components/LinkedCourseOutcomeToMajorOutcomes/LinkedCourseOutcomeToMajorOutcomes";
 import AddNewCourseOutcome from "../components/admin-components/CourseOutcome/AddNewCourseOutcome";
 import AddNewMajorOutcome from "../components/admin-components/MajorsOutcomes/AddNewMajorOutcome/AddNewMajorOutcome";
-import AssignOutcomeToCourse from "../components/admin-components/MajorsOutcomes/AssignOutcomeToCourse/AssignOutcomeToCourse";
+import AssignOutcomeToCourse from "../components/admin-components/MajorsOutcomes/OldAssignOutcomeToCourse/AssignOutcomeToCourse";
 import EditSurveyQuestions from "../components/admin-components/Student-Survey/EditSurveyQuestions";
 var role = "super";
 var is_super = true;
@@ -277,8 +277,8 @@ const adminHome = () => {
                 return <EditCourseOutcomes />;
               case "GSS":
                 return <GenerateStudentSurveys />;
-              case "ACMO":
-                return <AssignCourseToMajorOutcome />;
+              case "LCOTMO":
+                return <LinkedCourseOutcomeToMajorOutcomes />;
               case "ANMO":
                 return <AddNewMajorOutcome />;
               case "ANCO":

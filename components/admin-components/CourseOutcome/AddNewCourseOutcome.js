@@ -154,6 +154,7 @@ const AddNewCourseOutcome = () => {
         selectCourse
       );
       const outcomeList = outcomeListRes.data;
+      console.log(outcomeList);
       const status = outcomeListRes.status;
       if (status != "Success") {
         toast({

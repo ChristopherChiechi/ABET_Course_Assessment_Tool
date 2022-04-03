@@ -127,7 +127,7 @@ const AddNewMajorOutcome = () => {
     }
   };
 
-  const getOutcomeList = async () => {
+  const getMajorOutcomeList = async () => {
     if (!semJson || !theDepartment || !majorSelect) return;
     const semesterParse = JSON.parse(semJson);
     try {
@@ -158,6 +158,7 @@ const AddNewMajorOutcome = () => {
       console.log(error);
     }
   };
+
   const refreshTable = () => {
     setRefreshKey(refreshKey + 1);
   };
@@ -172,7 +173,7 @@ const AddNewMajorOutcome = () => {
   }, [semJson, theDepartment, majorSelect]);
 
   useEffect(() => {
-    getOutcomeList();
+    getMajorOutcomeList();
   }, [semJson, theDepartment, majorSelect, refreshKey]);
 
   return (
