@@ -203,7 +203,7 @@ const studentSurvey = () => {
       const status = res.status;
       if (status == "Success") {
         toast({
-          description: `Successfully deleted the question! Please refresh the page if you don't see the new change.`,
+          description: `Successfully submitted the survey. Thank you!`,
           status: "success",
           duration: 2000,
           isClosable: true,
