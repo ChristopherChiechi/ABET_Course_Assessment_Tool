@@ -21,7 +21,14 @@ function AuthProvider({ children }) {
     } else {
       role = json.role;
     }
-    //console.log(role);
+    console.log(role);
+    if (role.includes("Admin")) {
+      role = "Admin";
+    } else if (role.includes("Instructor")) {
+      role = "Instructor";
+    } else if (role.includes("Coordinator")) {
+      role = "Coordinator";
+    }
     isLoading = false;
   }
   const router = useRouter();

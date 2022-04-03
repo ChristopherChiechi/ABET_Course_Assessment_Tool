@@ -28,6 +28,7 @@ const Navigation = ({ link, user }) => {
         setUser("");
       } else {
         setUser(json.unique_name);
+        console.log(json.unique_name);
       }
       isLoading = false;
     }
@@ -40,12 +41,7 @@ const Navigation = ({ link, user }) => {
   return (
     <Flex justifyContent="left" mt="1em" mr="1em" dir="row">
       <HStack spacing="10px">
-        <Box
-          as="button"
-          color="black"
-          fontSize="1.5em"
-          w="105px"
-        >
+        <Box as="button" color="black" fontSize="1.5em" w="105px">
           {userID}
         </Box>
         <Button
@@ -61,30 +57,29 @@ const Navigation = ({ link, user }) => {
 
         <Link href="/" onClick={logout}>
           <Button
-          bg="#016a31"
-          color="white"
-          _hover={{
-            background: "teal",
-            color: "white",
-          }}
-          >
-            Sign Out
-          </Button>
-        </Link>
-        
-          <Link href="/" onClick={Custom}>
-            <Button
             bg="#016a31"
             color="white"
             _hover={{
               background: "teal",
               color: "white",
             }}
-            >
-              [Debug] Reload Database
-            </Button>
-          </Link>
-        
+          >
+            Sign Out
+          </Button>
+        </Link>
+
+        <Link href="/" onClick={Custom}>
+          <Button
+            bg="#016a31"
+            color="white"
+            _hover={{
+              background: "teal",
+              color: "white",
+            }}
+          >
+            [Debug] Reload Database
+          </Button>
+        </Link>
       </HStack>
     </Flex>
   );
