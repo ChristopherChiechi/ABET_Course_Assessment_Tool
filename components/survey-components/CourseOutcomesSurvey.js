@@ -13,6 +13,7 @@ import {
 } from "@chakra-ui/react";
 
 const CourseOutcomesSurvey = ({ outcomeSurvey, handleChange }) => {
+  console.log(outcomeSurvey);
   const renderRadios = Array.from(Array(5), (x, index) => {
     return (
       <Radio key={index} value={index + 1}>
@@ -21,21 +22,25 @@ const CourseOutcomesSurvey = ({ outcomeSurvey, handleChange }) => {
     );
   });
 
-  const renderRows = outcomeSurvey.map((outcome, idx) => {
-    return (
-      <Tr key={idx}>
-        <Td>{outcome.outcome}</Td>
-        <Td>
-          <RadioGroup
-            value={outcome.rating}
-            onChange={(e) => handleChange(e, idx, "Outcomes")}
-          >
-            <HStack spacing={10}>{renderRadios}</HStack>
-          </RadioGroup>
-        </Td>
-      </Tr>
-    );
-  });
+  const renderRows =
+    outcomeSurvey &&
+    outcomeSurvey.map((outcome, idx) => {
+      return (
+        <Tr key={idx}>
+          <Td>
+            {outcome.name}.{outcome.description}
+          </Td>
+          <Td>
+            <RadioGroup
+              value={outcome.rating}
+              onChange={(e) => handleChange(e, idx, "Outcomes")}
+            >
+              <HStack spacing={10}>{renderRadios}</HStack>
+            </RadioGroup>
+          </Td>
+        </Tr>
+      );
+    });
 
   return (
     <>
