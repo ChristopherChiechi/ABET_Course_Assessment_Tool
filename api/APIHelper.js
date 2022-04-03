@@ -375,6 +375,68 @@ export async function getCourseOutcome(year, term, department, courseNumber) {
   return response;
 }
 
+export async function GetLinkedMajorOutcomes(
+  year,
+  term,
+  department,
+  courseNumber,
+  courseOutcomeName
+) {
+  let api_helper = new API();
+  let response = await api_helper.GetLinkedMajorOutcomes(
+    year,
+    term,
+    department,
+    courseNumber,
+    courseOutcomeName
+  );
+  return response;
+}
+
+export async function LinkToMajorOutcome(
+  year,
+  term,
+  department,
+  courseNumber,
+  courseOutcomeName,
+  majorName,
+  majorOutcomeName
+) {
+  let api_helper = new API();
+  let response = await api_helper.LinkToMajorOutcome(
+    year,
+    term,
+    department,
+    courseNumber,
+    courseOutcomeName,
+    majorName,
+    majorOutcomeName
+  );
+  return response;
+}
+
+export async function RemoveLinkToMajorOutcome(
+  year,
+  term,
+  department,
+  courseNumber,
+  courseOutcomeName,
+  majorName,
+  majorOutcomeName
+) {
+  let api_helper = new API();
+  let response = await api_helper.RemoveLinkToMajorOutcome(
+    year,
+    term,
+    department,
+    courseNumber,
+    courseOutcomeName,
+    majorName,
+    majorOutcomeName
+  );
+  return response;
+}
+
 export async function addNewCourseOutcome(
   year,
   term,

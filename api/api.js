@@ -971,6 +971,103 @@ export default class API {
     }
   }
 
+  //---GetLinkedMajorOutcomes()--- (Admin)
+  //    Input: year,term,department,courseNumber,courseOutcomeName
+  //    Output: success or failure
+  async GetLinkedMajorOutcomes(
+    year,
+    term,
+    department,
+    courseNumber,
+    courseOutcomeName
+  ) {
+    const url =
+      rootNew +
+      `/CourseOutcome/GetLinkedMajorOutcomes?term=${term}&year=${year}&classDepartment=${department}&courseNumber=${courseNumber}&courseOutcomeName=${courseOutcomeName}`;
+    try {
+      const response = await axios.get(url);
+      if (response) {
+        let status = this.checkStatus(response.status);
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
+    } catch (error) {
+      let status = this.checkStatus(error.message);
+      return {
+        data: null,
+        status: status,
+      };
+    }
+  }
+
+  //---LinkToMajorOutcome()--- (Admin)
+  //    Input: year,term,department,courseNumber,courseOutcomeName, majorName, majorOutcomeName
+  //    Output: success or failure
+  async LinkToMajorOutcome(
+    year,
+    term,
+    department,
+    courseNumber,
+    courseOutcomeName,
+    majorName,
+    majorOutcomeName
+  ) {
+    const url =
+      rootNew +
+      `/CourseOutcome/LinkToMajorOutcome?term=${term}&year=${year}&classDepartment=${department}&courseNumber=${courseNumber}&courseOutcomeName=${courseOutcomeName}&majorName=${majorName}&majorOutcomeName=${majorOutcomeName}`;
+    try {
+      const response = await axios.post(url);
+      if (response) {
+        let status = this.checkStatus(response.status);
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
+    } catch (error) {
+      let status = this.checkStatus(error.message);
+      return {
+        data: null,
+        status: status,
+      };
+    }
+  }
+
+  //---RemoveLinkToMajorOutcome()--- (Admin)
+  //    Input: year,term,department,courseNumber,courseOutcomeName, majorName, majorOutcomeName
+  //    Output: success or failure
+  async RemoveLinkToMajorOutcome(
+    year,
+    term,
+    department,
+    courseNumber,
+    courseOutcomeName,
+    majorName,
+    majorOutcomeName
+  ) {
+    const url =
+      rootNew +
+      `/CourseOutcome/RemoveLinkToMajorOutcome?term=${term}&year=${year}&classDepartment=${department}&courseNumber=${courseNumber}&courseOutcomeName=${courseOutcomeName}&majorName=${majorName}&majorOutcomeName=${majorOutcomeName}`;
+    try {
+      const response = await axios.delete(url);
+      if (response) {
+        let status = this.checkStatus(response.status);
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
+    } catch (error) {
+      let status = this.checkStatus(error.message);
+      return {
+        data: null,
+        status: status,
+      };
+    }
+  }
+
   //---getMajorOutcomesBymajor()--- (Admin)
   //    Input: year,term, major name
   //    Output: success or failure
