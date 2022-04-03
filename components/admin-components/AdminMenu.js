@@ -73,7 +73,7 @@ const AdminMenu = ({ setView }) => {
         mt="2em"
         mb="1em"
       >
-        <u>Major/Course Outcome</u>
+        <u>Major and Course Outcome</u>
       </Text>
 
       <AccordionItem>
@@ -93,10 +93,21 @@ const AdminMenu = ({ setView }) => {
           _expanded={{ bg: "#38A169", color: "white" }}
           textAlign="left"
           onClick={() => {
-            setView("ANOTM");
+            setView("ANMO");
           }}
         >
-          2) Add new outcome to major
+          2) Add new major outcome
+        </AccordionButton>
+      </AccordionItem>
+      <AccordionItem>
+        <AccordionButton
+          _expanded={{ bg: "#38A169", color: "white" }}
+          textAlign="left"
+          onClick={() => {
+            setView("ANCO");
+          }}
+        >
+          Add new course outcome
         </AccordionButton>
       </AccordionItem>
 

@@ -26,7 +26,7 @@ const CreateNewMajor = () => {
   const [refreshKey, setRefreshKey] = useState(0); //For refreshing the table
   const [year, setYear] = useState(0);
   const [term, setTerm] = useState("");
-  const [semID, setSemID] = useState(9999);
+  const [semID, setSemID] = useState();
   const [majors, setMajors] = useState();
   const [newMajor, setNewMajor] = useInputState("");
 
