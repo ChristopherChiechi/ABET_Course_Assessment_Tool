@@ -154,7 +154,6 @@ const AddNewCourseOutcome = () => {
         selectCourse
       );
       const outcomeList = outcomeListRes.data;
-      console.log(outcomeList);
       const status = outcomeListRes.status;
       if (status != "Success") {
         toast({
@@ -215,7 +214,6 @@ const AddNewCourseOutcome = () => {
 
   useEffect(() => {
     getOutcomesList();
-    if (outcomeList) console.log(outcomeList);
   }, [semJson, theDepartment, refreshKey, selectCourse]);
 
   const columns = [

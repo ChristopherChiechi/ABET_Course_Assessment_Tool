@@ -202,18 +202,6 @@ const AdminMenu = ({ setView }) => {
           Edit Course List
         </AccordionButton>
       </AccordionItem>
-
-      <AccordionItem>
-        <AccordionButton
-          _expanded={{ bg: "#38A169", color: "white" }}
-          textAlign="left"
-          onClick={() => {
-            setView("ECO");
-          }}
-        >
-          Edit Course Outcomes
-        </AccordionButton>
-      </AccordionItem>
     </Accordion>
   );
 };

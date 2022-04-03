@@ -149,7 +149,6 @@ const LinkedCourseOutcomeToMajorOutcomes = () => {
       }
 
       if (courseMapToValueAndLabel) {
-        console.log(courseMapToValueAndLabel);
         setCourseSelectionOptions(courseMapToValueAndLabel);
       }
     } catch (error) {
@@ -328,7 +327,6 @@ const LinkedCourseOutcomeToMajorOutcomes = () => {
           fullWidth={true}
           value={props.value}
           onChange={(value) => {
-            console.log(value);
             props.onChange(value);
           }}
         />
@@ -399,7 +397,6 @@ const LinkedCourseOutcomeToMajorOutcomes = () => {
               disabled={checkIfSelectMajorAndSemseter()}
               onChange={(e) => {
                 setMajorSelect(e.target.value);
-                console.log(e.target.value);
               }}
             >
               {majorsList &&
@@ -422,7 +419,6 @@ const LinkedCourseOutcomeToMajorOutcomes = () => {
               options={courseSelectionOptions}
               onChange={(value) => {
                 setSelectCourse(value);
-                console.log(value);
               }}
             />
           </GridItem>
@@ -445,7 +441,6 @@ const LinkedCourseOutcomeToMajorOutcomes = () => {
           placeholder="Select a course outcome"
           options={outcomeSelectOption}
           onChange={(value) => {
-            console.log(value);
             setSelectOutcome(value);
           }}
         />

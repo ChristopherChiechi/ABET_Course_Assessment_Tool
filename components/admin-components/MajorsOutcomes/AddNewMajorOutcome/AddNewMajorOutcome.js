@@ -62,7 +62,6 @@ const AddNewMajorOutcome = () => {
       }
       if (!majorListData) return;
       setMajorsList(majorListData);
-      if (majorsList) console.log(majorsList);
     } catch (error) {
       console.log(error);
     }
@@ -119,9 +118,6 @@ const AddNewMajorOutcome = () => {
         return b.year - a.year;
       });
       setSemesterList(sorted);
-      if (semesters) {
-        console.log(semesters);
-      }
     } catch (error) {
       console.log(error);
     }
@@ -150,9 +146,6 @@ const AddNewMajorOutcome = () => {
       }
       if (outcomeListData) {
         setOutcomeList(outcomeListData);
-      }
-      if (outcomeList) {
-        console.log(outcomeList);
       }
     } catch (error) {
       console.log(error);
@@ -235,7 +228,6 @@ const AddNewMajorOutcome = () => {
                 disabled={checkIfSelectMajorAndSemseter()}
                 onChange={(e) => {
                   setMajorSelect(e.target.value);
-                  console.log(e.target.value);
                 }}
               >
                 {majorsList &&

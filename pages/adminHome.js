@@ -29,7 +29,6 @@ import AdminMenu from "../components/admin-components/AdminMenu";
 import EditSemesterList from "../components/admin-components/EditSemesters/EditSemesterList";
 import EditFacultyList from "../components/admin-components/EditFacultyList/EditFacultyList";
 import EditCourseList from "../components/admin-components/EditCourseList/EditCourseList";
-import EditCourseOutcomes from "../components/admin-components/EditCourseOutcomes/EditCourseOutcomes";
 import OutcomeMapping from "../components/admin-components/OutcomeMapping/OutcomeMapping";
 import GenerateSectionReport from "../components/admin-components/GenerateSectionReport/GenerateSectionReport";
 import GenerateFullReport from "../components/admin-components/GenerateFullReport/GenerateFullReport";
@@ -273,8 +272,7 @@ const adminHome = () => {
                 return <EditFacultyList />;
               case "ECL":
                 return <EditCourseList />;
-              case "ECO":
-                return <EditCourseOutcomes />;
+
               case "GSS":
                 return <GenerateStudentSurveys />;
               case "LCOTMO":
