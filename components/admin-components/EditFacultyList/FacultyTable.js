@@ -93,6 +93,7 @@ const FacultyTable = ({ columns, data, selectFaculty, refreshTable }) => {
     } catch (error) {
       console.log(error);
     }
+    refreshTable();
   };
 
   const handleRemoveFaculty = async (oldData) => {
@@ -115,11 +116,11 @@ const FacultyTable = ({ columns, data, selectFaculty, refreshTable }) => {
             isClosable: true,
           });
         }
-        refreshTable();
       }
     } catch (error) {
       console.log(error);
     }
+    refreshTable();
   };
 
   const handleEditFaculty = async (newUser, oldUser) => {
@@ -147,10 +148,10 @@ const FacultyTable = ({ columns, data, selectFaculty, refreshTable }) => {
           isClosable: true,
         });
       }
-      refreshTable();
     } catch (error) {
       console.log(error);
     }
+    refreshTable();
   };
 
   return (
