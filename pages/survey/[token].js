@@ -26,6 +26,7 @@ import {
   PageContext,
   pageData,
 } from "../../components/survey-components/SurveyPageData";
+import { Router } from "@mui/icons-material";
 //api
 
 const studentSurvey = () => {
@@ -222,11 +223,11 @@ const studentSurvey = () => {
       console.log(TAquestions[i].rating);
       allAnswerArray.push(TAquestions[i].rating);
     }
-    console.log(allAnswerArray);
     console.log(
       studentInformation,
       outcomeSurvey,
       TAquestions,
+      allAnswerArray,
       studentInput.additionalFeedback
     );
     try {
@@ -248,6 +249,7 @@ const studentSurvey = () => {
           duration: 2000,
           isClosable: true,
         });
+        router.push("/surveyLanding");
       } else {
         toast({
           description: `There was an error! Message: ${status} `,
