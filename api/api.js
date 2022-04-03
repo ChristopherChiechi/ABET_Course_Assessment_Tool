@@ -596,7 +596,7 @@ export default class API {
   async getSectionsByCourse(term, year, department, courseNumber) {
     const url =
       rootNew +
-      `/Course/GetSections?term=${term}&year=${year}&department=${department}&courseNumber=${courseNumber}`;
+      `/Course/GetSectionsByCourse?term=${term}&year=${year}&department=${department}&courseNumber=${courseNumber}`;
     try {
       var response = await axios.get(url);
       if (response) {
@@ -948,17 +948,10 @@ export default class API {
   //---deleteOutcomeFromMajor()--- (Admin)
   //    Input: year,term,department,courseNumber,major,outcomName
   //    Output: success or failure
-  async deleteOutcomeFromCourse(
-    year,
-    term,
-    department,
-    courseNumber,
-    major,
-    outcomName
-  ) {
+  async deleteCourseOutcome(year, term, department, courseNumber, outcomeName) {
     const url =
       rootNew +
-      `/CourseOutcome/DeleteMajorOutcome?term=${term}&year=${year}&classDepartment=${department}&courseNumber=${courseNumber}&majorName=${major}&outcomeName=${outcomName}`;
+      `/CourseOutcome/DeleteCourseOutcome?term=${term}&year=${year}&classDepartment=${department}&courseNumber=${courseNumber}&name=${outcomeName}`;
     try {
       const response = await axios.delete(url);
       if (response) {

@@ -9,7 +9,11 @@ import Navigation from "../../components/Navigation";
 //hooks
 import useToggle from "../../hooks/useToggle";
 //API
-import { getQuestions, postSurvey } from "../../api/APIHelper";
+import {
+  getQuestions,
+  postSurvey,
+  getCourseOutcome,
+} from "../../api/APIHelper";
 //components
 import StudentLoginBox from "../../components/survey-components/StudentLoginBox";
 import StudentInfoForm from "../../components/survey-components/StudentInfoForm";
@@ -83,9 +87,7 @@ const studentSurvey = () => {
     classification: "",
     grade: "",
   });
-  const [outcomeSurvey, setOutcomeSurvey] = useState(
-    context.course["course-outcomes"]
-  );
+  const [outcomeSurvey, setOutcomeSurvey] = useState();
   const [TAquestions, setTAquestions] = useState();
   const [InstructorQuestions, setInstructorQuestions] = useState();
   const [studentInput, setStudentInput] = useState({
@@ -103,6 +105,7 @@ const studentSurvey = () => {
 
   useEffect(() => {
     getQuestionsFunction();
+    getOutcomesList();
   }, [courseInformation]);
 
   const getCourseInformation = () => {
@@ -129,6 +132,43 @@ const studentSurvey = () => {
           courseDepartment: courseJson.departmentName,
         });
       }
+    }
+  };
+
+  //Get course outcome
+  const getOutcomesList = async () => {
+    if (
+      courseInformation.courseTerm == "" ||
+      courseInformation.courseYear == "" ||
+      courseInformation.courseDepartment == "" ||
+      courseInformation.courseNumber == ""
+    ) {
+      return;
+    }
+
+    try {
+      const outcomeListRes = await getCourseOutcome(
+        courseInformation.courseYear,
+        courseInformation.courseTerm,
+        courseInformation.courseDepartment,
+        courseInformation.courseNumber
+      );
+      const outcomeList = outcomeListRes.data;
+      const status = outcomeListRes.status;
+      if (status != "Success") {
+        toast({
+          title: "Error",
+          description: `There was an error fetching the course list! Error: ${status}`,
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+        return;
+      }
+      console.log(outcomeList);
+      setOutcomeSurvey(outcomeList);
+    } catch (error) {
+      console.log(error);
     }
   };
 

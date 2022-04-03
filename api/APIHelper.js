@@ -395,22 +395,20 @@ export async function addNewCourseOutcome(
   return response;
 }
 
-export async function deleteOutcomeFromCourse(
+export async function deleteCourseOutcome(
   year,
   term,
   department,
   courseNumber,
-  major,
-  outcomName
+  outcomeName
 ) {
   let api_helper = new API();
-  let response = await api_helper.deleteOutcomeFromCourse(
+  let response = await api_helper.deleteCourseOutcome(
     year,
     term,
     department,
     courseNumber,
-    major,
-    outcomName
+    outcomeName
   );
   return response;
 }
