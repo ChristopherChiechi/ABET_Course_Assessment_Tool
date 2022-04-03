@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import Head from "next/head";
 import { VStack } from "@chakra-ui/react";
-
 import Navigation from "../components/student-components/Navigation";
 import TermSelect from "../components/student-components/TermSelect";
 import FormsView from "../components/student-components/FormsView";

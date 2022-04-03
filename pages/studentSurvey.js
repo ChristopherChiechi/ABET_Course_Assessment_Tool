@@ -2,6 +2,7 @@
 import { useState, useContext, useEffect } from "react";
 import Head from "next/head";
 import { Text, VStack, Button, Box } from "@chakra-ui/react";
+import Navigation from "../components/student-components/Navigation";
 //hooks
 import useToggle from "../hooks/useToggle";
 //components
@@ -46,7 +47,7 @@ const studentSurvey = () => {
     console.log(studentInformation, outcomeSurvey, TAquestions, studentInput);
     if (
       studentInformation.major === "" ||
-      studentInformation.classification == "" ||
+      studentInformation.classification === "" ||
       studentInformation.grade === ""
     ) {
       alert("Please complete the Student Information at the top");
@@ -62,7 +63,7 @@ const studentSurvey = () => {
     let j;
     let taCounter = 0;
     for (j = 0; j < TAquestions.length; j++) {
-      if (TAquestions[i].rating === 0) {
+      if (TAquestions[j].rating === 0) {
         alert("Please complete the TA Evaluation Section");
         break;
       }
@@ -115,7 +116,6 @@ const studentSurvey = () => {
             studentInput={studentInput}
             setStudentInput={setStudentInput}
           />
-
           <Button onClick={testFunction} mb="1em" colorScheme="green">
             Submit Survey
           </Button>
