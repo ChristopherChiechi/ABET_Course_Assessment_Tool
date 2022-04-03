@@ -27,7 +27,6 @@ import Navigation from "../components/Navigation";
 import AdminMenu from "../components/admin-components/AdminMenu";
 // import FullReport from '../components/admin-components/FullReport/FullReport';
 import EditSemesterList from "../components/admin-components/EditSemesters/EditSemesterList";
-import EditProgramList from "../components/admin-components/EditProgramList/EditProgramList";
 import EditFacultyList from "../components/admin-components/EditFacultyList/EditFacultyList";
 import EditCourseList from "../components/admin-components/EditCourseList/EditCourseList";
 import EditCourseOutcomes from "../components/admin-components/EditCourseOutcomes/EditCourseOutcomes";
@@ -38,7 +37,8 @@ import GenerateStudentSurveys from "../components/admin-components/GenerateStude
 import EditAssignedCourses from "../components/admin-components/EditAssignedCourses/EditAssignedCourses";
 import CreateNewMajor from "../components/admin-components/EditDepartments/CreateNewMajor";
 import AssignCourseToMajorOutcome from "../components/admin-components/MajorsOutcomes/AssignCourseToMajor/AssignCourseToMajorOutcome";
-import AddNewOutcomeToMajor from "../components/admin-components/MajorsOutcomes/AddNewOutcomeToMajor/AddNewOutcomeToMajor";
+import AddNewCourseOutcome from "../components/admin-components/CourseOutcome/AddNewCourseOutcome";
+import AddNewMajorOutcome from "../components/admin-components/MajorsOutcomes/AddNewMajorOutcome/AddNewMajorOutcome";
 import AssignOutcomeToCourse from "../components/admin-components/MajorsOutcomes/AssignOutcomeToCourse/AssignOutcomeToCourse";
 import EditSurveyQuestions from "../components/admin-components/Student-Survey/EditSurveyQuestions";
 var role = "super";
@@ -271,8 +271,6 @@ const adminHome = () => {
                 return <EditAssignedCourses />;
               case "EFL":
                 return <EditFacultyList />;
-              case "EPL":
-                return <EditProgramList />;
               case "ECL":
                 return <EditCourseList />;
               case "ECO":
@@ -281,8 +279,10 @@ const adminHome = () => {
                 return <GenerateStudentSurveys />;
               case "ACMO":
                 return <AssignCourseToMajorOutcome />;
-              case "ANOTM":
-                return <AddNewOutcomeToMajor />;
+              case "ANMO":
+                return <AddNewMajorOutcome />;
+              case "ANCO":
+                return <AddNewCourseOutcome />;
               case "AOTC":
                 return <AssignOutcomeToCourse />;
               case "ESQ":

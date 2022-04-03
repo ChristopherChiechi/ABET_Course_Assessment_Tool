@@ -1,13 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { Box, Text, Select, Flex, VStack, useToast } from "@chakra-ui/react";
+import {
+  Box,
+  Text,
+  Grid,
+  Select,
+  Flex,
+  VStack,
+  useToast,
+  GridItem,
+} from "@chakra-ui/react";
 import {
   getSemesters,
   getMajors,
   getMajorOutcomesBymajor,
 } from "../../../../api/APIHelper";
-import AddNewOutcomeToMajorTable from "./AddNewOutcomeToMajorTable";
+import AddNewOutcomeToMajorTable from "./AddNewMajorOutcomeTable";
 
-const AddNewOutcomeToMajor = () => {
+const AddNewMajorOutcome = () => {
   useEffect(() => {
     document.getElementById("top").scrollIntoView();
   });
@@ -63,6 +72,9 @@ const AddNewOutcomeToMajor = () => {
     {
       title: "Outcome Name",
       field: "name",
+      width: "6%",
+      width: null,
+      cellStyle: { width: 150 },
       validate: (rowData) => (rowData.name ? true : "Name can not be empty"),
     },
     {
@@ -168,73 +180,74 @@ const AddNewOutcomeToMajor = () => {
       <VStack id="top" w="90%" m="0 auto">
         <Box m="1em" p="3em">
           <Text align="center" fontSize="2xl" fontWeight="bold" mt="1em">
-            Add New Outcome to Major
+            Add New Major Outcome
           </Text>
 
-          <Flex justifyContent="center">
-            <Select
-              id="department"
-              width="120%"
-              mr="1em"
-              isRequired={true}
-              placeholder="Select Department"
-              borderColor="teal"
-              value={theDepartment}
-              onChange={(e) => {
-                setDepartment(e.target.value);
-              }}
-            >
-              <option value="CSCE">Computer Science & Engineering</option>
-              <option value="BE">Biomedical Engineering</option>
-              <option value="EE">Electrical Engineering</option>
-              <option value="MSE">Material Science And Engineering</option>
-              <option value="ME">Mechanical Engineering</option>
-            </Select>
-            <Select
-              id="term"
-              placeholder="Select semester"
-              borderColor="teal"
-              width="70%"
-              isRequired={true}
-              value={semJson}
-              disabled={checkIfSelectMajor()}
-              onChange={(e) => {
-                setSemJson(e.target.value);
-              }}
-            >
-              {semesters &&
-                semesters.map((sem, idx) => {
-                  return (
-                    <option value={JSON.stringify(sem)} key={idx}>
-                      {sem.term} {sem.year}
-                    </option>
-                  );
-                })}
-            </Select>
-            <Select
-              id="term"
-              placeholder="Select major"
-              borderColor="teal"
-              ml="1em"
-              width="80%"
-              value={majorSelect}
-              isRequired={true}
-              disabled={checkIfSelectMajorAndSemseter()}
-              onChange={(e) => {
-                setMajorSelect(e.target.value);
-                console.log(e.target.value);
-              }}
-            >
-              {majorsList &&
-                majorsList.map((major, idx) => {
-                  return (
-                    <option value={major.name} key={idx}>
-                      {major.name}
-                    </option>
-                  );
-                })}
-            </Select>
-          </Flex>
+          <Grid templateColumns="repeat(3, 1fr)" gap={1}>
+            <GridItem>
+              <Select
+                id="department"
+                width="100%"
+                mr="1em"
+                isRequired={true}
+                placeholder="Select Department"
+                borderColor="teal"
+                value={theDepartment}
+                onChange={(e) => {
+                  setDepartment(e.target.value);
+                }}
+              >
+                <option value="CSCE">Computer Science & Engineering</option>
+              </Select>
+            </GridItem>
+            <GridItem>
+              <Select
+                id="term"
+                placeholder="Select semester"
+                borderColor="teal"
+                width="100%"
+                isRequired={true}
+                value={semJson}
+                disabled={checkIfSelectMajor()}
+                onChange={(e) => {
+                  setSemJson(e.target.value);
+                }}
+              >
+                {semesters &&
+                  semesters.map((sem, idx) => {
+                    return (
+                      <option value={JSON.stringify(sem)} key={idx}>
+                        {sem.term} {sem.year}
+                      </option>
+                    );
+                  })}
+              </Select>
+            </GridItem>
+            <GridItem>
+              <Select
+                id="term"
+                placeholder="Select major"
+                borderColor="teal"
+                width="100%"
+                value={majorSelect}
+                isRequired={true}
+                disabled={checkIfSelectMajorAndSemseter()}
+                onChange={(e) => {
+                  setMajorSelect(e.target.value);
+                  console.log(e.target.value);
+                }}
+              >
+                {majorsList &&
+                  majorsList.map((major, idx) => {
+                    return (
+                      <option value={major.name} key={idx}>
+                        {major.name}
+                      </option>
+                    );
+                  })}
+              </Select>
+            </GridItem>
+          </Grid>
         </Box>
       </VStack>
       <Box align="center" w="60%" margin="auto">
@@ -263,4 +276,4 @@ const AddNewOutcomeToMajor = () => {
     </div>
   );
 };
-export default AddNewOutcomeToMajor;
+export default AddNewMajorOutcome;

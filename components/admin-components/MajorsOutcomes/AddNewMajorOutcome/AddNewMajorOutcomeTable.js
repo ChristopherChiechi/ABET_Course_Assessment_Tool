@@ -51,7 +51,7 @@ const tableIcons = {
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
 };
 
-const AddNewOutcomeToMajorTable = ({
+const AddNewMajorOutcomeTable = ({
   columns,
   data,
   year,
@@ -151,7 +151,7 @@ const AddNewOutcomeToMajorTable = ({
           title: "Error",
           description: `There was an error adding the outcome! Error: ${status}`,
           status: "error",
-          duration: 9000,
+          duration: 3000,
           isClosable: true,
         });
         return;
@@ -160,7 +160,7 @@ const AddNewOutcomeToMajorTable = ({
           title: "Success",
           description: `Successfully add a new outcome to major ${majorName}! Please refresh the page if you don't see the new change.`,
           status: "success",
-          duration: 9000,
+          duration: 3000,
           isClosable: true,
         });
         refreshTable();
@@ -177,6 +177,7 @@ const AddNewOutcomeToMajorTable = ({
         search: true,
         pageSize: 10,
         pageSizeOptions: [10, 20, 30],
+        tableLayout: "auto",
       }}
       columns={columns}
       data={data}
@@ -207,4 +208,4 @@ const AddNewOutcomeToMajorTable = ({
     />
   );
 };
-export default AddNewOutcomeToMajorTable;
+export default AddNewMajorOutcomeTable;
