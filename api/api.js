@@ -590,8 +590,33 @@ export default class API {
 
   //Sections Endpoint
 
+  //---getSection()--- (Admin)
+  //    Input: term, year, department, courseNumber, sectionNumber
+  //    Output: List of faculty members with that role
+  async getSection(term, year, department, courseNumber, sectionNumber) {
+    const url =
+      rootNew +
+      `/Section/GetSection?term=${term}&year=${year}&department=${department}&courseNumber=${courseNumber}&sectionNumber=${sectionNumber}`;
+    try {
+      var response = await axios.get(url);
+      if (response) {
+        let status = this.checkStatus(response.status);
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
+    } catch (error) {
+      let status = this.checkStatus(error.message);
+      return {
+        data: null,
+        status: status,
+      };
+    }
+  }
+
   //---getSectionsByCourse()--- (Admin)
-  //    Input: role name
+  //    Input: term, year, department, courseNumber
   //    Output: List of faculty members with that role
   async getSectionsByCourse(term, year, department, courseNumber) {
     const url =
