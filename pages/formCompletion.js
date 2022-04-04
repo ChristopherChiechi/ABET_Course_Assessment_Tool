@@ -20,10 +20,13 @@ import {
   getFormBySection,
   postInstructorForm,
   getSection,
+  getGrades,
+  setGrades,
 } from "../api/APIHelper";
 //components
 import GradesInput from "../components/form-components/GradesInput";
 import CourseOutcomesMapping from "../components/form-components/CourseOutcomesMapping";
+import blankForm from "../components/form-components/blankForm.json";
 
 const formCompletion = ({
   number,
@@ -35,8 +38,15 @@ const formCompletion = ({
 }) => {
   const router = useRouter();
   const [form, setForm] = useState();
+  const [form2, setForm2] = useState(blankForm);
+  const [refreshKey, setRefreshKey] = useState(0); //For refreshing the table
+
   const [sectionInstructorEUID, setSectionInstructorEUID] = useState();
   const toast = useToast({ position: "top" });
+
+  const refreshTable = () => {
+    setRefreshKey(refreshKey + 1);
+  };
 
   const checkUser = async () => {
     const ISSERVER = typeof window === "undefined";
@@ -94,6 +104,35 @@ const formCompletion = ({
   };
 
   const getForm = async () => {
+    try {
+      //const res = await getGrades(year,term,department,number,section)
+      var res = await getGrades("2023", "Spring", "CSCE", "1030", "1");
+      var gradesData = res.data;
+      if (gradesData) {
+        console.log(gradesData);
+        if (Object.keys(gradesData).length < 1) {
+          //If the is the first time working on the form then create a blank form
+          console.log("No previous form found");
+          await setGrades("2023", "Spring", "CSCE", "1030", "1", blankForm);
+          console.log(blankForm);
+          setForm2(blankForm);
+        } else if (Object.keys(gradesData).length >= 1) {
+          console.log("true");
+          for (const key in gradesData) {
+            let totalStudentsNum =
+              gradesData[key].a +
+              gradesData[key].b +
+              gradesData[key].c +
+              gradesData[key].d +
+              gradesData[key].f;
+            gradesData[key].totalStudents = totalStudentsNum;
+          }
+          setForm2(gradesData);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
     const formData = await getFormBySection(
       id,
       2020,
@@ -107,15 +146,21 @@ const formCompletion = ({
   };
 
   const handleGradeChange = (major, grade, newValue) => {
-    let tempForm = form[major];
-    tempForm[grade] = newValue;
-    setForm({
-      ...form,
-      grade: tempForm,
-    });
+    try {
+      let tempForm = form2[major];
+      tempForm[grade] = newValue;
+      setForm2({
+        ...form2,
+        [major]: tempForm,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const handleOutcomesChange = (major, grade, newValue) => {
+  const handleOutcomesChange = (major, outcomeName, newValue) => {
+    console.log(major, outcomeName, newValue);
+    return;
     let tempForm = form[major];
     tempForm[grade] = newValue;
     setForm({
@@ -125,19 +170,50 @@ const formCompletion = ({
   };
 
   useEffect(() => {
-    getSectionInformation();
-    //getForm();
-  }, []);
+    //getSectionInformation();
+    getForm();
+  }, [refreshKey]);
 
   useEffect(() => {
-    if (sectionInstructorEUID != null) checkUser();
+    //if (sectionInstructorEUID != null) checkUser();
   }, [sectionInstructorEUID]);
 
-  useEffect(() => {}, [form]);
-
   const handleSubmit = async () => {
-    console.log(form);
+    console.log(form2);
+    try {
+      //const res = await setGrades(year,term,department,number,section,form2)
+      const submitRes = await setGrades(
+        "2023",
+        "Spring",
+        "CSCE",
+        "1030",
+        "1",
+        form2
+      );
+      const status = submitRes.status;
+      if (status == "Success") {
+        toast({
+          description: `Form submitted!`,
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
+        return;
+      } else {
+        toast({
+          description: `There was an error submitting the form! Error:${status}`,
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+        return;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    refreshTable();
   };
+
   return (
     <Center>
       {form ? (
@@ -150,16 +226,14 @@ const formCompletion = ({
               ABET Course Assesment
             </Text>
           </Box>
+          <GradesInput
+            csGrades={form2.CS}
+            ceGrades={form2.CE}
+            itGrades={form2.IT}
+            cysGrades={form2.CYS}
+            handleGradeChange={handleGradeChange}
+          />
 
-          {form && (
-            <GradesInput
-              csGrades={form.csGrades}
-              ceGrades={form.ceGrades}
-              itGrades={form.itGrades}
-              cGrades={form.cGrades}
-              handleGradeChange={handleGradeChange}
-            />
-          )}
           <CourseOutcomesMapping
             courseOutcomes={form.outcomes}
             handleOutcomesChange={handleOutcomesChange}
@@ -173,7 +247,6 @@ const formCompletion = ({
             bg="#edf2f7"
             placeholder="// Write a comment"
           ></Textarea>
-
           <Box>
             <Button mb="1em" colorScheme="teal" w="max-content" mr="1em">
               Save Report

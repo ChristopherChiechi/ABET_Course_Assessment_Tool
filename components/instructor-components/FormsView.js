@@ -70,6 +70,7 @@ const FormsView = ({ instructorCourses, coordinatorCourses, term }) => {
               href={{
                 pathname: "/formCompletion",
                 query: {
+                  department: "CSCE",
                   number: course.courseNumber,
                   section: course.sectionNumber,
                   semester: term.semester,
@@ -112,6 +113,7 @@ const FormsView = ({ instructorCourses, coordinatorCourses, term }) => {
               href={{
                 pathname: "/coordinatorForms",
                 query: {
+                  department: "CSCE",
                   number: course.courseNumber,
                   section: course.sectionNumber,
                   semester: term.semester,

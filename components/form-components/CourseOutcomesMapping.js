@@ -114,7 +114,15 @@ const CourseOutcomesMapping = ({ courseOutcomes, handleOutcomesChange }) => {
           <Flex direction="row">
             <HStack w="50%">
               <Text>IT: </Text>
-              <NumberInput defaultValue={outcome.numberOfIT} min={0} w="50%">
+              <NumberInput
+                defaultValue={outcome.numberOfIT}
+                min={0}
+                w="50%"
+                onChange={(e) => {
+                  const newNumber = parseInt(e);
+                  handleOutcomesChange("IT", outcome.outcome, newNumber);
+                }}
+              >
                 <NumberInputField />
                 <NumberInputStepper>
                   <NumberIncrementStepper />
@@ -125,7 +133,15 @@ const CourseOutcomesMapping = ({ courseOutcomes, handleOutcomesChange }) => {
 
             <HStack w="50%">
               <Text>CS: </Text>
-              <NumberInput defaultValue={outcome.numberOfCS} min={0} w="50%">
+              <NumberInput
+                defaultValue={outcome.numberOfCS}
+                min={0}
+                w="50%"
+                onChange={(e) => {
+                  const newNumber = parseInt(e);
+                  handleOutcomesChange("CS", outcome.outcome, newNumber);
+                }}
+              >
                 <NumberInputField />
                 <NumberInputStepper>
                   <NumberIncrementStepper />
@@ -136,7 +152,15 @@ const CourseOutcomesMapping = ({ courseOutcomes, handleOutcomesChange }) => {
 
             <HStack w="50%">
               <Text>CE: </Text>
-              <NumberInput defaultValue={outcome.numberOfCE} min={0} w="50%">
+              <NumberInput
+                defaultValue={outcome.numberOfCE}
+                min={0}
+                w="50%"
+                onChange={(e) => {
+                  const newNumber = parseInt(e);
+                  handleOutcomesChange("CE", outcome.outcome, newNumber);
+                }}
+              >
                 <NumberInputField />
                 <NumberInputStepper>
                   <NumberIncrementStepper />
@@ -147,7 +171,15 @@ const CourseOutcomesMapping = ({ courseOutcomes, handleOutcomesChange }) => {
 
             <HStack w="50%">
               <Text>CYS: </Text>
-              <NumberInput defaultValue={outcome.numberOfCE} min={0} w="50%">
+              <NumberInput
+                defaultValue={outcome.numberOfCYS}
+                min={0}
+                w="50%"
+                onChange={(e) => {
+                  const newNumber = parseInt(e);
+                  handleOutcomesChange("CYS", outcome.outcome, newNumber);
+                }}
+              >
                 <NumberInputField />
                 <NumberInputStepper>
                   <NumberIncrementStepper />
