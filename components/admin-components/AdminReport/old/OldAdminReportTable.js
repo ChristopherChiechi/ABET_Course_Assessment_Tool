@@ -42,6 +42,11 @@ const adminreportTable = ({ reportITJson, majorName }) => {
             <Th>8</Th>
             <Th>9</Th>
             <Th>10</Th>
+            <Th>11</Th>
+            <Th>12</Th>
+            <Th>13</Th>
+            <Th>14</Th>
+            <Th>15</Th>
           </Tr>
         </Thead>
 
@@ -61,10 +66,51 @@ const adminreportTable = ({ reportITJson, majorName }) => {
                   <Td>{reportITJson[key][7]}</Td>
                   <Td>{reportITJson[key][8]}</Td>
                   <Td>{reportITJson[key][9]}</Td>
+                  <Td>{reportITJson[key][10]}</Td>
+                  <Td>{reportITJson[key][11]}</Td>
+                  <Td>{reportITJson[key][12]}</Td>
+                  <Td>{reportITJson[key][13]}</Td>
+                  <Td>{reportITJson[key][14]}</Td>
                 </Tr>
               ))}
             </React.Fragment>
           }
+          <Tr>
+            <Td>All</Td>
+            <Td>2</Td>
+            <Td>15</Td>
+            <Td>6</Td>
+            <Td>9</Td>
+            <Td>3</Td>
+            <Td>2</Td>
+            <Td>4</Td>
+            <Td>3</Td>
+            <Td>6</Td>
+            <Td>5</Td>
+            <Td>1</Td>
+            <Td>0</Td>
+            <Td>0</Td>
+            <Td>0</Td>
+            <Td>0</Td>
+          </Tr>
+          <Tr>
+            <Td>Out Of</Td>
+            <Td>30</Td>
+            <Td>30</Td>
+            <Td>30</Td>
+            <Td>30</Td>
+            <Td>30</Td>
+            <Td>30</Td>
+            <Td>30</Td>
+            <Td>30</Td>
+            <Td>30</Td>
+            <Td>30</Td>
+            <Td>30</Td>
+            <Td>30</Td>
+            <Td>30</Td>
+            <Td>30</Td>
+            <Td>30</Td>
+          </Tr>
         </Tbody>
       </Table>
     </div>
