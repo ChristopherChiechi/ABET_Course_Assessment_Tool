@@ -54,18 +54,6 @@ const AdminMenu = ({ setView }) => {
         </AccordionButton>
       </AccordionItem>
 
-      <AccordionItem>
-        <AccordionButton
-          _expanded={{ bg: "#38A169", color: "white" }}
-          textAlign="left"
-          onClick={() => {
-            setView("OM");
-          }}
-        >
-          Student Outcome Mapping
-        </AccordionButton>
-      </AccordionItem>
-
       <Text
         textAlign="left"
         fontSize="1.1em"
