@@ -1256,6 +1256,67 @@ export default class API {
     }
   }
 
+  //Instructor and Coordinator Form
+
+  //---GetGrades()--- (student)
+  //    Input: year, term, department, courseNumber, sectionNumber
+  //    Output: the grades object of a course
+  async getGrades(year, term, department, courseNumber, sectionNumber) {
+    const url =
+      rootNew +
+      `/Grade/GetGrades?term=${term}&year=${year}&department=${department}&courseNumber=${courseNumber}&sectionNumber=${sectionNumber}`;
+
+    try {
+      const response = await axios.get(url);
+      if (response) {
+        let status = this.checkStatus(response.status);
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
+    } catch (error) {
+      let status = this.checkStatus(error.message);
+      return {
+        data: null,
+        status: status,
+      };
+    }
+  }
+
+  //---setGrades()--- (student)
+  //    Input: year, term, department, courseNumber, sectionNumber
+  //    Output: success or failure
+  async setGrades(
+    year,
+    term,
+    department,
+    courseNumber,
+    sectionNumber,
+    gradesArray
+  ) {
+    const url =
+      rootNew +
+      `/Grade/SetGrades?term=${term}&year=${year}&department=${department}&courseNumber=${courseNumber}&sectionNumber=${sectionNumber}`;
+
+    try {
+      const response = await axios.post(url, gradesArray);
+      if (response) {
+        let status = this.checkStatus(response.status);
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
+    } catch (error) {
+      let status = this.checkStatus(error.message);
+      return {
+        data: null,
+        status: status,
+      };
+    }
+  }
+
   // Old End Point
   // generic function for sending POST requests
   //    Input: route and body

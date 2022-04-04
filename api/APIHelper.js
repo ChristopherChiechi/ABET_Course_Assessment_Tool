@@ -568,6 +568,43 @@ export async function postSurvey(
   return response;
 }
 
+export async function getGrades(
+  year,
+  term,
+  department,
+  courseNumber,
+  sectionNumber
+) {
+  let api_helper = new API();
+  let response = await api_helper.getGrades(
+    year,
+    term,
+    department,
+    courseNumber,
+    sectionNumber
+  );
+  return response;
+}
+
+export async function setGrades(
+  year,
+  term,
+  department,
+  courseNumber,
+  sectionNumber,
+  gradesArray
+) {
+  let api_helper = new API();
+  let response = await api_helper.setGrades(
+    year,
+    term,
+    department,
+    courseNumber,
+    sectionNumber,
+    gradesArray
+  );
+  return response;
+}
 // Old Endpoint
 //
 //
