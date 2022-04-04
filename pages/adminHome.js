@@ -136,10 +136,10 @@ const adminHome = () => {
                         mr="12"
                         color="#016a31"
                         onClick={() => {
-                          setView("CNS");
+                          setView("EFL");
                         }}
                       >
-                        Edit Semesters
+                        Edit Faculty List
                       </Td>
                       <Td
                         as="button"
@@ -154,48 +154,26 @@ const adminHome = () => {
                       </Td>
                     </Tr>
                     <Tr>
+                      {" "}
                       <Td
                         as="button"
-                        mr="3"
+                        mr="12"
                         color="#016a31"
                         onClick={() => {
-                          setView("EAC");
+                          setView("CNS");
                         }}
                       >
-                        Edit Assigned Course
+                        Edit Semesters
                       </Td>
                       <Td
                         as="button"
-                        mr="3"
+                        ml="4"
                         color="#016a31"
                         onClick={() => {
                           setView("GSS");
                         }}
                       >
                         Generate Student Surveys
-                      </Td>
-                    </Tr>
-                    <Tr>
-                      <Td
-                        as="button"
-                        mr="3"
-                        color="#016a31"
-                        onClick={() => {
-                          setView("ECO");
-                        }}
-                      >
-                        Edit Course Outcome
-                      </Td>
-
-                      <Td
-                        as="button"
-                        mr="3"
-                        color="#016a31"
-                        onClick={() => {
-                          setView("GSR");
-                        }}
-                      >
-                        Generate Section Report
                       </Td>
                     </Tr>
                     <Tr>
@@ -211,8 +189,29 @@ const adminHome = () => {
                       </Td>
                       <Td
                         as="button"
+                        ml="2.5"
+                        color="#016a31"
+                        onClick={() => {
+                          setView("GSR");
+                        }}
+                      >
+                        Generate Section Report
+                      </Td>
+                    </Tr>
+                    <Tr>
+                      <Td
+                        as="button"
                         mr="3"
-                        ml="1"
+                        color="#016a31"
+                        onClick={() => {
+                          setView("EAC");
+                        }}
+                      >
+                        Edit Course Section
+                      </Td>
+                      <Td
+                        as="button"
+                        ml="5"
                         color="#016a31"
                         onClick={() => {
                           setView("LCOTMO");
@@ -224,18 +223,17 @@ const adminHome = () => {
                     <Tr>
                       <Td
                         as="button"
-                        mr="12"
+                        mr="3"
                         color="#016a31"
                         onClick={() => {
-                          setView("EFL");
+                          setView("ANCO");
                         }}
                       >
-                        Edit Faculty List
+                        Edit Course Outcome
                       </Td>
                       <Td
                         as="button"
-                        mr="3"
-                        ml="1"
+                        ml="2"
                         color="#016a31"
                         onClick={() => {
                           setView("GFR");
