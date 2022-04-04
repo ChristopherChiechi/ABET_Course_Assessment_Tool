@@ -2,7 +2,6 @@ import {
   Table,
   Thead,
   Tbody,
-  Tfoot,
   Tr,
   Th,
   Td,
@@ -132,7 +131,7 @@ const FormsView = ({ instructorCourses, coordinatorCourses, term }) => {
   if (roleArray.includes("Instructor") && roleArray.includes("Coordinator")) {
     return (
       <VStack w="75%">
-        <Box bg="#edf2f7" w="100%" padding="1em">
+        <Box bg="#edf2f7" align="center" w={{ lg:"75%" }} margin="auto" padding="1em">
           <Table variant="striped" colorScheme="green" padding="1em">
             <TableCaption placement="top" fontWeight="bold" fontSize="xl">
               Instructor Forms
@@ -147,7 +146,7 @@ const FormsView = ({ instructorCourses, coordinatorCourses, term }) => {
             <Tbody>{renderInstructorCourses}</Tbody>
           </Table>
         </Box>
-        <Box bg="#edf2f7" w="100%" padding="1em">
+        <Box bg="#edf2f7" align="center" w={{ lg:"75%" }} margin="auto" padding="1em">
           <Table variant="striped" colorScheme="green" padding="1em">
             <TableCaption placement="top" fontWeight="bold" fontSize="xl">
               Coordinator Forms
@@ -168,7 +167,7 @@ const FormsView = ({ instructorCourses, coordinatorCourses, term }) => {
   if (roleArray.includes("Instructor")) {
     return (
       <VStack w="75%">
-        <Box bg="#edf2f7" w="100%" padding="1em">
+        <Box bg="#edf2f7" align="center" w={{ lg:"75%" }} margin="auto" padding="1em">
           <Table variant="striped" colorScheme="green" padding="1em">
             <TableCaption placement="top" fontWeight="bold" fontSize="xl">
               Instructor Forms
@@ -190,7 +189,7 @@ const FormsView = ({ instructorCourses, coordinatorCourses, term }) => {
   if (roleArray.includes("Coordinator")) {
     return (
       <VStack w="75%">
-        <Box bg="#edf2f7" w="100%" padding="1em">
+        <Box bg="#edf2f7" align="center" w={{ lg:"75%" }} margin="auto" padding="1em">
           <Table variant="striped" colorScheme="green" padding="1em">
             <TableCaption placement="top" fontWeight="bold" fontSize="xl">
               Coordinator Forms
