@@ -27,7 +27,7 @@ import {
 import GradesInput from "../components/form-components/GradesInput";
 import CourseOutcomesMapping from "../components/form-components/CourseOutcomesMapping";
 import blankForm from "../components/form-components/blankForm.json";
-
+import outcomeBlankForm from "../components/form-components/outcomeBlankForm.json";
 const formCompletion = ({
   number,
   section,
@@ -38,7 +38,9 @@ const formCompletion = ({
 }) => {
   const router = useRouter();
   const [form, setForm] = useState();
-  const [form2, setForm2] = useState(blankForm);
+  const [gradeForm, setGradeForm] = useState();
+  const [outcomeForm, setOutcomeForm] = useState();
+
   const [refreshKey, setRefreshKey] = useState(0); //For refreshing the table
 
   const [sectionInstructorEUID, setSectionInstructorEUID] = useState();
@@ -103,21 +105,19 @@ const formCompletion = ({
     console.log(number, section, semester, year, id, department);
   };
 
-  const getForm = async () => {
+  const getGradeForm = async () => {
     try {
       //const res = await getGrades(year,term,department,number,section)
       var res = await getGrades("2023", "Spring", "CSCE", "1030", "1");
       var gradesData = res.data;
       if (gradesData) {
-        console.log(gradesData);
         if (Object.keys(gradesData).length < 1) {
           //If the is the first time working on the form then create a blank form
           console.log("No previous form found");
           await setGrades("2023", "Spring", "CSCE", "1030", "1", blankForm);
           console.log(blankForm);
-          setForm2(blankForm);
+          setGradeForm(blankForm);
         } else if (Object.keys(gradesData).length >= 1) {
-          console.log("true");
           for (const key in gradesData) {
             let totalStudentsNum =
               gradesData[key].a +
@@ -127,7 +127,7 @@ const formCompletion = ({
               gradesData[key].f;
             gradesData[key].totalStudents = totalStudentsNum;
           }
-          setForm2(gradesData);
+          setGradeForm(gradesData);
         }
       }
     } catch (error) {
@@ -145,12 +145,20 @@ const formCompletion = ({
     setForm(formData);
   };
 
+  const getOutcomeForm = async () => {
+    try {
+      setOutcomeForm(outcomeBlankForm);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleGradeChange = (major, grade, newValue) => {
     try {
-      let tempForm = form2[major];
+      let tempForm = gradeForm[major];
       tempForm[grade] = newValue;
-      setForm2({
-        ...form2,
+      setGradeForm({
+        ...gradeForm,
         [major]: tempForm,
       });
     } catch (error) {
@@ -160,26 +168,35 @@ const formCompletion = ({
 
   const handleOutcomesChange = (major, outcomeName, newValue) => {
     console.log(major, outcomeName, newValue);
-    return;
-    let tempForm = form[major];
-    tempForm[grade] = newValue;
-    setForm({
-      ...form,
-      grade: tempForm,
-    });
+    var tempForm = outcomeForm;
+    for (var i = 0; i < tempForm.length; i++) {
+      if (tempForm[i].outcomeName == outcomeName) {
+        tempForm[i][major] = newValue;
+      }
+    }
+    console.log(tempForm);
+    setOutcomeForm(tempForm);
   };
 
   useEffect(() => {
     //getSectionInformation();
-    getForm();
+    getOutcomeForm();
+    getGradeForm();
   }, [refreshKey]);
+
+  useEffect(() => {
+    //getGradeForm();
+  }, []);
 
   useEffect(() => {
     //if (sectionInstructorEUID != null) checkUser();
   }, [sectionInstructorEUID]);
 
   const handleSubmit = async () => {
-    console.log(form2);
+    console.log(gradeForm);
+    console.log("----------------------");
+    console.log(outcomeForm);
+    return;
     try {
       //const res = await setGrades(year,term,department,number,section,form2)
       const submitRes = await setGrades(
@@ -188,7 +205,7 @@ const formCompletion = ({
         "CSCE",
         "1030",
         "1",
-        form2
+        gradeForm
       );
       const status = submitRes.status;
       if (status == "Success") {
@@ -227,15 +244,15 @@ const formCompletion = ({
             </Text>
           </Box>
           <GradesInput
-            csGrades={form2.CS}
-            ceGrades={form2.CE}
-            itGrades={form2.IT}
-            cysGrades={form2.CYS}
+            csGrades={gradeForm.CS}
+            ceGrades={gradeForm.CE}
+            itGrades={gradeForm.IT}
+            cysGrades={gradeForm.CYS}
             handleGradeChange={handleGradeChange}
           />
 
           <CourseOutcomesMapping
-            courseOutcomes={form.outcomes}
+            courseOutcomes={outcomeForm}
             handleOutcomesChange={handleOutcomesChange}
           />
           <Text fontSize="xl" fontWeight="bold" mb="1em">
@@ -248,10 +265,6 @@ const formCompletion = ({
             placeholder="// Write a comment"
           ></Textarea>
           <Box>
-            <Button mb="1em" colorScheme="teal" w="max-content" mr="1em">
-              Save Report
-            </Button>
-
             <Button
               mb="1em"
               colorScheme="green"

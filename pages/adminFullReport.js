@@ -1,11 +1,14 @@
 //imports
 import { useEffect, useState } from "react";
-import { Grid, Button } from "@chakra-ui/react";
+import { Grid, Button, BreadcrumbLink } from "@chakra-ui/react";
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 import reportIT from "../fake-data/reportIT.json";
-import reportCs from "../fake-data/reportCS.json";
+import reportCS from "../fake-data/reportCS.json";
+import reportCE from "../fake-data/reportCE.json";
+import reportCYS from "../fake-data/reportCYS.json";
+
 import AdminReportTable from "../components/admin-components/AdminReport/AdminReportTable";
 
 // will need to update when backend is completed
@@ -28,20 +31,18 @@ const adminFullReport = ({
         color: "#111",
         alignment: "center",
         table: {
-          widths: [
-            50, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
-          ],
+          widths: [50, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35],
           headerRows: 1,
           // keepWithHeaderRows: 1,
           body: [
             [
-              { text: "Student Outcomes", alignment: "center", colSpan: 16 },
               {},
-              {},
-              {},
-              {},
-              {},
-              {},
+              {
+                text: "Student Outcomes",
+                alignment: "center",
+                colSpan: 10,
+                style: "outcomeHeader",
+              },
               {},
               {},
               {},
@@ -69,11 +70,6 @@ const adminFullReport = ({
               { text: "8", style: "outcomeHeader" },
               { text: "9", style: "outcomeHeader" },
               { text: "10", style: "outcomeHeader" },
-              { text: "11", style: "outcomeHeader" },
-              { text: "12", style: "outcomeHeader" },
-              { text: "13", style: "outcomeHeader" },
-              { text: "14", style: "outcomeHeader" },
-              { text: "15", style: "outcomeHeader" },
             ],
           ],
         },
@@ -84,20 +80,18 @@ const adminFullReport = ({
         alignment: "center",
         pageBreak: "before",
         table: {
-          widths: [
-            50, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
-          ],
+          widths: [50, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35],
           headerRows: 1,
           // keepWithHeaderRows: 1,
           body: [
             [
-              { text: "Student Outcomes", alignment: "center", colSpan: 16 },
               {},
-              {},
-              {},
-              {},
-              {},
-              {},
+              {
+                text: "Student Outcomes",
+                alignment: "center",
+                colSpan: 10,
+                style: "outcomeHeader",
+              },
               {},
               {},
               {},
@@ -125,11 +119,106 @@ const adminFullReport = ({
               { text: "8", style: "outcomeHeader" },
               { text: "9", style: "outcomeHeader" },
               { text: "10", style: "outcomeHeader" },
-              { text: "11", style: "outcomeHeader" },
-              { text: "12", style: "outcomeHeader" },
-              { text: "13", style: "outcomeHeader" },
-              { text: "14", style: "outcomeHeader" },
-              { text: "15", style: "outcomeHeader" },
+            ],
+          ],
+        },
+      },
+      {
+        style: "tableExample",
+        color: "#111",
+        pageBreak: "before",
+
+        alignment: "center",
+        table: {
+          widths: [50, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35],
+          headerRows: 1,
+          // keepWithHeaderRows: 1,
+          body: [
+            [
+              {},
+              {
+                text: "Student Outcomes",
+                alignment: "center",
+                colSpan: 10,
+                style: "outcomeHeader",
+              },
+              {},
+              {},
+              {},
+              {},
+              {},
+              {},
+              {},
+              {},
+              {},
+            ],
+            [
+              {
+                text: "Course",
+                style: "outcomeHeader",
+                colSpan: 1,
+                alignment: "center",
+              },
+              { text: "1", style: "outcomeHeader" },
+              { text: "2", style: "outcomeHeader" },
+              { text: "3", style: "outcomeHeader" },
+              { text: "4", style: "outcomeHeader" },
+              { text: "5", style: "outcomeHeader" },
+              { text: "6", style: "outcomeHeader" },
+              { text: "7", style: "outcomeHeader" },
+              { text: "8", style: "outcomeHeader" },
+              { text: "9", style: "outcomeHeader" },
+              { text: "10", style: "outcomeHeader" },
+            ],
+          ],
+        },
+      },
+      {
+        style: "tableExample",
+        color: "#111",
+        pageBreak: "before",
+
+        alignment: "center",
+        table: {
+          widths: [50, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35],
+          headerRows: 1,
+          // keepWithHeaderRows: 1,
+          body: [
+            [
+              {},
+              {
+                text: "Student Outcomes",
+                alignment: "center",
+                colSpan: 10,
+                style: "outcomeHeader",
+              },
+              {},
+              {},
+              {},
+              {},
+              {},
+              {},
+              {},
+              {},
+              {},
+            ],
+            [
+              {
+                text: "Course",
+                style: "outcomeHeader",
+                colSpan: 1,
+                alignment: "center",
+              },
+              { text: "1", style: "outcomeHeader" },
+              { text: "2", style: "outcomeHeader" },
+              { text: "3", style: "outcomeHeader" },
+              { text: "4", style: "outcomeHeader" },
+              { text: "5", style: "outcomeHeader" },
+              { text: "6", style: "outcomeHeader" },
+              { text: "7", style: "outcomeHeader" },
+              { text: "8", style: "outcomeHeader" },
+              { text: "9", style: "outcomeHeader" },
+              { text: "10", style: "outcomeHeader" },
             ],
           ],
         },
@@ -162,11 +251,11 @@ const adminFullReport = ({
   };
 
   const addCsToTable = () => {
-    document.content[2].table.body.unshift([
+    document.content[1].table.body.unshift([
       {
         text: "Computer Science",
         style: "subheader",
-        colSpan: 16,
+        colSpan: 11,
         alignment: "center",
       },
       {},
@@ -179,138 +268,9 @@ const adminFullReport = ({
       {},
       {},
       {},
-      {},
-      {},
-      {},
-      {},
-      {},
     ]);
-    for (const course in reportIT) {
-      let ArrOfOutcomes = reportCs[course];
-      document.content[2].table.body.push([
-        {
-          text: course,
-          style: "tableHeader",
-          colSpan: 1,
-          alignment: "center",
-        },
-        { text: ArrOfOutcomes[0] },
-        { text: ArrOfOutcomes[1] },
-        { text: ArrOfOutcomes[2] },
-        { text: ArrOfOutcomes[3] },
-        { text: ArrOfOutcomes[4] },
-        { text: ArrOfOutcomes[5] },
-        { text: ArrOfOutcomes[6] },
-        { text: ArrOfOutcomes[7] },
-        { text: ArrOfOutcomes[8] },
-        { text: ArrOfOutcomes[9] },
-        { text: ArrOfOutcomes[10] },
-        { text: ArrOfOutcomes[11] },
-        { text: ArrOfOutcomes[12] },
-        { text: ArrOfOutcomes[13] },
-        { text: ArrOfOutcomes[14] },
-      ]);
-    }
-    console.log(document);
-    document.content[2].table.body.push([
-      {
-        text: " ",
-        style: "tableHeader",
-        colSpan: 1,
-        alignment: "center",
-      },
-      { text: "" },
-      { text: "" },
-      { text: "" },
-      { text: "" },
-      { text: "" },
-      { text: "" },
-      { text: "" },
-      { text: "" },
-      { text: "" },
-      { text: "" },
-      { text: "" },
-      { text: "" },
-      { text: "" },
-      { text: "" },
-      { text: "" },
-    ]);
-
-    document.content[2].table.body.push([
-      {
-        text: "All",
-        style: "tableHeader",
-        colSpan: 1,
-        alignment: "center",
-      },
-      { text: "2" },
-      { text: "15" },
-      { text: "6" },
-      { text: "9" },
-      { text: "3" },
-      { text: "2" },
-      { text: "4" },
-      { text: "3" },
-      { text: "6" },
-      { text: "5" },
-      { text: "1" },
-      { text: "0" },
-      { text: "0" },
-      { text: "0" },
-      { text: "0" },
-    ]);
-
-    document.content[2].table.body.push([
-      {
-        text: "Out of",
-        style: "tableHeader",
-        colSpan: 1,
-        alignment: "center",
-      },
-      { text: "30" },
-      { text: "30" },
-      { text: "30" },
-      { text: "30" },
-      { text: "30" },
-      { text: "30" },
-      { text: "30" },
-      { text: "30" },
-      { text: "30" },
-      { text: "30" },
-      { text: "30" },
-      { text: "30" },
-      { text: "30" },
-      { text: "30" },
-      { text: "30" },
-    ]);
-  };
-  //Add IT information to table for pdf
-  const addItToTable = () => {
-    document.content[1].table.body.unshift([
-      {
-        text: "Information Technology",
-        style: "subheader",
-        colSpan: 16,
-        alignment: "center",
-      },
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-    ]);
-    for (const course in reportIT) {
-      let ArrOfOutcomes = reportIT[course];
+    for (const course in reportCS) {
+      let ArrOfOutcomes = reportCS[course];
       document.content[1].table.body.push([
         {
           text: course,
@@ -328,94 +288,86 @@ const adminFullReport = ({
         { text: ArrOfOutcomes[7] },
         { text: ArrOfOutcomes[8] },
         { text: ArrOfOutcomes[9] },
-        { text: ArrOfOutcomes[10] },
-        { text: ArrOfOutcomes[11] },
-        { text: ArrOfOutcomes[12] },
-        { text: ArrOfOutcomes[13] },
-        { text: ArrOfOutcomes[14] },
       ]);
     }
     console.log(document);
-    document.content[1].table.body.push([
+  };
+
+  //Add
+  const addMajorGradeToTable = (majorName, majorData) => {
+    var index = 0;
+    switch (majorName) {
+      case "Computer Science":
+        index = 1;
+        break;
+      case "Computer Engineering":
+        index = 2;
+        break;
+      case "Information Technology":
+        index = 3;
+        break;
+      case "Cyber Security":
+        index = 4;
+        break;
+    }
+    if (index == 0) {
+      console.log("Could not find major!");
+      return;
+    }
+    console.log(majorName, index);
+    console.log(document.content);
+    document.content[index].table.body.unshift([
       {
-        text: " ",
-        style: "tableHeader",
-        colSpan: 1,
+        text: majorName,
+        style: "subheader",
+        colSpan: 11,
         alignment: "center",
       },
-      { text: "" },
-      { text: "" },
-      { text: "" },
-      { text: "" },
-      { text: "" },
-      { text: "" },
-      { text: "" },
-      { text: "" },
-      { text: "" },
-      { text: "" },
-      { text: "" },
-      { text: "" },
-      { text: "" },
-      { text: "" },
-      { text: "" },
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
     ]);
 
-    document.content[1].table.body.push([
-      {
-        text: "All",
-        style: "tableHeader",
-        colSpan: 1,
-        alignment: "center",
-      },
-      { text: "2" },
-      { text: "15" },
-      { text: "6" },
-      { text: "9" },
-      { text: "3" },
-      { text: "2" },
-      { text: "4" },
-      { text: "3" },
-      { text: "6" },
-      { text: "5" },
-      { text: "1" },
-      { text: "0" },
-      { text: "0" },
-      { text: "0" },
-      { text: "0" },
-    ]);
-
-    document.content[1].table.body.push([
-      {
-        text: "Out of",
-        style: "tableHeader",
-        colSpan: 1,
-        alignment: "center",
-      },
-      { text: "30" },
-      { text: "30" },
-      { text: "30" },
-      { text: "30" },
-      { text: "30" },
-      { text: "30" },
-      { text: "30" },
-      { text: "30" },
-      { text: "30" },
-      { text: "30" },
-      { text: "30" },
-      { text: "30" },
-      { text: "30" },
-      { text: "30" },
-      { text: "30" },
-    ]);
+    for (const course in majorData) {
+      let ArrOfOutcomes = majorData[course];
+      document.content[index].table.body.push([
+        {
+          text: course,
+          style: "tableHeader",
+          colSpan: 1,
+          alignment: "center",
+        },
+        { text: ArrOfOutcomes[0] },
+        { text: ArrOfOutcomes[1] },
+        { text: ArrOfOutcomes[2] },
+        { text: ArrOfOutcomes[3] },
+        { text: ArrOfOutcomes[4] },
+        { text: ArrOfOutcomes[5] },
+        { text: ArrOfOutcomes[6] },
+        { text: ArrOfOutcomes[7] },
+        { text: ArrOfOutcomes[8] },
+        { text: ArrOfOutcomes[9] },
+      ]);
+    }
+    console.log(document);
   };
 
   const createPdfFile = () => {
-    addItToTable();
-    addCsToTable();
+    addMajorGradeToTable("Computer Science", reportCS);
+    addMajorGradeToTable("Computer Engineering", reportCE);
+    addMajorGradeToTable("Information Technology", reportIT);
+    addMajorGradeToTable("Cyber Security", reportCYS);
     pdfMake.createPdf(document).open();
     setTimeout(
       function () {
-        window.location.reload();
+        //window.location.reload();
       }.bind(this),
       1000
     );
@@ -423,28 +375,28 @@ const adminFullReport = ({
 
   return (
     <Grid templateColumns="repeat(2, 1fr)" gap={8}>
-      {reportITJson && (
+      {reportIT && (
         <AdminReportTable
           id="MyTable"
-          reportITJson={reportITJson}
+          reportITJson={reportIT}
           majorName={"Information Technology"}
         />
       )}
-      {reportITJson && (
+      {reportCS && (
         <AdminReportTable
-          reportITJson={reportCs}
+          reportITJson={reportCS}
           majorName={"Computer Science"}
         />
       )}
-      {reportITJson && (
+      {reportCYS && (
         <AdminReportTable
-          reportITJson={reportCs}
+          reportITJson={reportCYS}
           majorName={"Cyber Security"}
         />
       )}
-      {reportITJson && (
+      {reportCE && (
         <AdminReportTable
-          reportITJson={reportCs}
+          reportITJson={reportCE}
           majorName={"Computer Engineering"}
         />
       )}
