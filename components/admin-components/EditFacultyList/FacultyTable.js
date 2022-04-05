@@ -2,11 +2,10 @@ import React from "react";
 
 import { useToast } from "@chakra-ui/react";
 import {
-  getFacultyList,
   addFacultyMember,
   editFacultyUser,
-  getUsersByRole,
-  deleteFacultyUser,
+  removeRoleFromUser,
+  addRoleToUser,
 } from "../../../api/APIHelper";
 
 import MaterialTable from "material-table";
@@ -75,9 +74,24 @@ const FacultyTable = ({ columns, data, selectFaculty, refreshTable }) => {
       console.log(res);
       const status = res.status;
       console.log(status);
+      
+      const roleRes = await addRoleToUser (
+        newUser.euid, selectFaculty
+      );
+      console.log(roleRes);
+      const roleStatus = roleRes.status;
+      console.log(roleStatus)
+      
       if (status == "Success") {
         toast({
           description: `Successfully added the new faculty member! Please refresh the page if you don't see the new change.`,
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+        });
+      } else if (roleStatus == "Success") {
+        toast({
+          description: `Role added to existing user! Please refresh the page if you don't see the new change.`,
           status: "success",
           duration: 2000,
           isClosable: true,
@@ -98,7 +112,7 @@ const FacultyTable = ({ columns, data, selectFaculty, refreshTable }) => {
 
   const handleRemoveFaculty = async (oldData) => {
     try {
-      const res = await deleteFacultyUser(oldData.euid);
+      const res = await removeRoleFromUser(oldData.euid, selectFaculty);
       if (res) {
         console.log(res);
         if (res.status == "Success") {
