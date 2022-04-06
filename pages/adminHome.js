@@ -71,23 +71,8 @@ const adminHome = () => {
                 }}
                 icon={<HamburgerIcon />}
               />
-
-              <Button
-                disabled={is_super}
-                onClick={() => router.push("/instructorHome")}
-                bg="#016a31"
-                color="white"
-                ml="1em"
-                _hover={{
-                  background: "teal",
-                  color: "white",
-                }}
-              >
-                Switch to Instructor
-              </Button>
             </HStack>
           </Flex>
-
           <Drawer
             placement="left"
             onClose={onClose}
