@@ -7,17 +7,31 @@ import {
   VStack,
   HStack,
 } from "@chakra-ui/react";
-import API from "../api/api";
+import API from "../../api/api";
 import React, { useEffect, useState } from "react";
 import cookieCutter from "cookie-cutter";
 import jwt from "jsonwebtoken";
-import { Custom } from "../api/APIHelper";
+import { Custom } from "../../api/APIHelper";
 import { useRouter } from "next/router";
 
-const Navigation = ({ link, user }) => {
+const AdminNavigation = ({ link, user }) => {
   const logout = () => {
     new API().logout();
   };
+
+  const router = useRouter();
+  const token = cookieCutter.get("token");
+  const json = jwt.decode(token);
+  var roleArray = json.role;
+  var role = "";
+  if (roleArray.length > 1) {
+    for (var i = 0; i < roleArray.length; i++) {
+      console.log(roleArray[i]);
+      if (roleArray[i] == "Instructor" || roleArray[i] == "Coordinator") {
+        role = roleArray[i];
+      }
+    }
+  }
 
   const [userID, setUser] = useState("");
   const getUser = async () => {
@@ -40,25 +54,13 @@ const Navigation = ({ link, user }) => {
     getUser();
   }, []);
 
-
-  return (
-    <Flex justifyContent="left" mt="1em" mr="1em" dir="row">
-      <HStack spacing="10px">
-        <Box as="button" color="black" fontSize="1.5em" w="105px">
-          {userID}
-        </Box>
-        <Button
-          bg="#016a31"
-          color="white"
-          _hover={{
-            background: "teal",
-            color: "white",
-          }}
-        >
-          Home
-        </Button>
-
-        <Link href="/" onClick={logout}>
+  if (roleArray.includes("Instructor") || roleArray.includes("Coordinator")) {
+    return (
+      <Flex justifyContent="left" mt="1em" mr="1em" dir="row">
+        <HStack spacing="10px">
+          <Box as="button" color="black" fontSize="1.5em" w="105px">
+            {userID}
+          </Box>
           <Button
             bg="#016a31"
             color="white"
@@ -67,11 +69,58 @@ const Navigation = ({ link, user }) => {
               color: "white",
             }}
           >
-            Sign Out
+            Home
           </Button>
-        </Link>
 
-        <Link href="/" onClick={Custom}>
+          <Button
+            onClick={() => router.push("/instructorHome")}
+            bg="#016a31"
+            color="white"
+            ml="1em"
+            _hover={{
+              background: "teal",
+              color: "white",
+            }}
+          >
+            Instructor Home
+          </Button>
+
+          <Link href="/" onClick={logout}>
+            <Button
+              bg="#016a31"
+              color="white"
+              _hover={{
+                background: "teal",
+                color: "white",
+              }}
+            >
+              Sign Out
+            </Button>
+          </Link>
+
+          <Link href="/" onClick={Custom}>
+            <Button
+              bg="#016a31"
+              color="white"
+              _hover={{
+                background: "teal",
+                color: "white",
+              }}
+            >
+              [Debug] Reload Database
+            </Button>
+          </Link>
+        </HStack>
+      </Flex>
+    );
+  }
+  else {
+    return (
+      <Flex justifyContent="left" mt="1em" mr="1em" dir="row">
+        <HStack spacing="10px">
+          <Box as="button" color="black" fontSize="1.5em" w="105px">
+            {userID}
+          </Box>
           <Button
             bg="#016a31"
             color="white"
@@ -80,12 +129,38 @@ const Navigation = ({ link, user }) => {
               color: "white",
             }}
           >
-            [Debug] Reload Database
+            Home
           </Button>
-        </Link>
-      </HStack>
-    </Flex>
-  );
+
+          <Link href="/" onClick={logout}>
+            <Button
+              bg="#016a31"
+              color="white"
+              _hover={{
+                background: "teal",
+                color: "white",
+              }}
+            >
+              Sign Out
+            </Button>
+          </Link>
+
+          <Link href="/" onClick={Custom}>
+            <Button
+              bg="#016a31"
+              color="white"
+              _hover={{
+                background: "teal",
+                color: "white",
+              }}
+            >
+              [Debug] Reload Database
+            </Button>
+          </Link>
+        </HStack>
+      </Flex>
+    );
+  }
 
   // switch (link) {
   //     case '/formCompletion':
@@ -130,4 +205,4 @@ const Navigation = ({ link, user }) => {
   // }
 };
 
-export default Navigation;
+export default AdminNavigation;

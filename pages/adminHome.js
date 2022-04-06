@@ -23,7 +23,7 @@ import { HamburgerIcon } from "@chakra-ui/icons";
 
 import { useRouter } from "next/router";
 import Head from "next/head";
-import Navigation from "../components/Navigation";
+import AdminNavigation from "../components/admin-components/AdminNavigation";
 import AdminMenu from "../components/admin-components/AdminMenu";
 // import FullReport from '../components/admin-components/FullReport/FullReport';
 import EditSemesterList from "../components/admin-components/EditSemesters/EditSemesterList";
@@ -55,7 +55,7 @@ const adminHome = () => {
       <Head>
         <title>UNT ABET: Admin Page</title>
       </Head>
-      <Navigation />
+      <AdminNavigation />
       <div>
         <div>
           <Flex justifyContent="left" mt="1em" mr="1em">
