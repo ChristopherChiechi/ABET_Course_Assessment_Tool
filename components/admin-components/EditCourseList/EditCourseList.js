@@ -82,14 +82,8 @@ const EditCourseList = () => {
         ...theCourse,
         courses: courseList,
       });
-      if (theCourse.courses) {
-        console.log(theCourse.courses);
-      }
     } catch (error) {
       console.log(error);
-    }
-    if (theCourse) {
-      console.log(theCourse.courses);
     }
   };
 
@@ -119,7 +113,6 @@ const EditCourseList = () => {
           value={props.value}
           onChange={(value) => {
             props.onChange(value);
-            console.log(value);
           }}
         />
       ),

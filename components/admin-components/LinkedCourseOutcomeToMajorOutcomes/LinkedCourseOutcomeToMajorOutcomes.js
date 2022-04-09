@@ -310,7 +310,14 @@ const LinkedCourseOutcomeToMajorOutcomes = () => {
 
   useEffect(() => {
     getLinkedMajorOutcomesList();
-  }, [selectOutcome, theDepartment, selectCourse, semJson, refreshKey]);
+  }, [
+    selectOutcome,
+    theDepartment,
+    selectCourse,
+    semJson,
+    refreshKey,
+    majorSelect,
+  ]);
 
   const columns = [
     {
@@ -435,7 +442,7 @@ const LinkedCourseOutcomeToMajorOutcomes = () => {
         <SingleSelect
           id="outcomeSelect"
           disabled={checkIfSelectMajorAndSemseter()}
-          style={{ bottom: "5px" }}
+          style={{ bottom: "5px", textAlign: "left" }}
           fullWidth={true}
           value={selectOutcome}
           placeholder="Select a course outcome"

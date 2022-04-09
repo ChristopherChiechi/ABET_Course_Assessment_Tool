@@ -4,11 +4,10 @@ import { Grid, Button, BreadcrumbLink } from "@chakra-ui/react";
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
-import reportIT from "../fake-data/reportIT.json";
 import reportCS from "../fake-data/reportCS.json";
 import reportCE from "../fake-data/reportCE.json";
 import reportCYS from "../fake-data/reportCYS.json";
-
+import { GenerateFullReport } from "../api/APIHelper";
 import AdminReportTable from "../components/admin-components/AdminReport/AdminReportTable";
 
 // will need to update when backend is completed
@@ -241,57 +240,56 @@ const adminFullReport = ({
   };
 
   const [reportITJson, setReportITJson] = useState();
+  const [reportCEJson, setReportCEJson] = useState();
+  const [reportCSJson, setReportCSJson] = useState();
+  const [reportCYSJson, setReportCYSJson] = useState();
+
+  const getITReport = async () => {
+    try {
+      const reportResponse = await GenerateFullReport(2023, "Spring", "IT");
+      const reportData = reportResponse.data;
+      setReportITJson(reportData);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const getCEReport = async () => {
+    try {
+      const reportResponse = await GenerateFullReport(2023, "Spring", "CE");
+      const reportData = reportResponse.data;
+      setReportCEJson(reportData);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const getCSReport = async () => {
+    try {
+      const reportResponse = await GenerateFullReport(2023, "Spring", "CE");
+      const reportData = reportResponse.data;
+      setReportCSJson(reportData);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const getCYSReport = async () => {
+    try {
+      const reportResponse = await GenerateFullReport(2023, "Spring", "CE");
+      const reportData = reportResponse.data;
+      setReportCYSJson(reportData);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   useEffect(() => {
     getITReport();
+    getCEReport();
+    getCSReport();
+    getCYSReport();
   }, []);
-
-  const getITReport = async () => {
-    setReportITJson(reportIT);
-  };
-
-  const addCsToTable = () => {
-    document.content[1].table.body.unshift([
-      {
-        text: "Computer Science",
-        style: "subheader",
-        colSpan: 11,
-        alignment: "center",
-      },
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-    ]);
-    for (const course in reportCS) {
-      let ArrOfOutcomes = reportCS[course];
-      document.content[1].table.body.push([
-        {
-          text: course,
-          style: "tableHeader",
-          colSpan: 1,
-          alignment: "center",
-        },
-        { text: ArrOfOutcomes[0] },
-        { text: ArrOfOutcomes[1] },
-        { text: ArrOfOutcomes[2] },
-        { text: ArrOfOutcomes[3] },
-        { text: ArrOfOutcomes[4] },
-        { text: ArrOfOutcomes[5] },
-        { text: ArrOfOutcomes[6] },
-        { text: ArrOfOutcomes[7] },
-        { text: ArrOfOutcomes[8] },
-        { text: ArrOfOutcomes[9] },
-      ]);
-    }
-    console.log(document);
-  };
 
   //Add
   const addMajorGradeToTable = (majorName, majorData) => {
@@ -360,10 +358,10 @@ const adminFullReport = ({
   };
 
   const createPdfFile = () => {
-    addMajorGradeToTable("Computer Science", reportCS);
-    addMajorGradeToTable("Computer Engineering", reportCE);
-    addMajorGradeToTable("Information Technology", reportIT);
-    addMajorGradeToTable("Cyber Security", reportCYS);
+    addMajorGradeToTable("Computer Science", reportCSJson);
+    addMajorGradeToTable("Computer Engineering", reportCEJson);
+    addMajorGradeToTable("Information Technology", reportITJson);
+    addMajorGradeToTable("Cyber Security", reportCYSJson);
     pdfMake.createPdf(document).open();
     setTimeout(
       function () {
@@ -374,35 +372,35 @@ const adminFullReport = ({
   };
 
   return (
-    <Grid templateColumns="repeat(2, 1fr)" gap={8}>
-      {reportIT && (
+    <Grid templateColumns="repeat(1, 1fr)" gap={8} margin="auto" w="80%">
+      <Button onClick={createPdfFile} colorScheme="teal" w="30%" mt="1%">
+        Download pdf
+      </Button>
+      {reportITJson && (
         <AdminReportTable
           id="MyTable"
-          reportITJson={reportIT}
+          reportITJson={reportITJson}
           majorName={"Information Technology"}
         />
       )}
-      {reportCS && (
+      {reportCSJson && (
         <AdminReportTable
-          reportITJson={reportCS}
+          reportITJson={reportCSJson}
           majorName={"Computer Science"}
         />
       )}
-      {reportCYS && (
+      {reportCYSJson && (
         <AdminReportTable
-          reportITJson={reportCYS}
+          reportITJson={reportCYSJson}
           majorName={"Cyber Security"}
         />
       )}
-      {reportCE && (
+      {reportCEJson && (
         <AdminReportTable
-          reportITJson={reportCE}
+          reportITJson={reportCEJson}
           majorName={"Computer Engineering"}
         />
       )}
-      <Button onClick={createPdfFile} colorScheme="teal">
-        Download pdf
-      </Button>
     </Grid>
   );
 };
