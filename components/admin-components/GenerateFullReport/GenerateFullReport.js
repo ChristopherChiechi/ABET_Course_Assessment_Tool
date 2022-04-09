@@ -52,7 +52,6 @@ const GenerateFullReport = ({ user }) => {
             //console.log(`Found: ${semester.term} ${semester.year}`);
             setTerm(semester.term);
             setYear(semester.year);
-            getMajorList(semester.term, semester.year);
           }
         });
       }
