@@ -210,26 +210,76 @@ const studentSurvey = () => {
     const token = cookieCutter.get("token");
     const json = jwt.decode(token);
     const euid = json.unique_name;
-    console.log(euid);
     var allAnswerArray = [];
-
     let array = TAquestions.map((question) => Object.values(question.rating));
     console.log(array);
+    console.log(studentInformation);
+    if (studentInformation.major == "") {
+      toast({
+        description: `Please fill out the "Major"`,
+        status: "warning",
+        duration: 2000,
+        isClosable: true,
+      });
+      return;
+    } else if (studentInformation.classification == "") {
+      toast({
+        description: `Please fill out the "Year in School box"`,
+        status: "warning",
+        duration: 2000,
+        isClosable: true,
+      });
+      return;
+    } else if (studentInformation.grade == "") {
+      toast({
+        description: `Please fill out the "Expected Grade"`,
+        status: "warning",
+        duration: 2000,
+        isClosable: true,
+      });
+      return;
+    }
+
     for (var i = 0; i < InstructorQuestions.length; i++) {
-      console.log(InstructorQuestions[i].rating);
+      if (InstructorQuestions[i].rating == 0) {
+        toast({
+          description: `Please answer question ${
+            i + 1
+          } of the INSTRUCTOR EVALUATION."`,
+          status: "warning",
+          duration: 2000,
+          isClosable: true,
+        });
+        return;
+      }
       allAnswerArray.push(InstructorQuestions[i].rating);
     }
     for (var i = 0; i < TAquestions.length; i++) {
-      console.log(TAquestions[i].rating);
+      if (TAquestions[i].rating == 0) {
+        toast({
+          description: `Please answer question ${i + 1} of the TA EVALUATION."`,
+          status: "warning",
+          duration: 2000,
+          isClosable: true,
+        });
+        return;
+      }
       allAnswerArray.push(TAquestions[i].rating);
     }
-    console.log(
-      studentInformation,
-      outcomeSurvey,
-      TAquestions,
-      allAnswerArray,
-      studentInput.additionalFeedback
-    );
+
+    for (var i = 0; i < outcomeSurvey.length; i++) {
+      console.log(outcomeSurvey[i]);
+      if (outcomeSurvey[i].rating == 0 || !outcomeSurvey[i].rating) {
+        toast({
+          description: `Please respond to ${outcomeSurvey[i].name} of the COURSE OUTCOME EVALUATION."`,
+          status: "warning",
+          duration: 2000,
+          isClosable: true,
+        });
+        return;
+      }
+    }
+    return;
     try {
       const res = await postSurvey(
         courseInformation.courseYear,
