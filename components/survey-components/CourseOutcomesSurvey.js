@@ -13,7 +13,6 @@ import {
 } from "@chakra-ui/react";
 
 const CourseOutcomesSurvey = ({ outcomeSurvey, handleChange }) => {
-  console.log(outcomeSurvey);
   const renderRadios = Array.from(Array(5), (x, index) => {
     return (
       <Radio key={index} value={index + 1}>
@@ -28,7 +27,7 @@ const CourseOutcomesSurvey = ({ outcomeSurvey, handleChange }) => {
       return (
         <Tr key={idx}>
           <Td>
-            {outcome.name}.{outcome.description}
+            {outcome.name}. {outcome.description}
           </Td>
           <Td>
             <RadioGroup
@@ -65,7 +64,7 @@ const CourseOutcomesSurvey = ({ outcomeSurvey, handleChange }) => {
         <Table padding="1em" variant="striped">
           <Thead>
             <Tr>
-              <Th>Course Outcome</Th>
+              <Th>Course Outcome EVALUATION</Th>
               <Th>Rating</Th>
             </Tr>
           </Thead>

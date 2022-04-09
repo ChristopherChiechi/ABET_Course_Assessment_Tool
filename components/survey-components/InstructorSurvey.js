@@ -31,7 +31,9 @@ const InstructorSurvey = ({ instructorQuestions, handleChange }) => {
     instructorQuestions.map((question, idx) => {
       return (
         <Tr key={idx}>
-          <Td>{question.question}</Td>
+          <Td>
+            {idx + 1}. {question.question}
+          </Td>
           <Td>
             <RadioGroup
               value={question.rating}
