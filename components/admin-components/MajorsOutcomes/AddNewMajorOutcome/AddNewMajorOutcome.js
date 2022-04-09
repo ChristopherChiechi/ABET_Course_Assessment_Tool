@@ -69,12 +69,16 @@ const AddNewMajorOutcome = () => {
 
   const columns = [
     {
-      title: "Outcome Name",
+      title: "Outcome number",
       field: "name",
       width: "6%",
       width: null,
+      type: "numeric",
       cellStyle: { width: 150 },
-      validate: (rowData) => (rowData.name ? true : "Name can not be empty"),
+      validate: (rowData) =>
+        rowData.name
+          ? true
+          : "Outcome number can not be empty and can only be number",
     },
     {
       title: "Outcome Description",

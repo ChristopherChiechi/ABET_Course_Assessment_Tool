@@ -218,13 +218,16 @@ const AddNewCourseOutcome = () => {
 
   const columns = [
     {
-      title: "Outcome Name",
+      title: "Outcome Number",
       field: "name",
       width: "5%",
       width: null,
+      type: "numeric",
       cellStyle: { width: 150 },
       validate: (rowData) =>
-        rowData.name ? true : "Outcome name can not be empty",
+        rowData.name
+          ? true
+          : "Outcome number can not be empty and can only be number",
     },
     {
       title: "Outcome Description",
