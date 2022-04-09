@@ -3,9 +3,8 @@ import {
   Flex,
   Box,
   Button,
-  MenuButton,
-  VStack,
   HStack,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import API from "../api/api";
 import React, { useEffect, useState } from "react";
@@ -40,25 +39,13 @@ const Navigation = ({ link, user }) => {
     getUser();
   }, []);
 
-
   return (
-    <Flex justifyContent="left" mt="1em" mr="1em" dir="row">
-      <HStack spacing="10px">
-        <Box as="button" color="black" fontSize="1.5em" w="105px">
-          {userID}
-        </Box>
-        <Button
-          bg="#016a31"
-          color="white"
-          _hover={{
-            background: "teal",
-            color: "white",
-          }}
-        >
-          Home
-        </Button>
-
-        <Link href="/" onClick={logout}>
+    <div>
+      <Flex justifyContent="left" mt="1em" mr="1em" dir="row">
+        <HStack spacing="10px">
+          <Box as="button" color="black" fontSize="1.5em" w="105px">
+            {userID}
+          </Box>
           <Button
             bg="#016a31"
             color="white"
@@ -67,24 +54,37 @@ const Navigation = ({ link, user }) => {
               color: "white",
             }}
           >
-            Sign Out
+            Home
           </Button>
-        </Link>
 
-        <Link href="/" onClick={Custom}>
-          <Button
-            bg="#016a31"
-            color="white"
-            _hover={{
-              background: "teal",
-              color: "white",
-            }}
-          >
-            [Debug] Reload Database
-          </Button>
-        </Link>
-      </HStack>
-    </Flex>
+          <Link href="/" onClick={logout}>
+            <Button
+              bg="#016a31"
+              color="white"
+              _hover={{
+                background: "teal",
+                color: "white",
+              }}
+            >
+              Sign Out
+            </Button>
+          </Link>
+
+          <Link href="/" onClick={Custom}>
+            <Button
+              bg="#016a31"
+              color="white"
+              _hover={{
+                background: "teal",
+                color: "white",
+              }}
+            >
+              [Debug] Reload Database
+            </Button>
+          </Link>
+        </HStack>
+      </Flex>
+    </div>
   );
 
   // switch (link) {

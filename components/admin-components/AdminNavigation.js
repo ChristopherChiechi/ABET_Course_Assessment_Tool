@@ -26,7 +26,6 @@ const AdminNavigation = ({ link, user }) => {
   var role = "";
   if (roleArray.length > 1) {
     for (var i = 0; i < roleArray.length; i++) {
-      console.log(roleArray[i]);
       if (roleArray[i] == "Instructor" || roleArray[i] == "Coordinator") {
         role = roleArray[i];
       }
@@ -44,7 +43,6 @@ const AdminNavigation = ({ link, user }) => {
         setUser("");
       } else {
         setUser(json.unique_name);
-        console.log(json.unique_name);
       }
       isLoading = false;
     }
@@ -56,7 +54,7 @@ const AdminNavigation = ({ link, user }) => {
 
   if (roleArray.includes("Instructor") || roleArray.includes("Coordinator")) {
     return (
-      <Flex justifyContent="left" mt="1em" mr="1em" dir="row">
+      <Flex justifyContent="right" mt="1em" mr="1em" dir="row">
         <HStack spacing="10px">
           <Box as="button" color="black" fontSize="1.5em" w="105px">
             {userID}
@@ -113,10 +111,9 @@ const AdminNavigation = ({ link, user }) => {
         </HStack>
       </Flex>
     );
-  }
-  else {
+  } else {
     return (
-      <Flex justifyContent="left" mt="1em" mr="1em" dir="row">
+      <Flex justifyContent="right" mt="1em" mr="1em" dir="row">
         <HStack spacing="10px">
           <Box as="button" color="black" fontSize="1.5em" w="105px">
             {userID}
