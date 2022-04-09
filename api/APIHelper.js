@@ -605,6 +605,51 @@ export async function setGrades(
   );
   return response;
 }
+
+export async function GetStudentOutcomesCompleted(
+  year,
+  term,
+  department,
+  courseNumber,
+  sectionNumber
+) {
+  let api_helper = new API();
+  let response = await api_helper.GetStudentOutcomesCompleted(
+    year,
+    term,
+    department,
+    courseNumber,
+    sectionNumber
+  );
+  return response;
+}
+
+export async function SetStudentOutcomesCompleted(
+  year,
+  term,
+  department,
+  courseNumber,
+  sectionNumber,
+  courseOutcomeObject
+) {
+  let api_helper = new API();
+  let response = await api_helper.SetStudentOutcomesCompleted(
+    year,
+    term,
+    department,
+    courseNumber,
+    sectionNumber,
+    courseOutcomeObject
+  );
+  return response;
+}
+
+export async function GenerateFullReport(year, term, major) {
+  let api_helper = new API();
+  let response = await api_helper.GenerateFullReport(year, term, major);
+  return response;
+}
+
 // Old Endpoint
 //
 //

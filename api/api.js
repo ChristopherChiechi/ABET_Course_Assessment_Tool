@@ -1258,7 +1258,7 @@ export default class API {
 
   //Instructor and Coordinator Form
 
-  //---GetGrades()--- (student)
+  //---GetGrades()--- (Instructor)
   //    Input: year, term, department, courseNumber, sectionNumber
   //    Output: the grades object of a course
   async getGrades(year, term, department, courseNumber, sectionNumber) {
@@ -1284,7 +1284,7 @@ export default class API {
     }
   }
 
-  //---setGrades()--- (student)
+  //---setGrades()--- (Instructor)
   //    Input: year, term, department, courseNumber, sectionNumber
   //    Output: success or failure
   async setGrades(
@@ -1301,6 +1301,98 @@ export default class API {
 
     try {
       const response = await axios.post(url, gradesArray);
+      if (response) {
+        let status = this.checkStatus(response.status);
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
+    } catch (error) {
+      let status = this.checkStatus(error.message);
+      return {
+        data: null,
+        status: status,
+      };
+    }
+  }
+
+  //---GetStudentOutcomesCompleted()--- (Instructor)
+  //    Input: year, term, department, courseNumber, sectionNumber
+  //    Output: return the course outcome object of a course
+  async GetStudentOutcomesCompleted(
+    year,
+    term,
+    department,
+    courseNumber,
+    sectionNumber
+  ) {
+    const url =
+      rootNew +
+      `/StudentOutcomesCompleted/GetStudentOutcomesCompleted?term=${term}&year=${year}&department=${department}&courseNumber=${courseNumber}&sectionNumber=${sectionNumber}`;
+
+    try {
+      const response = await axios.get(url);
+      if (response) {
+        let status = this.checkStatus(response.status);
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
+    } catch (error) {
+      let status = this.checkStatus(error.message);
+      return {
+        data: null,
+        status: status,
+      };
+    }
+  }
+
+  //---SetStudentOutcomesCompleted()--- (student)
+  //    Input: year, term, department, courseNumber, sectionNumber
+  //    Output: success or failure
+  async SetStudentOutcomesCompleted(
+    year,
+    term,
+    department,
+    courseNumber,
+    sectionNumber,
+    courseOutcomeObject
+  ) {
+    const url =
+      rootNew +
+      `/StudentOutcomesCompleted/SetStudentOutcomesCompleted?term=${term}&year=${year}&department=${department}&courseNumber=${courseNumber}&sectionNumber=${sectionNumber}`;
+
+    try {
+      const response = await axios.post(url, courseOutcomeObject);
+      if (response) {
+        let status = this.checkStatus(response.status);
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
+    } catch (error) {
+      let status = this.checkStatus(error.message);
+      return {
+        data: null,
+        status: status,
+      };
+    }
+  }
+
+  // Full Report EndPoint
+
+  //---GenerateFullReport()--- (Instructor)
+  //    Input: year, term, department, courseNumber, sectionNumber
+  //    Output: The data of all the courses within a semester and major
+  async GenerateFullReport(year, term, major) {
+    const url =
+      rootNew + `/GenerateFullReport?term=${term}&year=${year}&major=${major}`;
+
+    try {
+      const response = await axios.get(url);
       if (response) {
         let status = this.checkStatus(response.status);
         return {
