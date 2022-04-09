@@ -18,6 +18,7 @@ const adminreportTable = ({ reportITJson, majorName }) => {
   return (
     <div className="tableBorder">
       <Table
+        mt="1em"
         placement="top"
         variant="simple"
         colorScheme="teal"
@@ -25,23 +26,76 @@ const adminreportTable = ({ reportITJson, majorName }) => {
         border="5px"
         borderColor="gray.200"
       >
-        <Thead>{majorName}</Thead>
         <Thead>
+          <Th colspan="11">
+            <Text textAlign="center" fontWeight="bold" fontSize="15px">
+              {majorName}
+            </Text>
+          </Th>
+        </Thead>
+        <Thead>
+          <Th></Th>
+          <Th colspan="10">
+            <Text textAlign="center" color="teal">
+              Student Outcome
+            </Text>
+          </Th>
           <Tr>
-            <Text textAlign="left">Student Outcome</Text>
-          </Tr>
-          <Tr>
-            <Th>Course</Th>
-            <Th>1</Th>
-            <Th>2</Th>
-            <Th>3</Th>
-            <Th>4</Th>
-            <Th>5</Th>
-            <Th>6</Th>
-            <Th>7</Th>
-            <Th>8</Th>
-            <Th>9</Th>
-            <Th>10</Th>
+            <Th>
+              <Text fontWeight="bold" fontSize="14px">
+                Course
+              </Text>
+            </Th>
+            <Th>
+              <Text fontWeight="bold" fontSize="14px">
+                1
+              </Text>
+            </Th>
+            <Th>
+              <Text fontWeight="bold" fontSize="14px">
+                2
+              </Text>
+            </Th>
+            <Th>
+              <Text fontWeight="bold" fontSize="14px">
+                3
+              </Text>
+            </Th>
+            <Th>
+              <Text fontWeight="bold" fontSize="14px">
+                4
+              </Text>
+            </Th>
+            <Th>
+              <Text fontWeight="bold" fontSize="14px">
+                5
+              </Text>
+            </Th>
+            <Th>
+              <Text fontWeight="bold" fontSize="14px">
+                6
+              </Text>
+            </Th>
+            <Th>
+              <Text fontWeight="bold" fontSize="14px">
+                7
+              </Text>
+            </Th>
+            <Th>
+              <Text fontWeight="bold" fontSize="14px">
+                8
+              </Text>
+            </Th>
+            <Th>
+              <Text fontWeight="bold" fontSize="14px">
+                9
+              </Text>
+            </Th>
+            <Th>
+              <Text fontWeight="bold" fontSize="14px">
+                10
+              </Text>
+            </Th>
           </Tr>
         </Thead>
 
