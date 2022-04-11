@@ -1387,9 +1387,8 @@ export default class API {
   //---GenerateFullReport()--- (Instructor)
   //    Input: year, term, department, courseNumber, sectionNumber
   //    Output: The data of all the courses within a semester and major
-  async GenerateFullReport(year, term, major) {
-    const url =
-      rootNew + `/GenerateFullReport?term=${term}&year=${year}&major=${major}`;
+  async GenerateFullReport(year, term) {
+    const url = rootNew + `/GenerateFullReport?term=${term}&year=${year}`;
 
     try {
       const response = await axios.get(url);

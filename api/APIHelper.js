@@ -644,9 +644,9 @@ export async function SetStudentOutcomesCompleted(
   return response;
 }
 
-export async function GenerateFullReport(year, term, major) {
+export async function GenerateFullReport(year, term) {
   let api_helper = new API();
-  let response = await api_helper.GenerateFullReport(year, term, major);
+  let response = await api_helper.GenerateFullReport(year, term);
   return response;
 }
 
