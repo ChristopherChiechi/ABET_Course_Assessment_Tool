@@ -2,11 +2,10 @@ import React from "react";
 
 import { useToast } from "@chakra-ui/react";
 import {
-  getFacultyList,
   addFacultyMember,
   editFacultyUser,
-  getUsersByRole,
-  deleteFacultyUser,
+  removeRoleFromUser,
+  addRoleToUser,
 } from "../../../api/APIHelper";
 
 import MaterialTable from "material-table";
@@ -75,6 +74,14 @@ const FacultyTable = ({ columns, data, selectFaculty, refreshTable }) => {
       console.log(res);
       const status = res.status;
       console.log(status);
+      
+      const roleRes = await addRoleToUser (
+        newUser.euid, selectFaculty
+      );
+      console.log(roleRes);
+      const roleStatus = roleRes.status;
+      console.log(roleStatus)
+      
       if (status == "Success") {
         toast({
           description: `Successfully added the new faculty member! Please refresh the page if you don't see the new change.`,
@@ -82,7 +89,13 @@ const FacultyTable = ({ columns, data, selectFaculty, refreshTable }) => {
           duration: 2000,
           isClosable: true,
         });
-        refreshTable();
+      } else if (roleStatus == "Success") {
+        toast({
+          description: `Role added to existing user! Please refresh the page if you don't see the new change.`,
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+        });
       } else {
         toast({
           description: `There was an error! Message: ${status} `,
@@ -94,11 +107,12 @@ const FacultyTable = ({ columns, data, selectFaculty, refreshTable }) => {
     } catch (error) {
       console.log(error);
     }
+    refreshTable();
   };
 
   const handleRemoveFaculty = async (oldData) => {
     try {
-      const res = await deleteFacultyUser(oldData.euid);
+      const res = await removeRoleFromUser(oldData.euid, selectFaculty);
       if (res) {
         console.log(res);
         if (res.status == "Success") {
@@ -116,23 +130,14 @@ const FacultyTable = ({ columns, data, selectFaculty, refreshTable }) => {
             isClosable: true,
           });
         }
-        refreshTable();
       }
     } catch (error) {
       console.log(error);
     }
+    refreshTable();
   };
 
   const handleEditFaculty = async (newUser, oldUser) => {
-    if (!newUser.lastName || !newUser.firstName || !newUser.euid) {
-      toast({
-        description: "Required field empty!",
-        status: "warning",
-        duration: 9000,
-        isClosable: true,
-      });
-      return;
-    }
     try {
       const res = await editFacultyUser(
         newUser.firstName,
@@ -157,10 +162,10 @@ const FacultyTable = ({ columns, data, selectFaculty, refreshTable }) => {
           isClosable: true,
         });
       }
-      refreshTable();
     } catch (error) {
       console.log(error);
     }
+    refreshTable();
   };
 
   return (

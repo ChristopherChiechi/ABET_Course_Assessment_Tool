@@ -26,9 +26,9 @@ const CreateNewMajor = () => {
   const [refreshKey, setRefreshKey] = useState(0); //For refreshing the table
   const [year, setYear] = useState(0);
   const [term, setTerm] = useState("");
-  const [semID, setSemID] = useState(9999);
+  const [semID, setSemID] = useState();
   const [majors, setMajors] = useState();
-  const [newMajor, setNewMajor] = useInputState("");
+  const [newMajor, setNewMajor] = useState();
 
   const toast = useToast({ position: "top" });
 
@@ -39,9 +39,9 @@ const CreateNewMajor = () => {
   };
 
   const handleAddMajor = async () => {
-    if (year == "" || term == "" || newMajor == "") {
+    if (year == "" || term == "" || !newMajor) {
       toast({
-        description: `Please choose a semester and enter a new major!`,
+        description: `Please choose a semester and select a major!`,
         status: "warning",
         duration: 9000,
         isClosable: true,
@@ -49,54 +49,31 @@ const CreateNewMajor = () => {
       return;
     } else if (!majors) {
       return;
-    } else {
-      var checkDuplicate = false;
-      Object.keys(majors).forEach(function (key) {
-        let major = majors[key];
-        console.log(major);
-        if (major.name == newMajor) {
-          console.log("Run");
-          toast({
-            description: `This semester and major already exists! Please choose a different semester and major.`,
-            status: "warning",
-            duration: 9000,
-            isClosable: true,
-          });
-          checkDuplicate = true;
-        }
-      });
-      if (checkDuplicate == true) {
-        return;
-      }
     }
-    if (
-      window.confirm("Are you sure you would like to create the new major?")
-    ) {
-      try {
-        console.log(`Add major name: ${newMajor} term: ${term} year: ${year}`);
-        const res = await addMajor(newMajor, term, year);
-        const status = res.status;
+    try {
+      console.log(`Add major name: ${newMajor} term: ${term} year: ${year}`);
+      const res = await addMajor(newMajor, term, year);
+      const status = res.status;
 
-        console.log(res);
-        if (status == "Success") {
-          toast({
-            description: `Successfully added the new major! Please refresh the page if you don't see the new change.`,
-            status: "success",
-            duration: 2000,
-            isClosable: true,
-          });
-        } else {
-          toast({
-            description: `There was an error! Message: ${status} `,
-            status: "error",
-            duration: 9000,
-            isClosable: true,
-          });
-        }
-        refreshTable();
-      } catch (error) {
-        console.log(error);
+      console.log(res);
+      if (status == "Success") {
+        toast({
+          description: `Successfully added the new major! Please refresh the page if you don't see the new change.`,
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+        });
+      } else {
+        toast({
+          description: `There was an error! Message: ${status} `,
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
       }
+      refreshTable();
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -240,43 +217,26 @@ const CreateNewMajor = () => {
 
         <List>{renderMajor}</List>
         <Text fontSize="2xl" fontWeight="bold" mt="1em">
-          Create New Major
+          Add New Major to semester
         </Text>
         <FormControl w="80%" align="center" justifyContent="center" isRequired>
-          <FormLabel w="40%" textAlign={"center"}>
-            Please enter the new major name
-          </FormLabel>
-          <Input
+          <Select
             align="center"
-            w="15%"
-            variant="outline"
+            id="term"
+            placeholder="Select Major"
             borderColor="teal"
-            placeholder={term}
-            disabled
-            ml="1"
-            errorBorderColor="red"
-          />
-          <Input
-            align="center"
-            w="15%"
-            variant="outline"
-            placeholder={year}
-            borderColor="teal"
-            disabled
-            ml="1"
-            errorBorderColor="red"
-          />
-          <Input
-            align="center"
-            w="20%"
-            placeholder="Major Name"
-            variant="filled"
+            width="40%"
+            isRequired={true}
             value={newMajor}
-            onChange={setNewMajor}
-            ml="1"
-            borderColor="teal"
-            errorBorderColor="red"
-          />
+            onChange={(e) => {
+              setNewMajor(e.target.value);
+            }}
+          >
+            <option value="CS">Computer Science</option>
+            <option value="CE">Computer Engineering</option>
+            <option value="IT">Information Technology</option>
+            <option value="CYS">Cyber Security</option>
+          </Select>
         </FormControl>
         <Button colorScheme="teal" variant="solid" onClick={handleAddMajor}>
           Add Major

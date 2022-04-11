@@ -54,15 +54,48 @@ const AdminMenu = ({ setView }) => {
         </AccordionButton>
       </AccordionItem>
 
+      <Text
+        textAlign="left"
+        fontSize="1.1em"
+        fontWeight="bold"
+        mt="2em"
+        mb="1em"
+      >
+        <u>Major and Course Outcome</u>
+      </Text>
+
       <AccordionItem>
         <AccordionButton
           _expanded={{ bg: "#38A169", color: "white" }}
           textAlign="left"
           onClick={() => {
-            setView("OM");
+            setView("ANMO");
           }}
         >
-          Student Outcome Mapping
+          Add New Major Outcome
+        </AccordionButton>
+      </AccordionItem>
+      <AccordionItem>
+        <AccordionButton
+          _expanded={{ bg: "#38A169", color: "white" }}
+          textAlign="left"
+          onClick={() => {
+            setView("ANCO");
+          }}
+        >
+          Add New Course Outcome
+        </AccordionButton>
+      </AccordionItem>
+
+      <AccordionItem>
+        <AccordionButton
+          _expanded={{ bg: "#38A169", color: "white" }}
+          textAlign="left"
+          onClick={() => {
+            setView("LCOTMO");
+          }}
+        >
+          Map Major Outcome To Course Outcome
         </AccordionButton>
       </AccordionItem>
 
@@ -73,7 +106,7 @@ const AdminMenu = ({ setView }) => {
         mt="2em"
         mb="1em"
       >
-        <u>Major/Course Outcome</u>
+        <u>Survey</u>
       </Text>
 
       <AccordionItem>
@@ -81,34 +114,10 @@ const AdminMenu = ({ setView }) => {
           _expanded={{ bg: "#38A169", color: "white" }}
           textAlign="left"
           onClick={() => {
-            setView("ACMO");
+            setView("ESQ");
           }}
         >
-          1) Assign course to major outcome
-        </AccordionButton>
-      </AccordionItem>
-
-      <AccordionItem>
-        <AccordionButton
-          _expanded={{ bg: "#38A169", color: "white" }}
-          textAlign="left"
-          onClick={() => {
-            setView("ANOTM");
-          }}
-        >
-          2) Add new outcome to major
-        </AccordionButton>
-      </AccordionItem>
-
-      <AccordionItem>
-        <AccordionButton
-          _expanded={{ bg: "#38A169", color: "white" }}
-          textAlign="left"
-          onClick={() => {
-            setView("AOTC");
-          }}
-        >
-          3) Assign outcome to course
+          Edit Student Survey Questions
         </AccordionButton>
       </AccordionItem>
 
@@ -179,18 +188,6 @@ const AdminMenu = ({ setView }) => {
           }}
         >
           Edit Course List
-        </AccordionButton>
-      </AccordionItem>
-
-      <AccordionItem>
-        <AccordionButton
-          _expanded={{ bg: "#38A169", color: "white" }}
-          textAlign="left"
-          onClick={() => {
-            setView("ECO");
-          }}
-        >
-          Edit Course Outcomes
         </AccordionButton>
       </AccordionItem>
     </Accordion>

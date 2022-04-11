@@ -22,10 +22,9 @@ import ViewColumn from "@material-ui/icons/ViewColumn";
 
 //API
 import {
-  addNewOutcomeToMajor,
-  deleteOutcomeFromMajor,
-  editOutcomeForMajor,
-} from "../../../../api/APIHelper";
+  LinkToMajorOutcome,
+  RemoveLinkToMajorOutcome,
+} from "../../../api/APIHelper";
 
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -51,50 +50,49 @@ const tableIcons = {
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
 };
 
-const AddNewOutcomeToMajorTable = ({
+const MappingTable3 = ({
+  term,
+  year,
+  department,
+  selectCourseNumber,
+  majorName,
+  selectOutcome,
+  refreshTable,
   columns,
   data,
-  year,
-  term,
-  majorName,
-  refreshTable,
 }) => {
   //Toast
   const toast = useToast({ position: "top" });
 
-  function getKeyByValue(object, value) {
-    return Object.keys(object).find((key) => object[key] === value);
-  }
-
-  //Handle edit
-  const handleEditOutcome = async (newData, oldData) => {
+  const handleLinkedMajorOutcome = async (newLink) => {
     try {
-      const editRes = await editOutcomeForMajor(
-        term,
+      const linkedMajorOutcomeRes = await LinkToMajorOutcome(
         year,
+        term,
+        department,
+        selectCourseNumber,
+        selectOutcome,
         majorName,
-        oldData.name,
-        newData.name,
-        newData.description
+        newLink.name
       );
-      const status = editRes.status;
+      const status = linkedMajorOutcomeRes.status;
       if (status != "Success") {
         toast({
           title: "Error",
-          description: `There was an error editing the outcome! Error: ${status}`,
+          description: `There was an error mapping the course outcome to major outcome! Error: ${status}`,
           status: "error",
-          duration: 9000,
+          duration: 3000,
           isClosable: true,
         });
         return;
       } else {
         toast({
-          description: `Successfully edited`,
+          title: "Success",
+          description: `Successfuly mapped course outcome: ${selectOutcome} to major outcome: ${newLink.name}`,
           status: "success",
-          duration: 9000,
+          duration: 3000,
           isClosable: true,
         });
-        refreshTable();
       }
     } catch (error) {
       console.log(error);
@@ -102,72 +100,40 @@ const AddNewOutcomeToMajorTable = ({
     refreshTable();
   };
 
-  //Handle remove
-  const handleRemoveOutcome = async (oldData) => {
+  const handleRemoveLinkedMajorOutcome = async (deleteLink) => {
     try {
-      const deleteRes = await deleteOutcomeFromMajor(
+      const linkedMajorOutcomeRes = await RemoveLinkToMajorOutcome(
         year,
         term,
-        majorName.trim(),
-        oldData.name
-      );
-      const status = deleteRes.status;
-      if (status != "Success") {
-        toast({
-          title: "Error",
-          description: `There was an error deleting the outcome! Error: ${status}`,
-          status: "error",
-          duration: 9000,
-          isClosable: true,
-        });
-        return;
-      } else {
-        toast({
-          description: `Successfully deleted`,
-          status: "success",
-          duration: 9000,
-          isClosable: true,
-        });
-        refreshTable();
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  //Handle add
-  const handleAddNewOutcome = async (newData) => {
-    try {
-      const res = await addNewOutcomeToMajor(
-        year,
-        term,
+        department,
+        selectCourseNumber,
+        selectOutcome,
         majorName,
-        newData.name.trim(),
-        newData.description
+        deleteLink.name
       );
-      const status = res.status;
+      const status = linkedMajorOutcomeRes.status;
       if (status != "Success") {
         toast({
           title: "Error",
-          description: `There was an error adding the outcome! Error: ${status}`,
+          description: `There was an error deleting the link! Error: ${status}`,
           status: "error",
-          duration: 9000,
+          duration: 3000,
           isClosable: true,
         });
         return;
       } else {
         toast({
           title: "Success",
-          description: `Successfully add a new outcome to major ${majorName}! Please refresh the page if you don't see the new change.`,
+          description: `Successfuly deleted major outcome: ${deleteLink.name} from course outcome: ${selectOutcome}`,
           status: "success",
-          duration: 9000,
+          duration: 3000,
           isClosable: true,
         });
-        refreshTable();
       }
     } catch (error) {
       console.log(error);
     }
+    refreshTable();
   };
 
   return (
@@ -180,26 +146,19 @@ const AddNewOutcomeToMajorTable = ({
       }}
       columns={columns}
       data={data}
-      title=" "
+      title="List of Mapped Major Outcomes"
       editable={{
-        onRowAdd: (newData) =>
+        onRowAdd: (newLink) =>
           new Promise((resolve, reject) => {
             setTimeout(() => {
-              handleAddNewOutcome(newData);
+              handleLinkedMajorOutcome(newLink);
               resolve();
             }, 1000);
           }),
-        onRowUpdate: (newData, oldData) =>
+        onRowDelete: (deleteData) =>
           new Promise((resolve, reject) => {
             setTimeout(() => {
-              handleEditOutcome(newData, oldData);
-              resolve();
-            }, 1000);
-          }),
-        onRowDelete: (oldData) =>
-          new Promise((resolve, reject) => {
-            setTimeout(() => {
-              handleRemoveOutcome(oldData);
+              handleRemoveLinkedMajorOutcome(deleteData);
               resolve();
             }, 1000);
           }),
@@ -207,4 +166,4 @@ const AddNewOutcomeToMajorTable = ({
     />
   );
 };
-export default AddNewOutcomeToMajorTable;
+export default MappingTable3;

@@ -1,7 +1,7 @@
 import { Grid, GridItem, Text, Button, useToast } from "@chakra-ui/react";
 import EditFacultyMember from "../admin-components/EditFacultyList/EditFacultyMember";
 import { deleteFacultyUser } from "../../api/APIHelper";
-import { useState, useRef } from "react";
+import { useState } from "react";
 
 const FacultyMember = ({ refreshTable, member, id, color }) => {
   const toast = useToast({position: "top"});

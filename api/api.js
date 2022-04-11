@@ -110,7 +110,7 @@ export default class API {
     }
   }
 
-  //---getFacultyList()--- (Admin)
+  //---getUsersByRole()--- (Admin)
   //    Input: role name
   //    Output: List of faculty members with that role
   async getUsersByRole(roleName) {
@@ -128,6 +128,55 @@ export default class API {
       }
     } catch (error) {
       let status = this.checkStatus(error.message);
+      return {
+        data: null,
+        status: status,
+      };
+    }
+  }
+
+  //---AddRoleToUser()--- (Admin)
+  //    Input: euid, role
+  //    Output: success or failure
+  async addRoleToUser(euid, role) {
+    const url = rootNew + `/Role/AddRoleToUser?EUID=${euid}&roleName=${role}`;
+    try {
+      const response = await axios.post(url);
+      if (response) {
+        let status = this.checkStatus(response.status);
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
+    } catch (error) {
+      let status = this.checkStatus(error.message);
+      return {
+        data: null,
+        status: status,
+      };
+    }
+  }
+
+  //---removeRoleFromUser()--- (Admin)
+  //    Input: EUID, role
+  //    Output: success or failure
+  async removeRoleFromUser(euid, role) {
+    const url =
+      rootNew + `/Role/RemoveRoleFromUser?EUID=${euid}&roleName=${role}`;
+    try {
+      const response = await axios.delete(url);
+      console.log(response);
+      if (response) {
+        let status = this.checkStatus(response.status);
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
+    } catch (error) {
+      let status = this.checkStatus(error.message);
+      console.error(error);
       return {
         data: null,
         status: status,
@@ -541,8 +590,33 @@ export default class API {
 
   //Sections Endpoint
 
+  //---getSection()--- (Admin)
+  //    Input: term, year, department, courseNumber, sectionNumber
+  //    Output: List of faculty members with that role
+  async getSection(term, year, department, courseNumber, sectionNumber) {
+    const url =
+      rootNew +
+      `/Section/GetSection?term=${term}&year=${year}&department=${department}&courseNumber=${courseNumber}&sectionNumber=${sectionNumber}`;
+    try {
+      var response = await axios.get(url);
+      if (response) {
+        let status = this.checkStatus(response.status);
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
+    } catch (error) {
+      let status = this.checkStatus(error.message);
+      return {
+        data: null,
+        status: status,
+      };
+    }
+  }
+
   //---getSectionsByCourse()--- (Admin)
-  //    Input: role name
+  //    Input: term, year, department, courseNumber
   //    Output: List of faculty members with that role
   async getSectionsByCourse(term, year, department, courseNumber) {
     const url =
@@ -835,22 +909,51 @@ export default class API {
     }
   }
 
-  //---addOutcomeToCourse()--- (Admin)
-  //    Input: year,term,department,courseNumber,major,outcomName
+  //---getCourseOutcome()--- (Admin)
+  //    Input: year,term, department,courseNumber
   //    Output: success or failure
-  async addOutcomeToCourse(
+  async getCourseOutcome(year, term, department, courseNumber) {
+    const url =
+      rootNew +
+      `/CourseOutcome/GetCourseOutcomes?term=${term}&year=${year}&classDepartment=${department}&courseNumber=${courseNumber}`;
+    try {
+      const response = await axios.get(url);
+      if (response) {
+        let status = this.checkStatus(response.status);
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
+    } catch (error) {
+      let status = this.checkStatus(error.message);
+      return {
+        data: null,
+        status: status,
+      };
+    }
+  }
+
+  //---addOutcomeToCourse()--- (Admin)
+  //    Input: year,term,department,courseNumber ,outcomName, outcomeDescription
+  //    Output: success or failure
+  async addNewCourseOutcome(
     year,
     term,
     department,
     courseNumber,
-    major,
-    outcomName
+    outcomeName,
+    outcomeDescription
   ) {
     const url =
       rootNew +
-      `/CourseOutcome/AddMajorOutcome?term=${term}&year=${year}&classDepartment=${department}&courseNumber=${courseNumber}&majorName=${major}&outcomeName=${outcomName}`;
+      `/CourseOutcome/addCourseOutcome?term=${term}&year=${year}&classDepartment=${department}&courseNumber=${courseNumber}`;
     try {
-      const response = await axios.post(url);
+      const body = {
+        name: outcomeName,
+        description: outcomeDescription,
+      };
+      const response = await axios.post(url, body);
       if (response) {
         let status = this.checkStatus(response.status);
         return {
@@ -870,22 +973,112 @@ export default class API {
   //---deleteOutcomeFromMajor()--- (Admin)
   //    Input: year,term,department,courseNumber,major,outcomName
   //    Output: success or failure
-  async deleteOutcomeFromCourse(
-    year,
-    term,
-    department,
-    courseNumber,
-    major,
-    outcomName
-  ) {
+  async deleteCourseOutcome(year, term, department, courseNumber, outcomeName) {
     const url =
       rootNew +
-      `/CourseOutcome/DeleteMajorOutcome?term=${term}&year=${year}&classDepartment=${department}&courseNumber=${courseNumber}&majorName=${major}&outcomeName=${outcomName}`;
+      `/CourseOutcome/DeleteCourseOutcome?term=${term}&year=${year}&classDepartment=${department}&courseNumber=${courseNumber}&name=${outcomeName}`;
     try {
       const response = await axios.delete(url);
       if (response) {
         let status = this.checkStatus(response.status);
 
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
+    } catch (error) {
+      let status = this.checkStatus(error.message);
+      return {
+        data: null,
+        status: status,
+      };
+    }
+  }
+
+  //---GetLinkedMajorOutcomes()--- (Admin)
+  //    Input: year,term,department,courseNumber,courseOutcomeName
+  //    Output: success or failure
+  async GetLinkedMajorOutcomes(
+    year,
+    term,
+    department,
+    courseNumber,
+    courseOutcomeName
+  ) {
+    const url =
+      rootNew +
+      `/CourseOutcome/GetLinkedMajorOutcomes?term=${term}&year=${year}&classDepartment=${department}&courseNumber=${courseNumber}&courseOutcomeName=${courseOutcomeName}`;
+    try {
+      const response = await axios.get(url);
+      if (response) {
+        let status = this.checkStatus(response.status);
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
+    } catch (error) {
+      let status = this.checkStatus(error.message);
+      return {
+        data: null,
+        status: status,
+      };
+    }
+  }
+
+  //---LinkToMajorOutcome()--- (Admin)
+  //    Input: year,term,department,courseNumber,courseOutcomeName, majorName, majorOutcomeName
+  //    Output: success or failure
+  async LinkToMajorOutcome(
+    year,
+    term,
+    department,
+    courseNumber,
+    courseOutcomeName,
+    majorName,
+    majorOutcomeName
+  ) {
+    const url =
+      rootNew +
+      `/CourseOutcome/LinkToMajorOutcome?term=${term}&year=${year}&classDepartment=${department}&courseNumber=${courseNumber}&courseOutcomeName=${courseOutcomeName}&majorName=${majorName}&majorOutcomeName=${majorOutcomeName}`;
+    try {
+      const response = await axios.post(url);
+      if (response) {
+        let status = this.checkStatus(response.status);
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
+    } catch (error) {
+      let status = this.checkStatus(error.message);
+      return {
+        data: null,
+        status: status,
+      };
+    }
+  }
+
+  //---RemoveLinkToMajorOutcome()--- (Admin)
+  //    Input: year,term,department,courseNumber,courseOutcomeName, majorName, majorOutcomeName
+  //    Output: success or failure
+  async RemoveLinkToMajorOutcome(
+    year,
+    term,
+    department,
+    courseNumber,
+    courseOutcomeName,
+    majorName,
+    majorOutcomeName
+  ) {
+    const url =
+      rootNew +
+      `/CourseOutcome/RemoveLinkToMajorOutcome?term=${term}&year=${year}&classDepartment=${department}&courseNumber=${courseNumber}&courseOutcomeName=${courseOutcomeName}&majorName=${majorName}&majorOutcomeName=${majorOutcomeName}`;
+    try {
+      const response = await axios.delete(url);
+      if (response) {
+        let status = this.checkStatus(response.status);
         return {
           data: response.data,
           status: status,
@@ -932,6 +1125,272 @@ export default class API {
     const url =
       rootNew +
       `/Course/GetMajorOutcomesSatisfied?term=${term}&year=${year}&department=${department}&courseNumber=${courseNumber}`;
+    try {
+      const response = await axios.get(url);
+      if (response) {
+        let status = this.checkStatus(response.status);
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
+    } catch (error) {
+      let status = this.checkStatus(error.message);
+      return {
+        data: null,
+        status: status,
+      };
+    }
+  }
+
+  // Survey
+
+  //---getQuestionSet()--- (Admin)
+  //    Input: year,term, major name
+  //    Output: a list of questions belong to that question set
+  async getQuestionSet(year, term, questionSetName) {
+    const url =
+      rootNew +
+      `/Survey/GetQuestionSet?term=${term}&year=${year}&questionSetName=${questionSetName}`;
+    try {
+      const response = await axios.get(url);
+      if (response) {
+        let status = this.checkStatus(response.status);
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
+    } catch (error) {
+      let status = this.checkStatus(error.message);
+      return {
+        data: null,
+        status: status,
+      };
+    }
+  }
+
+  //---GetQuestion()--- (Admin)
+  //    Input: year,term,
+  //    Output: a list of all questions
+  async getQuestions(year, term) {
+    const url = rootNew + `/Survey/GetQuestions?term=${term}&year=${year}`;
+    try {
+      const response = await axios.get(url);
+      if (response) {
+        let status = this.checkStatus(response.status);
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
+    } catch (error) {
+      let status = this.checkStatus(error.message);
+      return {
+        data: null,
+        status: status,
+      };
+    }
+  }
+
+  //---saveQuestions()--- (Admin)
+  //    Input: year,term, questionSet, questions
+  //    Output: success or failure
+  async saveQuestions(year, term, questionSet, questions) {
+    const url =
+      rootNew +
+      `/Survey/SaveQuestions?term=${term}&year=${year}&questionSetName=${questionSet}`;
+    const body = {
+      questions,
+    };
+    try {
+      const response = await axios.post(url, questions);
+      if (response) {
+        let status = this.checkStatus(response.status);
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
+    } catch (error) {
+      let status = this.checkStatus(error.message);
+      return {
+        data: null,
+        status: status,
+      };
+    }
+  }
+
+  //---postSurvey()--- (student)
+  //    Input: year,term, euid,department,courseNumber,sectionNumber,additionalComments,answers
+  //    Output: success or failure
+  async postSurvey(
+    year,
+    term,
+    euid,
+    department,
+    courseNumber,
+    sectionNumber,
+    additionalComments,
+    answers
+  ) {
+    const url =
+      rootNew +
+      `/Survey/PostSurvey?EUID=${euid}&term=${term}&year=${year}&department=${department}&courseNumber=${courseNumber}&sectionNumber=${sectionNumber}&additionalComments=${additionalComments}`;
+
+    try {
+      const response = await axios.post(url, answers);
+      if (response) {
+        let status = this.checkStatus(response.status);
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
+    } catch (error) {
+      let status = this.checkStatus(error.message);
+      return {
+        data: null,
+        status: status,
+      };
+    }
+  }
+
+  //Instructor and Coordinator Form
+
+  //---GetGrades()--- (Instructor)
+  //    Input: year, term, department, courseNumber, sectionNumber
+  //    Output: the grades object of a course
+  async getGrades(year, term, department, courseNumber, sectionNumber) {
+    const url =
+      rootNew +
+      `/Grade/GetGrades?term=${term}&year=${year}&department=${department}&courseNumber=${courseNumber}&sectionNumber=${sectionNumber}`;
+
+    try {
+      const response = await axios.get(url);
+      if (response) {
+        let status = this.checkStatus(response.status);
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
+    } catch (error) {
+      let status = this.checkStatus(error.message);
+      return {
+        data: null,
+        status: status,
+      };
+    }
+  }
+
+  //---setGrades()--- (Instructor)
+  //    Input: year, term, department, courseNumber, sectionNumber
+  //    Output: success or failure
+  async setGrades(
+    year,
+    term,
+    department,
+    courseNumber,
+    sectionNumber,
+    gradesArray
+  ) {
+    const url =
+      rootNew +
+      `/Grade/SetGrades?term=${term}&year=${year}&department=${department}&courseNumber=${courseNumber}&sectionNumber=${sectionNumber}`;
+
+    try {
+      const response = await axios.post(url, gradesArray);
+      if (response) {
+        let status = this.checkStatus(response.status);
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
+    } catch (error) {
+      let status = this.checkStatus(error.message);
+      return {
+        data: null,
+        status: status,
+      };
+    }
+  }
+
+  //---GetStudentOutcomesCompleted()--- (Instructor)
+  //    Input: year, term, department, courseNumber, sectionNumber
+  //    Output: return the course outcome object of a course
+  async GetStudentOutcomesCompleted(
+    year,
+    term,
+    department,
+    courseNumber,
+    sectionNumber
+  ) {
+    const url =
+      rootNew +
+      `/StudentOutcomesCompleted/GetStudentOutcomesCompleted?term=${term}&year=${year}&department=${department}&courseNumber=${courseNumber}&sectionNumber=${sectionNumber}`;
+
+    try {
+      const response = await axios.get(url);
+      if (response) {
+        let status = this.checkStatus(response.status);
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
+    } catch (error) {
+      let status = this.checkStatus(error.message);
+      return {
+        data: null,
+        status: status,
+      };
+    }
+  }
+
+  //---SetStudentOutcomesCompleted()--- (student)
+  //    Input: year, term, department, courseNumber, sectionNumber
+  //    Output: success or failure
+  async SetStudentOutcomesCompleted(
+    year,
+    term,
+    department,
+    courseNumber,
+    sectionNumber,
+    courseOutcomeObject
+  ) {
+    const url =
+      rootNew +
+      `/StudentOutcomesCompleted/SetStudentOutcomesCompleted?term=${term}&year=${year}&department=${department}&courseNumber=${courseNumber}&sectionNumber=${sectionNumber}`;
+
+    try {
+      const response = await axios.post(url, courseOutcomeObject);
+      if (response) {
+        let status = this.checkStatus(response.status);
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
+    } catch (error) {
+      let status = this.checkStatus(error.message);
+      return {
+        data: null,
+        status: status,
+      };
+    }
+  }
+
+  // Full Report EndPoint
+
+  //---GenerateFullReport()--- (Instructor)
+  //    Input: year, term, department, courseNumber, sectionNumber
+  //    Output: The data of all the courses within a semester and major
+  async GenerateFullReport(year, term, major) {
+    const url =
+      rootNew + `/GenerateFullReport?term=${term}&year=${year}&major=${major}`;
+
     try {
       const response = await axios.get(url);
       if (response) {

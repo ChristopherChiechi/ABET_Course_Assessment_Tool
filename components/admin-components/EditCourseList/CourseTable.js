@@ -89,7 +89,7 @@ const CourseTable = ({
     refreshTable();
   };
 
-  //Handle Remove
+  //Handle add
   const handleAddCourse = async (newCourse) => {
     try {
       var coordinatorEUID;
@@ -164,14 +164,7 @@ const CourseTable = ({
         }
       }
       if (!coordinatorEUID) {
-        toast({
-          title: "Error",
-          description: `Please select an instructor before adding!`,
-          status: "error",
-          duration: 9000,
-          isClosable: true,
-        });
-        return;
+        coordinatorEUID = oldData.coordinatorEUID;
       }
 
       const deleteRes = await editCourse(

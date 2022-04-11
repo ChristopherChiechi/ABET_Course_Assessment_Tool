@@ -4,51 +4,41 @@ import {
   Center,
   Drawer,
   DrawerBody,
-  DrawerFooter,
   DrawerHeader,
   DrawerOverlay,
   DrawerContent,
-  DrawerCloseButton,
   useDisclosure,
   VStack,
   HStack,
   Box,
   Table,
-  Thead,
   Tbody,
-  Tfoot,
   Tr,
-  Th,
   Td,
   TableCaption,
   Flex,
-  Accordion,
-  AccordionItem,
-  AccordionButton,
-  Link,
   IconButton,
 } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
 
 import { useRouter } from "next/router";
 import Head from "next/head";
-import Navigation from "../components/Navigation";
+import AdminNavigation from "../components/admin-components/AdminNavigation";
 import AdminMenu from "../components/admin-components/AdminMenu";
 // import FullReport from '../components/admin-components/FullReport/FullReport';
 import EditSemesterList from "../components/admin-components/EditSemesters/EditSemesterList";
-import EditProgramList from "../components/admin-components/EditProgramList/EditProgramList";
 import EditFacultyList from "../components/admin-components/EditFacultyList/EditFacultyList";
 import EditCourseList from "../components/admin-components/EditCourseList/EditCourseList";
-import EditCourseOutcomes from "../components/admin-components/EditCourseOutcomes/EditCourseOutcomes";
-import OutcomeMapping from "../components/admin-components/OutcomeMapping/OutcomeMapping";
 import GenerateSectionReport from "../components/admin-components/GenerateSectionReport/GenerateSectionReport";
 import GenerateFullReport from "../components/admin-components/GenerateFullReport/GenerateFullReport";
 import GenerateStudentSurveys from "../components/admin-components/GenerateStudentSurveys/GenerateStudentSurveys";
 import EditAssignedCourses from "../components/admin-components/EditAssignedCourses/EditAssignedCourses";
 import CreateNewMajor from "../components/admin-components/EditDepartments/CreateNewMajor";
-import AssignCourseToMajorOutcome from "../components/admin-components/MajorsOutcomes/AssignCourseToMajor/AssignCourseToMajorOutcome";
-import AddNewOutcomeToMajor from "../components/admin-components/MajorsOutcomes/AddNewOutcomeToMajor/AddNewOutcomeToMajor";
-import AssignOutcomeToCourse from "../components/admin-components/MajorsOutcomes/AssignOutcomeToCourse/AssignOutcomeToCourse";
+import LinkedCourseOutcomeToMajorOutcomes from "../components/admin-components/LinkedCourseOutcomeToMajorOutcomes/LinkedCourseOutcomeToMajorOutcomes";
+import AddNewCourseOutcome from "../components/admin-components/CourseOutcome/AddNewCourseOutcome";
+import AddNewMajorOutcome from "../components/admin-components/MajorsOutcomes/AddNewMajorOutcome/AddNewMajorOutcome";
+import AssignOutcomeToCourse from "../components/admin-components/MajorsOutcomes/OldAssignOutcomeToCourse/AssignOutcomeToCourse";
+import EditSurveyQuestions from "../components/admin-components/Student-Survey/EditSurveyQuestions";
 var role = "super";
 var is_super = true;
 if (role == "super") {
@@ -65,7 +55,7 @@ const adminHome = () => {
       <Head>
         <title>UNT ABET: Admin Page</title>
       </Head>
-      <Navigation />
+      <AdminNavigation />
       <div>
         <div>
           <Flex justifyContent="left" mt="1em" mr="1em">
@@ -81,23 +71,8 @@ const adminHome = () => {
                 }}
                 icon={<HamburgerIcon />}
               />
-
-              <Button
-                disabled={is_super}
-                onClick={() => router.push("/instructorHome")}
-                bg="#016a31"
-                color="white"
-                ml="1em"
-                _hover={{
-                  background: "teal",
-                  color: "white",
-                }}
-              >
-                Switch to Instructor
-              </Button>
             </HStack>
           </Flex>
-
           <Drawer
             placement="left"
             onClose={onClose}
@@ -146,10 +121,10 @@ const adminHome = () => {
                         mr="12"
                         color="#016a31"
                         onClick={() => {
-                          setView("CNS");
+                          setView("EFL");
                         }}
                       >
-                        Edit Semesters
+                        Edit Faculty List
                       </Td>
                       <Td
                         as="button"
@@ -164,48 +139,26 @@ const adminHome = () => {
                       </Td>
                     </Tr>
                     <Tr>
+                      {" "}
                       <Td
                         as="button"
-                        mr="3"
+                        mr="12"
                         color="#016a31"
                         onClick={() => {
-                          setView("EAC");
+                          setView("CNS");
                         }}
                       >
-                        Edit Assigned Course
+                        Edit Semesters
                       </Td>
                       <Td
                         as="button"
-                        mr="3"
+                        ml="4"
                         color="#016a31"
                         onClick={() => {
                           setView("GSS");
                         }}
                       >
                         Generate Student Surveys
-                      </Td>
-                    </Tr>
-                    <Tr>
-                      <Td
-                        as="button"
-                        mr="3"
-                        color="#016a31"
-                        onClick={() => {
-                          setView("ECO");
-                        }}
-                      >
-                        Edit Course Outcome
-                      </Td>
-
-                      <Td
-                        as="button"
-                        mr="3"
-                        color="#016a31"
-                        onClick={() => {
-                          setView("GSR");
-                        }}
-                      >
-                        Generate Section Report
                       </Td>
                     </Tr>
                     <Tr>
@@ -221,31 +174,51 @@ const adminHome = () => {
                       </Td>
                       <Td
                         as="button"
-                        mr="3"
-                        ml="1"
+                        ml="2.5"
                         color="#016a31"
                         onClick={() => {
-                          setView("OM");
+                          setView("GSR");
                         }}
                       >
-                        Generate Outcome Mapping
+                        Generate Section Report
                       </Td>
                     </Tr>
                     <Tr>
                       <Td
                         as="button"
-                        mr="12"
+                        mr="3"
                         color="#016a31"
                         onClick={() => {
-                          setView("EFL");
+                          setView("EAC");
                         }}
                       >
-                        Edit Faculty List
+                        Edit Course Section
                       </Td>
                       <Td
                         as="button"
+                        ml="5"
+                        color="#016a31"
+                        onClick={() => {
+                          setView("LCOTMO");
+                        }}
+                      >
+                        Link Outcome Mapping
+                      </Td>
+                    </Tr>
+                    <Tr>
+                      <Td
+                        as="button"
                         mr="3"
-                        ml="1"
+                        color="#016a31"
+                        onClick={() => {
+                          setView("ANCO");
+                        }}
+                      >
+                        Edit Course Outcome
+                      </Td>
+                      <Td
+                        as="button"
+                        ml="2"
                         color="#016a31"
                         onClick={() => {
                           setView("GFR");
@@ -279,20 +252,20 @@ const adminHome = () => {
                 return <EditAssignedCourses />;
               case "EFL":
                 return <EditFacultyList />;
-              case "EPL":
-                return <EditProgramList />;
               case "ECL":
                 return <EditCourseList />;
-              case "ECO":
-                return <EditCourseOutcomes />;
               case "GSS":
                 return <GenerateStudentSurveys />;
-              case "ACMO":
-                return <AssignCourseToMajorOutcome />;
-              case "ANOTM":
-                return <AddNewOutcomeToMajor />;
+              case "LCOTMO":
+                return <LinkedCourseOutcomeToMajorOutcomes />;
+              case "ANMO":
+                return <AddNewMajorOutcome />;
+              case "ANCO":
+                return <AddNewCourseOutcome />;
               case "AOTC":
                 return <AssignOutcomeToCourse />;
+              case "ESQ":
+                return <EditSurveyQuestions />;
             }
           })()}
         </div>

@@ -1,44 +1,73 @@
 import { useState, useEffect } from "react";
-import { Button, Select, Text, VStack, Box } from "@chakra-ui/react";
+import { Button, Select, Text, VStack, Box, useToast } from "@chakra-ui/react";
 import Link from "next/link";
-
 import { getAllCourses, getInstructorCourses } from "../../../api/APIHelper";
-import CourseList from "../GenerateSectionReport/CourseList"; // this will have to be changed
+import { getSemesters } from "../../../api/APIHelper";
 
 const GenerateFullReport = ({ user }) => {
-  const [term, setTerm] = useState({
-    semester: "",
-    year: null,
-  });
   const [courses, setCourses] = useState();
-  const handleConfirm = (e) => {
-    e.preventDefault();
-    // will have to be updated when backend is completed
+  const [year, setYear] = useState();
+  const [term, setTerm] = useState();
+  const [semID, setSemID] = useState();
+  const [semesters, setSemesterList] = useState();
+  const toast = useToast();
+  const getSemesterList = async () => {
+    try {
+      const semesterlist = await getSemesters();
+      const status = semesterlist.status;
+      console.log(status);
+      if (status != "Success") {
+        toast({
+          title: "Error",
+          description: `There was an error fetching the data!
+          Error: ${status} `,
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+        return;
+      }
+      const sorted = semesterlist.data.sort((a, b) => {
+        return b.year - a.year;
+      });
+      setSemesterList(sorted);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "There was an error fetching the data!",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+      console.log(`Error in getSemesterList: ${error}`);
+    }
   };
 
-  // this is hard coded data that will have to be changed when the backend is completed
-  const terms = [
-    {
-      term: "Spring",
-    },
-    {
-      term: "Summer",
-    },
-    {
-      term: "Fall",
-    },
-  ];
-  const years = [
-    {
-      year: 2020,
-    },
-    {
-      year: 2021,
-    },
-    {
-      year: 2022,
-    },
-  ];
+  const setYearAndTerm = async () => {
+    try {
+      if (semesters) {
+        Object.keys(semesters).forEach(function (key) {
+          let semester = semesters[key];
+          if (semester.semesterId == semID) {
+            //console.log(`Found: ${semester.term} ${semester.year}`);
+            setTerm(semester.term);
+            setYear(semester.year);
+          }
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    document.getElementById("top").scrollIntoView();
+    getSemesterList();
+  }, []);
+
+  useEffect(() => {
+    setYearAndTerm();
+  }, [semID]);
 
   return (
     <VStack id="top" w="80%" m="0 auto" marginBottom="5em">
@@ -46,77 +75,57 @@ const GenerateFullReport = ({ user }) => {
         Generate Full ABET Report
       </Text>
 
-      <Box fontWeight="bold">
-          Select the Term and Year
-      </Box>
-        <Select
-          mt="1em"
-          w="50%"
-          id="term"
-          placeholder=""
-          variant="filled"
-          //onChange={handleSetTerm}
-          marginBottom="1em"
-        >
-          <option value={terms[0].term}>
-            {terms[0].term}
-          </option>
-          <option value={terms[1].term}>
-            {terms[1].term}
-          </option>
-          <option value={terms[2].term}>
-            {terms[2].term}
-          </option>
-        </Select>
+      <Box fontWeight="bold">Select the semester</Box>
       <Select
-          mt="1em"
-          id="year"
-          placeholder=""
-          variant="filled"
-          //onChange={handleSetYear}
-          marginTop="1em"
-          marginBottom="2em"
-          width="50%"
-        >
-          <option value={years[0].year.toString(10)}>
-            {years[0].year}
-          </option>
-          <option value={years[1].year.toString(10)}>
-            {years[1].year}
-          </option>
-          <option value={years[2].year.toString(10)}>
-            {years[2].year}
-          </option>
-        </Select>
-        <Button
-          //onClick={handleConfirm}
-          color="white"
-          bg="#016a31"
-          height="10"
-          rounded="md"
-          width="20"
-                        
+        align="center"
+        id="term"
+        placeholder="Select semester"
+        borderColor="teal"
+        width="15%"
+        isRequired={true}
+        value={semID}
+        onChange={(e) => {
+          console.log(`Semester ID: ${e.target.value}`);
+          setSemID(e.target.value);
+        }}
+      >
+        {semesters &&
+          semesters.map((sem, idx) => {
+            return (
+              <option value={sem.semesterId} id="ingredientId" key={idx}>
+                {sem.term} {sem.year}
+              </option>
+            );
+          })}
+      </Select>
+      <Button
+        //onClick={handleConfirm}
+        color="white"
+        bg="#016a31"
+        height="10"
+        rounded="md"
+        width="10%"
         _hover={{
-        background: "teal",
-        color: "white",
+          background: "teal",
+          color: "white",
         }}
-                        
-        variant="link" onClick={e => {
+        variant="link"
+        onClick={(e) => {
           e.preventDefault();
-          //handleConfirm(terms.term, years.year);
         }}
-        >
+      >
         <Link
           href={{
-          pathname: "/fullReport",
-          query: { 
-            semester: terms.term,
-            year: years.year
-          },
-        }}>
+            pathname: "/adminFullReport",
+            query: {
+              semester: term,
+              year: year,
+            },
+          }}
+        >
           Confirm
-          </Link>
-        </Button>
+        </Link>
+      </Button>
     </VStack>
   );
 };

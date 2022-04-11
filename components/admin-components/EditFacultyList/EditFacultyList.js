@@ -7,7 +7,7 @@ import FacultyTable from "./FacultyTable";
 
 const EditFacultyList = () => {
   const toast = useToast({ position: "top" });
-  const [refreshKey, setRefreshKey] = useState();
+  const [refreshKey, setRefreshKey] = useState(0);
   const [selectFaculty, setSelectFaculty] = useState();
 
   const [faculty, setFaculty] = useState();
@@ -64,7 +64,7 @@ const EditFacultyList = () => {
 
   useEffect(() => {
     getFaculty();
-  }, [refreshKey, selectFaculty, faculty]);
+  }, [refreshKey, selectFaculty]);
 
   return (
     <div>

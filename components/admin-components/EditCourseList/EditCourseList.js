@@ -85,9 +85,6 @@ const EditCourseList = () => {
     } catch (error) {
       console.log(error);
     }
-    if (theCourse) {
-      console.log(theCourse.courses);
-    }
   };
 
   const columns = [
@@ -116,7 +113,6 @@ const EditCourseList = () => {
           value={props.value}
           onChange={(value) => {
             props.onChange(value);
-            console.log(value);
           }}
         />
       ),
@@ -199,10 +195,6 @@ const EditCourseList = () => {
               }}
             >
               <option value="CSCE">Computer Science & Engineering</option>
-              <option value="BE">Biomedical Engineering</option>
-              <option value="EE">Electrical Engineering</option>
-              <option value="MSE">Material Science And Engineering</option>
-              <option value="ME">Mechanical Engineering</option>
             </Select>
             <Select
               id="term"

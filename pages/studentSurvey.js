@@ -2,6 +2,7 @@
 import { useState, useContext, useEffect } from "react";
 import Head from "next/head";
 import { Text, VStack, Button, Box } from "@chakra-ui/react";
+import router from "next/router"
 //hooks
 import useToggle from "../hooks/useToggle";
 //components
@@ -26,7 +27,7 @@ const studentSurvey = () => {
   const [isLoggedIn, toggleLogin] = useToggle(true);
   const [studentInformation, setStudentInformation] = useState({
     major: "",
-    classification: "",
+    year: "",
     grade: "",
   });
   const [outcomeSurvey, setOutcomeSurvey] = useState(
@@ -44,32 +45,37 @@ const studentSurvey = () => {
 
   const testFunction = () => {
     console.log(studentInformation, outcomeSurvey, TAquestions, studentInput);
+    let count = 0;
+    //Needs work
     if (
       studentInformation.major === "" ||
-      studentInformation.classification == "" ||
+      studentInformation.year === "" ||
       studentInformation.grade === ""
     ) {
       alert("Please complete the Student Information at the top");
+      count++;
     }
+
     let i;
-    let counter = 0;
     for (i = 0; i < outcomeSurvey.length; i++) {
       if (outcomeSurvey[i].rating === 0) {
         alert("Please complete the Course Outcome Section");
+        count++;
         break;
       }
     }
     let j;
-    let taCounter = 0;
     for (j = 0; j < TAquestions.length; j++) {
-      if (TAquestions[i].rating === 0) {
+      if (TAquestions[j].rating === 0) {
         alert("Please complete the TA Evaluation Section");
+        count++;
         break;
       }
     }
+    if (count == 0) {
+      return router.push("/surveyLanding");
+    }
   };
-
-  const submitSurvey = () => {};
 
   const handleChange = (rating, idx, type) => {
     if (type == "TA") {
@@ -115,7 +121,6 @@ const studentSurvey = () => {
             studentInput={studentInput}
             setStudentInput={setStudentInput}
           />
-
           <Button onClick={testFunction} mb="1em" colorScheme="green">
             Submit Survey
           </Button>

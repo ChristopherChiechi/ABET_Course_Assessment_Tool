@@ -14,7 +14,7 @@ import { PageContext } from "./SurveyPageData";
 const StudentInfoForm = ({ studentInformation, setStudentInformation }) => {
   const context = useContext(PageContext);
   const questions = context.studentQuestions;
-  const attributes = ["Select", "Select", "Select"];
+  const attributes = ["major", "classification", "grade"];
 
   const handleChange = (e, idx) => {
     const type = attributes[idx];

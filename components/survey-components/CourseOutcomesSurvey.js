@@ -21,21 +21,25 @@ const CourseOutcomesSurvey = ({ outcomeSurvey, handleChange }) => {
     );
   });
 
-  const renderRows = outcomeSurvey.map((outcome, idx) => {
-    return (
-      <Tr key={idx}>
-        <Td>{outcome.outcome}</Td>
-        <Td>
-          <RadioGroup
-            value={outcome.rating}
-            onChange={(e) => handleChange(e, idx, "Outcomes")}
-          >
-            <HStack spacing={10}>{renderRadios}</HStack>
-          </RadioGroup>
-        </Td>
-      </Tr>
-    );
-  });
+  const renderRows =
+    outcomeSurvey &&
+    outcomeSurvey.map((outcome, idx) => {
+      return (
+        <Tr key={idx}>
+          <Td>
+            {outcome.name}. {outcome.description}
+          </Td>
+          <Td>
+            <RadioGroup
+              value={outcome.rating}
+              onChange={(e) => handleChange(e, idx, "Outcomes")}
+            >
+              <HStack spacing={10}>{renderRadios}</HStack>
+            </RadioGroup>
+          </Td>
+        </Tr>
+      );
+    });
 
   return (
     <>
@@ -47,7 +51,8 @@ const CourseOutcomesSurvey = ({ outcomeSurvey, handleChange }) => {
         bg="#edf2f7"
       >
         <Text fontWeight="bold">
-          For each item below select a rating from 1-5, where 1 is Very Low Satisfaction and 5 is Very High Satisfaction.
+          For each item below select a rating from 1-5, where 1 is Very Low
+          Satisfaction and 5 is Very High Satisfaction.
         </Text>
       </Center>
       <Center
@@ -59,7 +64,7 @@ const CourseOutcomesSurvey = ({ outcomeSurvey, handleChange }) => {
         <Table padding="1em" variant="striped">
           <Thead>
             <Tr>
-              <Th>Course Outcome</Th>
+              <Th>Course Outcome EVALUATION</Th>
               <Th>Rating</Th>
             </Tr>
           </Thead>
