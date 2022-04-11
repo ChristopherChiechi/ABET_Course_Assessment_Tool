@@ -108,7 +108,7 @@ const AddNewCourseOutcomeTable = ({
         term,
         department,
         selectCourseNumber,
-        newData.name,
+        String(newData.name),
         newData.description
       );
       const status = res.status;
