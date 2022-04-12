@@ -70,7 +70,7 @@ const CourseTable = ({
           title: "Error",
           description: `There was an error deleting the course! Error: ${status}`,
           status: "error",
-          duration: 9000,
+          duration: 2000,
           isClosable: true,
         });
         return;
@@ -79,7 +79,7 @@ const CourseTable = ({
           title: "Success",
           description: `Course ${courseName} deleted`,
           status: "success",
-          duration: 9000,
+          duration: 2000,
           isClosable: true,
         });
       }
