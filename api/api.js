@@ -617,11 +617,36 @@ export default class API {
 
   //---getSectionsByCourse()--- (Admin)
   //    Input: term, year, department, courseNumber
-  //    Output: List of faculty members with that role
+  //    Output: List of sections within a course
   async getSectionsByCourse(term, year, department, courseNumber) {
     const url =
       rootNew +
       `/Course/GetSectionsByCourse?term=${term}&year=${year}&department=${department}&courseNumber=${courseNumber}`;
+    try {
+      var response = await axios.get(url);
+      if (response) {
+        let status = this.checkStatus(response.status);
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
+    } catch (error) {
+      let status = this.checkStatus(error.message);
+      return {
+        data: null,
+        status: status,
+      };
+    }
+  }
+
+  //---GetSectionsByInstructor()--- (Admin)
+  //    Input: term, year, department, courseNumber
+  //    Output: List of sections that are assigned to an instructor
+  async GetSectionsByInstructor(term, year, instructorEUID) {
+    const url =
+      rootNew +
+      `/Section/GetSectionsByInstructor?term=${term}&year=${year}&instructorEUID=${instructorEUID}`;
     try {
       var response = await axios.get(url);
       if (response) {
@@ -1285,7 +1310,7 @@ export default class API {
   }
 
   //---setGrades()--- (Instructor)
-  //    Input: year, term, department, courseNumber, sectionNumber
+  //    Input: year, term, department, courseNumber, sectionNumber,gradesArray
   //    Output: success or failure
   async setGrades(
     year,
