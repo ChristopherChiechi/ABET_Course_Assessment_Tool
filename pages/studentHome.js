@@ -36,7 +36,7 @@ const studentHome = () => {
       if (token) {
         const json = jwt.decode(token);
         console.log(json);
-        setUser(json.unique_name);
+        setUser(json.unique_name.toUpperCase());
       }
     }
   };
@@ -59,7 +59,7 @@ const studentHome = () => {
       >
         <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
           <Stack align={"center"}>
-            <Heading fontSize={"4xl"}>Hello {user} </Heading>
+            <Heading fontSize={"4xl"}>HELLO {user} </Heading>
           </Stack>
           <Box
             rounded={"lg"}
@@ -68,8 +68,8 @@ const studentHome = () => {
             p={8}
           >
             <Text fontSize={"lg"} color={"gray.600"}>
-              To begin the student survey, please click on the link provided by
-              your professor 💖
+              To begin the student survey, please use the link provided by your
+              professor 💖
             </Text>
           </Box>
         </Stack>
