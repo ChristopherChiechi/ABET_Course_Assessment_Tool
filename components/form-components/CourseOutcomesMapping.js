@@ -136,6 +136,13 @@ const CourseOutcomesMapping = ({ courseOutcomes, handleOutcomesChange }) => {
               <Th>Number of Students Who Achieved 75% of this Outcome</Th>
             </Tr>
           </Thead>
+          {courseOutcomes.length < 1 && (
+            <Tbody>
+              <Text align="left">
+                Please add course outcomes to this course
+              </Text>
+            </Tbody>
+          )}
           <Tbody>{renderOutcomeRows}</Tbody>
         </Table>
       </Center>
