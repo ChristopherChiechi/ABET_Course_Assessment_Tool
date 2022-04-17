@@ -53,7 +53,7 @@ const AdminNavigation = ({ link, user }) => {
           <Box as="button" color="black" fontSize="1.5em" w="105px">
             {userID}
           </Box>
-          <NextLink href="/">
+          <NextLink href="/" style={{ textDecoration: "none" }}>
             <Button
               bg="#016a31"
               color="white"
@@ -78,7 +78,7 @@ const AdminNavigation = ({ link, user }) => {
             Instructor Home
           </Button>
 
-          <Link href="/" onClick={logout}>
+          <Link href="/" onClick={logout} style={{ textDecoration: "none" }}>
             <Button
               bg="#016a31"
               color="white"
@@ -91,7 +91,7 @@ const AdminNavigation = ({ link, user }) => {
             </Button>
           </Link>
 
-          <Link href="/" onClick={Custom}>
+          <Link href="/" onClick={Custom} style={{ textDecoration: "none" }}>
             <Button
               bg="#016a31"
               color="white"
@@ -113,7 +113,7 @@ const AdminNavigation = ({ link, user }) => {
           <Box as="button" color="black" fontSize="1.5em" w="105px">
             {userID}
           </Box>
-          <NextLink href="/">
+          <NextLink href="/" style={{ textDecoration: "none" }}>
             <Button
               bg="#016a31"
               color="white"
@@ -125,7 +125,7 @@ const AdminNavigation = ({ link, user }) => {
               Home
             </Button>
           </NextLink>
-          <Link href="/" onClick={logout}>
+          <Link href="/" onClick={logout} style={{ textDecoration: "none" }}>
             <Button
               bg="#016a31"
               color="white"
@@ -138,7 +138,7 @@ const AdminNavigation = ({ link, user }) => {
             </Button>
           </Link>
 
-          <Link href="/" onClick={Custom}>
+          <Link href="/" onClick={Custom} style={{ textDecoration: "none" }}>
             <Button
               bg="#016a31"
               color="white"

@@ -57,7 +57,7 @@ const Navigation = ({ link, user }) => {
             Home
           </Button>
 
-          <Link href="/" onClick={logout}>
+          <Link href="/" onClick={logout} style={{ textDecoration: "none" }}>
             <Button
               bg="#016a31"
               color="white"
@@ -70,7 +70,7 @@ const Navigation = ({ link, user }) => {
             </Button>
           </Link>
 
-          <Link href="/" onClick={Custom}>
+          <Link href="/" onClick={Custom} style={{ textDecoration: "none" }}>
             <Button
               bg="#016a31"
               color="white"
