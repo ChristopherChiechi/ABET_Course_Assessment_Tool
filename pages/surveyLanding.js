@@ -22,7 +22,7 @@ export default function surveyLanding() {
                       }}
                     >
                       <Typography variant="h3" display="inline">
-                        Thank you for Submitting the Survey!
+                        Thank you! Your responses have been successfully submitted.
                       </Typography>
                     </div>
                     <div
@@ -34,7 +34,7 @@ export default function surveyLanding() {
                       }}
                     >
                       <Typography variant="body3">
-                        You may exit now
+                        You may close this window.
                       </Typography>
                     </div>
                   </CardContent>
