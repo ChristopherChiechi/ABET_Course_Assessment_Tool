@@ -35,7 +35,7 @@ const Navigation = () => {
         <Box as="button" color="black" fontSize="1.0em" w="90px">
           {userID}
         </Box>
-        <NextLink href="/">
+        <NextLink href="/" style={{ textDecoration: "none" }}>
           <Button
             bg="#016a31"
             color="white"
@@ -47,7 +47,7 @@ const Navigation = () => {
             Home
           </Button>
         </NextLink>
-        <Link href="/" onClick={logout}>
+        <Link href="/" onClick={logout} style={{ textDecoration: "none" }}>
           <Button
             bg="#016a31"
             color="white"
