@@ -13,6 +13,7 @@ import {
 import Link from "next/link";
 import cookieCutter from "cookie-cutter";
 import jwt from "jsonwebtoken";
+import NextLink from "next/link";
 
 const FormsView = ({ instructorCourses, coordinatorCourses, term, year }) => {
   const token = cookieCutter.get("token");
@@ -60,6 +61,7 @@ const FormsView = ({ instructorCourses, coordinatorCourses, term, year }) => {
             <Button
               color="white"
               bg="#016a31"
+              as="a"
               height="10"
               rounded="md"
               width="20"
@@ -72,7 +74,7 @@ const FormsView = ({ instructorCourses, coordinatorCourses, term, year }) => {
                 e.preventDefault();
               }}
             >
-              <Link
+              <NextLink
                 href={{
                   pathname: "/formCompletion",
                   query: {
@@ -85,7 +87,7 @@ const FormsView = ({ instructorCourses, coordinatorCourses, term, year }) => {
                 }}
               >
                 Start
-              </Link>
+              </NextLink>
             </Button>
           </Td>
         </Tr>
@@ -125,7 +127,7 @@ const FormsView = ({ instructorCourses, coordinatorCourses, term, year }) => {
                     number: course.courseNumber,
                     section: course.sectionNumber,
                     term: term,
-                    year: term,
+                    year: year,
                   },
                 }}
               >

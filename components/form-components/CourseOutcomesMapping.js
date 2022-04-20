@@ -13,18 +13,8 @@ import {
   NumberIncrementStepper,
   NumberDecrementStepper,
   Center,
-  Button,
   Flex,
   HStack,
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverHeader,
-  PopoverBody,
-  PopoverArrow,
-  PopoverCloseButton,
-  Badge,
-  Input,
 } from "@chakra-ui/react";
 
 const CourseOutcomesMapping = ({ courseOutcomes, handleOutcomesChange }) => {

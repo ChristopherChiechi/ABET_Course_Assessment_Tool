@@ -12,51 +12,104 @@ import {
   NumberIncrementStepper,
   NumberDecrementStepper,
   Center,
-  Button,
   Flex,
   HStack,
 } from "@chakra-ui/react";
 
 const CourseOutcomesMapping = ({ courseOutcomes }) => {
-  console.log(courseOutcomes);
   const renderOutcomeRows = courseOutcomes.map((outcome, idx) => {
     return (
       <Tr key={idx}>
-        <Td>{outcome.outcome}</Td>
         <Td>
-          {outcome.studentWorks.map((work, idx) => {
-            return <Text color="teal">{work.fileName}</Text>;
-          })}
+          {outcome.outcomeName}. {outcome.outcomeDescription}
         </Td>
         <Td>
-          <Flex dir="row">
-            <HStack w="50%">
-              <Text>IT: </Text>
-              <NumberInput defaultValue={outcome.numberOfIT} min={0} w="50%">
-                <NumberInputField />
-              </NumberInput>
-            </HStack>
+          <Flex direction="row">
+            {outcome.IT && (
+              <HStack w="50%">
+                <Text>IT: </Text>
+                <NumberInput
+                  disabled
+                  defaultValue={outcome.IT}
+                  min={0}
+                  w="50%"
+                  onChange={(e) => {
+                    const newNumber = parseInt(e);
+                    handleOutcomesChange("IT", outcome.outcomeName, newNumber);
+                  }}
+                >
+                  <NumberInputField />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
+              </HStack>
+            )}
 
-            <HStack w="50%">
-              <Text>CS: </Text>
-              <NumberInput defaultValue={outcome.numberOfCS} min={0} w="50%">
-                <NumberInputField />
-              </NumberInput>
-            </HStack>
-
-            <HStack w="50%">
-              <Text>CE: </Text>
-              <NumberInput defaultValue={outcome.numberOfCE} min={0} w="50%">
-                <NumberInputField />
-              </NumberInput>
-            </HStack>
-
-            <HStack w="50%">
-              <Text>CYS: </Text>
-              <NumberInput defaultValue={outcome.numberOfC} min={0} w="50%">
-                <NumberInputField />
-              </NumberInput>
-            </HStack>
+            {outcome.CS && (
+              <HStack w="50%">
+                <Text>CS: </Text>
+                <NumberInput
+                  disabled
+                  defaultValue={outcome.CS}
+                  min={0}
+                  w="50%"
+                  onChange={(e) => {
+                    const newNumber = parseInt(e);
+                    handleOutcomesChange("CS", outcome.outcomeName, newNumber);
+                  }}
+                >
+                  <NumberInputField />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
+              </HStack>
+            )}
+            {outcome.CE && (
+              <HStack w="50%">
+                <Text>CE: </Text>
+                <NumberInput
+                  disabled
+                  defaultValue={outcome.CE}
+                  min={0}
+                  w="50%"
+                  onChange={(e) => {
+                    const newNumber = parseInt(e);
+                    handleOutcomesChange("CE", outcome.outcomeName, newNumber);
+                  }}
+                >
+                  <NumberInputField />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
+              </HStack>
+            )}
+            {outcome.CYS && (
+              <HStack w="50%">
+                <Text>CYS: </Text>
+                <NumberInput
+                  disabled
+                  defaultValue={outcome.CYS}
+                  min={0}
+                  w="50%"
+                  onChange={(e) => {
+                    const newNumber = parseInt(e);
+                    handleOutcomesChange("CYS", outcome.outcomeName, newNumber);
+                  }}
+                >
+                  <NumberInputField />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
+              </HStack>
+            )}
           </Flex>
         </Td>
       </Tr>

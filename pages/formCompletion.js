@@ -28,7 +28,7 @@ import CourseOutcomesMapping from "../components/form-components/CourseOutcomesM
 import blankForm from "../components/form-components/blankForm.json";
 import Navigation from "../components/instructor-components/Navigation";
 
-const formCompletion = ({ number, section, term, year, id, department }) => {
+const formCompletion = ({ number, section, term, year, department }) => {
   const router = useRouter();
   const [gradeForm, setGradeForm] = useState();
   const [outcomeForm, setOutcomeForm] = useState();
@@ -297,7 +297,6 @@ formCompletion.getInitialProps = ({ query }) => {
     section: query.section,
     term: query.term,
     year: query.year,
-    id: "MT2020",
   };
 };
 

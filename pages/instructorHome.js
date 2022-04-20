@@ -87,7 +87,10 @@ const instructorHome = () => {
         return;
       }
       if (sectionData) {
-        setCourses({ instructorCourses: sectionData });
+        setCourses({
+          instructorCourses: sectionData,
+          coordinatorCourses: sectionData,
+        });
       }
     } catch (error) {
       console.log(error);

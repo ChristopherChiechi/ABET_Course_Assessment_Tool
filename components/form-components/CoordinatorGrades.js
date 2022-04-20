@@ -8,21 +8,24 @@ import {
   Td,
   NumberInput,
   NumberInputField,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
   Center,
   HStack,
 } from "@chakra-ui/react";
 
-const GradesInput = ({ ceGrades, csGrades, itGrades, cGrades }) => {
+const GradesInput = ({ ceGrades, csGrades, itGrades, cysGrades }) => {
   const renderCeGrades = Object.keys(ceGrades).map((entry) => {
     return entry !== "totalStudents" ? (
       <Center>
         <Text fontWeight="bold" textTransform="uppercase" mr="1em">
           {entry}
         </Text>
-        <NumberInput defaultValue={ceGrades[entry]} min={0} max={30} w="50%">
+        <NumberInput
+          disabled
+          defaultValue={ceGrades[entry]}
+          min={0}
+          max={30}
+          w="50%"
+        >
           <NumberInputField />
         </NumberInput>
       </Center>
@@ -34,7 +37,13 @@ const GradesInput = ({ ceGrades, csGrades, itGrades, cGrades }) => {
         <Text fontWeight="bold" textTransform="uppercase" mr="1em">
           {entry}
         </Text>
-        <NumberInput defaultValue={csGrades[entry]} min={0} max={30} w="50%">
+        <NumberInput
+          disabled
+          defaultValue={csGrades[entry]}
+          min={0}
+          max={30}
+          w="50%"
+        >
           <NumberInputField />
         </NumberInput>
       </Center>
@@ -46,19 +55,31 @@ const GradesInput = ({ ceGrades, csGrades, itGrades, cGrades }) => {
         <Text fontWeight="bold" textTransform="uppercase" mr="1em">
           {entry}
         </Text>
-        <NumberInput defaultValue={itGrades[entry]} min={0} max={30} w="50%">
+        <NumberInput
+          disabled
+          defaultValue={itGrades[entry]}
+          min={0}
+          max={30}
+          w="50%"
+        >
           <NumberInputField />
         </NumberInput>
       </Center>
     ) : null;
   });
-  const renderCGrades = Object.keys(cGrades).map((entry) => {
+  const renderCGrades = Object.keys(cysGrades).map((entry) => {
     return entry !== "totalStudents" ? (
       <Center>
         <Text fontWeight="bold" textTransform="uppercase" mr="1em">
           {entry}
         </Text>
-        <NumberInput defaultValue={cGrades[entry]} min={0} max={30} w="50%">
+        <NumberInput
+          disabled
+          defaultValue={cysGrades[entry]}
+          min={0}
+          max={30}
+          w="50%"
+        >
           <NumberInputField />
         </NumberInput>
       </Center>
