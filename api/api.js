@@ -665,6 +665,32 @@ export default class API {
     }
   }
 
+  //---GetSectionsByCoordinator()--- (Admin)
+  //    Input: term, year, department, courseNumber
+  //    Output: List of sections that are assigned to an coordinator
+  async GetSectionsByCoordinator(term, year, coordinatorEUID) {
+    const url =
+      rootNew +
+      `/Course/GetCoursesByCoordinator?term=${term}&year=${year}&coordinatorEUID=${coordinatorEUID}`;
+    try {
+      var response = await axios.get(url);
+      if (response) {
+        let status = this.checkStatus(response.status);
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
+    } catch (error) {
+      let status = this.checkStatus(error.message);
+      return {
+        data: null,
+        status: status,
+      };
+    }
+  }
+
+
   //---addNewSection()--- (Admin)
   //    Input: year, term, department, courseNumber, instructorEUID, isSectionComplete, sectionNumber, numberOfStudents
   //    Output: success or failure
@@ -1029,11 +1055,12 @@ export default class API {
     term,
     department,
     courseNumber,
-    courseOutcomeName
+    courseOutcomeName,
+    major
   ) {
     const url =
       rootNew +
-      `/CourseOutcome/GetLinkedMajorOutcomes?term=${term}&year=${year}&classDepartment=${department}&courseNumber=${courseNumber}&courseOutcomeName=${courseOutcomeName}`;
+      `/CourseOutcome/GetLinkedMajorOutcomes?term=${term}&year=${year}&classDepartment=${department}&courseNumber=${courseNumber}&courseOutcomeName=${courseOutcomeName}&majorName=${major}`;
     try {
       const response = await axios.get(url);
       if (response) {

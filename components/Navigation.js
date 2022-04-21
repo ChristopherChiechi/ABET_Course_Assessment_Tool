@@ -41,7 +41,7 @@ const Navigation = ({ link, user }) => {
 
   return (
     <div>
-      <Flex justifyContent="left" mt="1em" mr="1em" dir="row">
+      <Flex justifyContent="right" mt="1em" mr="1em" dir="row">
         <HStack spacing="10px">
           <Box as="button" color="black" fontSize="1.5em" w="105px">
             {userID}
@@ -67,19 +67,6 @@ const Navigation = ({ link, user }) => {
               }}
             >
               Sign Out
-            </Button>
-          </Link>
-
-          <Link href="/" onClick={Custom} style={{ textDecoration: "none" }}>
-            <Button
-              bg="#016a31"
-              color="white"
-              _hover={{
-                background: "teal",
-                color: "white",
-              }}
-            >
-              [Debug] Reload Database
             </Button>
           </Link>
         </HStack>
