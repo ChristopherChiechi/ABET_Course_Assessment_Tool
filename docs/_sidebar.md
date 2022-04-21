@@ -2,4 +2,5 @@
 
 - [Home](/)
 - [Admin](/admin.md)
+- [Instructor & Coordinator](/instructorAndCoordinator.md)
 - [Student](/student.md)

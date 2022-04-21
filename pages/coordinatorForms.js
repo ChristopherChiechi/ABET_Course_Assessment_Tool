@@ -13,6 +13,7 @@ import { getGrades, GetStudentOutcomesCompleted } from "../api/APIHelper";
 import CoordinatorGrades from "../components/form-components/CoordinatorGrades";
 import blankForm from "../components/form-components/blankForm.json";
 import CoordinatorOutcomes from "../components/form-components/CoordinatorOutcomes";
+
 const formCompletion = ({ department, number, section, term, year }) => {
   const [comment, setComment] = useState("");
   const [gradeForm, setGradeForm] = useState();

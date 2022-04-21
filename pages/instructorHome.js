@@ -13,7 +13,11 @@ import cookieCutter from "cookie-cutter";
 import jwt from "jsonwebtoken";
 import Navigation from "../components/instructor-components/Navigation";
 import FormsView from "../components/instructor-components/FormsView";
-import { GetSectionsByInstructor, getSemesters } from "../api/APIHelper";
+import {
+  GetSectionsByInstructor,
+  getSemesters,
+  GetSectionsByCoordinator,
+} from "../api/APIHelper";
 
 const instructorHome = () => {
   const [user, setUser] = useState();
@@ -21,10 +25,9 @@ const instructorHome = () => {
   const [year, setYear] = useState();
   const [term, setTerm] = useState();
   const [semJson, setSemJson] = useState();
-  const [courses, setCourses] = useState({
-    instructorCourses: [],
-    coordinatorCourses: [],
-  });
+  const [instructorCourse, setInstructorCourse] = useState();
+  const [coordinatorCourse, setCoordinatorCourse] = useState();
+
   const toast = useToast({ position: "top" });
 
   const getSemesterList = async () => {
@@ -63,7 +66,7 @@ const instructorHome = () => {
     }
   };
 
-  const getCourses = async () => {
+  const getInstructorCourses = async () => {
     if (!semJson) {
       return;
     }
@@ -77,20 +80,32 @@ const instructorHome = () => {
         user
       );
       const sectionData = sectionRes.data;
-      if (sectionData.length < 1) {
-        toast({
-          description: `No courses found!`,
-          status: "warning",
-          duration: 3000,
-          isClosable: true,
-        });
-        return;
-      }
+
       if (sectionData) {
-        setCourses({
-          instructorCourses: sectionData,
-          coordinatorCourses: sectionData,
-        });
+        setInstructorCourse(sectionData);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getCoordinatorCourse = async () => {
+    if (!semJson) {
+      return;
+    }
+    const semesterParse = JSON.parse(semJson);
+    setYear(semesterParse["year"]);
+    setTerm(semesterParse["term"]);
+    try {
+      const sectionRes = await GetSectionsByCoordinator(
+        semesterParse.term,
+        semesterParse.year,
+        user
+      );
+      const sectionData = sectionRes.data;
+
+      if (sectionData) {
+        setCoordinatorCourse(sectionData);
       }
     } catch (error) {
       console.log(error);
@@ -98,7 +113,8 @@ const instructorHome = () => {
   };
 
   useEffect(() => {
-    getCourses();
+    getInstructorCourses();
+    getCoordinatorCourse();
   }, [semJson]);
 
   useEffect(() => {
@@ -146,8 +162,8 @@ const instructorHome = () => {
         )}
         {semJson && (
           <FormsView
-            instructorCourses={courses.instructorCourses}
-            coordinatorCourses={courses.coordinatorCourses}
+            instructorCourses={instructorCourse}
+            coordinatorCourses={coordinatorCourse}
             term={term}
             year={year}
           />

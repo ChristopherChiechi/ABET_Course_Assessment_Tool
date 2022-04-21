@@ -41,7 +41,6 @@ const formCompletion = ({ number, section, term, year, department }) => {
   const checkUser = async () => {
     const ISSERVER = typeof window === "undefined";
     const sectionInstructorEUID = await getSectionInformation();
-    let isLoading = true;
     if (!ISSERVER) {
       const token = cookieCutter.get("token");
       const json = jwt.decode(token);
@@ -66,7 +65,6 @@ const formCompletion = ({ number, section, term, year, department }) => {
           router.push("/");
         }
       }
-      isLoading = false;
     }
   };
 
