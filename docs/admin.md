@@ -35,14 +35,15 @@
 ## Semester
 
 ### Add Semester
-
+<kbd><img src='/images/admin/semester/add.png'></img></kbd>
 **1. Click on the “+” symbol on the top right of the table.\
-2. Enter a year (yyyy) and select the semester.\
+2. Enter the "Year" in the format (yyyy).\
+3. Select the semester.\
 3. Click on “✔️” to confirm the action.**
 
 
 ### Remove Semester
-
+<kbd><img src='/images/admin/semester/remove.png'></img></kbd>
 **1. Click on the trash can icon.\
 2. Click on “✔️” to confirm the action.**
 
