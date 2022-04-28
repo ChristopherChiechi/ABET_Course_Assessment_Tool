@@ -48,6 +48,7 @@ const adminFullReport = ({
     try {
       const reportResponse = await GenerateFullReport(year, semester);
       const reportData = reportResponse.data;
+      console.log(reportData);
       if (reportData.CS) {
         setReportCSJson(reportData.CS);
       }

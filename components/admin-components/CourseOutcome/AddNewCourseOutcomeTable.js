@@ -117,7 +117,7 @@ const AddNewCourseOutcomeTable = ({
           title: "Error",
           description: `There was an error adding the course! Error: ${status}`,
           status: "error",
-          duration: 9000,
+          duration: 3000,
           isClosable: true,
         });
         return;
@@ -126,7 +126,7 @@ const AddNewCourseOutcomeTable = ({
           title: "Success",
           description: `Successfully add new outcome: ${newData.name} to course: ${selectCourseNumber}! Please refresh the page if you don't see the new change.`,
           status: "success",
-          duration: 9000,
+          duration: 3000,
           isClosable: true,
         });
       }

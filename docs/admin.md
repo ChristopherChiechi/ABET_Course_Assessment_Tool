@@ -51,6 +51,9 @@
 
 ## Majors
 
+> [!TIP]
+> Before adding a major, there must be at least one valid semester.
+
 ### Add Majors
 
 <kbd><img src='/images/admin/majors/add.png'></img></kbd>

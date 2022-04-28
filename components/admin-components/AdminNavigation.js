@@ -90,19 +90,6 @@ const AdminNavigation = ({ link, user }) => {
               Sign Out
             </Button>
           </Link>
-
-          <Link href="/" onClick={Custom} style={{ textDecoration: "none" }}>
-            <Button
-              bg="#016a31"
-              color="white"
-              _hover={{
-                background: "teal",
-                color: "white",
-              }}
-            >
-              [Debug] Reload Database
-            </Button>
-          </Link>
         </HStack>
       </Flex>
     );
@@ -135,19 +122,6 @@ const AdminNavigation = ({ link, user }) => {
               }}
             >
               Sign Out
-            </Button>
-          </Link>
-
-          <Link href="/" onClick={Custom} style={{ textDecoration: "none" }}>
-            <Button
-              bg="#016a31"
-              color="white"
-              _hover={{
-                background: "teal",
-                color: "white",
-              }}
-            >
-              [Debug] Reload Database
             </Button>
           </Link>
         </HStack>
