@@ -134,7 +134,7 @@ const GradesInput = ({
           <Thead>
             <Tr>
               <Th>Major</Th>
-              <Th colspan="5">
+              <Th colSpan="5">
                 <Text textAlign="center">Grades</Text>
               </Th>
             </Tr>

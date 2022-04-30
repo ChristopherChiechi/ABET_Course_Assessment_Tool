@@ -106,16 +106,8 @@ const formCompletion = ({ number, section, term, year, department }) => {
           await setGrades(year, term, department, number, section, blankForm);
           console.log(blankForm);
           setGradeForm(blankForm);
+          gradesData = blankForm;
         } else if (Object.keys(gradesData).length >= 1) {
-          for (const key in gradesData) {
-            let totalStudentsNum =
-              gradesData[key].a +
-              gradesData[key].b +
-              gradesData[key].c +
-              gradesData[key].d +
-              gradesData[key].f;
-            gradesData[key].totalStudents = totalStudentsNum;
-          }
           setGradeForm(gradesData);
         }
       }
@@ -182,6 +174,16 @@ const formCompletion = ({ number, section, term, year, department }) => {
     console.log(outcomeForm);
     try {
       //const res = await setGrades(year,term,department,number,section,form2)
+      for (const key in gradeForm) {
+        let totalStudentsNum =
+          gradeForm[key].a +
+          gradeForm[key].b +
+          gradeForm[key].c +
+          gradeForm[key].d +
+          gradeForm[key].f;
+        console.log(totalStudentsNum);
+        gradeForm[key].totalStudents = totalStudentsNum;
+      }
       const gradeRes = await setGrades(
         year,
         term,
