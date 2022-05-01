@@ -102,11 +102,8 @@ const formCompletion = ({ number, section, term, year, department }) => {
       if (gradesData) {
         if (Object.keys(gradesData).length < 1) {
           //If the is the first time working on the form then create a blank form
-          console.log("No previous form found");
           await setGrades(year, term, department, number, section, blankForm);
-          console.log(blankForm);
           setGradeForm(blankForm);
-          gradesData = blankForm;
         } else if (Object.keys(gradesData).length >= 1) {
           setGradeForm(gradesData);
         }
@@ -126,7 +123,6 @@ const formCompletion = ({ number, section, term, year, department }) => {
         section
       );
       const outcomeFormData = outcomeFormRes.data;
-      console.log(outcomeFormData);
       setOutcomeForm(outcomeFormData);
     } catch (error) {
       console.log(error);
@@ -147,14 +143,12 @@ const formCompletion = ({ number, section, term, year, department }) => {
   };
 
   const handleOutcomesChange = (major, outcomeName, newValue) => {
-    console.log(major, outcomeName, newValue);
     var tempForm = outcomeForm;
     for (var i = 0; i < tempForm.length; i++) {
       if (tempForm[i].outcomeName == outcomeName) {
         tempForm[i][major] = String(newValue);
       }
     }
-    console.log(tempForm);
     setOutcomeForm(tempForm);
   };
 

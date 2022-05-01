@@ -37,7 +37,7 @@ const adminreportTable = ({ reportITJson, majorName }) => {
           <Th></Th>
           <Th colspan="10">
             <Text textAlign="center" color="teal">
-              Student Outcome
+              Student Outcome %
             </Text>
           </Th>
           <Tr>

@@ -47,6 +47,7 @@ const instructorHome = () => {
       const sorted = semesterlistRes.data.sort((a, b) => {
         return b.year - a.year;
       });
+      setSemJson(JSON.stringify(sorted[0]));
       setSemesterList(sorted);
     } catch (error) {
       console.log(error);

@@ -1,12 +1,14 @@
 //imports
 import { useEffect, useState } from "react";
-import { Grid, Button } from "@chakra-ui/react";
+import { useRouter } from "next/router";
+import { Grid, Button, Text, Center } from "@chakra-ui/react";
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 import { GenerateFullReport } from "../api/APIHelper";
 import AdminReportTable from "../components/admin-components/AdminReport/AdminReportTable";
 import AdminNavigation from "../components/admin-components/AdminNavigation";
+
 // will need to update when backend is completed
 const adminFullReport = ({
   /*semester, year*/ number,
@@ -15,6 +17,21 @@ const adminFullReport = ({
   year,
   id,
 }) => {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    router.events.on("routeChangeError", (e) => setLoading(false));
+    router.events.on("routeChangeStart", (e) => setLoading(false));
+    router.events.on("routeChangeComplete", (e) => setLoading(true));
+
+    return () => {
+      router.events.off("routeChangeError", (e) => setLoading(false));
+      router.events.off("routeChangeStart", (e) => setLoading(false));
+      router.events.off("routeChangeComplete", (e) => setLoading(true));
+    };
+  }, [router.events]);
+
   //Document to pdf
   var document = {
     content: [
@@ -46,6 +63,7 @@ const adminFullReport = ({
 
   const getReportData = async () => {
     try {
+      setLoading(true);
       const reportResponse = await GenerateFullReport(year, semester);
       const reportData = reportResponse.data;
       console.log(reportData);
@@ -61,7 +79,7 @@ const adminFullReport = ({
       if (reportData.CYS) {
         setReportCYSJson(reportData.CYS);
       }
-      console.log(reportData);
+      setLoading(false);
     } catch (err) {
       console.log(err);
     }
@@ -91,7 +109,7 @@ const adminFullReport = ({
           [
             {},
             {
-              text: "Student Outcomes",
+              text: "Student Outcomes %",
               alignment: "center",
               colSpan: 10,
               style: "outcomeHeader",
@@ -197,48 +215,48 @@ const adminFullReport = ({
   return (
     <>
       <AdminNavigation />
-      <Grid templateColumns="repeat(1, 1fr)" gap={8} margin="auto" w="80%">
-        <Button onClick={createPdfFile} colorScheme="teal" w="30%" mt="1%">
-          Download pdf
-        </Button>
-        {reportITJson && (
-          <AdminReportTable
-            id="MyTable"
-            reportITJson={reportITJson}
-            majorName={"Information Technology"}
-          />
-        )}
-        {reportCSJson && (
-          <AdminReportTable
-            reportITJson={reportCSJson}
-            majorName={"Computer Science"}
-          />
-        )}
-        {reportCYSJson && (
-          <AdminReportTable
-            reportITJson={reportCYSJson}
-            majorName={"Cyber Security"}
-          />
-        )}
-        {reportCEJson && (
-          <AdminReportTable
-            reportITJson={reportCEJson}
-            majorName={"Computer Engineering"}
-          />
-        )}
-      </Grid>
-      );
+      {loading ? (
+        <Center>
+          <Text fontSize="6xl">Loading...</Text>
+        </Center>
+      ) : (
+        <Grid templateColumns="repeat(1, 1fr)" gap={8} margin="auto" w="80%">
+          <Button onClick={createPdfFile} colorScheme="teal" w="30%" mt="1%">
+            Download pdf
+          </Button>
+          {reportITJson && (
+            <AdminReportTable
+              id="MyTable"
+              reportITJson={reportITJson}
+              majorName={"Information Technology"}
+            />
+          )}
+          {reportCSJson && (
+            <AdminReportTable
+              reportITJson={reportCSJson}
+              majorName={"Computer Science"}
+            />
+          )}
+          {reportCYSJson && (
+            <AdminReportTable
+              reportITJson={reportCYSJson}
+              majorName={"Cyber Security"}
+            />
+          )}
+          {reportCEJson && (
+            <AdminReportTable
+              reportITJson={reportCEJson}
+              majorName={"Computer Engineering"}
+            />
+          )}
+        </Grid>
+      )}
     </>
   );
 };
 
 adminFullReport.getInitialProps = ({ query }) => {
   return {
-    /*
-        semester: query.semester,
-        year: query.year,
-        id: 'MT2020'
-        */
     number: query.number,
     section: query.section,
     semester: query.semester,

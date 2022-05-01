@@ -277,7 +277,6 @@ const studentSurvey = () => {
         return;
       }
     }
-    return;
     try {
       const res = await postSurvey(
         courseInformation.courseYear,
