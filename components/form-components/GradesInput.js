@@ -32,7 +32,7 @@ const GradesInput = ({
         <NumberInput
           value={ceGrades[entry]}
           min={0}
-          max={30}
+          max={200}
           w="50%"
           onChange={(e) => {
             const newGrade = parseInt(e);
@@ -57,7 +57,7 @@ const GradesInput = ({
         <NumberInput
           value={csGrades[entry]}
           min={0}
-          max={30}
+          max={200}
           w="50%"
           onChange={(e) => {
             const newGrade = parseInt(e);
@@ -82,7 +82,7 @@ const GradesInput = ({
         <NumberInput
           value={itGrades[entry]}
           min={0}
-          max={30}
+          max={200}
           w="50%"
           onChange={(e) => {
             const newGrade = parseInt(e);
@@ -107,7 +107,7 @@ const GradesInput = ({
         <NumberInput
           value={cysGrades[entry]}
           min={0}
-          max={30}
+          max={200}
           w="50%"
           onChange={(e) => {
             const newGrade = parseInt(e);
@@ -134,7 +134,9 @@ const GradesInput = ({
           <Thead>
             <Tr>
               <Th>Major</Th>
-              <Th>Grades</Th>
+              <Th colSpan="5">
+                <Text textAlign="center">Grades</Text>
+              </Th>
             </Tr>
           </Thead>
           <Tbody>

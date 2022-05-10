@@ -223,6 +223,26 @@ export async function getSectionsByCourse(
   return response;
 }
 
+export async function GetSectionsByInstructor(term, year, instructorEUID) {
+  let api_helper = new API();
+  let response = await api_helper.GetSectionsByInstructor(
+    term,
+    year,
+    instructorEUID
+  );
+  return response;
+}
+
+export async function GetSectionsByCoordinator(term, year, coordinatorEUID) {
+  let api_helper = new API();
+  let response = await api_helper.GetSectionsByCoordinator(
+    term,
+    year,
+    coordinatorEUID
+  );
+  return response;
+}
+
 export async function addNewSection(
   year,
   term,
@@ -398,7 +418,8 @@ export async function GetLinkedMajorOutcomes(
   term,
   department,
   courseNumber,
-  courseOutcomeName
+  courseOutcomeName,
+  major
 ) {
   let api_helper = new API();
   let response = await api_helper.GetLinkedMajorOutcomes(
@@ -406,7 +427,8 @@ export async function GetLinkedMajorOutcomes(
     term,
     department,
     courseNumber,
-    courseOutcomeName
+    courseOutcomeName,
+    major
   );
   return response;
 }
@@ -644,9 +666,9 @@ export async function SetStudentOutcomesCompleted(
   return response;
 }
 
-export async function GenerateFullReport(year, term, major) {
+export async function GenerateFullReport(year, term) {
   let api_helper = new API();
-  let response = await api_helper.GenerateFullReport(year, term, major);
+  let response = await api_helper.GenerateFullReport(year, term);
   return response;
 }
 

@@ -288,42 +288,45 @@ const AddNewCourseOutcome = () => {
           <GridItem>
             <SingleSelect
               disabled={checkIfSelectMajorAndSemseter()}
-              style={{ bottom: "5px" }}
-              fullWidth={true}
               value={selectCourse}
               placeholder="Select a course"
               options={courseSelectionOptions}
               onChange={(value) => {
                 setSelectCourse(value);
-                console.log(value);
               }}
             />
           </GridItem>
         </Grid>
+        <Box align="center" w="60%" mt="5em">
+          {!semJson && !theDepartment && (
+            <Text fontWeight="bold" mt="1em" fontSize="lg" align="center">
+              [Table] Waiting for selections...
+            </Text>
+          )}
+          {semJson && theDepartment && (
+            <Text
+              fontWeight="bold"
+              mb="1em"
+              mt="5em"
+              fontSize="lg"
+              align="center"
+            >
+              Outcome Table
+            </Text>
+          )}
+          {selectCourse && semJson && theDepartment && selectCourse && (
+            <AddNewCourseOutcomeTable
+              term={term}
+              year={year}
+              department={theDepartment}
+              selectCourseNumber={selectCourse}
+              refreshTable={refreshTable}
+              columns={columns}
+              data={outcomeList}
+            />
+          )}
+        </Box>
       </VStack>
-      <Box align="center" w="60%" margin="auto">
-        {!semJson && !theDepartment && (
-          <Text fontWeight="bold" mt="1em" fontSize="lg" align="center">
-            [Table] Waiting for selections...
-          </Text>
-        )}
-        {semJson && theDepartment && (
-          <Text fontWeight="bold" mb="1em" fontSize="lg" align="center">
-            Outcome Table
-          </Text>
-        )}
-        {selectCourse && semJson && theDepartment && selectCourse && (
-          <AddNewCourseOutcomeTable
-            term={term}
-            year={year}
-            department={theDepartment}
-            selectCourseNumber={selectCourse}
-            refreshTable={refreshTable}
-            columns={columns}
-            data={outcomeList}
-          />
-        )}
-      </Box>
     </div>
   );
 };

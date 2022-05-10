@@ -42,6 +42,7 @@ const EditFacultyList = () => {
       const facultyListRes = await getUsersByRole(selectFaculty);
       const facultyList = facultyListRes.data;
       const res = facultyListRes.status;
+
       if (res != "Success") {
         toast({
           title: "Error",

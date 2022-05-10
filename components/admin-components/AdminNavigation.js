@@ -1,12 +1,6 @@
-import {
-  Link,
-  Flex,
-  Box,
-  Button,
-  MenuButton,
-  VStack,
-  HStack,
-} from "@chakra-ui/react";
+import { Link, Flex, Box, Button, HStack } from "@chakra-ui/react";
+import NextLink from "next/link";
+
 import API from "../../api/api";
 import React, { useEffect, useState } from "react";
 import cookieCutter from "cookie-cutter";
@@ -59,17 +53,18 @@ const AdminNavigation = ({ link, user }) => {
           <Box as="button" color="black" fontSize="1.5em" w="105px">
             {userID}
           </Box>
-          <Button
-            bg="#016a31"
-            color="white"
-            _hover={{
-              background: "teal",
-              color: "white",
-            }}
-          >
-            Home
-          </Button>
-
+          <NextLink href="/" style={{ textDecoration: "none" }}>
+            <Button
+              bg="#016a31"
+              color="white"
+              _hover={{
+                background: "teal",
+                color: "white",
+              }}
+            >
+              Home
+            </Button>
+          </NextLink>
           <Button
             onClick={() => router.push("/instructorHome")}
             bg="#016a31"
@@ -83,7 +78,7 @@ const AdminNavigation = ({ link, user }) => {
             Instructor Home
           </Button>
 
-          <Link href="/" onClick={logout}>
+          <Link href="/" onClick={logout} style={{ textDecoration: "none" }}>
             <Button
               bg="#016a31"
               color="white"
@@ -93,19 +88,6 @@ const AdminNavigation = ({ link, user }) => {
               }}
             >
               Sign Out
-            </Button>
-          </Link>
-
-          <Link href="/" onClick={Custom}>
-            <Button
-              bg="#016a31"
-              color="white"
-              _hover={{
-                background: "teal",
-                color: "white",
-              }}
-            >
-              [Debug] Reload Database
             </Button>
           </Link>
         </HStack>
@@ -118,18 +100,19 @@ const AdminNavigation = ({ link, user }) => {
           <Box as="button" color="black" fontSize="1.5em" w="105px">
             {userID}
           </Box>
-          <Button
-            bg="#016a31"
-            color="white"
-            _hover={{
-              background: "teal",
-              color: "white",
-            }}
-          >
-            Home
-          </Button>
-
-          <Link href="/" onClick={logout}>
+          <NextLink href="/" style={{ textDecoration: "none" }}>
+            <Button
+              bg="#016a31"
+              color="white"
+              _hover={{
+                background: "teal",
+                color: "white",
+              }}
+            >
+              Home
+            </Button>
+          </NextLink>
+          <Link href="/" onClick={logout} style={{ textDecoration: "none" }}>
             <Button
               bg="#016a31"
               color="white"
@@ -141,65 +124,10 @@ const AdminNavigation = ({ link, user }) => {
               Sign Out
             </Button>
           </Link>
-
-          <Link href="/" onClick={Custom}>
-            <Button
-              bg="#016a31"
-              color="white"
-              _hover={{
-                background: "teal",
-                color: "white",
-              }}
-            >
-              [Debug] Reload Database
-            </Button>
-          </Link>
         </HStack>
       </Flex>
     );
   }
-
-  // switch (link) {
-  //     case '/formCompletion':
-  //         return(
-  //             <Box className="nav-container">
-  //                 <Link href="/instructorHome">Home</Link>
-  //                 <p><i className = "arrow right"></i></p>
-  //                 <Link href="/formCompletion">Instructor ABET Form</Link>
-  //                 <div className="alignright">
-  //                     <Text className="user-name">bbb4200</Text>
-  //                     <Link href="/" onClick={logout}>Sign Out</Link>
-  //                 </div>
-  //             </Box>
-  //         )
-  //         break;
-  //     case '/coordinatorCommentInput':
-  //         return(
-  //             <Box className="nav-container">
-  //                 <Link href="/instructorHome">Home</Link>
-  //                 <p><i className = "arrow right"></i></p>
-  //                 <Link href="/coordinatorCommentInput">Coordinator ABET Form</Link>
-  //                 <div className="alignright">
-  //                     <Text className="user-name">bbb4200</Text>
-  //                     <Link href="/" onClick={logout}>Sign Out</Link>
-  //                 </div>
-  //             </Box>
-  //         )
-  //         break;
-  //     default:
-  //         return(
-  //             <Box className="nav-container">
-  //                 <Link href="/instructorHome">Home</Link>
-  //                 {/* <Text className="user-name">bbb4200</Text> */}
-  //                 <div className="alignright">
-  //                     <Text className="user-name">MT2020</Text>
-  //                     <Link href="/" onClick={logout}>Sign Out</Link>
-  //                 </div>
-  //             </Box>
-
-  //         )
-  //         break;
-  // }
 };
 
 export default AdminNavigation;

@@ -9,42 +9,74 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 
-import { getFormBySection, postCoordinatorComment } from "../api/APIHelper";
+import { getGrades, GetStudentOutcomesCompleted } from "../api/APIHelper";
 import CoordinatorGrades from "../components/form-components/CoordinatorGrades";
+import blankForm from "../components/form-components/blankForm.json";
 import CoordinatorOutcomes from "../components/form-components/CoordinatorOutcomes";
 
-const formCompletion = ({ number, section, semester, year, id }) => {
-  console.log(number, section, semester, year, id);
-  const [form, setForm] = useState();
-  const [comment, setComment] = useState({ coordinatorComment: "" });
+const formCompletion = ({ department, number, section, term, year }) => {
+  const [comment, setComment] = useState("");
+  const [gradeForm, setGradeForm] = useState();
+  const [outcomeForm, setOutcomeForm] = useState();
 
-  console.log(form);
-  const getForm = async () => {
-    const formData = await getFormBySection(
-      id,
-      2020,
-      "Fall",
-      "CSCE",
-      number.toString(),
-      section
-    );
-    setForm(formData);
+  const getGradeForm = async () => {
+    try {
+      const res = await getGrades(year, term, department, number, section);
+      const gradesData = res.data;
+      if (gradesData) {
+        if (Object.keys(gradesData).length < 1) {
+          setGradeForm(blankForm);
+        } else if (Object.keys(gradesData).length >= 1) {
+          for (const key in gradesData) {
+            let totalStudentsNum =
+              gradesData[key].a +
+              gradesData[key].b +
+              gradesData[key].c +
+              gradesData[key].d +
+              gradesData[key].f;
+            gradesData[key].totalStudents = totalStudentsNum;
+          }
+          setGradeForm(gradesData);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
-  const testHandler = () => {
-    console.log(comment.coordinatorComment);
+
+  const getOutcomeForm = async () => {
+    try {
+      const outcomeFormRes = await GetStudentOutcomesCompleted(
+        year,
+        term,
+        department,
+        number,
+        section
+      );
+      const outcomeFormData = outcomeFormRes.data;
+      console.log(outcomeFormData);
+      setOutcomeForm(outcomeFormData);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const submitComment = () => {
+    console.log(comment);
   };
 
   useEffect(() => {
-    getForm();
+    getGradeForm();
+    getOutcomeForm();
   }, []);
 
   return (
     <Center>
-      {form ? (
+      {gradeForm && outcomeForm ? (
         <Flex mt="2em" direction="column" w="90%">
           <Box w="80%">
             <Text fontSize="2xl" fontWeight="bold">
-              {form.section.department} {number}.{section}
+              {department} {number}.{section}
             </Text>
             <Text fontSize="xl" fontWeight="bold" color="green" mb="2em">
               ABET Course Assesment
@@ -52,12 +84,12 @@ const formCompletion = ({ number, section, semester, year, id }) => {
           </Box>
 
           <CoordinatorGrades
-            csGrades={form.csGrades}
-            ceGrades={form.ceGrades}
-            itGrades={form.itGrades}
-            cGrades={form.cGrades}
+            csGrades={gradeForm.CS}
+            ceGrades={gradeForm.CE}
+            itGrades={gradeForm.IT}
+            cysGrades={gradeForm.CYS}
           />
-          <CoordinatorOutcomes courseOutcomes={form.outcomes} />
+          <CoordinatorOutcomes courseOutcomes={outcomeForm} />
           <Text fontSize="xl" fontWeight="bold" mb="1em">
             Coordinator Comments
           </Text>
@@ -67,20 +99,16 @@ const formCompletion = ({ number, section, semester, year, id }) => {
             bg="#edf2f7"
             placeholder="// Write a comment"
             onChange={(event) => {
-              setComment({ coordinatorComment: event.target.value });
+              setComment(event.target.value);
             }}
           ></Textarea>
 
           <Box>
-            <Button mb="1em" colorScheme="teal" w="max-content" mr="1em">
-              Save Report
-            </Button>
-
             <Button
               mb="1em"
               colorScheme="green"
               w="max-content"
-              onClick={testHandler}
+              onClick={submitComment}
             >
               Submit Report
             </Button>
@@ -93,11 +121,11 @@ const formCompletion = ({ number, section, semester, year, id }) => {
 
 formCompletion.getInitialProps = ({ query }) => {
   return {
+    department: query.department,
     number: query.number,
     section: query.section,
-    semester: query.semester,
+    term: query.term,
     year: query.year,
-    id: "MT2020",
   };
 };
 

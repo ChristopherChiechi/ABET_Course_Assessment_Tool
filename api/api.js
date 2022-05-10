@@ -617,7 +617,7 @@ export default class API {
 
   //---getSectionsByCourse()--- (Admin)
   //    Input: term, year, department, courseNumber
-  //    Output: List of faculty members with that role
+  //    Output: List of sections within a course
   async getSectionsByCourse(term, year, department, courseNumber) {
     const url =
       rootNew +
@@ -639,6 +639,57 @@ export default class API {
       };
     }
   }
+
+  //---GetSectionsByInstructor()--- (Admin)
+  //    Input: term, year, department, courseNumber
+  //    Output: List of sections that are assigned to an instructor
+  async GetSectionsByInstructor(term, year, instructorEUID) {
+    const url =
+      rootNew +
+      `/Section/GetSectionsByInstructor?term=${term}&year=${year}&instructorEUID=${instructorEUID}`;
+    try {
+      var response = await axios.get(url);
+      if (response) {
+        let status = this.checkStatus(response.status);
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
+    } catch (error) {
+      let status = this.checkStatus(error.message);
+      return {
+        data: null,
+        status: status,
+      };
+    }
+  }
+
+  //---GetSectionsByCoordinator()--- (Admin)
+  //    Input: term, year, department, courseNumber
+  //    Output: List of sections that are assigned to an coordinator
+  async GetSectionsByCoordinator(term, year, coordinatorEUID) {
+    const url =
+      rootNew +
+      `/Course/GetCoursesByCoordinator?term=${term}&year=${year}&coordinatorEUID=${coordinatorEUID}`;
+    try {
+      var response = await axios.get(url);
+      if (response) {
+        let status = this.checkStatus(response.status);
+        return {
+          data: response.data,
+          status: status,
+        };
+      }
+    } catch (error) {
+      let status = this.checkStatus(error.message);
+      return {
+        data: null,
+        status: status,
+      };
+    }
+  }
+
 
   //---addNewSection()--- (Admin)
   //    Input: year, term, department, courseNumber, instructorEUID, isSectionComplete, sectionNumber, numberOfStudents
@@ -1004,11 +1055,12 @@ export default class API {
     term,
     department,
     courseNumber,
-    courseOutcomeName
+    courseOutcomeName,
+    major
   ) {
     const url =
       rootNew +
-      `/CourseOutcome/GetLinkedMajorOutcomes?term=${term}&year=${year}&classDepartment=${department}&courseNumber=${courseNumber}&courseOutcomeName=${courseOutcomeName}`;
+      `/CourseOutcome/GetLinkedMajorOutcomes?term=${term}&year=${year}&classDepartment=${department}&courseNumber=${courseNumber}&courseOutcomeName=${courseOutcomeName}&majorName=${major}`;
     try {
       const response = await axios.get(url);
       if (response) {
@@ -1285,7 +1337,7 @@ export default class API {
   }
 
   //---setGrades()--- (Instructor)
-  //    Input: year, term, department, courseNumber, sectionNumber
+  //    Input: year, term, department, courseNumber, sectionNumber,gradesArray
   //    Output: success or failure
   async setGrades(
     year,
@@ -1387,9 +1439,8 @@ export default class API {
   //---GenerateFullReport()--- (Instructor)
   //    Input: year, term, department, courseNumber, sectionNumber
   //    Output: The data of all the courses within a semester and major
-  async GenerateFullReport(year, term, major) {
-    const url =
-      rootNew + `/GenerateFullReport?term=${term}&year=${year}&major=${major}`;
+  async GenerateFullReport(year, term) {
+    const url = rootNew + `/GenerateFullReport?term=${term}&year=${year}`;
 
     try {
       const response = await axios.get(url);

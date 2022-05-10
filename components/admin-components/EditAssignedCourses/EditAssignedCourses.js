@@ -342,7 +342,7 @@ const EditAssignedCourses = () => {
         {selectCourse && semJson && theDepartment && (
           <Text
             fontWeight="bold"
-            mt="1em"
+            mt="4em"
             mb="1em"
             fontSize="lg"
             align="center"

@@ -73,8 +73,8 @@ const AddNewMajorOutcomeTable = ({
         term,
         year,
         majorName,
-        oldData.name,
-        newData.name,
+        String(oldData.name),
+        String(newData.name),
         newData.description
       );
       const status = editRes.status;
@@ -142,7 +142,7 @@ const AddNewMajorOutcomeTable = ({
         year,
         term,
         majorName,
-        newData.name.trim(),
+        String(newData.name),
         newData.description
       );
       const status = res.status;

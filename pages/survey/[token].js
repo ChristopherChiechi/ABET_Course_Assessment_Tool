@@ -26,11 +26,9 @@ import {
   PageContext,
   pageData,
 } from "../../components/survey-components/SurveyPageData";
-import { Router } from "@mui/icons-material";
 //api
 
 const studentSurvey = () => {
-  const context = useContext(PageContext);
   const router = useRouter();
   const toast = useToast({ position: "top" });
 
@@ -279,7 +277,6 @@ const studentSurvey = () => {
         return;
       }
     }
-    return;
     try {
       const res = await postSurvey(
         courseInformation.courseYear,

@@ -201,7 +201,8 @@ const LinkedCourseOutcomeToMajorOutcomes = () => {
         term,
         theDepartment,
         selectCourse,
-        selectOutcome
+        selectOutcome,
+        majorSelect
       );
       const linkedData = linkedOutcomesRes.data;
       const status = linkedOutcomesRes.status;

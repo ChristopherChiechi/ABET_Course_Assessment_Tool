@@ -21,7 +21,6 @@ function AuthProvider({ children }) {
     } else {
       role = json.role;
     }
-    console.log(role);
     if (role.includes("Admin")) {
       role = "Admin";
     } else if (role.includes("Instructor")) {

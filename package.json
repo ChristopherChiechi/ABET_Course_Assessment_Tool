@@ -19,6 +19,7 @@
     "@mui/x-data-grid": "^4.0.2",
     "axios": "^0.25.0",
     "cookie-cutter": "^0.2.0",
+    "docsify-cli": "^4.4.4",
     "dotenv": "^10.0.0",
     "framer-motion": "^4.1.17",
     "jsonwebtoken": "^8.5.1",

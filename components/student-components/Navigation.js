@@ -17,7 +17,7 @@ const Navigation = ({ user }) => {
       <Box as="button" px="4" fontSize="xl">
         {user}
       </Box>
-      <Link href="/" onClick={logout}>
+      <Link href="/" onClick={logout} style={{ textDecoration: "none" }}>
         <Button
           bg="#016a31"
           color="white"
